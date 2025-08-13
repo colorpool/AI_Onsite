@@ -3,7 +3,7 @@
 import {
   IntlCache,
   createIntl,
-} from '/Users/colorpool/Downloads/客成部门齐心协力搞AI工具/success/success/node_modules/react-intl';
+} from '/Users/colorpool/Downloads/AI_Onsite/node_modules/react-intl';
 type OptionalIntlConfig = Omit<Parameters<typeof createIntl>[0], 'locale' | 'defaultLocale'>;
 export interface IRuntimeConfig {
     locale?: {

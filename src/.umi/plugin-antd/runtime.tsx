@@ -9,7 +9,7 @@ import {
 import { ApplyPluginsType } from 'umi';
 import { getPluginManager } from '../core/plugin';
 import { AntdConfigContext, AntdConfigContextSetter } from './context';
-import merge from '/Users/colorpool/Downloads/客成部门齐心协力搞AI工具/success/success/node_modules/lodash/merge'
+import merge from '/Users/colorpool/Downloads/AI_Onsite/node_modules/lodash/merge'
 
 let cacheAntdConfig = null;
 

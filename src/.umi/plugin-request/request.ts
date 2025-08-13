@@ -6,8 +6,8 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
   type AxiosError,
-} from '/Users/colorpool/Downloads/客成部门齐心协力搞AI工具/success/success/node_modules/axios';
-import useUmiRequest, { UseRequestProvider } from '/Users/colorpool/Downloads/客成部门齐心协力搞AI工具/success/success/node_modules/@ahooksjs/use-request';
+} from '/Users/colorpool/Downloads/AI_Onsite/node_modules/axios';
+import useUmiRequest, { UseRequestProvider } from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@ahooksjs/use-request';
 import { ApplyPluginsType } from 'umi';
 import { getPluginManager } from '../core/plugin';
 
@@ -26,7 +26,7 @@ import {
   PaginatedOptionsWithFormat,
   PaginatedParams,
   PaginatedResult,
-} from '/Users/colorpool/Downloads/客成部门齐心协力搞AI工具/success/success/node_modules/@ahooksjs/use-request/es/types';
+} from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@ahooksjs/use-request/es/types';
 
 type ResultWithData< T = any > = { data?: T; [key: string]: any };
 

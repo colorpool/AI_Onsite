@@ -1430,9 +1430,9 @@ __mako_require__.d(exports, "default", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _umi = __mako_require__("src/.umi/exports.ts");
@@ -1456,8 +1456,10 @@ const AgentAnalyticsPage = ({ agentId })=>{
     const [agent, setAgent] = (0, _react.useState)(null);
     const [timeRange, setTimeRange] = (0, _react.useState)('7d');
     const [dateRange, setDateRange] = (0, _react.useState)(null);
+    // 优先使用props中的agentId，如果没有则使用params中的id
     const currentAgentId = agentId || params.id;
     (0, _react.useEffect)(()=>{
+        // 模拟从API获取Agent数据
         const foundAgent = _agentData.mockAgents.find((a)=>a.id === currentAgentId);
         if (foundAgent) setAgent(foundAgent);
         else navigate('/ai-tools/consultant');
@@ -1465,6 +1467,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
         currentAgentId,
         navigate
     ]);
+    // 模拟分析数据
     const analyticsData = {
         totalConversations: 1247,
         avgResponseTime: 2.3,
@@ -1579,7 +1582,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
             title: '已解决',
             dataIndex: 'resolved',
             key: 'resolved',
-            render: (text, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
+            render: (text, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                     style: {
                         color: '#52c41a'
                     },
@@ -1594,7 +1597,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
             title: '转人工',
             dataIndex: 'escalated',
             key: 'escalated',
-            render: (text, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
+            render: (text, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                     style: {
                         color: '#faad14'
                     },
@@ -1608,7 +1611,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
         {
             title: '解决率',
             key: 'resolutionRate',
-            render: (_, record)=>(0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
+            render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
                     percent: Math.round(record.resolved / record.conversations * 100),
                     size: "small",
                     status: "active"
@@ -1619,19 +1622,20 @@ const AgentAnalyticsPage = ({ agentId })=>{
                 }, this)
         }
     ];
-    if (!agent) return (0, _jsxdevruntime.jsxDEV)("div", {
+    // 无过渡加载页，直接展示轻量提示
+    if (!agent) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             background: '#fafafa',
             minHeight: 'calc(100vh - 120px)'
         },
-        children: (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 maxWidth: '1200px',
                 margin: '0 auto'
             },
             children: [
-                (0, _jsxdevruntime.jsxDEV)("div", {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
@@ -1639,7 +1643,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                         gap: '16px'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             onClick: ()=>navigate('/ai-tools/consultant'),
                             style: {
                                 border: 'none',
@@ -1651,7 +1655,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                             lineNumber: 145,
                             columnNumber: 13
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(Title, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
                             level: 3,
                             style: {
                                 margin: 0,
@@ -1670,12 +1674,12 @@ const AgentAnalyticsPage = ({ agentId })=>{
                     lineNumber: 144,
                     columnNumber: 11
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                     style: {
                         borderRadius: '8px',
                         border: '1px solid #f0f0f0'
                     },
-                    children: (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             color: '#999'
                         },
@@ -1701,19 +1705,19 @@ const AgentAnalyticsPage = ({ agentId })=>{
         lineNumber: 142,
         columnNumber: 7
     }, this);
-    return (0, _jsxdevruntime.jsxDEV)("div", {
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             background: '#fafafa',
             minHeight: 'calc(100vh - 120px)'
         },
-        children: (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 maxWidth: '1200px',
                 margin: '0 auto'
             },
             children: [
-                (0, _jsxdevruntime.jsxDEV)("div", {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
@@ -1721,8 +1725,8 @@ const AgentAnalyticsPage = ({ agentId })=>{
                         gap: '16px'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                            icon: (0, _jsxdevruntime.jsxDEV)(_icons.ArrowLeftOutlined, {}, void 0, false, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowLeftOutlined, {}, void 0, false, {
                                 fileName: "src/pages/agents/[id]/analytics.tsx",
                                 lineNumber: 178,
                                 columnNumber: 19
@@ -1738,12 +1742,12 @@ const AgentAnalyticsPage = ({ agentId })=>{
                             lineNumber: 177,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)("div", {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 flex: 1
                             },
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(Title, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
                                     level: 3,
                                     style: {
                                         margin: 0,
@@ -1759,7 +1763,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                     lineNumber: 185,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)(Text, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                     type: "secondary",
                                     style: {
                                         fontSize: '13px'
@@ -1776,9 +1780,9 @@ const AgentAnalyticsPage = ({ agentId })=>{
                             lineNumber: 184,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                     value: timeRange,
                                     onChange: setTimeRange,
                                     style: {
@@ -1803,7 +1807,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                     lineNumber: 191,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)(RangePicker, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(RangePicker, {
                                     value: dateRange,
                                     onChange: (dates)=>setDateRange(dates)
                                 }, void 0, false, {
@@ -1823,7 +1827,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                     lineNumber: 171,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                     gutter: [
                         24,
                         24
@@ -1832,15 +1836,15 @@ const AgentAnalyticsPage = ({ agentId })=>{
                         marginBottom: '32px'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             xs: 24,
                             sm: 12,
                             lg: 6,
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "总对话数",
                                     value: analyticsData.totalConversations,
-                                    prefix: (0, _jsxdevruntime.jsxDEV)(_icons.MessageOutlined, {}, void 0, false, {
+                                    prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MessageOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/[id]/analytics.tsx",
                                         lineNumber: 215,
                                         columnNumber: 25
@@ -1863,16 +1867,16 @@ const AgentAnalyticsPage = ({ agentId })=>{
                             lineNumber: 210,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             xs: 24,
                             sm: 12,
                             lg: 6,
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "平均响应时间",
                                     value: analyticsData.avgResponseTime,
                                     suffix: "秒",
-                                    prefix: (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {}, void 0, false, {
+                                    prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/[id]/analytics.tsx",
                                         lineNumber: 226,
                                         columnNumber: 25
@@ -1895,16 +1899,16 @@ const AgentAnalyticsPage = ({ agentId })=>{
                             lineNumber: 220,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             xs: 24,
                             sm: 12,
                             lg: 6,
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "满意度评分",
                                     value: analyticsData.satisfactionScore,
                                     suffix: "/5",
-                                    prefix: (0, _jsxdevruntime.jsxDEV)(_icons.TrophyOutlined, {}, void 0, false, {
+                                    prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TrophyOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/[id]/analytics.tsx",
                                         lineNumber: 237,
                                         columnNumber: 25
@@ -1927,16 +1931,16 @@ const AgentAnalyticsPage = ({ agentId })=>{
                             lineNumber: 231,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             xs: 24,
                             sm: 12,
                             lg: 6,
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "问题解决率",
                                     value: analyticsData.resolutionRate * 100,
                                     suffix: "%",
-                                    prefix: (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {}, void 0, false, {
+                                    prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/[id]/analytics.tsx",
                                         lineNumber: 248,
                                         columnNumber: 25
@@ -1965,21 +1969,21 @@ const AgentAnalyticsPage = ({ agentId })=>{
                     lineNumber: 209,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                     gutter: [
                         24,
                         24
                     ],
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             xs: 24,
                             lg: 12,
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                 title: "渠道表现",
                                 style: {
                                     height: '100%'
                                 },
-                                children: analyticsData.channelStats.map((stat, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
+                                children: analyticsData.channelStats.map((stat, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             display: 'flex',
                                             justifyContent: 'space-between',
@@ -1988,9 +1992,9 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                             borderBottom: index < analyticsData.channelStats.length - 1 ? '1px solid #f0f0f0' : 'none'
                                         },
                                         children: [
-                                            (0, _jsxdevruntime.jsxDEV)("div", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                 children: [
-                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             fontWeight: 'bold'
                                                         },
@@ -2000,7 +2004,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                         lineNumber: 269,
                                                         columnNumber: 21
                                                     }, this),
-                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             color: '#666',
                                                             fontSize: '12px'
@@ -2020,12 +2024,12 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                 lineNumber: 268,
                                                 columnNumber: 19
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)("div", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     textAlign: 'right'
                                                 },
                                                 children: [
-                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             fontWeight: 'bold',
                                                             color: '#faad14'
@@ -2039,7 +2043,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                         lineNumber: 275,
                                                         columnNumber: 21
                                                     }, this),
-                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             color: '#666',
                                                             fontSize: '12px'
@@ -2072,15 +2076,15 @@ const AgentAnalyticsPage = ({ agentId })=>{
                             lineNumber: 258,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             xs: 24,
                             lg: 12,
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                 title: "热门问题类型",
                                 style: {
                                     height: '100%'
                                 },
-                                children: analyticsData.topIssues.map((issue, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
+                                children: analyticsData.topIssues.map((issue, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             display: 'flex',
                                             justifyContent: 'space-between',
@@ -2089,12 +2093,12 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                             borderBottom: index < analyticsData.topIssues.length - 1 ? '1px solid #f0f0f0' : 'none'
                                         },
                                         children: [
-                                            (0, _jsxdevruntime.jsxDEV)("div", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     flex: 1
                                                 },
                                                 children: [
-                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             fontWeight: 'bold'
                                                         },
@@ -2104,7 +2108,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                         lineNumber: 297,
                                                         columnNumber: 21
                                                     }, this),
-                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             color: '#666',
                                                             fontSize: '12px'
@@ -2124,13 +2128,13 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                 lineNumber: 296,
                                                 columnNumber: 19
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)("div", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     width: '100px',
                                                     marginLeft: '16px'
                                                 },
                                                 children: [
-                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
                                                         percent: issue.percentage,
                                                         size: "small",
                                                         showInfo: false
@@ -2139,7 +2143,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                         lineNumber: 303,
                                                         columnNumber: 21
                                                     }, this),
-                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             textAlign: 'center',
                                                             fontSize: '12px',
@@ -2182,12 +2186,12 @@ const AgentAnalyticsPage = ({ agentId })=>{
                     lineNumber: 256,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                     title: "每日详细统计",
                     style: {
                         marginTop: '24px'
                     },
-                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
                         columns: columns,
                         dataSource: analyticsData.dailyStats,
                         pagination: false,
@@ -2203,21 +2207,21 @@ const AgentAnalyticsPage = ({ agentId })=>{
                     lineNumber: 319,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                     title: "性能洞察",
                     style: {
                         marginTop: '24px'
                     },
-                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                         gutter: [
                             24,
                             16
                         ],
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 xs: 24,
                                 md: 8,
-                                children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         background: '#f6ffed',
                                         padding: '16px',
@@ -2225,14 +2229,14 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                         border: '1px solid #b7eb8f'
                                     },
                                     children: [
-                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 marginBottom: '8px'
                                             },
                                             children: [
-                                                (0, _jsxdevruntime.jsxDEV)(_icons.RiseOutlined, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.RiseOutlined, {
                                                     style: {
                                                         color: '#52c41a',
                                                         marginRight: '8px'
@@ -2242,7 +2246,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                     lineNumber: 340,
                                                     columnNumber: 19
                                                 }, this),
-                                                (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     strong: true,
                                                     children: "表现优秀"
                                                 }, void 0, false, {
@@ -2256,7 +2260,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                             lineNumber: 339,
                                             columnNumber: 17
                                         }, this),
-                                        (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             children: "响应时间保持在2.3秒以内，客户满意度达到4.6分"
                                         }, void 0, false, {
@@ -2275,10 +2279,10 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                 lineNumber: 332,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 xs: 24,
                                 md: 8,
-                                children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         background: '#fff7e6',
                                         padding: '16px',
@@ -2286,14 +2290,14 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                         border: '1px solid #ffd591'
                                     },
                                     children: [
-                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 marginBottom: '8px'
                                             },
                                             children: [
-                                                (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {
                                                     style: {
                                                         color: '#faad14',
                                                         marginRight: '8px'
@@ -2303,7 +2307,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                     lineNumber: 356,
                                                     columnNumber: 19
                                                 }, this),
-                                                (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     strong: true,
                                                     children: "需要关注"
                                                 }, void 0, false, {
@@ -2317,7 +2321,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                             lineNumber: 355,
                                             columnNumber: 17
                                         }, this),
-                                        (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             children: "转人工率为5%，建议优化知识库覆盖范围"
                                         }, void 0, false, {
@@ -2336,10 +2340,10 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                 lineNumber: 348,
                                 columnNumber: 13
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 xs: 24,
                                 md: 8,
-                                children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         background: '#e6f7ff',
                                         padding: '16px',
@@ -2347,14 +2351,14 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                         border: '1px solid #91d5ff'
                                     },
                                     children: [
-                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 marginBottom: '8px'
                                             },
                                             children: [
-                                                (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {
                                                     style: {
                                                         color: '#1890ff',
                                                         marginRight: '8px'
@@ -2364,7 +2368,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                                     lineNumber: 372,
                                                     columnNumber: 19
                                                 }, this),
-                                                (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     strong: true,
                                                     children: "活跃时段"
                                                 }, void 0, false, {
@@ -2378,7 +2382,7 @@ const AgentAnalyticsPage = ({ agentId })=>{
                                             lineNumber: 371,
                                             columnNumber: 17
                                         }, this),
-                                        (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             children: "工作日9-11点和14-16点为咨询高峰期"
                                         }, void 0, false, {
@@ -2465,9 +2469,9 @@ __mako_require__.d(exports, "default", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _umi = __mako_require__("src/.umi/exports.ts");
@@ -2491,8 +2495,10 @@ const AgentEditPage = ({ agentId })=>{
     const [form] = _antd.Form.useForm();
     const [agent, setAgent] = (0, _react.useState)(null);
     const [loading, setLoading] = (0, _react.useState)(false);
+    // 优先使用props中的agentId，如果没有则使用params中的id
     const currentAgentId = agentId || params.id;
     (0, _react.useEffect)(()=>{
+        // 模拟从API获取Agent数据
         const foundAgent = _agentData.mockAgents.find((a)=>a.id === currentAgentId);
         if (foundAgent) {
             setAgent(foundAgent);
@@ -2501,6 +2507,7 @@ const AgentEditPage = ({ agentId })=>{
                 role: foundAgent.role,
                 status: foundAgent.status,
                 channels: foundAgent.deployedChannels,
+                // 这里应该从Agent的实际配置中获取
                 knowledgeBases: [],
                 skills: []
             });
@@ -2518,6 +2525,7 @@ const AgentEditPage = ({ agentId })=>{
             setLoading(true);
             const values = await form.validateFields();
             console.log('保存配置:', values);
+            // 模拟API调用
             await new Promise((resolve)=>setTimeout(resolve, 1000));
             _antd.message.success('配置保存成功！');
             navigate('/ai-tools/consultant');
@@ -2561,7 +2569,7 @@ const AgentEditPage = ({ agentId })=>{
     const getChannelIcon = (channel)=>{
         switch(channel){
             case 'web-chat':
-                return (0, _jsxdevruntime.jsxDEV)(_icons.GlobalOutlined, {
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.GlobalOutlined, {
                     style: {
                         color: '#1890ff'
                     }
@@ -2571,7 +2579,7 @@ const AgentEditPage = ({ agentId })=>{
                     columnNumber: 16
                 }, this);
             case 'wecom':
-                return (0, _jsxdevruntime.jsxDEV)(_icons.WechatOutlined, {
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.WechatOutlined, {
                     style: {
                         color: '#07c160'
                     }
@@ -2581,7 +2589,7 @@ const AgentEditPage = ({ agentId })=>{
                     columnNumber: 16
                 }, this);
             case 'lark':
-                return (0, _jsxdevruntime.jsxDEV)(_icons.DingtalkOutlined, {
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DingtalkOutlined, {
                     style: {
                         color: '#00b96b'
                     }
@@ -2591,26 +2599,27 @@ const AgentEditPage = ({ agentId })=>{
                     columnNumber: 16
                 }, this);
             default:
-                return (0, _jsxdevruntime.jsxDEV)(_icons.GlobalOutlined, {}, void 0, false, {
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.GlobalOutlined, {}, void 0, false, {
                     fileName: "src/pages/agents/[id]/edit.tsx",
                     lineNumber: 116,
                     columnNumber: 16
                 }, this);
         }
     };
-    if (!agent) return (0, _jsxdevruntime.jsxDEV)("div", {
+    // 如果没有拿到 agent，也不要显示“加载中”过渡，直接给出轻量提示界面
+    if (!agent) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             background: '#fafafa',
             minHeight: 'calc(100vh - 120px)'
         },
-        children: (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 maxWidth: '1000px',
                 margin: '0 auto'
             },
             children: [
-                (0, _jsxdevruntime.jsxDEV)("div", {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
@@ -2618,7 +2627,7 @@ const AgentEditPage = ({ agentId })=>{
                         gap: '16px'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             onClick: ()=>navigate('/ai-tools/consultant'),
                             style: {
                                 border: 'none',
@@ -2630,7 +2639,7 @@ const AgentEditPage = ({ agentId })=>{
                             lineNumber: 126,
                             columnNumber: 13
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(Title, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
                             level: 3,
                             style: {
                                 margin: 0,
@@ -2649,12 +2658,12 @@ const AgentEditPage = ({ agentId })=>{
                     lineNumber: 125,
                     columnNumber: 11
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                     style: {
                         borderRadius: '8px',
                         border: '1px solid #f0f0f0'
                     },
-                    children: (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             color: '#999'
                         },
@@ -2680,19 +2689,19 @@ const AgentEditPage = ({ agentId })=>{
         lineNumber: 123,
         columnNumber: 7
     }, this);
-    return (0, _jsxdevruntime.jsxDEV)("div", {
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             background: '#fafafa',
             minHeight: 'calc(100vh - 120px)'
         },
-        children: (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 maxWidth: '1000px',
                 margin: '0 auto'
             },
             children: [
-                (0, _jsxdevruntime.jsxDEV)("div", {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
@@ -2700,8 +2709,8 @@ const AgentEditPage = ({ agentId })=>{
                         gap: '16px'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                            icon: (0, _jsxdevruntime.jsxDEV)(_icons.ArrowLeftOutlined, {}, void 0, false, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowLeftOutlined, {}, void 0, false, {
                                 fileName: "src/pages/agents/[id]/edit.tsx",
                                 lineNumber: 159,
                                 columnNumber: 19
@@ -2717,7 +2726,7 @@ const AgentEditPage = ({ agentId })=>{
                             lineNumber: 158,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(Title, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
                             level: 3,
                             style: {
                                 margin: 0,
@@ -2739,25 +2748,25 @@ const AgentEditPage = ({ agentId })=>{
                     lineNumber: 152,
                     columnNumber: 9
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
                     form: form,
                     layout: "vertical",
                     style: {
                         maxWidth: '800px'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             title: "基本信息",
                             style: {
                                 marginBottom: '24px'
                             },
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                                     gutter: 24,
                                     children: [
-                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                             span: 12,
-                                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                                 name: "name",
                                                 label: "内部名称",
                                                 rules: [
@@ -2766,7 +2775,7 @@ const AgentEditPage = ({ agentId })=>{
                                                         message: '请输入内部名称'
                                                     }
                                                 ],
-                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                                     placeholder: "例如：数据看板配置助手"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/agents/[id]/edit.tsx",
@@ -2783,9 +2792,9 @@ const AgentEditPage = ({ agentId })=>{
                                             lineNumber: 178,
                                             columnNumber: 15
                                         }, this),
-                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                             span: 12,
-                                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                                 name: "role",
                                                 label: "对外角色",
                                                 rules: [
@@ -2794,7 +2803,7 @@ const AgentEditPage = ({ agentId })=>{
                                                         message: '请输入对外角色'
                                                     }
                                                 ],
-                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                                     placeholder: "例如：小智"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/agents/[id]/edit.tsx",
@@ -2817,7 +2826,7 @@ const AgentEditPage = ({ agentId })=>{
                                     lineNumber: 177,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                     name: "personality",
                                     label: "AI 性格",
                                     rules: [
@@ -2826,7 +2835,7 @@ const AgentEditPage = ({ agentId })=>{
                                             message: '请选择AI性格'
                                         }
                                     ],
-                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Group, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Group, {
                                         options: personalityOptions
                                     }, void 0, false, {
                                         fileName: "src/pages/agents/[id]/edit.tsx",
@@ -2838,20 +2847,20 @@ const AgentEditPage = ({ agentId })=>{
                                     lineNumber: 198,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                     name: "avatarUrl",
                                     label: "头像",
-                                    children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             display: 'flex',
                                             alignItems: 'center',
                                             gap: '16px'
                                         },
                                         children: [
-                                            (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                 size: 64,
                                                 src: agent.avatarUrl,
-                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
+                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/agents/[id]/edit.tsx",
                                                     lineNumber: 211,
                                                     columnNumber: 63
@@ -2861,9 +2870,9 @@ const AgentEditPage = ({ agentId })=>{
                                                 lineNumber: 211,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)(_antd.Upload, {
-                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.UploadOutlined, {}, void 0, false, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Upload, {
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UploadOutlined, {}, void 0, false, {
                                                         fileName: "src/pages/agents/[id]/edit.tsx",
                                                         lineNumber: 213,
                                                         columnNumber: 33
@@ -2896,18 +2905,18 @@ const AgentEditPage = ({ agentId })=>{
                             lineNumber: 176,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             title: "状态管理",
                             style: {
                                 marginBottom: '24px'
                             },
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                     name: "status",
                                     label: "运行状态",
-                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Group, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Group, {
                                         children: [
-                                            (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Button, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Button, {
                                                 value: "running",
                                                 children: "运行中"
                                             }, void 0, false, {
@@ -2915,7 +2924,7 @@ const AgentEditPage = ({ agentId })=>{
                                                 lineNumber: 226,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Button, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Button, {
                                                 value: "paused",
                                                 children: "已暂停"
                                             }, void 0, false, {
@@ -2923,7 +2932,7 @@ const AgentEditPage = ({ agentId })=>{
                                                 lineNumber: 227,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Button, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Radio.Button, {
                                                 value: "draft",
                                                 children: "草稿"
                                             }, void 0, false, {
@@ -2942,14 +2951,14 @@ const AgentEditPage = ({ agentId })=>{
                                     lineNumber: 221,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)("div", {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         background: '#f6ffed',
                                         padding: '12px',
                                         borderRadius: '6px',
                                         border: '1px solid #b7eb8f'
                                     },
-                                    children: (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                         type: "secondary",
                                         children: "💡 提示：暂停状态的分身将停止响应客户请求，但保留所有配置和数据。"
                                     }, void 0, false, {
@@ -2968,24 +2977,24 @@ const AgentEditPage = ({ agentId })=>{
                             lineNumber: 220,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             title: "知识库配置",
                             style: {
                                 marginBottom: '24px'
                             },
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                 name: "knowledgeBases",
                                 label: "选择知识库",
-                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox.Group, {
-                                    children: _agentData.mockKnowledgeBases.map((item)=>(0, _jsxdevruntime.jsxDEV)("div", {
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox.Group, {
+                                    children: _agentData.mockKnowledgeBases.map((item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 marginBottom: '12px'
                                             },
-                                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                 value: item.id,
-                                                children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                     children: [
-                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 fontWeight: 'bold'
                                                             },
@@ -2995,7 +3004,7 @@ const AgentEditPage = ({ agentId })=>{
                                                             lineNumber: 255,
                                                             columnNumber: 25
                                                         }, this),
-                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 color: '#666',
                                                                 fontSize: '12px'
@@ -3037,32 +3046,32 @@ const AgentEditPage = ({ agentId })=>{
                             lineNumber: 245,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             title: "权限配置",
                             style: {
                                 marginBottom: '24px'
                             },
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                     name: "skills",
                                     label: "系统权限",
-                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox.Group, {
-                                        children: _agentData.mockAgentSkills.map((item)=>(0, _jsxdevruntime.jsxDEV)("div", {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox.Group, {
+                                        children: _agentData.mockAgentSkills.map((item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     marginBottom: '12px'
                                                 },
-                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                     value: item.id,
-                                                    children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             display: 'flex',
                                                             alignItems: 'center',
                                                             gap: '8px'
                                                         },
                                                         children: [
-                                                            (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 children: [
-                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             fontWeight: 'bold'
                                                                         },
@@ -3072,7 +3081,7 @@ const AgentEditPage = ({ agentId })=>{
                                                                         lineNumber: 277,
                                                                         columnNumber: 27
                                                                     }, this),
-                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             color: '#666',
                                                                             fontSize: '12px'
@@ -3089,7 +3098,7 @@ const AgentEditPage = ({ agentId })=>{
                                                                 lineNumber: 276,
                                                                 columnNumber: 25
                                                             }, this),
-                                                            item.isSensitive && (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {
+                                                            item.isSensitive && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {
                                                                 style: {
                                                                     color: '#faad14'
                                                                 }
@@ -3124,14 +3133,14 @@ const AgentEditPage = ({ agentId })=>{
                                     lineNumber: 267,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)("div", {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         background: '#fff7e6',
                                         padding: '12px',
                                         borderRadius: '6px',
                                         border: '1px solid #ffd591'
                                     },
-                                    children: (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                         type: "warning",
                                         children: "⚠️ 注意：敏感权限可能涉及客户数据操作，请谨慎授权。"
                                     }, void 0, false, {
@@ -3150,13 +3159,13 @@ const AgentEditPage = ({ agentId })=>{
                             lineNumber: 266,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             title: "部署配置",
                             style: {
                                 marginBottom: '24px'
                             },
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                     name: "channels",
                                     label: "部署渠道",
                                     rules: [
@@ -3165,7 +3174,7 @@ const AgentEditPage = ({ agentId })=>{
                                             message: '请至少选择一个部署渠道'
                                         }
                                     ],
-                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox.Group, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox.Group, {
                                         options: channelOptions
                                     }, void 0, false, {
                                         fileName: "src/pages/agents/[id]/edit.tsx",
@@ -3177,22 +3186,22 @@ const AgentEditPage = ({ agentId })=>{
                                     lineNumber: 304,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)("div", {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         background: '#e6f7ff',
                                         padding: '12px',
                                         borderRadius: '6px',
                                         border: '1px solid #91d5ff'
                                     },
-                                    children: (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                         type: "secondary",
                                         children: [
                                             "📱 当前部署渠道：",
-                                            (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                 style: {
                                                     marginLeft: '8px'
                                                 },
-                                                children: agent.deployedChannels.map((channel)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                children: agent.deployedChannels.map((channel)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                         icon: getChannelIcon(channel),
                                                         children: channel === 'web-chat' ? '网页聊天' : channel === 'wecom' ? '企业微信' : '飞书'
                                                     }, channel, false, {
@@ -3222,16 +3231,16 @@ const AgentEditPage = ({ agentId })=>{
                             lineNumber: 303,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)("div", {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 textAlign: 'center',
                                 paddingTop: '24px',
                                 borderTop: '1px solid #f0f0f0'
                             },
-                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                 size: "large",
                                 children: [
-                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                         size: "large",
                                         onClick: handleCancel,
                                         style: {
@@ -3243,10 +3252,10 @@ const AgentEditPage = ({ agentId })=>{
                                         lineNumber: 339,
                                         columnNumber: 15
                                     }, this),
-                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                         type: "primary",
                                         size: "large",
-                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.SaveOutlined, {}, void 0, false, {
+                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SaveOutlined, {}, void 0, false, {
                                             fileName: "src/pages/agents/[id]/edit.tsx",
                                             lineNumber: 349,
                                             columnNumber: 23
@@ -3338,17 +3347,17 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _umi = __mako_require__("src/.umi/exports.ts");
-var _AgentCard = _interop_require_default._(__mako_require__("src/components/agents/AgentCard.tsx"));
+var _AgentCard = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/agents/AgentCard.tsx"));
 var _agentData = __mako_require__("src/mock/agentData.ts");
-var _AgentCreateForm = _interop_require_default._(__mako_require__("src/components/agents/AgentCreateForm.tsx"));
-var _edit = _interop_require_default._(__mako_require__("src/pages/agents/[id]/edit.tsx"));
-var _analytics = _interop_require_default._(__mako_require__("src/pages/agents/[id]/analytics.tsx"));
+var _AgentCreateForm = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/agents/AgentCreateForm.tsx"));
+var _edit = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/agents/[id]/edit.tsx"));
+var _analytics = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/agents/[id]/analytics.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -3370,28 +3379,32 @@ const AgentsPage = ()=>{
         navigate('/ai-tools/consultant/new');
     };
     const handleSubmit = (data)=>{
+        // TODO: 实现创建Agent的API调用
         console.log('Creating agent with data:', data);
+        // 模拟API调用成功
         _antd.message.success('分身创建成功！');
         navigate('/ai-tools/consultant');
     };
     const handleCancel = ()=>{
         navigate('/ai-tools/consultant');
     };
+    // 根据当前路径决定显示什么内容
     const pathname = location.pathname;
     console.log('Current pathname:', pathname);
-    if (pathname === '/ai-tools/consultant/new') return (0, _jsxdevruntime.jsxDEV)("div", {
+    // 如果是创建页面
+    if (pathname === '/ai-tools/consultant/new') return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             background: '#fafafa',
             minHeight: 'calc(100vh - 120px)'
         },
-        children: (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 maxWidth: '1000px',
                 margin: '0 auto'
             },
             children: [
-                (0, _jsxdevruntime.jsxDEV)("div", {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
@@ -3399,7 +3412,7 @@ const AgentsPage = ()=>{
                         gap: '16px'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             onClick: handleCancel,
                             style: {
                                 border: 'none',
@@ -3411,7 +3424,7 @@ const AgentsPage = ()=>{
                             lineNumber: 64,
                             columnNumber: 13
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(Title, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
                             level: 3,
                             style: {
                                 margin: 0,
@@ -3430,7 +3443,7 @@ const AgentsPage = ()=>{
                     lineNumber: 58,
                     columnNumber: 11
                 }, this),
-                (0, _jsxdevruntime.jsxDEV)(_AgentCreateForm.default, {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_AgentCreateForm.default, {
                     allKnowledgeBases: _agentData.mockKnowledgeBases,
                     allAgentSkills: _agentData.mockAgentSkills,
                     onSubmit: handleSubmit,
@@ -3451,27 +3464,29 @@ const AgentsPage = ()=>{
         lineNumber: 48,
         columnNumber: 7
     }, this);
+    // 如果是配置或分析页面
     const editMatch = pathname.match(/\/ai-tools\/consultant\/([^\/]+)\/edit/);
     const analyticsMatch = pathname.match(/\/ai-tools\/consultant\/([^\/]+)\/analytics/);
     if (editMatch || analyticsMatch) {
         const agentId = editMatch ? editMatch[1] : analyticsMatch[1];
         const isEdit = !!editMatch;
         const agent = _agentData.mockAgents.find((a)=>a.id === agentId);
-        if (!agent) return (0, _jsxdevruntime.jsxDEV)("div", {
+        if (!agent) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             children: "分身不存在"
         }, void 0, false, {
             fileName: "src/pages/agents/index.tsx",
             lineNumber: 97,
             columnNumber: 14
         }, this);
-        if (isEdit) return (0, _jsxdevruntime.jsxDEV)(_edit.default, {
+        // 直接渲染对应的组件，传递必要的参数
+        if (isEdit) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_edit.default, {
             agentId: agentId
         }, void 0, false, {
             fileName: "src/pages/agents/index.tsx",
             lineNumber: 102,
             columnNumber: 14
         }, this);
-        else return (0, _jsxdevruntime.jsxDEV)(_analytics.default, {
+        else return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_analytics.default, {
             agentId: agentId
         }, void 0, false, {
             fileName: "src/pages/agents/index.tsx",
@@ -3504,7 +3519,7 @@ const AgentsPage = ()=>{
             title: '状态',
             dataIndex: 'status',
             key: 'status',
-            render: (s)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+            render: (s)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     children: s
                 }, void 0, false, {
                     fileName: "src/pages/agents/index.tsx",
@@ -3536,7 +3551,7 @@ const AgentsPage = ()=>{
         {
             title: '渠道',
             key: 'channels',
-            render: (_, r)=>r.deployedChannels.map((c)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+            render: (_, r)=>r.deployedChannels.map((c)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                         children: c
                     }, c, false, {
                         fileName: "src/pages/agents/index.tsx",
@@ -3547,10 +3562,10 @@ const AgentsPage = ()=>{
         {
             title: '操作',
             key: 'actions',
-            render: (_, r)=>(0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+            render: (_, r)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                     size: "small",
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             size: "small",
                             onClick: ()=>navigate(`/ai-tools/consultant/${r.id}/edit`),
                             children: "配置"
@@ -3559,7 +3574,7 @@ const AgentsPage = ()=>{
                             lineNumber: 126,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             size: "small",
                             onClick: ()=>navigate(`/ai-tools/consultant/${r.id}/analytics`),
                             children: "分析"
@@ -3594,19 +3609,19 @@ const AgentsPage = ()=>{
             value: 'lark'
         }
     ];
-    return (0, _jsxdevruntime.jsxDEV)("div", {
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             background: '#fafafa',
             minHeight: 'calc(100vh - 120px)'
         },
-        children: (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 maxWidth: '1400px',
                 margin: '0 auto'
             },
             children: [
-                (0, _jsxdevruntime.jsxDEV)("div", {
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -3614,11 +3629,11 @@ const AgentsPage = ()=>{
                         marginBottom: '24px'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                             size: "middle",
                             wrap: true,
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                     allowClear: true,
                                     placeholder: "按名称/角色搜索",
                                     value: searchText,
@@ -3632,7 +3647,7 @@ const AgentsPage = ()=>{
                                     lineNumber: 156,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                     allowClear: true,
                                     placeholder: "按渠道筛选",
                                     value: channelFilter,
@@ -3653,11 +3668,11 @@ const AgentsPage = ()=>{
                             lineNumber: 155,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                             size: "small",
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.AppstoreOutlined, {}, void 0, false, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.AppstoreOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/index.tsx",
                                         lineNumber: 177,
                                         columnNumber: 21
@@ -3670,8 +3685,8 @@ const AgentsPage = ()=>{
                                     lineNumber: 176,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/index.tsx",
                                         lineNumber: 183,
                                         columnNumber: 21
@@ -3684,9 +3699,9 @@ const AgentsPage = ()=>{
                                     lineNumber: 182,
                                     columnNumber: 13
                                 }, this),
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                     type: "primary",
-                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/index.tsx",
                                         lineNumber: 190,
                                         columnNumber: 21
@@ -3715,18 +3730,18 @@ const AgentsPage = ()=>{
                     lineNumber: 149,
                     columnNumber: 9
                 }, this),
-                viewMode === 'card' ? (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                viewMode === 'card' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                     gutter: [
                         16,
                         16
                     ],
-                    children: filteredAgents.map((agent)=>(0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                    children: filteredAgents.map((agent)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                             xs: 24,
                             sm: 12,
                             md: 8,
                             lg: 6,
                             xl: 6,
-                            children: (0, _jsxdevruntime.jsxDEV)(_AgentCard.default, {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_AgentCard.default, {
                                 agent: agent
                             }, void 0, false, {
                                 fileName: "src/pages/agents/index.tsx",
@@ -3742,7 +3757,7 @@ const AgentsPage = ()=>{
                     fileName: "src/pages/agents/index.tsx",
                     lineNumber: 199,
                     columnNumber: 11
-                }, this) : (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
+                }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
                     rowKey: "id",
                     size: "small",
                     pagination: {
@@ -3759,14 +3774,14 @@ const AgentsPage = ()=>{
                     lineNumber: 207,
                     columnNumber: 11
                 }, this),
-                _agentData.mockAgents.length === 0 && (0, _jsxdevruntime.jsxDEV)("div", {
+                _agentData.mockAgents.length === 0 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         textAlign: 'center',
                         padding: '80px 20px',
                         color: '#999'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)("div", {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 fontSize: '64px',
                                 marginBottom: '24px'
@@ -3777,7 +3792,7 @@ const AgentsPage = ()=>{
                             lineNumber: 224,
                             columnNumber: 13
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(Title, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
                             level: 3,
                             style: {
                                 color: '#666',
@@ -3789,7 +3804,7 @@ const AgentsPage = ()=>{
                             lineNumber: 225,
                             columnNumber: 13
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)("p", {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("p", {
                             style: {
                                 fontSize: '16px',
                                 color: '#999',
@@ -3801,9 +3816,9 @@ const AgentsPage = ()=>{
                             lineNumber: 228,
                             columnNumber: 13
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "primary",
-                            icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                 fileName: "src/pages/agents/index.tsx",
                                 lineNumber: 233,
                                 columnNumber: 21

@@ -3,7 +3,7 @@
 // DO NOT CHANGE IT MANUALLY!
 // @ts-ignore
 import type { models as rawModels } from '@@/plugin-model/model';
-import isEqual from '/Users/colorpool/Downloads/客成部门齐心协力搞AI工具/success/success/node_modules/fast-deep-equal/index.js';
+import isEqual from '/Users/colorpool/Downloads/AI_Onsite/node_modules/fast-deep-equal/index.js';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 type Models = typeof rawModels;

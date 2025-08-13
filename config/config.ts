@@ -166,9 +166,9 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
-  mock: {
+  mock: process.env.NODE_ENV === 'development' ? {
     include: ['mock/**/*', 'src/pages/**/_mock.ts'],
-  },
+  } : false,
   /**
    * @name 是否开启 mako
    * @description 使用 mako 极速研发

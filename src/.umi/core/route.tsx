@@ -53,8 +53,8 @@ export async function getRoutes() {
 '43': React.lazy(() => import(/* webpackChunkName: "p__CustomerSuccess__index" */'@/pages/CustomerSuccess/index.tsx')),
 '44': React.lazy(() => import('./EmptyRoute')),
 '45': React.lazy(() => import(/* webpackChunkName: "p__404" */'@/pages/404.tsx')),
-'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'/Users/colorpool/Downloads/客成部门齐心协力搞AI工具/success/success/src/.umi/plugin-layout/Layout.tsx')),
-'umi/plugin/openapi': React.lazy(() => import(/* webpackChunkName: "umi__plugin-openapi__openapi" */'/Users/colorpool/Downloads/客成部门齐心协力搞AI工具/success/success/src/.umi/plugin-openapi/openapi.tsx')),
+'ant-design-pro-layout': React.lazy(() => import(/* webpackChunkName: "umi__plugin-layout__Layout" */'/Users/colorpool/Downloads/AI_Onsite/src/.umi/plugin-layout/Layout.tsx')),
+'umi/plugin/openapi': React.lazy(() => import(/* webpackChunkName: "umi__plugin-openapi__openapi" */'/Users/colorpool/Downloads/AI_Onsite/src/.umi/plugin-openapi/openapi.tsx')),
 },
   };
 }
