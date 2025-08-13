@@ -1,0 +1,207 @@
+@font-face {
+  font-family: "AlibabaSans";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("//mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*1GSgSYDD_aIAAAAAQsAAAAgAegCCAQ/AlibabaSans-Light.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "AlibabaSans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("//mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*2zEUQqnPNesAAAAAQtAAAAgAegCCAQ/AlibabaSans-Regular.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "AlibabaSans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("//mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*E_cxRbMlZqUAAAAAQuAAAAgAegCCAQ/AlibabaSans-Medium.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "AlibabaSans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("//mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*E_cxRbMlZqUAAAAAQuAAAAgAegCCAQ/AlibabaSans-Bold.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "AlibabaSans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("//mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*E_cxRbMlZqUAAAAAQuAAAAgAegCCAQ/AlibabaSans-Heavy.woff2")
+    format("woff2");
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family:
+    AlibabaSans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+.ant-pro-sider.ant-layout-sider.ant-pro-sider-fixed {
+  left: unset;
+}
+
+// 移除PageContainer的默认padding
+.ant-pro-page-container {
+  padding: 0 !important;
+}
+
+// 移除主内容区域的水平padding，保留垂直padding
+.ant-pro-layout-content {
+  padding: 0 0 32px 0 !important;
+}
+
+// 优化Tab切换动画，减少频闪
+.ant-tabs-tab {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.ant-tabs-tab-active {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+// 优化页面切换动画
+.ant-pro-layout-content {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+// 调整footer高度，让它更窄更矮
+.ant-pro-global-footer,
+.ant-pro-footer {
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  min-height: auto !important;
+  height: auto !important;
+}
+
+.ant-pro-global-footer .ant-pro-global-footer-links,
+.ant-pro-footer .ant-pro-global-footer-links {
+  margin-bottom: 4px !important;
+  padding: 0 !important;
+}
+
+.ant-pro-global-footer .ant-pro-global-footer-copyright,
+.ant-pro-footer .ant-pro-global-footer-copyright {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+// 覆盖DefaultFooter的默认样式
+.ant-pro-components-footer {
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  min-height: auto !important;
+  height: auto !important;
+}
+
+// 调整footer的margin，将顶部margin从48px改为12px
+.ant-pro-global-footer,
+.ant-pro-footer,
+.ant-pro-components-footer {
+  margin: 3px 0 6px !important;
+}
+
+// 隐藏重复的语言切换组件
+.ant-pro-sider-actions {
+  display: none !important;
+}
+
+// 确保只有一个语言切换显示
+.ant-pro-layout .ant-pro-sider .ant-pro-sider-actions {
+  display: none !important;
+}
+
+// 调整侧边栏折叠按钮位置到中间
+.ant-pro-sider-collapsed-button {
+  position: absolute !important;
+  top: 50% !important;
+  right: -12px !important;
+  transform: translateY(-50%) !important;
+  z-index: 1001 !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  border: 1px solid #d9d9d9 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.3s !important;
+}
+
+.ant-pro-sider-collapsed-button:hover {
+  background: #f5f5f5 !important;
+  border-color: #1890ff !important;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3) !important;
+}
+
+.ant-pro-sider-collapsed-button .anticon {
+  font-size: 12px !important;
+  color: #666 !important;
+  transition: all 0.3s !important;
+}
+
+.ant-pro-sider-collapsed-button:hover .anticon {
+  color: #1890ff !important;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+@media (max-width: 768px) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+        white-space: pre;
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}
