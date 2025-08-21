@@ -12,6 +12,7 @@ type TabAction =
   | { type: 'ADD_TAB'; payload: TabItem }
   | { type: 'REMOVE_TAB'; payload: string }
   | { type: 'SET_ACTIVE_TAB'; payload: string }
+  | { type: 'UPDATE_TAB'; payload: { key: string; updates: Partial<TabItem> } }
   | { type: 'CLEAR_ALL_TABS' };
 
 const TabContext = createContext<{
@@ -161,6 +162,10 @@ export const useTabManager = () => {
     }
   };
 
+  const updateTab = (key: string, updates: Partial<TabItem>) => {
+    dispatch({ type: 'UPDATE_TAB', payload: { key, updates } });
+  };
+
   const clearAllTabs = () => {
     dispatch({ type: 'CLEAR_ALL_TABS' });
   };
@@ -171,6 +176,7 @@ export const useTabManager = () => {
     addTab,
     removeTab,
     setActiveTab,
+    updateTab,
     clearAllTabs,
   };
 };

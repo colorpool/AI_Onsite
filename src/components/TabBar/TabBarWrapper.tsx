@@ -42,7 +42,41 @@ const routeToTitleMap: Record<string, string> = {
 
 const TabBarWrapper: React.FC = React.memo(() => {
   const location = useLocation();
-  const { tabs, activeKey, addTab, removeTab, setActiveTab } = useTabManager();
+  const { tabs, activeKey, addTab, removeTab, setActiveTab, updateTab } = useTabManager();
+
+  // 监听tab标题更新事件
+  useEffect(() => {
+    const handleTabTitleUpdate = (event: CustomEvent) => {
+      const { path, title } = event.detail;
+      const existingTab = tabs.find(tab => tab.path === path);
+      if (existingTab && existingTab.label !== title) {
+        // 更新tab标题
+        updateTab(existingTab.key, { label: title });
+      }
+    };
+
+    window.addEventListener('tabTitleUpdate', handleTabTitleUpdate as EventListener);
+    return () => {
+      window.removeEventListener('tabTitleUpdate', handleTabTitleUpdate as EventListener);
+    };
+  }, [tabs, updateTab]);
+
+  // 监听tab关闭事件
+  useEffect(() => {
+    const handleTabClose = (event: CustomEvent) => {
+      const { path } = event.detail;
+      const existingTab = tabs.find(tab => tab.path === path);
+      if (existingTab) {
+        // 删除对应的tab
+        removeTab(existingTab.key);
+      }
+    };
+
+    window.addEventListener('tabClose', handleTabClose as EventListener);
+    return () => {
+      window.removeEventListener('tabClose', handleTabClose as EventListener);
+    };
+  }, [tabs, removeTab]);
 
   // 根据当前路径自动添加Tab
   useEffect(() => {
@@ -66,7 +100,13 @@ const TabBarWrapper: React.FC = React.memo(() => {
       return;
     }
     
-    const title = routeToTitleMap[currentPath] || '未知页面';
+    // 处理客户交接详情页的动态标题
+    let title = routeToTitleMap[currentPath] || '未知页面';
+    
+    // 如果是客户交接详情页，设置为默认标题，等待动态更新
+    if (currentPath.match(/^\/profiles\/handover\/\d+$/)) {
+      title = '客户交接详情';
+    }
     
     // 如果当前路径没有对应的Tab，则添加一个
     const existingTab = tabs.find(tab => tab.path === currentPath);

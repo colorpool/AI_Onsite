@@ -1,6 +1,9 @@
 import React from 'react';
 import { useLocation } from '@umijs/max';
 import { generateTabContent } from '@/utils/tabContentGenerator';
+import WorkbenchDashboard from './WorkbenchDashboard';
+import TieringMatrix from './TieringMatrix';
+import Footer from '../../components/Footer';
 
 // 路径到内容标题的映射
 const pathToTitleMap: { [key: string]: string } = {
@@ -40,6 +43,15 @@ const CustomerSuccess: React.FC = () => {
   // 根据当前路径获取页面标题
   const pageTitle = pathToTitleMap[location.pathname] || '客户成功系统';
   
+  // 如果是工作台页面，显示新的工作台界面
+  if (location.pathname === '/dashboard/work') {
+    return <WorkbenchDashboard />;
+  }
+  // 客户分层矩阵
+  if (location.pathname === '/dashboard/layers') {
+    return <TieringMatrix />;
+  }
+  
   // 根据页面标题生成内容
   const content = generateTabContent(pageTitle);
 
@@ -50,6 +62,9 @@ const CustomerSuccess: React.FC = () => {
       minHeight: 'calc(100vh - 64px)'
     }}>
       {content}
+      
+      {/* 钉学科技Footer */}
+      <Footer />
     </div>
   );
 };

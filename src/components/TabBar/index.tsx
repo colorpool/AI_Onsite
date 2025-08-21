@@ -17,8 +17,23 @@ const useStyles = createStyles(({ token }) => ({
   },
   customTabs: {
     flex: 1,
+    overflow: 'hidden', // 防止内容溢出
     '& .ant-tabs-nav': {
       margin: 0,
+      overflow: 'auto', // 添加水平滚动
+      '&::-webkit-scrollbar': {
+        height: '4px',
+      },
+      '&::-webkit-scrollbar-track': {
+        background: 'transparent',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        background: token.colorBorderSecondary,
+        borderRadius: '2px',
+      },
+      '&::-webkit-scrollbar-thumb:hover': {
+        background: token.colorTextSecondary,
+      },
     },
     '& .ant-tabs-tab': {
       padding: '6px 10px', // 减少内边距，让Tab更紧凑
@@ -29,6 +44,9 @@ const useStyles = createStyles(({ token }) => ({
       borderTop: '2px solid transparent',
       background: token.colorBgContainer,
       transition: 'none', // 去掉过渡动画
+      whiteSpace: 'nowrap', // 防止文字换行
+      minWidth: '80px', // 减小最小宽度，适应短文本
+      maxWidth: 'none', // 移除最大宽度限制，让tab根据内容自适应
       '&:hover': {
         background: token.colorBgTextHover,
       },
@@ -49,6 +67,19 @@ const useStyles = createStyles(({ token }) => ({
     '& .ant-tabs-content-holder': {
       display: 'none',
     },
+    '& .ant-tabs-nav-add': {
+      display: 'none !important',
+    },
+    '& .ant-tabs-tab-add': {
+      display: 'none !important',
+    },
+    '& .ant-tabs-nav-more': {
+      display: 'none !important',
+    },
+    '& .ant-tabs-nav-operations': {
+      display: 'none !important',
+    },
+
   },
   tabCloseButton: {
     marginLeft: '8px',
@@ -106,13 +137,7 @@ const TabBar: React.FC<TabBarProps> = React.memo(({
   const { styles } = useStyles();
   const location = useLocation();
 
-  const handleTabEdit = (targetKey: React.Key | React.MouseEvent | React.KeyboardEvent, action: 'add' | 'remove') => {
-    if (action === 'add' && onTabAdd) {
-      onTabAdd();
-    } else if (action === 'remove' && typeof targetKey === 'string') {
-      onTabClose(targetKey);
-    }
-  };
+
 
   const handleTabClick = (key: string) => {
     onTabChange(key);
@@ -181,8 +206,11 @@ const TabBar: React.FC<TabBarProps> = React.memo(({
         activeKey={activeKey}
         items={tabItems}
         onChange={handleTabClick}
-        onEdit={handleTabEdit}
         hideAdd
+        addIcon={null}
+        type="card"
+        tabBarGutter={0}
+        tabBarStyle={{ margin: 0 }}
       />
       <div className={styles.tabActions}>
         {onTabAdd && (

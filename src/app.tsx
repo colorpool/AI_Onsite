@@ -1,6 +1,5 @@
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { SettingDrawer } from '@ant-design/pro-components';
 import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import React from 'react';
@@ -67,9 +66,6 @@ export const layout: RunTimeLayoutConfig = ({
   initialState,
   setInitialState,
 }) => {
-  // 使用自定义 hook 管理菜单状态
-  const { openKeys, handleOpenChange } = useMenuState();
-
   return {
     // 移除actionsRender，不再在顶部显示
     // actionsRender: () => [
@@ -132,6 +128,7 @@ export const layout: RunTimeLayoutConfig = ({
               {children}
             </div>
           </div>
+
         </TabProvider>
       );
     },
@@ -140,15 +137,6 @@ export const layout: RunTimeLayoutConfig = ({
     // 配置菜单属性，实现点击菜单时自动关闭其他菜单
     menuProps: {
       mode: 'inline',
-      // 实现手风琴效果：通过 onOpenChange 控制只展开一个子菜单
-      onOpenChange: (openKeys) => {
-        // 只保留最后一个展开的菜单
-        const latestOpenKey = openKeys[openKeys.length - 1];
-        if (latestOpenKey) {
-          // 这里可以通过状态管理来控制 openKeys
-          console.log('展开菜单:', latestOpenKey);
-        }
-      },
       onClick: (info) => {
         // 这里可以添加自定义的点击处理逻辑
         console.log('菜单点击:', info);
@@ -161,7 +149,7 @@ export const layout: RunTimeLayoutConfig = ({
         borderTop: '1px solid #f0f0f0',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'center'
       }}>
         <AvatarDropdown>
           <div style={{ 
@@ -176,7 +164,6 @@ export const layout: RunTimeLayoutConfig = ({
             <AvatarName />
           </div>
         </AvatarDropdown>
-        <SelectLang key="unique-select-lang" />
       </div>
     ),
     ...initialState?.settings,

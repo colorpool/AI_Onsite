@@ -42,6 +42,16 @@ const AgentsPage: React.FC = () => {
   const pathname = location.pathname;
   console.log('Current pathname:', pathname);
   
+  // 确保所有渲染分支的 Hook 数量一致：
+  // 提前计算 filteredAgents，避免在某些分支中少调用 useMemo 导致 Hook 次序不一致
+  const filteredAgents = useMemo(() => {
+    return mockAgents.filter((a) => {
+      const matchName = a.name.includes(searchText) || a.role.includes(searchText);
+      const matchChannel = channelFilter ? a.deployedChannels.includes(channelFilter as any) : true;
+      return matchName && matchChannel;
+    });
+  }, [searchText, channelFilter]);
+  
   // 如果是创建页面
   if (pathname === '/ai-tools/consultant/new') {
     return (
@@ -105,13 +115,7 @@ const AgentsPage: React.FC = () => {
     }
   }
 
-  const filteredAgents = useMemo(() => {
-    return mockAgents.filter((a) => {
-      const matchName = a.name.includes(searchText) || a.role.includes(searchText);
-      const matchChannel = channelFilter ? a.deployedChannels.includes(channelFilter as any) : true;
-      return matchName && matchChannel;
-    });
-  }, [searchText, channelFilter]);
+  
 
   const listColumns = [
     { title: '名称', dataIndex: 'name', key: 'name' },

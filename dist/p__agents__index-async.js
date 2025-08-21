@@ -3391,6 +3391,18 @@ const AgentsPage = ()=>{
     // 根据当前路径决定显示什么内容
     const pathname = location.pathname;
     console.log('Current pathname:', pathname);
+    // 确保所有渲染分支的 Hook 数量一致：
+    // 提前计算 filteredAgents，避免在某些分支中少调用 useMemo 导致 Hook 次序不一致
+    const filteredAgents = (0, _react.useMemo)(()=>{
+        return _agentData.mockAgents.filter((a)=>{
+            const matchName = a.name.includes(searchText) || a.role.includes(searchText);
+            const matchChannel = channelFilter ? a.deployedChannels.includes(channelFilter) : true;
+            return matchName && matchChannel;
+        });
+    }, [
+        searchText,
+        channelFilter
+    ]);
     // 如果是创建页面
     if (pathname === '/ai-tools/consultant/new') return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
@@ -3421,7 +3433,7 @@ const AgentsPage = ()=>{
                             children: "返回"
                         }, void 0, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 64,
+                            lineNumber: 74,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
@@ -3434,13 +3446,13 @@ const AgentsPage = ()=>{
                             children: "创建新分身"
                         }, void 0, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 70,
+                            lineNumber: 80,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/agents/index.tsx",
-                    lineNumber: 58,
+                    lineNumber: 68,
                     columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_AgentCreateForm.default, {
@@ -3450,18 +3462,18 @@ const AgentsPage = ()=>{
                     onCancel: handleCancel
                 }, void 0, false, {
                     fileName: "src/pages/agents/index.tsx",
-                    lineNumber: 76,
+                    lineNumber: 86,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/agents/index.tsx",
-            lineNumber: 53,
+            lineNumber: 63,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "src/pages/agents/index.tsx",
-        lineNumber: 48,
+        lineNumber: 58,
         columnNumber: 7
     }, this);
     // 如果是配置或分析页面
@@ -3475,7 +3487,7 @@ const AgentsPage = ()=>{
             children: "分身不存在"
         }, void 0, false, {
             fileName: "src/pages/agents/index.tsx",
-            lineNumber: 97,
+            lineNumber: 107,
             columnNumber: 14
         }, this);
         // 直接渲染对应的组件，传递必要的参数
@@ -3483,27 +3495,17 @@ const AgentsPage = ()=>{
             agentId: agentId
         }, void 0, false, {
             fileName: "src/pages/agents/index.tsx",
-            lineNumber: 102,
+            lineNumber: 112,
             columnNumber: 14
         }, this);
         else return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_analytics.default, {
             agentId: agentId
         }, void 0, false, {
             fileName: "src/pages/agents/index.tsx",
-            lineNumber: 104,
+            lineNumber: 114,
             columnNumber: 14
         }, this);
     }
-    const filteredAgents = (0, _react.useMemo)(()=>{
-        return _agentData.mockAgents.filter((a)=>{
-            const matchName = a.name.includes(searchText) || a.role.includes(searchText);
-            const matchChannel = channelFilter ? a.deployedChannels.includes(channelFilter) : true;
-            return matchName && matchChannel;
-        });
-    }, [
-        searchText,
-        channelFilter
-    ]);
     const listColumns = [
         {
             title: '名称',
@@ -3523,7 +3525,7 @@ const AgentsPage = ()=>{
                     children: s
                 }, void 0, false, {
                     fileName: "src/pages/agents/index.tsx",
-                    lineNumber: 119,
+                    lineNumber: 123,
                     columnNumber: 79
                 }, this)
         },
@@ -3555,7 +3557,7 @@ const AgentsPage = ()=>{
                         children: c
                     }, c, false, {
                         fileName: "src/pages/agents/index.tsx",
-                        lineNumber: 123,
+                        lineNumber: 127,
                         columnNumber: 103
                     }, this))
         },
@@ -3571,7 +3573,7 @@ const AgentsPage = ()=>{
                             children: "配置"
                         }, void 0, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 126,
+                            lineNumber: 130,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
@@ -3580,13 +3582,13 @@ const AgentsPage = ()=>{
                             children: "分析"
                         }, void 0, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 127,
+                            lineNumber: 131,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/agents/index.tsx",
-                    lineNumber: 125,
+                    lineNumber: 129,
                     columnNumber: 9
                 }, this)
         }
@@ -3644,7 +3646,7 @@ const AgentsPage = ()=>{
                                     size: "middle"
                                 }, void 0, false, {
                                     fileName: "src/pages/agents/index.tsx",
-                                    lineNumber: 156,
+                                    lineNumber: 160,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
@@ -3659,13 +3661,13 @@ const AgentsPage = ()=>{
                                     size: "middle"
                                 }, void 0, false, {
                                     fileName: "src/pages/agents/index.tsx",
-                                    lineNumber: 164,
+                                    lineNumber: 168,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 155,
+                            lineNumber: 159,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
@@ -3674,7 +3676,7 @@ const AgentsPage = ()=>{
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                     icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.AppstoreOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/index.tsx",
-                                        lineNumber: 177,
+                                        lineNumber: 181,
                                         columnNumber: 21
                                     }, void 0),
                                     type: viewMode === 'card' ? 'primary' : 'default',
@@ -3682,13 +3684,13 @@ const AgentsPage = ()=>{
                                     onClick: ()=>setViewMode('card')
                                 }, void 0, false, {
                                     fileName: "src/pages/agents/index.tsx",
-                                    lineNumber: 176,
+                                    lineNumber: 180,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                     icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/index.tsx",
-                                        lineNumber: 183,
+                                        lineNumber: 187,
                                         columnNumber: 21
                                     }, void 0),
                                     type: viewMode === 'list' ? 'primary' : 'default',
@@ -3696,14 +3698,14 @@ const AgentsPage = ()=>{
                                     onClick: ()=>setViewMode('list')
                                 }, void 0, false, {
                                     fileName: "src/pages/agents/index.tsx",
-                                    lineNumber: 182,
+                                    lineNumber: 186,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                     type: "primary",
                                     icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                         fileName: "src/pages/agents/index.tsx",
-                                        lineNumber: 190,
+                                        lineNumber: 194,
                                         columnNumber: 21
                                     }, void 0),
                                     size: "middle",
@@ -3715,19 +3717,19 @@ const AgentsPage = ()=>{
                                     children: "创建新分身"
                                 }, void 0, false, {
                                     fileName: "src/pages/agents/index.tsx",
-                                    lineNumber: 188,
+                                    lineNumber: 192,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 175,
+                            lineNumber: 179,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/agents/index.tsx",
-                    lineNumber: 149,
+                    lineNumber: 153,
                     columnNumber: 9
                 }, this),
                 viewMode === 'card' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
@@ -3745,17 +3747,17 @@ const AgentsPage = ()=>{
                                 agent: agent
                             }, void 0, false, {
                                 fileName: "src/pages/agents/index.tsx",
-                                lineNumber: 202,
+                                lineNumber: 206,
                                 columnNumber: 17
                             }, this)
                         }, agent.id, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 201,
+                            lineNumber: 205,
                             columnNumber: 15
                         }, this))
                 }, void 0, false, {
                     fileName: "src/pages/agents/index.tsx",
-                    lineNumber: 199,
+                    lineNumber: 203,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
                     rowKey: "id",
@@ -3771,7 +3773,7 @@ const AgentsPage = ()=>{
                     }
                 }, void 0, false, {
                     fileName: "src/pages/agents/index.tsx",
-                    lineNumber: 207,
+                    lineNumber: 211,
                     columnNumber: 11
                 }, this),
                 _agentData.mockAgents.length === 0 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -3789,7 +3791,7 @@ const AgentsPage = ()=>{
                             children: "🤖"
                         }, void 0, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 224,
+                            lineNumber: 228,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
@@ -3801,7 +3803,7 @@ const AgentsPage = ()=>{
                             children: "还没有创建任何分身"
                         }, void 0, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 225,
+                            lineNumber: 229,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("p", {
@@ -3813,14 +3815,14 @@ const AgentsPage = ()=>{
                             children: '点击右上角的"创建新分身"按钮开始创建您的第一个AI助手'
                         }, void 0, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 228,
+                            lineNumber: 232,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "primary",
                             icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                 fileName: "src/pages/agents/index.tsx",
-                                lineNumber: 233,
+                                lineNumber: 237,
                                 columnNumber: 21
                             }, void 0),
                             onClick: handleCreateAgent,
@@ -3833,24 +3835,24 @@ const AgentsPage = ()=>{
                             children: "创建第一个分身"
                         }, void 0, false, {
                             fileName: "src/pages/agents/index.tsx",
-                            lineNumber: 231,
+                            lineNumber: 235,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/agents/index.tsx",
-                    lineNumber: 219,
+                    lineNumber: 223,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/agents/index.tsx",
-            lineNumber: 144,
+            lineNumber: 148,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/pages/agents/index.tsx",
-        lineNumber: 139,
+        lineNumber: 143,
         columnNumber: 5
     }, this);
 };

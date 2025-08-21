@@ -77,7 +77,18 @@ export default [
         path: '/profiles/handover',
         name: '客户交接',
         icon: 'userAdd',
-        component: './CustomerSuccess',
+        component: './handover',
+      },
+      {
+        path: '/profiles/handover/new',
+        component: './handover/new',
+        hideInMenu: true,
+      },
+      {
+        path: '/profiles/handover/:id',
+        component: './handover/[id]',
+        hideInMenu: true,
+        name: '客户交接详情',
       },
       {
         path: '/profiles/implementation',
