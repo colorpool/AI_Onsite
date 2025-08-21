@@ -10,12 +10,14 @@ import {
   Question,
   SelectLang,
 } from '@/components';
-import { currentUser as queryCurrentUser } from '@/mock/user';
+import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
 import { TabProvider } from '@/contexts/TabContext';
 import TabBarWrapper from '@/components/TabBar/TabBarWrapper';
 import { useMenuState } from '@/hooks/useMenuState';
+import { isProduction, getEnvironmentInfo } from '@/utils/env';
+import { getMockCurrentUser } from '@/utils/mockData';
 import '@ant-design/v5-patch-for-react-19';
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -30,74 +32,31 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
+  // 输出环境信息用于调试
+  console.log('Environment Info:', getEnvironmentInfo());
+  
   const fetchUserInfo = async () => {
+    // 生产环境直接返回Mock用户，避免API调用
+    if (isProduction()) {
+      console.log('Using mock user data for production');
+      return getMockCurrentUser();
+    }
+    
+    // 开发环境尝试调用真实API
     try {
       const msg = await queryCurrentUser({
         skipErrorHandler: true,
       });
       return msg.data;
     } catch (_error) {
-      // 生产环境不跳转登录页面，直接返回Mock用户
-      if (process.env.NODE_ENV === 'production') {
-        return {
-          name: '管理员',
-          avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
-          userid: '00000001',
-          email: 'admin@example.com',
-          signature: '海纳百川，有容乃大',
-          title: '交互专家',
-          group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
-          tags: [
-            {
-              key: '0',
-              label: '很有想法的',
-            },
-            {
-              key: '1',
-              label: '专注设计',
-            },
-            {
-              key: '2',
-              label: '辣~',
-            },
-            {
-              key: '3',
-              label: '大长腿',
-            },
-            {
-              key: '4',
-              label: '川妹子',
-            },
-            {
-              key: '5',
-              label: '海纳百川',
-            },
-          ],
-          notifyCount: 12,
-          unreadCount: 11,
-          country: 'China',
-          access: 'admin',
-          geographic: {
-            province: {
-              label: '浙江省',
-              key: '330000',
-            },
-            city: {
-              label: '杭州市',
-              key: '330100',
-            },
-          },
-          address: '西湖区工专路 77 号',
-          phone: '0752-268888888',
-        };
-      }
+      console.log('API call failed, redirecting to login');
       history.push(loginPath);
+      return undefined;
     }
-    return undefined;
   };
   
-  // 生产环境直接返回用户信息，不检查路径
-  if (process.env.NODE_ENV === 'production') {
+  // 生产环境：直接返回用户信息
+  if (isProduction()) {
     const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,
@@ -106,13 +65,9 @@ export async function getInitialState(): Promise<{
     };
   }
   
-  // 开发环境保持原有逻辑
+  // 开发环境：检查路径
   const { location } = history;
-  if (
-    ![loginPath, '/user/register', '/user/register-result'].includes(
-      location.pathname,
-    )
-  ) {
+  if (![loginPath, '/user/register', '/user/register-result'].includes(location.pathname)) {
     const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,
@@ -120,6 +75,7 @@ export async function getInitialState(): Promise<{
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
+  
   return {
     fetchUserInfo,
     settings: defaultSettings as Partial<LayoutSettings>,
@@ -152,7 +108,7 @@ export const layout: RunTimeLayoutConfig = ({
     onPageChange: () => {
       const { location } = history;
       // 生产环境跳过登录检查
-      if (process.env.NODE_ENV === 'production') {
+      if (isProduction()) {
         return;
       }
       // 如果没有登录，重定向到 login
@@ -245,6 +201,6 @@ export const layout: RunTimeLayoutConfig = ({
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request: RequestConfig = {
-  baseURL: process.env.NODE_ENV === 'production' ? '' : 'https://proapi.azurewebsites.net',
+  baseURL: isProduction() ? '' : 'https://proapi.azurewebsites.net',
   ...errorConfig,
 };

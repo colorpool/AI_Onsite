@@ -197,6 +197,15 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ]
         },
@@ -214,6 +223,16 @@
       "time": {
         "hooks": {
           "onDevCompileDone": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -243,7 +262,16 @@
             7,
             6,
             20,
-            8
+            8,
+            14,
+            9,
+            15,
+            17,
+            14,
+            19,
+            27,
+            10,
+            7
           ]
         },
         "register": 13
@@ -260,6 +288,15 @@
       "time": {
         "hooks": {
           "addEntryCode": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -300,6 +337,17 @@
             0,
             0,
             1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
             0
           ]
         },
@@ -1286,9 +1334,27 @@
             0,
             0,
             0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
             0
           ],
           "addRuntimePlugin": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -1315,6 +1381,21 @@
           ],
           "addBeforeMiddlewares": [
             0
+          ],
+          "modifyHTMLFavicon": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
           ]
         },
         "register": 0
@@ -1336,9 +1417,27 @@
             0,
             0,
             1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
             0
           ],
           "addRuntimePlugin": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -1430,9 +1529,36 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "addEntryImports": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -1484,9 +1610,36 @@
             12,
             11,
             13,
-            9
+            9,
+            9,
+            25,
+            17,
+            12,
+            11,
+            22,
+            17,
+            9,
+            8
           ],
           "addPolyfillImports": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -1525,6 +1678,24 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ]
         },
@@ -1543,6 +1714,15 @@
         "hooks": {
           "onGenerateFiles": [
             64,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -1595,7 +1775,16 @@
             0,
             0,
             0,
-            0
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
           ],
           "addBeforeMiddlewares": [
             0
@@ -1624,6 +1813,24 @@
             8,
             4,
             13,
+            3,
+            8,
+            3,
+            12,
+            3,
+            14,
+            5,
+            11,
+            7,
+            12,
+            3,
+            12,
+            2,
+            19,
+            5,
+            35,
+            4,
+            11,
             3,
             8,
             3
@@ -1686,6 +1893,15 @@
             7,
             6,
             8,
+            8,
+            8,
+            9,
+            12,
+            9,
+            16,
+            14,
+            14,
+            7,
             8
           ]
         },
@@ -1776,7 +1992,16 @@
             1,
             0,
             0,
-            0
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
           ]
         },
         "register": 1
@@ -1878,6 +2103,36 @@
           ],
           "onStart": [
             0
+          ],
+          "addHTMLHeadScripts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "addHTMLStyles": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
           ]
         },
         "register": 1
@@ -1904,7 +2159,23 @@
     "./node_modules/@umijs/preset-umi/dist/features/routePreloadOnLoad/routePreloadOnLoad": {
       "config": {},
       "time": {
-        "hooks": {},
+        "hooks": {
+          "addHTMLHeadScripts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
         "register": 1
       },
       "type": "plugin",
@@ -2271,6 +2542,15 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "onGenerateFiles": [
@@ -2278,6 +2558,15 @@
             1,
             0,
             1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
             0,
             0
           ],
@@ -2332,9 +2621,36 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "addRuntimePlugin": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -2348,6 +2664,15 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "onGenerateFiles": [
@@ -2356,6 +2681,15 @@
             1,
             0,
             1,
+            0,
+            1,
+            2,
+            1,
+            0,
+            0,
+            1,
+            1,
+            0,
             0
           ],
           "addExtraBabelPlugins": [
@@ -2396,9 +2730,27 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "addRuntimePluginKey": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -2412,9 +2764,27 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "addExtraModels": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -2449,12 +2819,30 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "modifyAppData": [
             0
           ],
           "addRuntimePlugin": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -2468,10 +2856,28 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "onGenerateFiles": [
             5,
+            2,
+            2,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
             2,
             2,
             1,
@@ -2504,9 +2910,36 @@
             0,
             0,
             0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "addRuntimePlugin": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -2520,6 +2953,15 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "onGenerateFiles": [
@@ -2528,7 +2970,16 @@
             3,
             3,
             3,
-            3
+            3,
+            4,
+            5,
+            5,
+            3,
+            3,
+            5,
+            4,
+            4,
+            4
           ],
           "addTmpGenerateWatcherPaths": [
             2
@@ -2566,6 +3017,15 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "onGenerateFiles": [
@@ -2574,7 +3034,16 @@
             9,
             6,
             7,
-            6
+            6,
+            6,
+            9,
+            12,
+            8,
+            9,
+            17,
+            8,
+            7,
+            7
           ],
           "addTmpGenerateWatcherPaths": [
             0
@@ -2604,10 +3073,28 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
             0
           ],
           "onGenerateFiles": [
             1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -2629,6 +3116,15 @@
       "time": {
         "hooks": {
           "addRuntimePluginKey": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -2693,6 +3189,15 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "onGenerateFiles": [
@@ -2701,7 +3206,16 @@
             1,
             0,
             0,
-            0
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1
           ]
         },
         "register": 1
@@ -2856,12 +3370,30 @@
             0,
             0,
             0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0
           ],
           "onStart": [
             0
           ],
           "onGenerateFiles": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -2877,7 +3409,17 @@
             11,
             2,
             2,
-            11
+            11,
+            5,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            3,
+            2
           ]
         },
         "register": 114
@@ -7032,32 +7574,6 @@
             ],
             "format": "esm"
           },
-          "src/mock/user.ts": {
-            "bytes": 2651,
-            "imports": [
-              {
-                "path": "@@/plugin-request/request",
-                "kind": "import-statement",
-                "external": true
-              },
-              {
-                "path": "@@/plugin-request/request",
-                "kind": "import-statement",
-                "external": true
-              },
-              {
-                "path": "@/services/ant-design-pro/typings",
-                "kind": "import-statement",
-                "external": true
-              },
-              {
-                "path": "src/.umi/exports.ts",
-                "kind": "import-statement",
-                "original": "@umijs/max"
-              }
-            ],
-            "format": "esm"
-          },
           "config/defaultSettings.ts": {
             "bytes": 816,
             "imports": [],
@@ -7172,8 +7688,18 @@
             ],
             "format": "esm"
           },
+          "src/utils/env.ts": {
+            "bytes": 814,
+            "imports": [],
+            "format": "esm"
+          },
+          "src/utils/mockData.ts": {
+            "bytes": 909,
+            "imports": [],
+            "format": "esm"
+          },
           "src/app.tsx": {
-            "bytes": 7415,
+            "bytes": 6315,
             "imports": [
               {
                 "path": "@ant-design/icons",
@@ -7196,9 +7722,9 @@
                 "original": "@/components"
               },
               {
-                "path": "src/mock/user.ts",
+                "path": "src/services/ant-design-pro/api.ts",
                 "kind": "import-statement",
-                "original": "@/mock/user"
+                "original": "@/services/ant-design-pro/api"
               },
               {
                 "path": "config/defaultSettings.ts",
@@ -7224,6 +7750,16 @@
                 "path": "@/hooks/useMenuState",
                 "kind": "import-statement",
                 "external": true
+              },
+              {
+                "path": "src/utils/env.ts",
+                "kind": "import-statement",
+                "original": "@/utils/env"
+              },
+              {
+                "path": "src/utils/mockData.ts",
+                "kind": "import-statement",
+                "original": "@/utils/mockData"
               },
               {
                 "path": "@ant-design/v5-patch-for-react-19",
@@ -12152,7 +12688,7 @@
                 "bytesInOutput": 233
               },
               "src/services/ant-design-pro/api.ts": {
-                "bytesInOutput": 445
+                "bytesInOutput": 570
               },
               "src/components/HeaderDropdown/index.tsx": {
                 "bytesInOutput": 880
@@ -12165,9 +12701,6 @@
               },
               "src/components/index.ts": {
                 "bytesInOutput": 187
-              },
-              "src/mock/user.ts": {
-                "bytesInOutput": 1758
               },
               "config/defaultSettings.ts": {
                 "bytesInOutput": 932
@@ -12184,8 +12717,14 @@
               "src/components/TabBar/TabBarWrapper.tsx": {
                 "bytesInOutput": 5282
               },
+              "src/utils/env.ts": {
+                "bytesInOutput": 629
+              },
+              "src/utils/mockData.ts": {
+                "bytesInOutput": 1305
+              },
               "src/app.tsx": {
-                "bytesInOutput": 6612
+                "bytesInOutput": 5282
               },
               "src/.umi/core/exportStaticRuntimePlugin.ts": {
                 "bytesInOutput": 454
@@ -12548,7 +13087,7 @@
                 "bytesInOutput": 1652
               }
             },
-            "bytes": 587026
+            "bytes": 586023
           }
         }
       }
@@ -17956,9 +18495,9 @@
           "type": "ImportDeclaration"
         },
         {
-          "end": 432,
+          "end": 450,
           "importKind": "value",
-          "source": "@/mock/user",
+          "source": "@/services/ant-design-pro/api",
           "specifiers": [
             {
               "imported": "currentUser",
@@ -17970,7 +18509,7 @@
           "type": "ImportDeclaration"
         },
         {
-          "end": 489,
+          "end": 507,
           "importKind": "value",
           "source": "../config/defaultSettings",
           "specifiers": [
@@ -17979,11 +18518,11 @@
               "type": "ImportDefaultSpecifier"
             }
           ],
-          "start": 433,
+          "start": 451,
           "type": "ImportDeclaration"
         },
         {
-          "end": 541,
+          "end": 559,
           "importKind": "value",
           "source": "./requestErrorConfig",
           "specifiers": [
@@ -17993,11 +18532,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 490,
+          "start": 508,
           "type": "ImportDeclaration"
         },
         {
-          "end": 594,
+          "end": 612,
           "importKind": "value",
           "source": "@/contexts/TabContext",
           "specifiers": [
@@ -18007,11 +18546,11 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 542,
+          "start": 560,
           "type": "ImportDeclaration"
         },
         {
-          "end": 657,
+          "end": 675,
           "importKind": "value",
           "source": "@/components/TabBar/TabBarWrapper",
           "specifiers": [
@@ -18020,11 +18559,11 @@
               "type": "ImportDefaultSpecifier"
             }
           ],
-          "start": 595,
+          "start": 613,
           "type": "ImportDeclaration"
         },
         {
-          "end": 710,
+          "end": 728,
           "importKind": "value",
           "source": "@/hooks/useMenuState",
           "specifiers": [
@@ -18034,15 +18573,48 @@
               "type": "ImportSpecifier"
             }
           ],
-          "start": 658,
+          "start": 676,
           "type": "ImportDeclaration"
         },
         {
-          "end": 754,
+          "end": 792,
+          "importKind": "value",
+          "source": "@/utils/env",
+          "specifiers": [
+            {
+              "imported": "isProduction",
+              "local": "isProduction",
+              "type": "ImportSpecifier"
+            },
+            {
+              "imported": "getEnvironmentInfo",
+              "local": "getEnvironmentInfo",
+              "type": "ImportSpecifier"
+            }
+          ],
+          "start": 729,
+          "type": "ImportDeclaration"
+        },
+        {
+          "end": 847,
+          "importKind": "value",
+          "source": "@/utils/mockData",
+          "specifiers": [
+            {
+              "imported": "getMockCurrentUser",
+              "local": "getMockCurrentUser",
+              "type": "ImportSpecifier"
+            }
+          ],
+          "start": 793,
+          "type": "ImportDeclaration"
+        },
+        {
+          "end": 891,
           "importKind": "value",
           "source": "@ant-design/v5-patch-for-react-19",
           "specifiers": [],
-          "start": 711,
+          "start": 848,
           "type": "ImportDeclaration"
         }
       ],
@@ -19990,63 +20562,6 @@
             }
           ],
           "start": 1,
-          "type": "ImportDeclaration"
-        }
-      ],
-      "/Users/colorpool/Downloads/AI_Onsite/src/mock/user.ts": [
-        {
-          "end": 60,
-          "importKind": "value",
-          "source": "@@/plugin-request/request",
-          "specifiers": [
-            {
-              "imported": "RequestOptions",
-              "local": "RequestOptions",
-              "type": "ImportSpecifier"
-            }
-          ],
-          "start": 1,
-          "type": "ImportDeclaration"
-        },
-        {
-          "end": 131,
-          "importKind": "value",
-          "source": "@@/plugin-request/request",
-          "specifiers": [
-            {
-              "imported": "RequestOptionsForResponse",
-              "local": "RequestOptionsForResponse",
-              "type": "ImportSpecifier"
-            }
-          ],
-          "start": 61,
-          "type": "ImportDeclaration"
-        },
-        {
-          "end": 189,
-          "importKind": "value",
-          "source": "@/services/ant-design-pro/typings",
-          "specifiers": [
-            {
-              "local": "API",
-              "type": "ImportNamespaceSpecifier"
-            }
-          ],
-          "start": 132,
-          "type": "ImportDeclaration"
-        },
-        {
-          "end": 227,
-          "importKind": "value",
-          "source": "@umijs/max",
-          "specifiers": [
-            {
-              "imported": "request",
-              "local": "request",
-              "type": "ImportSpecifier"
-            }
-          ],
-          "start": 190,
           "type": "ImportDeclaration"
         }
       ],
@@ -22281,6 +22796,8 @@
           "type": "ImportDeclaration"
         }
       ],
+      "/Users/colorpool/Downloads/AI_Onsite/src/utils/env.ts": [],
+      "/Users/colorpool/Downloads/AI_Onsite/src/utils/mockData.ts": [],
       "/Users/colorpool/Downloads/AI_Onsite/src/utils/tabContentGenerator.tsx": [
         {
           "end": 27,
