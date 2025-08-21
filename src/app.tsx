@@ -10,7 +10,7 @@ import {
   Question,
   SelectLang,
 } from '@/components';
-import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api';
+import { currentUser as queryCurrentUser } from '@/mock/user';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
 import { TabProvider } from '@/contexts/TabContext';
@@ -37,11 +37,76 @@ export async function getInitialState(): Promise<{
       });
       return msg.data;
     } catch (_error) {
+      // 生产环境不跳转登录页面，直接返回Mock用户
+      if (process.env.NODE_ENV === 'production') {
+        return {
+          name: '管理员',
+          avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+          userid: '00000001',
+          email: 'admin@example.com',
+          signature: '海纳百川，有容乃大',
+          title: '交互专家',
+          group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
+          tags: [
+            {
+              key: '0',
+              label: '很有想法的',
+            },
+            {
+              key: '1',
+              label: '专注设计',
+            },
+            {
+              key: '2',
+              label: '辣~',
+            },
+            {
+              key: '3',
+              label: '大长腿',
+            },
+            {
+              key: '4',
+              label: '川妹子',
+            },
+            {
+              key: '5',
+              label: '海纳百川',
+            },
+          ],
+          notifyCount: 12,
+          unreadCount: 11,
+          country: 'China',
+          access: 'admin',
+          geographic: {
+            province: {
+              label: '浙江省',
+              key: '330000',
+            },
+            city: {
+              label: '杭州市',
+              key: '330100',
+            },
+          },
+          address: '西湖区工专路 77 号',
+          phone: '0752-268888888',
+        };
+      }
       history.push(loginPath);
     }
     return undefined;
   };
-  // 如果不是登录页面，执行
+  
+  // 生产环境直接返回用户信息，不检查路径
+  if (process.env.NODE_ENV === 'production') {
+    const currentUser = await fetchUserInfo();
+    return {
+      fetchUserInfo,
+      currentUser,
+      settings: defaultSettings as Partial<LayoutSettings>,
+    };
+  }
+  
+  // 开发环境保持原有逻辑
   const { location } = history;
   if (
     ![loginPath, '/user/register', '/user/register-result'].includes(
@@ -86,6 +151,10 @@ export const layout: RunTimeLayoutConfig = ({
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
+      // 生产环境跳过登录检查
+      if (process.env.NODE_ENV === 'production') {
+        return;
+      }
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
@@ -176,6 +245,6 @@ export const layout: RunTimeLayoutConfig = ({
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request: RequestConfig = {
-  baseURL: 'https://proapi.azurewebsites.net',
+  baseURL: process.env.NODE_ENV === 'production' ? '' : 'https://proapi.azurewebsites.net',
   ...errorConfig,
 };

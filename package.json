@@ -10,7 +10,7 @@
     "build": "max build",
     "build:dev": "cross-env UMI_ENV=dev max build",
     "build:prod": "cross-env UMI_ENV=prod max build",
-    "vercel-build": "cross-env UMI_ENV=prod max build",
+    "vercel-build": "cross-env UMI_ENV=prod max build --no-warnings",
     "deploy": "npm run build && npm run gh-pages",
     "dev": "npm run start:dev",
     "gh-pages": "gh-pages -d dist",
@@ -73,6 +73,19 @@
     "typescript": "^5.6.3",
     "umi-presets-pro": "^2.0.3",
     "umi-serve": "^1.9.11"
+  },
+  "overrides": {
+    "@ahooksjs/use-request": {
+      "react": "^19.1.0"
+    },
+    "react-redux": {
+      "react": "^19.1.0",
+      "react-dom": "^19.1.0"
+    },
+    "@umijs/plugins": {
+      "react": "^19.1.0",
+      "react-dom": "^19.1.0"
+    }
   },
   "engines": { "node": ">=20.0.0" }
 }
