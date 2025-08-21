@@ -32,54 +32,48 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
-  // 输出环境信息用于调试
-  console.log('Environment Info:', getEnvironmentInfo());
-  
-  const fetchUserInfo = async () => {
-    // 生产环境直接返回Mock用户，避免API调用
-    if (isProduction()) {
-      console.log('Using mock user data for production');
-      return getMockCurrentUser();
-    }
+  try {
+    // 输出环境信息用于调试
+    const envInfo = getEnvironmentInfo();
     
-    // 开发环境尝试调用真实API
-    try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      });
-      return msg.data;
-    } catch (_error) {
-      console.log('API call failed, redirecting to login');
-      history.push(loginPath);
-      return undefined;
-    }
-  };
-  
-  // 生产环境：直接返回用户信息
-  if (isProduction()) {
+    const fetchUserInfo = async () => {
+      // 生产环境直接返回Mock用户，避免API调用
+      if (isProduction()) {
+        console.log('Production environment detected, using mock data');
+        return getMockCurrentUser();
+      }
+      
+      // 开发环境尝试调用真实API
+      try {
+        console.log('Development environment, calling API');
+        const msg = await queryCurrentUser({
+          skipErrorHandler: true,
+        });
+        return msg.data;
+      } catch (error) {
+        console.log('API call failed:', error);
+        // 开发环境API失败时也使用Mock数据，避免重定向循环
+        return getMockCurrentUser();
+      }
+    };
+    
     const currentUser = await fetchUserInfo();
+    console.log('Current user loaded:', currentUser?.name);
+    
     return {
       fetchUserInfo,
       currentUser,
       settings: defaultSettings as Partial<LayoutSettings>,
     };
-  }
-  
-  // 开发环境：检查路径
-  const { location } = history;
-  if (![loginPath, '/user/register', '/user/register-result'].includes(location.pathname)) {
-    const currentUser = await fetchUserInfo();
+  } catch (error) {
+    console.error('getInitialState error:', error);
+    // 发生任何错误时返回基本配置和Mock用户
     return {
-      fetchUserInfo,
-      currentUser,
+      fetchUserInfo: async () => getMockCurrentUser(),
+      currentUser: getMockCurrentUser(),
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
-  
-  return {
-    fetchUserInfo,
-    settings: defaultSettings as Partial<LayoutSettings>,
-  };
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
