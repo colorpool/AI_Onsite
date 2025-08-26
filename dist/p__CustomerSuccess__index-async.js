@@ -11,14 +11,12 @@ __mako_require__.d(exports, "default", {
         return _default;
     }
 });
-var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
 var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
-var _Footer = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Footer/index.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -1669,11 +1667,6 @@ const TieringMatrix = ()=>{
                 fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                 lineNumber: 675,
                 columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_Footer.default, {}, void 0, false, {
-                fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
-                lineNumber: 708,
-                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
@@ -1729,7 +1722,6 @@ __mako_require__.e(exports, {
         return _default;
     }
 });
-var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
 var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
@@ -1737,7 +1729,6 @@ var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_mo
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _max = __mako_require__("src/.umi/exports.ts");
-var _Footer = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Footer/index.tsx"));
 var _handoverData = __mako_require__("src/mock/handoverData.ts");
 var prevRefreshReg;
 var prevRefreshSig;
@@ -1827,7 +1818,7 @@ const HeaderSection = ({ userName, greeting })=>{
             name: 'CRM',
             icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 137,
+                lineNumber: 144,
                 columnNumber: 33
             }, this),
             url: '#',
@@ -1838,7 +1829,7 @@ const HeaderSection = ({ userName, greeting })=>{
             name: '禅道',
             icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 138,
+                lineNumber: 145,
                 columnNumber: 32
             }, this),
             url: '#',
@@ -1849,7 +1840,7 @@ const HeaderSection = ({ userName, greeting })=>{
             name: '多维表',
             icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TableOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 139,
+                lineNumber: 146,
                 columnNumber: 33
             }, this),
             url: '#',
@@ -1876,7 +1867,7 @@ const HeaderSection = ({ userName, greeting })=>{
                         children: greeting
                     }, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 151,
+                        lineNumber: 158,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -1888,13 +1879,13 @@ const HeaderSection = ({ userName, greeting })=>{
                         children: "客户成功经理 · 数据洞察与任务管理"
                     }, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 154,
+                        lineNumber: 161,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 150,
+                lineNumber: 157,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -1924,12 +1915,12 @@ const HeaderSection = ({ userName, greeting })=>{
                                 onClick: ()=>window.open(link.url, '_blank')
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 163,
+                                lineNumber: 170,
                                 columnNumber: 13
                             }, this)
                         }, link.id, false, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 162,
+                            lineNumber: 169,
                             columnNumber: 11
                         }, this)),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
@@ -1940,7 +1931,7 @@ const HeaderSection = ({ userName, greeting })=>{
                             size: "large",
                             icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 189,
+                                lineNumber: 196,
                                 columnNumber: 19
                             }, void 0),
                             style: {
@@ -1951,24 +1942,24 @@ const HeaderSection = ({ userName, greeting })=>{
                             }
                         }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 185,
+                            lineNumber: 192,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 184,
+                        lineNumber: 191,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 160,
+                lineNumber: 167,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-        lineNumber: 143,
+        lineNumber: 150,
         columnNumber: 5
     }, this);
 };
@@ -2003,7 +1994,7 @@ const CompanyKPIBanner = ()=>{
                             }
                         }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 216,
+                            lineNumber: 223,
                             columnNumber: 13
                         }, void 0),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
@@ -2014,13 +2005,13 @@ const CompanyKPIBanner = ()=>{
                             children: "公司业绩指标"
                         }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 217,
+                            lineNumber: 224,
                             columnNumber: 13
                         }, void 0)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 215,
+                    lineNumber: 222,
                     columnNumber: 11
                 }, void 0),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -2053,12 +2044,12 @@ const CompanyKPIBanner = ()=>{
                                     children: period
                                 }, period, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 223,
+                                    lineNumber: 230,
                                     columnNumber: 17
                                 }, void 0))
                         }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 221,
+                            lineNumber: 228,
                             columnNumber: 13
                         }, void 0),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -2077,7 +2068,7 @@ const CompanyKPIBanner = ()=>{
                                     children: "2025-01-01"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 251,
+                                    lineNumber: 258,
                                     columnNumber: 15
                                 }, void 0),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
@@ -2087,14 +2078,14 @@ const CompanyKPIBanner = ()=>{
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 252,
+                                    lineNumber: 259,
                                     columnNumber: 15
                                 }, void 0),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                                     children: "2025-12-31"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 253,
+                                    lineNumber: 260,
                                     columnNumber: 15
                                 }, void 0),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
@@ -2104,25 +2095,25 @@ const CompanyKPIBanner = ()=>{
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 254,
+                                    lineNumber: 261,
                                     columnNumber: 15
                                 }, void 0)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 241,
+                            lineNumber: 248,
                             columnNumber: 13
                         }, void 0)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 219,
+                    lineNumber: 226,
                     columnNumber: 11
                 }, void 0)
             ]
         }, void 0, true, {
             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-            lineNumber: 214,
+            lineNumber: 221,
             columnNumber: 9
         }, void 0),
         children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
@@ -2148,7 +2139,7 @@ const CompanyKPIBanner = ()=>{
                                 children: "92.5%"
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 263,
+                                lineNumber: 270,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2159,7 +2150,7 @@ const CompanyKPIBanner = ()=>{
                                 children: "续费率"
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 266,
+                                lineNumber: 273,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -2178,7 +2169,7 @@ const CompanyKPIBanner = ()=>{
                                         }
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 268,
+                                        lineNumber: 275,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2189,24 +2180,24 @@ const CompanyKPIBanner = ()=>{
                                         children: "+3.2%"
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 269,
+                                        lineNumber: 276,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 267,
+                                lineNumber: 274,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 262,
+                        lineNumber: 269,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 261,
+                    lineNumber: 268,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -2226,7 +2217,7 @@ const CompanyKPIBanner = ()=>{
                                 children: "87.8%"
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 276,
+                                lineNumber: 283,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2237,7 +2228,7 @@ const CompanyKPIBanner = ()=>{
                                 children: "续约率"
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 279,
+                                lineNumber: 286,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -2256,7 +2247,7 @@ const CompanyKPIBanner = ()=>{
                                         }
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 281,
+                                        lineNumber: 288,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2267,24 +2258,24 @@ const CompanyKPIBanner = ()=>{
                                         children: "+1.8%"
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 282,
+                                        lineNumber: 289,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 280,
+                                lineNumber: 287,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 275,
+                        lineNumber: 282,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 274,
+                    lineNumber: 281,
                     columnNumber: 7
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -2304,7 +2295,7 @@ const CompanyKPIBanner = ()=>{
                                 children: "¥1,250万"
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 289,
+                                lineNumber: 296,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2315,7 +2306,7 @@ const CompanyKPIBanner = ()=>{
                                 children: "增值业绩"
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 292,
+                                lineNumber: 299,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -2334,7 +2325,7 @@ const CompanyKPIBanner = ()=>{
                                         }
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 294,
+                                        lineNumber: 301,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2345,24 +2336,24 @@ const CompanyKPIBanner = ()=>{
                                         children: "+15.6%"
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 295,
+                                        lineNumber: 302,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 293,
+                                lineNumber: 300,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 288,
+                        lineNumber: 295,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 287,
+                    lineNumber: 294,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -2382,7 +2373,7 @@ const CompanyKPIBanner = ()=>{
                                 children: "78.5%"
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 302,
+                                lineNumber: 309,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2393,7 +2384,7 @@ const CompanyKPIBanner = ()=>{
                                 children: "客户档案完整度"
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 305,
+                                lineNumber: 312,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -2412,7 +2403,7 @@ const CompanyKPIBanner = ()=>{
                                         }
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 307,
+                                        lineNumber: 314,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2423,35 +2414,35 @@ const CompanyKPIBanner = ()=>{
                                         children: "-0.5%"
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 308,
+                                        lineNumber: 315,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 306,
+                                lineNumber: 313,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 301,
+                        lineNumber: 308,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 300,
+                    lineNumber: 307,
                     columnNumber: 7
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-            lineNumber: 260,
+            lineNumber: 267,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-        lineNumber: 208,
+        lineNumber: 215,
         columnNumber: 5
     }, this);
 };
@@ -2464,6 +2455,10 @@ const ActionSection = ()=>{
     const [selectedDate, setSelectedDate] = (0, _react.useState)('');
     const [handoverDrawerOpen, setHandoverDrawerOpen] = (0, _react.useState)(false);
     const [selectedHandover, setSelectedHandover] = (0, _react.useState)(null);
+    const [isScheduleModalOpen, setIsScheduleModalOpen] = (0, _react.useState)(false);
+    const [editingContext, setEditingContext] = (0, _react.useState)(null);
+    const [form] = _antd.Form.useForm();
+    const [hoveredItem, setHoveredItem] = (0, _react.useState)(null);
     // 智能提醒与任务队列数据
     const intelligentTasks = {
         newImplementation: [
@@ -2576,8 +2571,8 @@ const ActionSection = ()=>{
         };
         return texts[type] || '其他';
     };
-    // 我的日程与待办数据
-    const scheduleData = {
+    // 我的日程与待办数据（使用状态管理以支持新增/编辑/删除）
+    const [scheduleData, setScheduleData] = (0, _react.useState)({
         today: [
             {
                 id: 1,
@@ -2656,6 +2651,157 @@ const ActionSection = ()=>{
                 completed: false
             }
         ]
+    });
+    const allIds = (0, _react.useMemo)(()=>{
+        return new Set([
+            ...scheduleData.today.map((i)=>i.id),
+            ...scheduleData.thisWeek.map((i)=>i.id),
+            ...scheduleData.future.map((i)=>i.id)
+        ]);
+    }, [
+        scheduleData
+    ]);
+    const getNextId = ()=>{
+        let next = 1;
+        while(allIds.has(next))next += 1;
+        return next;
+    };
+    const openAddModal = ()=>{
+        setEditingContext({
+            section: 'today'
+        });
+        form.resetFields();
+        setIsScheduleModalOpen(true);
+    };
+    const openEditModal = (section, id)=>{
+        const record = scheduleData[section].find((i)=>i.id === id);
+        if (record) {
+            setEditingContext({
+                section,
+                id
+            });
+            form.setFieldsValue({
+                section,
+                task: record.task,
+                customer: record.customer,
+                time: record.time,
+                type: record.type,
+                completed: record.completed
+            });
+            setIsScheduleModalOpen(true);
+        }
+    };
+    const handleDelete = (section, id)=>{
+        setScheduleData((prev)=>({
+                ...prev,
+                [section]: prev[section].filter((i)=>i.id !== id)
+            }));
+    };
+    const handleToggleCompleted = (section, id, checked)=>{
+        setScheduleData((prev)=>({
+                ...prev,
+                [section]: prev[section].map((i)=>i.id === id ? {
+                        ...i,
+                        completed: checked
+                    } : i)
+            }));
+    };
+    const handleModalOk = async ()=>{
+        const values = await form.validateFields();
+        const { section, task, customer, time, type } = values;
+        const completed = Boolean(values.completed);
+        setScheduleData((prev)=>{
+            if (editingContext && editingContext.id != null) {
+                // 编辑
+                const originalSection = editingContext.section;
+                // 如果切换了分组，需要从原分组删除，添加到新分组
+                const updatedOriginal = prev[originalSection].filter((i)=>i.id !== editingContext.id);
+                const updatedTarget = [
+                    ...prev[section].filter((i)=>i.id !== editingContext.id),
+                    {
+                        id: editingContext.id,
+                        task,
+                        customer,
+                        time,
+                        type,
+                        completed
+                    }
+                ];
+                return {
+                    ...prev,
+                    [originalSection]: updatedOriginal,
+                    [section]: updatedTarget
+                };
+            }
+            // 新增
+            const newItem = {
+                id: getNextId(),
+                task,
+                customer,
+                time,
+                type,
+                completed
+            };
+            return {
+                ...prev,
+                [section]: [
+                    ...prev[section],
+                    newItem
+                ]
+            };
+        });
+        setIsScheduleModalOpen(false);
+        setEditingContext(null);
+    };
+    const handleModalCancel = ()=>{
+        setIsScheduleModalOpen(false);
+        setEditingContext(null);
+    };
+    // 日历视图：悬停与隐藏的本地状态
+    const [hoveredCalendarIdx, setHoveredCalendarIdx] = (0, _react.useState)(null);
+    const [hiddenCalendarItems, setHiddenCalendarItems] = (0, _react.useState)({});
+    const inferSectionByDate = (dateStr)=>{
+        try {
+            const today = new Date();
+            const target = new Date(dateStr);
+            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const startOfTarget = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+            const diffMs = startOfTarget.getTime() - startOfToday.getTime();
+            const diffDays = Math.round(diffMs / 86400000);
+            if (diffDays === 0) return 'today';
+            if (diffDays > 0 && diffDays <= 7) return 'thisWeek';
+            return 'future';
+        } catch  {
+            return 'future';
+        }
+    };
+    const openEditFromCalendar = (dateStr, item)=>{
+        const section = inferSectionByDate(dateStr);
+        setEditingContext({
+            section
+        });
+        form.setFieldsValue({
+            section,
+            task: item.task,
+            customer: item.customer,
+            time: item.time,
+            type: item.type,
+            completed: false
+        });
+        setIsScheduleModalOpen(true);
+    };
+    const deleteFromCalendarView = (dateStr, index)=>{
+        setHiddenCalendarItems((prev)=>{
+            const existed = prev[dateStr] || [];
+            if (existed.includes(index)) return prev;
+            return {
+                ...prev,
+                [dateStr]: [
+                    ...existed,
+                    index
+                ]
+            };
+        });
     };
     // 日历事件数据
     const calendarEvents = (()=>{
@@ -2766,46 +2912,7 @@ const ActionSection = ()=>{
                 }
             ]
         };
-        // 为当前月份添加一些随机事件
-        for(let day = 1; day <= 31; day++)if (Math.random() > 0.7) {
-            const dayStr = day.toString().padStart(2, '0');
-            const dateKey = `${currentYear}-${monthStr}-${dayStr}`;
-            // 如果这个日期还没有事件，就添加一个
-            if (!events[dateKey]) {
-                const eventTypes = [
-                    'business-review',
-                    'renewal',
-                    'training',
-                    'report',
-                    'survey',
-                    'demo',
-                    'meeting',
-                    'contract'
-                ];
-                const customers = [
-                    '阿里巴巴集团',
-                    '腾讯科技',
-                    '字节跳动',
-                    '美团点评',
-                    '滴滴出行',
-                    '小米科技',
-                    '百度公司',
-                    '京东集团'
-                ];
-                const randomType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
-                const randomCustomer = customers[Math.floor(Math.random() * customers.length)];
-                const randomHour = Math.floor(Math.random() * 8) + 9; // 9-17点
-                const randomMinute = Math.random() > 0.5 ? '00' : '30';
-                events[dateKey] = [
-                    {
-                        task: `${getTaskTypeText(randomType)} - ${randomCustomer}`,
-                        customer: randomCustomer,
-                        time: `${randomHour}:${randomMinute}`,
-                        type: randomType
-                    }
-                ];
-            }
-        }
+        // 注意：不再生成随机事件，保持稳定
         return events;
     })();
     const getTaskTypeColor = (type)=>{
@@ -2863,7 +2970,7 @@ const ActionSection = ()=>{
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 501,
+                                    lineNumber: 623,
                                     columnNumber: 17
                                 }, void 0),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
@@ -2874,13 +2981,13 @@ const ActionSection = ()=>{
                                     children: "智能提醒与任务队列"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 502,
+                                    lineNumber: 624,
                                     columnNumber: 17
                                 }, void 0)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 500,
+                            lineNumber: 622,
                             columnNumber: 15
                         }, void 0),
                         bodyStyle: {
@@ -2891,7 +2998,7 @@ const ActionSection = ()=>{
                             size: "small",
                             children: [
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                                    tab: "客户交接",
+                                    tab: "交接实施",
                                     children: [
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                             dataSource: _handoverData.mockCustomerHandovers,
@@ -2909,7 +3016,7 @@ const ActionSection = ()=>{
                                                             children: "查看详情"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 514,
+                                                            lineNumber: 636,
                                                             columnNumber: 25
                                                         }, void 0)
                                                     ],
@@ -2921,7 +3028,7 @@ const ActionSection = ()=>{
                                                             children: item.customerName.charAt(0)
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 518,
+                                                            lineNumber: 640,
                                                             columnNumber: 33
                                                         }, void 0),
                                                         title: item.customerName,
@@ -2930,11 +3037,11 @@ const ActionSection = ()=>{
                                                             wrap: true,
                                                             children: [
                                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: item.handoverStatus === 'aligned' ? 'green' : item.handoverStatus === 'processing' ? 'blue' : item.handoverStatus === 'partially_aligned' ? 'gold' : 'orange',
-                                                                    children: item.handoverStatus === 'aligned' ? '已对齐' : item.handoverStatus === 'processing' ? '进行中' : item.handoverStatus === 'partially_aligned' ? '部分对齐' : '待处理'
+                                                                    color: item.expectationAlignment === 'aligned' ? 'green' : item.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange',
+                                                                    children: item.expectationAlignment === 'aligned' ? '已对齐' : item.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 522,
+                                                                    lineNumber: 644,
                                                                     columnNumber: 29
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -2945,7 +3052,7 @@ const ActionSection = ()=>{
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 525,
+                                                                    lineNumber: 647,
                                                                     columnNumber: 29
                                                                 }, void 0),
                                                                 typeof item.stakeholderCount === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -2956,7 +3063,7 @@ const ActionSection = ()=>{
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 529,
+                                                                    lineNumber: 651,
                                                                     columnNumber: 31
                                                                 }, void 0),
                                                                 typeof item.handoverRating === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -2967,7 +3074,7 @@ const ActionSection = ()=>{
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 532,
+                                                                    lineNumber: 654,
                                                                     columnNumber: 31
                                                                 }, void 0),
                                                                 item.updatedAt && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -2978,28 +3085,28 @@ const ActionSection = ()=>{
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 535,
+                                                                    lineNumber: 657,
                                                                     columnNumber: 31
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 521,
+                                                            lineNumber: 643,
                                                             columnNumber: 27
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 517,
+                                                        lineNumber: 639,
                                                         columnNumber: 23
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 512,
+                                                    lineNumber: 634,
                                                     columnNumber: 21
                                                 }, void 0)
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 509,
+                                            lineNumber: 631,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
@@ -3017,11 +3124,11 @@ const ActionSection = ()=>{
                                                         },
                                                         children: [
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                color: selectedHandover.handoverStatus === 'aligned' ? 'green' : selectedHandover.handoverStatus === 'processing' ? 'blue' : selectedHandover.handoverStatus === 'partially_aligned' ? 'gold' : 'orange',
-                                                                children: selectedHandover.handoverStatus === 'aligned' ? '已对齐' : selectedHandover.handoverStatus === 'processing' ? '进行中' : selectedHandover.handoverStatus === 'partially_aligned' ? '部分对齐' : '待处理'
+                                                                color: selectedHandover.expectationAlignment === 'aligned' ? 'green' : selectedHandover.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange',
+                                                                children: selectedHandover.expectationAlignment === 'aligned' ? '已对齐' : selectedHandover.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 552,
+                                                                lineNumber: 674,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -3032,7 +3139,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 555,
+                                                                lineNumber: 677,
                                                                 columnNumber: 25
                                                             }, this),
                                                             typeof selectedHandover.handoverRating === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -3043,7 +3150,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 556,
+                                                                lineNumber: 678,
                                                                 columnNumber: 81
                                                             }, this),
                                                             typeof selectedHandover.stakeholderCount === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -3054,13 +3161,13 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 557,
+                                                                lineNumber: 679,
                                                                 columnNumber: 83
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 551,
+                                                        lineNumber: 673,
                                                         columnNumber: 23
                                                     }, this),
                                                     selectedHandover.crmData && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -3076,7 +3183,7 @@ const ActionSection = ()=>{
                                                                 children: "CRM 同步信息"
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 562,
+                                                                lineNumber: 684,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
@@ -3090,7 +3197,7 @@ const ActionSection = ()=>{
                                                                                 children: "合同金额："
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                lineNumber: 564,
+                                                                                lineNumber: 686,
                                                                                 columnNumber: 44
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3103,13 +3210,13 @@ const ActionSection = ()=>{
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                lineNumber: 564,
+                                                                                lineNumber: 686,
                                                                                 columnNumber: 79
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 564,
+                                                                        lineNumber: 686,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -3120,7 +3227,7 @@ const ActionSection = ()=>{
                                                                                 children: "服务周期："
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                lineNumber: 565,
+                                                                                lineNumber: 687,
                                                                                 columnNumber: 44
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3130,19 +3237,19 @@ const ActionSection = ()=>{
                                                                                 children: selectedHandover.crmData.servicePeriod
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                lineNumber: 565,
+                                                                                lineNumber: 687,
                                                                                 columnNumber: 79
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 565,
+                                                                        lineNumber: 687,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 563,
+                                                                lineNumber: 685,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -3155,7 +3262,7 @@ const ActionSection = ()=>{
                                                                         children: "已购产品："
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 568,
+                                                                        lineNumber: 690,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
@@ -3168,18 +3275,18 @@ const ActionSection = ()=>{
                                                                                 children: p
                                                                             }, i, false, {
                                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                lineNumber: 570,
+                                                                                lineNumber: 692,
                                                                                 columnNumber: 90
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 569,
+                                                                        lineNumber: 691,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 567,
+                                                                lineNumber: 689,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -3192,7 +3299,7 @@ const ActionSection = ()=>{
                                                                         children: "关键联系人："
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 574,
+                                                                        lineNumber: 696,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -3207,29 +3314,29 @@ const ActionSection = ()=>{
                                                                                     children: c
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                    lineNumber: 576,
+                                                                                    lineNumber: 698,
                                                                                     columnNumber: 125
                                                                                 }, this)
                                                                             }, i, false, {
                                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                lineNumber: 576,
+                                                                                lineNumber: 698,
                                                                                 columnNumber: 84
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 575,
+                                                                        lineNumber: 697,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 573,
+                                                                lineNumber: 695,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 561,
+                                                        lineNumber: 683,
                                                         columnNumber: 25
                                                     }, this),
                                                     selectedHandover.onboardingTasks && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -3245,7 +3352,7 @@ const ActionSection = ()=>{
                                                                 children: "Onboarding 行动计划"
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 584,
+                                                                lineNumber: 706,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
@@ -3258,7 +3365,7 @@ const ActionSection = ()=>{
                                                                                     checked: t.completed
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                    lineNumber: 591,
+                                                                                    lineNumber: 713,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
                                                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3268,7 +3375,7 @@ const ActionSection = ()=>{
                                                                                     children: t.title
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                    lineNumber: 592,
+                                                                                    lineNumber: 714,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
                                                                                 t.dueDate && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3279,29 +3386,29 @@ const ActionSection = ()=>{
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                    lineNumber: 593,
+                                                                                    lineNumber: 715,
                                                                                     columnNumber: 49
                                                                                 }, void 0)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                            lineNumber: 590,
+                                                                            lineNumber: 712,
                                                                             columnNumber: 33
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 589,
+                                                                        lineNumber: 711,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 585,
+                                                                lineNumber: 707,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 583,
+                                                        lineNumber: 705,
                                                         columnNumber: 25
                                                     }, this),
                                                     selectedHandover.internalComments && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -3314,7 +3421,7 @@ const ActionSection = ()=>{
                                                                 children: "内部协作沟通"
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 603,
+                                                                lineNumber: 725,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
@@ -3333,7 +3440,7 @@ const ActionSection = ()=>{
                                                                                             children: c.author
                                                                                         }, void 0, false, {
                                                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                            lineNumber: 610,
+                                                                                            lineNumber: 732,
                                                                                             columnNumber: 68
                                                                                         }, void 0),
                                                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3344,59 +3451,59 @@ const ActionSection = ()=>{
                                                                                             children: c.createdAt
                                                                                         }, void 0, false, {
                                                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                            lineNumber: 610,
+                                                                                            lineNumber: 732,
                                                                                             columnNumber: 98
                                                                                         }, void 0)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                    lineNumber: 610,
+                                                                                    lineNumber: 732,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
                                                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     children: c.content
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                                    lineNumber: 611,
+                                                                                    lineNumber: 733,
                                                                                     columnNumber: 35
                                                                                 }, void 0)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                            lineNumber: 609,
+                                                                            lineNumber: 731,
                                                                             columnNumber: 33
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 608,
+                                                                        lineNumber: 730,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 604,
+                                                                lineNumber: 726,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 602,
+                                                        lineNumber: 724,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 550,
+                                                lineNumber: 672,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 543,
+                                            lineNumber: 665,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, "handover", true, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 508,
+                                    lineNumber: 630,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
@@ -3414,7 +3521,7 @@ const ActionSection = ()=>{
                                                         children: "开始实施"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 628,
+                                                        lineNumber: 750,
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
@@ -3426,7 +3533,7 @@ const ActionSection = ()=>{
                                                         children: item.customer.charAt(0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 634,
+                                                        lineNumber: 756,
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
@@ -3440,7 +3547,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 638,
+                                                                lineNumber: 760,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3451,7 +3558,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 639,
+                                                                lineNumber: 761,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3462,7 +3569,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 640,
+                                                                lineNumber: 762,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -3470,33 +3577,33 @@ const ActionSection = ()=>{
                                                                 children: item.priority === 'high' ? '高优先级' : '中优先级'
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 641,
+                                                                lineNumber: 763,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 637,
+                                                        lineNumber: 759,
                                                         columnNumber: 27
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 633,
+                                                    lineNumber: 755,
                                                     columnNumber: 23
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 626,
+                                                lineNumber: 748,
                                                 columnNumber: 21
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 623,
+                                        lineNumber: 745,
                                         columnNumber: 17
                                     }, this)
                                 }, "1", false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 622,
+                                    lineNumber: 744,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
@@ -3513,7 +3620,7 @@ const ActionSection = ()=>{
                                                         children: "跟进续费"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 658,
+                                                        lineNumber: 780,
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
@@ -3525,7 +3632,7 @@ const ActionSection = ()=>{
                                                         children: item.customer.charAt(0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 662,
+                                                        lineNumber: 784,
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
@@ -3539,7 +3646,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 666,
+                                                                lineNumber: 788,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3550,7 +3657,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 667,
+                                                                lineNumber: 789,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -3562,33 +3669,33 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 668,
+                                                                lineNumber: 790,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 665,
+                                                        lineNumber: 787,
                                                         columnNumber: 27
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 661,
+                                                    lineNumber: 783,
                                                     columnNumber: 23
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 656,
+                                                lineNumber: 778,
                                                 columnNumber: 21
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 653,
+                                        lineNumber: 775,
                                         columnNumber: 17
                                     }, this)
                                 }, "2", false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 652,
+                                    lineNumber: 774,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
@@ -3603,13 +3710,13 @@ const ActionSection = ()=>{
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 681,
+                                                lineNumber: 803,
                                                 columnNumber: 21
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 679,
+                                        lineNumber: 801,
                                         columnNumber: 19
                                     }, void 0),
                                     children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
@@ -3624,7 +3731,7 @@ const ActionSection = ()=>{
                                                         children: "立即联系"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 691,
+                                                        lineNumber: 813,
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
@@ -3636,7 +3743,7 @@ const ActionSection = ()=>{
                                                         children: item.customer.charAt(0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 695,
+                                                        lineNumber: 817,
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
@@ -3650,7 +3757,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 699,
+                                                                lineNumber: 821,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3661,7 +3768,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 700,
+                                                                lineNumber: 822,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -3669,33 +3776,33 @@ const ActionSection = ()=>{
                                                                 children: item.risk === 'critical' ? '严重风险' : item.risk === 'high' ? '高风险' : '中风险'
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 701,
+                                                                lineNumber: 823,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 698,
+                                                        lineNumber: 820,
                                                         columnNumber: 27
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 694,
+                                                    lineNumber: 816,
                                                     columnNumber: 23
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 689,
+                                                lineNumber: 811,
                                                 columnNumber: 21
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 686,
+                                        lineNumber: 808,
                                         columnNumber: 17
                                     }, this)
                                 }, "3", false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 677,
+                                    lineNumber: 799,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
@@ -3709,13 +3816,13 @@ const ActionSection = ()=>{
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 716,
+                                                lineNumber: 838,
                                                 columnNumber: 21
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 714,
+                                        lineNumber: 836,
                                         columnNumber: 19
                                     }, void 0),
                                     children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
@@ -3731,7 +3838,7 @@ const ActionSection = ()=>{
                                                         children: "抓住商机"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 726,
+                                                        lineNumber: 848,
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
@@ -3743,7 +3850,7 @@ const ActionSection = ()=>{
                                                         children: item.customer.charAt(0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 730,
+                                                        lineNumber: 852,
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
@@ -3754,7 +3861,7 @@ const ActionSection = ()=>{
                                                                 children: item.opportunity
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 734,
+                                                                lineNumber: 856,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -3765,7 +3872,7 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 735,
+                                                                lineNumber: 857,
                                                                 columnNumber: 29
                                                             }, void 0),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -3773,744 +3880,1134 @@ const ActionSection = ()=>{
                                                                 children: item.stage
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 736,
+                                                                lineNumber: 858,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 733,
+                                                        lineNumber: 855,
                                                         columnNumber: 27
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 729,
+                                                    lineNumber: 851,
                                                     columnNumber: 23
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 724,
+                                                lineNumber: 846,
                                                 columnNumber: 21
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 721,
+                                        lineNumber: 843,
                                         columnNumber: 17
                                     }, this)
                                 }, "4", false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 712,
+                                    lineNumber: 834,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 507,
+                            lineNumber: 629,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 497,
+                        lineNumber: 619,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 496,
+                    lineNumber: 618,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                        style: cardStyle,
-                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                            style: {
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between'
-                            },
-                            children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
-                                            style: {
-                                                color: '#52c41a',
-                                                marginRight: '8px'
-                                            }
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 755,
-                                            columnNumber: 17
-                                        }, void 0),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                            style: {
-                                                fontSize: '16px',
-                                                fontWeight: '600'
-                                            },
-                                            children: "我的日程与待办"
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 756,
-                                            columnNumber: 19
-                                        }, void 0)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 754,
-                                    columnNumber: 15
-                                }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        display: 'flex',
-                                        gap: '8px'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                            type: viewMode === 'list' ? 'primary' : 'text',
-                                            size: "small",
-                                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                            style: cardStyle,
+                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            display: 'flex',
+                                            alignItems: 'center'
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
+                                                style: {
+                                                    color: '#52c41a',
+                                                    marginRight: '8px'
+                                                }
+                                            }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 762,
-                                                columnNumber: 27
+                                                lineNumber: 877,
+                                                columnNumber: 17
                                             }, void 0),
-                                            onClick: ()=>setViewMode('list'),
-                                            style: {
-                                                borderRadius: '6px'
-                                            }
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 759,
-                                            columnNumber: 19
-                                        }, void 0),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                            type: viewMode === 'calendar' ? 'primary' : 'text',
-                                            size: "small",
-                                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                style: {
+                                                    fontSize: '16px',
+                                                    fontWeight: '600'
+                                                },
+                                                children: "我的日程与待办"
+                                            }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 769,
-                                                columnNumber: 27
+                                                lineNumber: 878,
+                                                columnNumber: 19
+                                            }, void 0)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 876,
+                                        columnNumber: 15
+                                    }, void 0),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            display: 'flex',
+                                            gap: '8px'
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                type: "primary",
+                                                size: "small",
+                                                shape: "circle",
+                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                    lineNumber: 885,
+                                                    columnNumber: 27
+                                                }, void 0),
+                                                onClick: openAddModal
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 881,
+                                                columnNumber: 19
                                             }, void 0),
-                                            onClick: ()=>setViewMode('calendar'),
-                                            style: {
-                                                borderRadius: '6px'
-                                            }
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 766,
-                                            columnNumber: 19
-                                        }, void 0)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 758,
-                                    columnNumber: 17
-                                }, void 0)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 753,
-                            columnNumber: 15
-                        }, void 0),
-                        bodyStyle: {
-                            padding: '16px'
-                        },
-                        children: viewMode === 'list' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
-                            children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: '20px'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
-                                            level: 5,
-                                            style: {
-                                                marginBottom: '12px',
-                                                color: '#262626'
-                                            },
-                                            children: "今天"
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 782,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
-                                            dataSource: scheduleData.today,
-                                            renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                    style: {
-                                                        padding: '8px 0'
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                        avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
-                                                            checked: item.completed
-                                                        }, void 0, false, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 788,
-                                                            columnNumber: 35
-                                                        }, void 0),
-                                                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                            style: {
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'space-between'
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                                                    style: {
-                                                                        textDecoration: item.completed ? 'line-through' : 'none',
-                                                                        opacity: item.completed ? 0.6 : 1
-                                                                    },
-                                                                    children: item.task
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 791,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: getTaskTypeColor(item.type),
-                                                                    style: {
-                                                                        background: `${getTaskTypeColor(item.type)}15`,
-                                                                        border: `1px solid ${getTaskTypeColor(item.type)}30`,
-                                                                        color: getTaskTypeColor(item.type)
-                                                                    },
-                                                                    children: getTaskTypeText(item.type)
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 794,
-                                                                    columnNumber: 27
-                                                                }, void 0)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 790,
-                                                            columnNumber: 25
-                                                        }, void 0),
-                                                        description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                    type: "secondary",
-                                                                    children: item.customer
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 808,
-                                                                    columnNumber: 27
-                                                                }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                    type: "secondary",
-                                                                    children: [
-                                                                        "时间: ",
-                                                                        item.time
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 809,
-                                                                    columnNumber: 31
-                                                                }, void 0)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 807,
-                                                            columnNumber: 25
-                                                        }, void 0)
-                                                    }, void 0, false, {
-                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 787,
-                                                        columnNumber: 21
-                                                    }, void 0)
-                                                }, void 0, false, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                type: viewMode === 'list' ? 'primary' : 'text',
+                                                size: "small",
+                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 786,
-                                                    columnNumber: 19
-                                                }, void 0)
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 783,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 781,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        marginBottom: '20px'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
-                                            level: 5,
-                                            style: {
-                                                marginBottom: '12px',
-                                                color: '#262626'
-                                            },
-                                            children: "本周"
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 820,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
-                                            dataSource: scheduleData.thisWeek,
-                                            renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                    style: {
-                                                        padding: '8px 0'
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                        avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
-                                                            checked: item.completed
-                                                        }, void 0, false, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 826,
-                                                            columnNumber: 35
-                                                        }, void 0),
-                                                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                            style: {
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'space-between'
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                                                    style: {
-                                                                        textDecoration: item.completed ? 'line-through' : 'none',
-                                                                        opacity: item.completed ? 0.6 : 1
-                                                                    },
-                                                                    children: item.task
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 829,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: getTaskTypeColor(item.type),
-                                                                    style: {
-                                                                        background: `${getTaskTypeColor(item.type)}15`,
-                                                                        border: `1px solid ${getTaskTypeColor(item.type)}30`,
-                                                                        color: getTaskTypeColor(item.type)
-                                                                    },
-                                                                    children: getTaskTypeText(item.type)
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 832,
-                                                                    columnNumber: 27
-                                                                }, void 0)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 828,
-                                                            columnNumber: 25
-                                                        }, void 0),
-                                                        description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                    type: "secondary",
-                                                                    children: item.customer
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 846,
-                                                                    columnNumber: 27
-                                                                }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                    type: "secondary",
-                                                                    children: [
-                                                                        "时间: ",
-                                                                        item.time
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 847,
-                                                                    columnNumber: 31
-                                                                }, void 0)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 845,
-                                                            columnNumber: 25
-                                                        }, void 0)
-                                                    }, void 0, false, {
-                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 825,
-                                                        columnNumber: 21
-                                                    }, void 0)
-                                                }, void 0, false, {
+                                                    lineNumber: 891,
+                                                    columnNumber: 27
+                                                }, void 0),
+                                                onClick: ()=>setViewMode('list'),
+                                                style: {
+                                                    borderRadius: '6px'
+                                                }
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 888,
+                                                columnNumber: 19
+                                            }, void 0),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                type: viewMode === 'calendar' ? 'primary' : 'text',
+                                                size: "small",
+                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 824,
-                                                    columnNumber: 19
-                                                }, void 0)
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 821,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 819,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
-                                            level: 5,
-                                            style: {
-                                                marginBottom: '12px',
-                                                color: '#262626'
-                                            },
-                                            children: "未来"
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 858,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
-                                            dataSource: scheduleData.future,
-                                            renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                    style: {
-                                                        padding: '8px 0'
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                        avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
-                                                            checked: item.completed
-                                                        }, void 0, false, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 864,
-                                                            columnNumber: 35
-                                                        }, void 0),
-                                                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                            style: {
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'space-between'
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                                                    style: {
-                                                                        textDecoration: item.completed ? 'line-through' : 'none',
-                                                                        opacity: item.completed ? 0.6 : 1
-                                                                    },
-                                                                    children: item.task
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 867,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: getTaskTypeColor(item.type),
-                                                                    style: {
-                                                                        background: `${getTaskTypeColor(item.type)}15`,
-                                                                        border: `1px solid ${getTaskTypeColor(item.type)}30`,
-                                                                        color: getTaskTypeColor(item.type)
-                                                                    },
-                                                                    children: getTaskTypeText(item.type)
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 870,
-                                                                    columnNumber: 31
-                                                                }, void 0)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 866,
-                                                            columnNumber: 29
-                                                        }, void 0),
-                                                        description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                    type: "secondary",
-                                                                    children: item.customer
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 884,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                    type: "secondary",
-                                                                    children: [
-                                                                        "时间: ",
-                                                                        item.time
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 885,
-                                                                    columnNumber: 31
-                                                                }, void 0)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 883,
-                                                            columnNumber: 29
-                                                        }, void 0)
-                                                    }, void 0, false, {
-                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 863,
-                                                        columnNumber: 25
-                                                    }, void 0)
-                                                }, void 0, false, {
-                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 862,
-                                                    columnNumber: 23
-                                                }, void 0)
-                                        }, void 0, false, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 859,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 857,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true) : /* 日历视图 */ /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                            style: {
-                                padding: '8px'
+                                                    lineNumber: 898,
+                                                    columnNumber: 27
+                                                }, void 0),
+                                                onClick: ()=>setViewMode('calendar'),
+                                                style: {
+                                                    borderRadius: '6px'
+                                                }
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 895,
+                                                columnNumber: 19
+                                            }, void 0)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 880,
+                                        columnNumber: 17
+                                    }, void 0)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                lineNumber: 875,
+                                columnNumber: 15
+                            }, void 0),
+                            bodyStyle: {
+                                padding: '16px'
                             },
-                            children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Calendar, {
-                                    fullscreen: false,
-                                    style: {
-                                        border: 'none'
-                                    },
-                                    onSelect: (date)=>{
-                                        const dateStr = date.format('YYYY-MM-DD');
-                                        setSelectedDate(selectedDate === dateStr ? '' : dateStr);
-                                    },
-                                    dateCellRender: (value)=>{
-                                        const dateStr = value.format('YYYY-MM-DD');
-                                        const events = calendarEvents[dateStr] || [];
-                                        if (events.length === 0) return null;
-                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                            style: {
-                                                display: 'flex',
-                                                gap: '2px',
-                                                flexWrap: 'wrap',
-                                                marginTop: '2px',
-                                                justifyContent: 'center'
-                                            },
-                                            children: [
-                                                events.slice(0, 3).map((event, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            children: viewMode === 'list' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            marginBottom: '20px'
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                level: 5,
+                                                style: {
+                                                    marginBottom: '12px',
+                                                    color: '#262626'
+                                                },
+                                                children: "今天"
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 911,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                                dataSource: scheduleData.today,
+                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                        style: {
+                                                            padding: '8px 0'
+                                                        },
+                                                        onMouseEnter: ()=>setHoveredItem({
+                                                                section: 'today',
+                                                                id: item.id
+                                                            }),
+                                                        onMouseLeave: ()=>setHoveredItem(null),
+                                                        actions: hoveredItem && hoveredItem.section === 'today' && hoveredItem.id === item.id ? [
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                size: "small",
+                                                                type: "text",
+                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                    lineNumber: 922,
+                                                                    columnNumber: 79
+                                                                }, void 0),
+                                                                onClick: ()=>openEditModal('today', item.id)
+                                                            }, "edit", false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 922,
+                                                                columnNumber: 29
+                                                            }, void 0),
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                                title: "确认删除该日程？",
+                                                                onConfirm: ()=>handleDelete('today', item.id),
+                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                    size: "small",
+                                                                    type: "text",
+                                                                    danger: true,
+                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 924,
+                                                                        columnNumber: 77
+                                                                    }, void 0)
+                                                                }, void 0, false, {
+                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                    lineNumber: 924,
+                                                                    columnNumber: 31
+                                                                }, void 0)
+                                                            }, "delete", false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 923,
+                                                                columnNumber: 29
+                                                            }, void 0)
+                                                        ] : [],
+                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                                checked: item.completed,
+                                                                onChange: (e)=>handleToggleCompleted('today', item.id, e.target.checked)
+                                                            }, void 0, false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 931,
+                                                                columnNumber: 35
+                                                            }, void 0),
+                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'flex-start',
+                                                                    gap: '8px'
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                        color: getTaskTypeColor(item.type),
+                                                                        style: {
+                                                                            background: `${getTaskTypeColor(item.type)}15`,
+                                                                            border: `1px solid ${getTaskTypeColor(item.type)}30`,
+                                                                            color: getTaskTypeColor(item.type)
+                                                                        },
+                                                                        children: getTaskTypeText(item.type)
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 934,
+                                                                        columnNumber: 27
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            textDecoration: item.completed ? 'line-through' : 'none',
+                                                                            opacity: item.completed ? 0.6 : 1
+                                                                        },
+                                                                        children: item.task
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 944,
+                                                                        columnNumber: 27
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 933,
+                                                                columnNumber: 25
+                                                            }, void 0),
+                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        type: "secondary",
+                                                                        children: item.customer
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 951,
+                                                                        columnNumber: 27
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        type: "secondary",
+                                                                        children: [
+                                                                            "时间: ",
+                                                                            item.time
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 952,
+                                                                        columnNumber: 31
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 950,
+                                                                columnNumber: 25
+                                                            }, void 0)
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                            lineNumber: 930,
+                                                            columnNumber: 21
+                                                        }, void 0)
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                        lineNumber: 915,
+                                                        columnNumber: 19
+                                                    }, void 0)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 912,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 910,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            marginBottom: '20px'
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                level: 5,
+                                                style: {
+                                                    marginBottom: '12px',
+                                                    color: '#262626'
+                                                },
+                                                children: "本周"
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 963,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                                dataSource: scheduleData.thisWeek,
+                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                        style: {
+                                                            padding: '8px 0'
+                                                        },
+                                                        onMouseEnter: ()=>setHoveredItem({
+                                                                section: 'thisWeek',
+                                                                id: item.id
+                                                            }),
+                                                        onMouseLeave: ()=>setHoveredItem(null),
+                                                        actions: hoveredItem && hoveredItem.section === 'thisWeek' && hoveredItem.id === item.id ? [
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                size: "small",
+                                                                type: "text",
+                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                    lineNumber: 974,
+                                                                    columnNumber: 79
+                                                                }, void 0),
+                                                                onClick: ()=>openEditModal('thisWeek', item.id)
+                                                            }, "edit", false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 974,
+                                                                columnNumber: 29
+                                                            }, void 0),
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                                title: "确认删除该日程？",
+                                                                onConfirm: ()=>handleDelete('thisWeek', item.id),
+                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                    size: "small",
+                                                                    type: "text",
+                                                                    danger: true,
+                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 976,
+                                                                        columnNumber: 77
+                                                                    }, void 0)
+                                                                }, void 0, false, {
+                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                    lineNumber: 976,
+                                                                    columnNumber: 31
+                                                                }, void 0)
+                                                            }, "delete", false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 975,
+                                                                columnNumber: 29
+                                                            }, void 0)
+                                                        ] : [],
+                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                                checked: item.completed,
+                                                                onChange: (e)=>handleToggleCompleted('thisWeek', item.id, e.target.checked)
+                                                            }, void 0, false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 983,
+                                                                columnNumber: 35
+                                                            }, void 0),
+                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'flex-start',
+                                                                    gap: '8px'
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                        color: getTaskTypeColor(item.type),
+                                                                        style: {
+                                                                            background: `${getTaskTypeColor(item.type)}15`,
+                                                                            border: `1px solid ${getTaskTypeColor(item.type)}30`,
+                                                                            color: getTaskTypeColor(item.type)
+                                                                        },
+                                                                        children: getTaskTypeText(item.type)
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 986,
+                                                                        columnNumber: 27
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            textDecoration: item.completed ? 'line-through' : 'none',
+                                                                            opacity: item.completed ? 0.6 : 1
+                                                                        },
+                                                                        children: item.task
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 996,
+                                                                        columnNumber: 27
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 985,
+                                                                columnNumber: 25
+                                                            }, void 0),
+                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        type: "secondary",
+                                                                        children: item.customer
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1003,
+                                                                        columnNumber: 27
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        type: "secondary",
+                                                                        children: [
+                                                                            "时间: ",
+                                                                            item.time
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1004,
+                                                                        columnNumber: 31
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1002,
+                                                                columnNumber: 25
+                                                            }, void 0)
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                            lineNumber: 982,
+                                                            columnNumber: 21
+                                                        }, void 0)
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                        lineNumber: 967,
+                                                        columnNumber: 19
+                                                    }, void 0)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 964,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 962,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                level: 5,
+                                                style: {
+                                                    marginBottom: '12px',
+                                                    color: '#262626'
+                                                },
+                                                children: "未来"
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 1015,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                                dataSource: scheduleData.future,
+                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                        style: {
+                                                            padding: '8px 0'
+                                                        },
+                                                        onMouseEnter: ()=>setHoveredItem({
+                                                                section: 'future',
+                                                                id: item.id
+                                                            }),
+                                                        onMouseLeave: ()=>setHoveredItem(null),
+                                                        actions: hoveredItem && hoveredItem.section === 'future' && hoveredItem.id === item.id ? [
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                size: "small",
+                                                                type: "text",
+                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                    lineNumber: 1026,
+                                                                    columnNumber: 83
+                                                                }, void 0),
+                                                                onClick: ()=>openEditModal('future', item.id)
+                                                            }, "edit", false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1026,
+                                                                columnNumber: 33
+                                                            }, void 0),
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                                title: "确认删除该日程？",
+                                                                onConfirm: ()=>handleDelete('future', item.id),
+                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                    size: "small",
+                                                                    type: "text",
+                                                                    danger: true,
+                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1028,
+                                                                        columnNumber: 81
+                                                                    }, void 0)
+                                                                }, void 0, false, {
+                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                    lineNumber: 1028,
+                                                                    columnNumber: 35
+                                                                }, void 0)
+                                                            }, "delete", false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1027,
+                                                                columnNumber: 33
+                                                            }, void 0)
+                                                        ] : [],
+                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                                checked: item.completed,
+                                                                onChange: (e)=>handleToggleCompleted('future', item.id, e.target.checked)
+                                                            }, void 0, false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1035,
+                                                                columnNumber: 35
+                                                            }, void 0),
+                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'flex-start',
+                                                                    gap: '8px'
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                        color: getTaskTypeColor(item.type),
+                                                                        style: {
+                                                                            background: `${getTaskTypeColor(item.type)}15`,
+                                                                            border: `1px solid ${getTaskTypeColor(item.type)}30`,
+                                                                            color: getTaskTypeColor(item.type)
+                                                                        },
+                                                                        children: getTaskTypeText(item.type)
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1038,
+                                                                        columnNumber: 31
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                        style: {
+                                                                            textDecoration: item.completed ? 'line-through' : 'none',
+                                                                            opacity: item.completed ? 0.6 : 1
+                                                                        },
+                                                                        children: item.task
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1048,
+                                                                        columnNumber: 31
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1037,
+                                                                columnNumber: 29
+                                                            }, void 0),
+                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        type: "secondary",
+                                                                        children: item.customer
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1055,
+                                                                        columnNumber: 31
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        type: "secondary",
+                                                                        children: [
+                                                                            "时间: ",
+                                                                            item.time
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1056,
+                                                                        columnNumber: 31
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1054,
+                                                                columnNumber: 29
+                                                            }, void 0)
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                            lineNumber: 1034,
+                                                            columnNumber: 25
+                                                        }, void 0)
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                        lineNumber: 1019,
+                                                        columnNumber: 23
+                                                    }, void 0)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 1016,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1014,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true) : /* 日历视图 */ /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    padding: '8px'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Calendar, {
+                                        fullscreen: false,
+                                        style: {
+                                            border: 'none'
+                                        },
+                                        onSelect: (date)=>{
+                                            const dateStr = date.format('YYYY-MM-DD');
+                                            setSelectedDate(selectedDate === dateStr ? '' : dateStr);
+                                        },
+                                        dateCellRender: (value)=>{
+                                            const dateStr = value.format('YYYY-MM-DD');
+                                            const events = calendarEvents[dateStr] || [];
+                                            if (events.length === 0) return null;
+                                            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: 'flex',
+                                                    gap: '2px',
+                                                    flexWrap: 'wrap',
+                                                    marginTop: '2px',
+                                                    justifyContent: 'center'
+                                                },
+                                                children: [
+                                                    events.slice(0, 3).map((event, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                width: '6px',
+                                                                height: '6px',
+                                                                borderRadius: '50%',
+                                                                backgroundColor: getTaskTypeColor(event.type),
+                                                                border: '1px solid #fff',
+                                                                boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
+                                                            }
+                                                        }, index, false, {
+                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                            lineNumber: 1092,
+                                                            columnNumber: 27
+                                                        }, void 0)),
+                                                    events.length > 3 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             width: '6px',
                                                             height: '6px',
                                                             borderRadius: '50%',
-                                                            backgroundColor: getTaskTypeColor(event.type),
-                                                            border: '1px solid #fff',
-                                                            boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
-                                                        }
-                                                    }, index, false, {
+                                                            backgroundColor: '#999',
+                                                            fontSize: '8px',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            color: '#fff',
+                                                            fontWeight: 'bold'
+                                                        },
+                                                        children: "+"
+                                                    }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 921,
+                                                        lineNumber: 1105,
                                                         columnNumber: 27
-                                                    }, void 0)),
-                                                events.length > 3 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                    style: {
-                                                        width: '6px',
-                                                        height: '6px',
-                                                        borderRadius: '50%',
-                                                        backgroundColor: '#999',
-                                                        fontSize: '8px',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                        color: '#fff',
-                                                        fontWeight: 'bold'
-                                                    },
-                                                    children: "+"
-                                                }, void 0, false, {
-                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 934,
-                                                    columnNumber: 27
-                                                }, void 0)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 913,
-                                            columnNumber: 23
-                                        }, void 0);
-                                    }
-                                }, void 0, false, {
-                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 897,
-                                    columnNumber: 17
-                                }, this),
-                                selectedDate && calendarEvents[selectedDate] && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        marginTop: '16px',
-                                        padding: '12px',
-                                        background: '#f8f9fa',
-                                        borderRadius: '8px',
-                                        border: '1px solid #e9ecef'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                            style: {
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'space-between',
-                                                marginBottom: '12px'
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                    style: {
-                                                        fontWeight: '600',
-                                                        color: '#262626'
-                                                    },
-                                                    children: [
-                                                        selectedDate,
-                                                        " 的待办事项"
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 969,
-                                                    columnNumber: 23
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                    type: "text",
-                                                    size: "small",
-                                                    onClick: ()=>setSelectedDate(''),
-                                                    style: {
-                                                        padding: '0',
-                                                        minWidth: 'auto'
-                                                    },
-                                                    children: "✕"
-                                                }, void 0, false, {
-                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 972,
-                                                    columnNumber: 23
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 963,
-                                            columnNumber: 21
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
-                                            size: "small",
-                                            dataSource: calendarEvents[selectedDate],
-                                            renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                    style: {
-                                                        padding: '8px 0'
-                                                    },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                        avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {}, void 0, false, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 987,
-                                                            columnNumber: 31
-                                                        }, void 0),
-                                                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                            style: {
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'space-between'
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                                                    children: item.task
-                                                                }, void 0, false, {
+                                                    }, void 0)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 1084,
+                                                columnNumber: 23
+                                            }, void 0);
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1068,
+                                        columnNumber: 17
+                                    }, this),
+                                    selectedDate && calendarEvents[selectedDate] && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            marginTop: '16px',
+                                            padding: '12px',
+                                            background: '#f8f9fa',
+                                            borderRadius: '8px',
+                                            border: '1px solid #e9ecef'
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                    marginBottom: '12px'
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        style: {
+                                                            fontWeight: '600',
+                                                            color: '#262626'
+                                                        },
+                                                        children: [
+                                                            selectedDate,
+                                                            " 的待办事项"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                        lineNumber: 1140,
+                                                        columnNumber: 23
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                        type: "text",
+                                                        size: "small",
+                                                        onClick: ()=>setSelectedDate(''),
+                                                        style: {
+                                                            padding: '0',
+                                                            minWidth: 'auto'
+                                                        },
+                                                        children: "✕"
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                        lineNumber: 1143,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 1134,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                                size: "small",
+                                                dataSource: (calendarEvents[selectedDate] || []).filter((_, idx)=>!(hiddenCalendarItems[selectedDate] || []).includes(idx)),
+                                                renderItem: (item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                        style: {
+                                                            padding: '8px 0'
+                                                        },
+                                                        onMouseEnter: ()=>setHoveredCalendarIdx(index),
+                                                        onMouseLeave: ()=>setHoveredCalendarIdx(null),
+                                                        actions: hoveredCalendarIdx === index ? [
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                size: "small",
+                                                                type: "text",
+                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 990,
-                                                                    columnNumber: 27
+                                                                    lineNumber: 1163,
+                                                                    columnNumber: 79
                                                                 }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: getTaskTypeColor(item.type),
-                                                                    style: {
-                                                                        background: `${getTaskTypeColor(item.type)}15`,
-                                                                        border: `1px solid ${getTaskTypeColor(item.type)}30`,
-                                                                        color: getTaskTypeColor(item.type)
-                                                                    },
-                                                                    children: getTaskTypeText(item.type)
+                                                                onClick: ()=>openEditFromCalendar(selectedDate, item)
+                                                            }, "edit", false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1163,
+                                                                columnNumber: 29
+                                                            }, void 0),
+                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                                title: "确认删除该日程？",
+                                                                onConfirm: ()=>deleteFromCalendarView(selectedDate, index),
+                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                    size: "small",
+                                                                    type: "text",
+                                                                    danger: true,
+                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1165,
+                                                                        columnNumber: 77
+                                                                    }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 991,
-                                                                    columnNumber: 27
+                                                                    lineNumber: 1165,
+                                                                    columnNumber: 31
                                                                 }, void 0)
-                                                            ]
-                                                        }, void 0, true, {
+                                                            }, "delete", false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1164,
+                                                                columnNumber: 29
+                                                            }, void 0)
+                                                        ] : [],
+                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {}, void 0, false, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1172,
+                                                                columnNumber: 31
+                                                            }, void 0),
+                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'flex-start',
+                                                                    gap: '8px'
+                                                                },
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                        color: getTaskTypeColor(item.type),
+                                                                        style: {
+                                                                            background: `${getTaskTypeColor(item.type)}15`,
+                                                                            border: `1px solid ${getTaskTypeColor(item.type)}30`,
+                                                                            color: getTaskTypeColor(item.type)
+                                                                        },
+                                                                        children: getTaskTypeText(item.type)
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1175,
+                                                                        columnNumber: 27
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                        children: item.task
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1185,
+                                                                        columnNumber: 27
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1174,
+                                                                columnNumber: 25
+                                                            }, void 0),
+                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        type: "secondary",
+                                                                        children: item.customer
+                                                                    }, void 0, false, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1190,
+                                                                        columnNumber: 27
+                                                                    }, void 0),
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        type: "secondary",
+                                                                        children: [
+                                                                            "时间: ",
+                                                                            item.time
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                        lineNumber: 1191,
+                                                                        columnNumber: 33
+                                                                    }, void 0)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                                lineNumber: 1189,
+                                                                columnNumber: 25
+                                                            }, void 0)
+                                                        }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 989,
-                                                            columnNumber: 25
-                                                        }, void 0),
-                                                        description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                    type: "secondary",
-                                                                    children: item.customer
-                                                                }, void 0, false, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 1005,
-                                                                    columnNumber: 27
-                                                                }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                    type: "secondary",
-                                                                    children: [
-                                                                        "时间: ",
-                                                                        item.time
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 1006,
-                                                                    columnNumber: 33
-                                                                }, void 0)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1004,
-                                                            columnNumber: 25
+                                                            lineNumber: 1171,
+                                                            columnNumber: 21
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 986,
-                                                        columnNumber: 21
+                                                        lineNumber: 1156,
+                                                        columnNumber: 19
                                                     }, void 0)
-                                                }, void 0, false, {
-                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 985,
-                                                    columnNumber: 19
-                                                }, void 0)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                                lineNumber: 1152,
+                                                columnNumber: 21
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1127,
+                                        columnNumber: 19
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                lineNumber: 1067,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                            lineNumber: 872,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                            title: editingContext && editingContext.id != null ? '编辑日程' : '新增日程',
+                            open: isScheduleModalOpen,
+                            onOk: handleModalOk,
+                            onCancel: handleModalCancel,
+                            okText: "保存",
+                            cancelText: "取消",
+                            destroyOnClose: true,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                                form: form,
+                                layout: "vertical",
+                                initialValues: {
+                                    section: (editingContext === null || editingContext === void 0 ? void 0 : editingContext.section) ?? 'today',
+                                    completed: false
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        name: "section",
+                                        label: "分组",
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请选择分组'
+                                            }
+                                        ],
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                            options: [
+                                                {
+                                                    label: '今天',
+                                                    value: 'today'
+                                                },
+                                                {
+                                                    label: '本周',
+                                                    value: 'thisWeek'
+                                                },
+                                                {
+                                                    label: '未来',
+                                                    value: 'future'
+                                                }
+                                            ]
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 981,
-                                            columnNumber: 21
+                                            lineNumber: 1214,
+                                            columnNumber: 17
                                         }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 956,
-                                    columnNumber: 19
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                                    }, void 0, false, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1213,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        name: "task",
+                                        label: "事项",
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请输入事项'
+                                            }
+                                        ],
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                            placeholder: "例如：客户回访 - 阿里巴巴"
+                                        }, void 0, false, {
+                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                            lineNumber: 1223,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1222,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        name: "customer",
+                                        label: "客户",
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请输入客户名称'
+                                            }
+                                        ],
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                            placeholder: "例如：阿里巴巴集团"
+                                        }, void 0, false, {
+                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                            lineNumber: 1226,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1225,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        name: "time",
+                                        label: "时间",
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请输入时间'
+                                            }
+                                        ],
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                            placeholder: "例如：14:00 或 周三 15:00"
+                                        }, void 0, false, {
+                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                            lineNumber: 1229,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1228,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        name: "type",
+                                        label: "类型",
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请选择类型'
+                                            }
+                                        ],
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                            options: [
+                                                {
+                                                    label: getTaskTypeText('business-review'),
+                                                    value: 'business-review'
+                                                },
+                                                {
+                                                    label: getTaskTypeText('renewal'),
+                                                    value: 'renewal'
+                                                },
+                                                {
+                                                    label: getTaskTypeText('training'),
+                                                    value: 'training'
+                                                },
+                                                {
+                                                    label: getTaskTypeText('report'),
+                                                    value: 'report'
+                                                },
+                                                {
+                                                    label: getTaskTypeText('survey'),
+                                                    value: 'survey'
+                                                },
+                                                {
+                                                    label: getTaskTypeText('demo'),
+                                                    value: 'demo'
+                                                },
+                                                {
+                                                    label: getTaskTypeText('meeting'),
+                                                    value: 'meeting'
+                                                },
+                                                {
+                                                    label: getTaskTypeText('contract'),
+                                                    value: 'contract'
+                                                }
+                                            ]
+                                        }, void 0, false, {
+                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                            lineNumber: 1232,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1231,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        name: "completed",
+                                        valuePropName: "checked",
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                            children: "标记为已完成"
+                                        }, void 0, false, {
+                                            fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                            lineNumber: 1246,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                        lineNumber: 1245,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
+                                lineNumber: 1212,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 896,
-                            columnNumber: 15
+                            lineNumber: 1203,
+                            columnNumber: 11
                         }, this)
-                    }, void 0, false, {
-                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 750,
-                        columnNumber: 11
-                    }, this)
-                }, void 0, false, {
+                    ]
+                }, void 0, true, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 749,
+                    lineNumber: 871,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-            lineNumber: 494,
+            lineNumber: 616,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-        lineNumber: 493,
+        lineNumber: 615,
         columnNumber: 5
     }, this);
 };
-_s2(ActionSection, "QlbTJFr39L0DYhRdyInQ/weFPlY=");
+_s2(ActionSection, "N02Sg+cOMmk2DKhJhMPSbGeUpsc=", false, function() {
+    return [
+        _antd.Form.useForm
+    ];
+});
 _c2 = ActionSection;
 // 右侧洞察区组件
 const InsightSection = ()=>{
@@ -4593,7 +5090,7 @@ const InsightSection = ()=>{
                                             }
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1053,
+                                            lineNumber: 1285,
                                             columnNumber: 19
                                         }, void 0),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
@@ -4604,13 +5101,13 @@ const InsightSection = ()=>{
                                             children: "我的业务数据"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1054,
+                                            lineNumber: 1286,
                                             columnNumber: 19
                                         }, void 0)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1052,
+                                    lineNumber: 1284,
                                     columnNumber: 15
                                 }, void 0),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4636,18 +5133,18 @@ const InsightSection = ()=>{
                                             children: period
                                         }, period, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1058,
+                                            lineNumber: 1290,
                                             columnNumber: 21
                                         }, void 0))
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1056,
+                                    lineNumber: 1288,
                                     columnNumber: 17
                                 }, void 0)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 1051,
+                            lineNumber: 1283,
                             columnNumber: 15
                         }, void 0),
                         bodyStyle: {
@@ -4680,7 +5177,7 @@ const InsightSection = ()=>{
                                                     children: "128"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1081,
+                                                    lineNumber: 1313,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -4691,7 +5188,7 @@ const InsightSection = ()=>{
                                                     children: "我的总客户数"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1084,
+                                                    lineNumber: 1316,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4710,7 +5207,7 @@ const InsightSection = ()=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1086,
+                                                            lineNumber: 1318,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -4721,24 +5218,24 @@ const InsightSection = ()=>{
                                                             children: "+5"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1087,
+                                                            lineNumber: 1319,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1085,
+                                                    lineNumber: 1317,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1080,
+                                            lineNumber: 1312,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1079,
+                                        lineNumber: 1311,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -4761,7 +5258,7 @@ const InsightSection = ()=>{
                                                     children: "89"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1094,
+                                                    lineNumber: 1326,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -4772,7 +5269,7 @@ const InsightSection = ()=>{
                                                     children: "活跃客户数"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1097,
+                                                    lineNumber: 1329,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4791,7 +5288,7 @@ const InsightSection = ()=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1099,
+                                                            lineNumber: 1331,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -4802,24 +5299,24 @@ const InsightSection = ()=>{
                                                             children: "+12"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1100,
+                                                            lineNumber: 1332,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1098,
+                                                    lineNumber: 1330,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1093,
+                                            lineNumber: 1325,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1092,
+                                        lineNumber: 1324,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -4842,7 +5339,7 @@ const InsightSection = ()=>{
                                                     children: "85.2"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1107,
+                                                    lineNumber: 1339,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -4853,7 +5350,7 @@ const InsightSection = ()=>{
                                                     children: "客户健康分均值"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1110,
+                                                    lineNumber: 1342,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4872,7 +5369,7 @@ const InsightSection = ()=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1112,
+                                                            lineNumber: 1344,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -4883,30 +5380,30 @@ const InsightSection = ()=>{
                                                             children: "+2.3"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1113,
+                                                            lineNumber: 1345,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1111,
+                                                    lineNumber: 1343,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1106,
+                                            lineNumber: 1338,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1105,
+                                        lineNumber: 1337,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 1078,
+                                lineNumber: 1310,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4925,7 +5422,7 @@ const InsightSection = ()=>{
                                         children: "客户分布矩阵"
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1121,
+                                        lineNumber: 1353,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4955,7 +5452,7 @@ const InsightSection = ()=>{
                                                         children: "类型"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1137,
+                                                        lineNumber: 1369,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4969,7 +5466,7 @@ const InsightSection = ()=>{
                                                         children: "总客户数"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1140,
+                                                        lineNumber: 1372,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4983,7 +5480,7 @@ const InsightSection = ()=>{
                                                         children: "活跃客户"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1143,
+                                                        lineNumber: 1375,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -4997,7 +5494,7 @@ const InsightSection = ()=>{
                                                         children: "不活跃客户"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1146,
+                                                        lineNumber: 1378,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5011,13 +5508,13 @@ const InsightSection = ()=>{
                                                         children: "健康分"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1149,
+                                                        lineNumber: 1381,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1131,
+                                                lineNumber: 1363,
                                                 columnNumber: 17
                                             }, this),
                                             businessMatrixData.map((row, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5038,7 +5535,7 @@ const InsightSection = ()=>{
                                                             children: row.type
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1161,
+                                                            lineNumber: 1393,
                                                             columnNumber: 15
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5052,7 +5549,7 @@ const InsightSection = ()=>{
                                                             children: row.total
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1170,
+                                                            lineNumber: 1402,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5066,7 +5563,7 @@ const InsightSection = ()=>{
                                                             children: row.active
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1179,
+                                                            lineNumber: 1411,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5080,7 +5577,7 @@ const InsightSection = ()=>{
                                                             children: row.inactive
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1188,
+                                                            lineNumber: 1420,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5094,36 +5591,36 @@ const InsightSection = ()=>{
                                                             children: row.healthScore
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1197,
+                                                            lineNumber: 1429,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, index, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1156,
+                                                    lineNumber: 1388,
                                                     columnNumber: 19
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1124,
+                                        lineNumber: 1356,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 1120,
+                                lineNumber: 1352,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 1048,
+                        lineNumber: 1280,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 1047,
+                    lineNumber: 1279,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -5143,7 +5640,7 @@ const InsightSection = ()=>{
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1219,
+                                    lineNumber: 1451,
                                     columnNumber: 17
                                 }, void 0),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
@@ -5154,13 +5651,13 @@ const InsightSection = ()=>{
                                     children: "我的客户行业分析"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1220,
+                                    lineNumber: 1452,
                                     columnNumber: 17
                                 }, void 0)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 1218,
+                            lineNumber: 1450,
                             columnNumber: 15
                         }, void 0),
                         bodyStyle: {
@@ -5178,7 +5675,7 @@ const InsightSection = ()=>{
                                     children: "客户数量 TOP 5 行业分布"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1226,
+                                    lineNumber: 1458,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5205,7 +5702,7 @@ const InsightSection = ()=>{
                                                     children: item.industry
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1234,
+                                                    lineNumber: 1466,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5239,12 +5736,12 @@ const InsightSection = ()=>{
                                                         }
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1252,
+                                                        lineNumber: 1484,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1244,
+                                                    lineNumber: 1476,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5259,18 +5756,18 @@ const InsightSection = ()=>{
                                                     children: item.count
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1261,
+                                                    lineNumber: 1493,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, index, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1233,
+                                            lineNumber: 1465,
                                             columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1231,
+                                    lineNumber: 1463,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5289,7 +5786,7 @@ const InsightSection = ()=>{
                                             children: "行业分布饼图"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1277,
+                                            lineNumber: 1509,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5330,17 +5827,17 @@ const InsightSection = ()=>{
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1302,
+                                                    lineNumber: 1534,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1289,
+                                                lineNumber: 1521,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1280,
+                                            lineNumber: 1512,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5372,7 +5869,7 @@ const InsightSection = ()=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1325,
+                                                            lineNumber: 1557,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -5388,24 +5885,24 @@ const InsightSection = ()=>{
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1331,
+                                                            lineNumber: 1563,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, index, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1324,
+                                                    lineNumber: 1556,
                                                     columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1317,
+                                            lineNumber: 1549,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1276,
+                                    lineNumber: 1508,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5430,7 +5927,7 @@ const InsightSection = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1347,
+                                            lineNumber: 1579,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -5441,40 +5938,40 @@ const InsightSection = ()=>{
                                             children: "总计: 128 家客户"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1350,
+                                            lineNumber: 1582,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1339,
+                                    lineNumber: 1571,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 1225,
+                            lineNumber: 1457,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 1215,
+                        lineNumber: 1447,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 1214,
+                    lineNumber: 1446,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-            lineNumber: 1045,
+            lineNumber: 1277,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-        lineNumber: 1044,
+        lineNumber: 1276,
         columnNumber: 7
     }, this);
 };
@@ -5498,12 +5995,12 @@ const WorkbenchDashboard = ()=>{
                 greeting: greeting
             }, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 1375,
+                lineNumber: 1607,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(CompanyKPIBanner, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 1378,
+                lineNumber: 1610,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
@@ -5511,29 +6008,24 @@ const WorkbenchDashboard = ()=>{
                 children: [
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(ActionSection, {}, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 1383,
+                        lineNumber: 1615,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(InsightSection, {}, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 1386,
+                        lineNumber: 1618,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 1381,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_Footer.default, {}, void 0, false, {
-                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 1390,
+                lineNumber: 1613,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-        lineNumber: 1369,
+        lineNumber: 1601,
         columnNumber: 5
     }, this);
 };
@@ -5597,7 +6089,6 @@ var _max = __mako_require__("src/.umi/exports.ts");
 var _tabContentGenerator = __mako_require__("src/utils/tabContentGenerator.tsx");
 var _WorkbenchDashboard = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/CustomerSuccess/WorkbenchDashboard.tsx"));
 var _TieringMatrix = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/CustomerSuccess/TieringMatrix.tsx"));
-var _Footer = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/Footer/index.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -5614,8 +6105,7 @@ const pathToTitleMap = {
     '/dashboard/focus': '近期客户关注重点',
     '/dashboard/competition': '客成部门大比武',
     '/dashboard/coordination': '大服务体系内协同',
-    '/profiles/handover': '客户交接',
-    '/profiles/implementation': '实施搭建',
+    '/profiles/handover-implementation': '交接实施',
     '/profiles/service': '持续服务',
     '/profiles/renewal': '续约管理',
     '/profiles/recall': '召回孵化',
@@ -5646,13 +6136,13 @@ const CustomerSuccess = ()=>{
     // 如果是工作台页面，显示新的工作台界面
     if (location.pathname === '/dashboard/work') return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_WorkbenchDashboard.default, {}, void 0, false, {
         fileName: "src/pages/CustomerSuccess/index.tsx",
-        lineNumber: 48,
+        lineNumber: 47,
         columnNumber: 12
     }, this);
     // 客户分层矩阵
     if (location.pathname === '/dashboard/layers') return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_TieringMatrix.default, {}, void 0, false, {
         fileName: "src/pages/CustomerSuccess/index.tsx",
-        lineNumber: 52,
+        lineNumber: 51,
         columnNumber: 12
     }, this);
     // 根据页面标题生成内容
@@ -5661,19 +6151,13 @@ const CustomerSuccess = ()=>{
         style: {
             padding: '24px',
             background: '#fafafa',
-            minHeight: 'calc(100vh - 64px)'
+            minHeight: 'calc(100vh - 120px)',
+            paddingBottom: '60px' // 为footer留出底部间距
         },
-        children: [
-            content,
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_Footer.default, {}, void 0, false, {
-                fileName: "src/pages/CustomerSuccess/index.tsx",
-                lineNumber: 67,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
+        children: content
+    }, void 0, false, {
         fileName: "src/pages/CustomerSuccess/index.tsx",
-        lineNumber: 59,
+        lineNumber: 58,
         columnNumber: 5
     }, this);
 };
@@ -5721,17 +6205,14 @@ function _export(target, all) {
     });
 }
 __mako_require__.e(exports, {
-    CustomerHandoverContent: function() {
-        return CustomerHandoverContent;
-    },
     DashboardContent: function() {
         return DashboardContent;
     },
     DefaultContent: function() {
         return DefaultContent;
     },
-    ImplementationContent: function() {
-        return ImplementationContent;
+    HandoverImplementationContent: function() {
+        return HandoverImplementationContent;
     },
     generateTabContent: function() {
         return generateTabContent;
@@ -5806,7 +6287,7 @@ const DashboardContent = ()=>{
                                 value: metrics.totalCustomers,
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 44,
+                                    lineNumber: 46,
                                     columnNumber: 23
                                 }, void 0),
                                 valueStyle: {
@@ -5814,17 +6295,17 @@ const DashboardContent = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 41,
+                                lineNumber: 43,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 40,
+                            lineNumber: 42,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 39,
+                        lineNumber: 41,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -5835,7 +6316,7 @@ const DashboardContent = ()=>{
                                 value: metrics.activeCustomers,
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {}, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 54,
+                                    lineNumber: 56,
                                     columnNumber: 23
                                 }, void 0),
                                 valueStyle: {
@@ -5843,17 +6324,17 @@ const DashboardContent = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 51,
+                                lineNumber: 53,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 50,
+                            lineNumber: 52,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 49,
+                        lineNumber: 51,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -5864,7 +6345,7 @@ const DashboardContent = ()=>{
                                 value: metrics.pendingHandovers,
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {}, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 64,
+                                    lineNumber: 66,
                                     columnNumber: 23
                                 }, void 0),
                                 valueStyle: {
@@ -5872,17 +6353,17 @@ const DashboardContent = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 61,
+                                lineNumber: 63,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 60,
+                            lineNumber: 62,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 59,
+                        lineNumber: 61,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -5894,7 +6375,7 @@ const DashboardContent = ()=>{
                                 suffix: "%",
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.RiseOutlined, {}, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 75,
+                                    lineNumber: 77,
                                     columnNumber: 23
                                 }, void 0),
                                 valueStyle: {
@@ -5902,23 +6383,23 @@ const DashboardContent = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 71,
+                                lineNumber: 73,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 70,
+                            lineNumber: 72,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 69,
+                        lineNumber: 71,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 38,
+                lineNumber: 40,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
@@ -5939,7 +6420,7 @@ const DashboardContent = ()=>{
                                 children: "查看详情"
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 84,
+                                lineNumber: 86,
                                 columnNumber: 38
                             }, void 0),
                             children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5953,22 +6434,22 @@ const DashboardContent = ()=>{
                                     strokeColor: "#52c41a"
                                 }, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 86,
+                                    lineNumber: 88,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 85,
+                                lineNumber: 87,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 84,
+                            lineNumber: 86,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 83,
+                        lineNumber: 85,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -5980,7 +6461,7 @@ const DashboardContent = ()=>{
                                 children: "查看全部"
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 96,
+                                lineNumber: 98,
                                 columnNumber: 37
                             }, void 0),
                             children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -5999,7 +6480,7 @@ const DashboardContent = ()=>{
                                                 children: activity.customer.charAt(0)
                                             }, void 0, false, {
                                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                                lineNumber: 100,
+                                                lineNumber: 102,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -6011,7 +6492,7 @@ const DashboardContent = ()=>{
                                                         children: activity.customer
                                                     }, void 0, false, {
                                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                                        lineNumber: 104,
+                                                        lineNumber: 106,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -6022,13 +6503,13 @@ const DashboardContent = ()=>{
                                                         children: activity.action
                                                     }, void 0, false, {
                                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                                        lineNumber: 105,
+                                                        lineNumber: 107,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                                lineNumber: 103,
+                                                lineNumber: 105,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -6036,45 +6517,45 @@ const DashboardContent = ()=>{
                                                 children: activity.time
                                             }, void 0, false, {
                                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                                lineNumber: 107,
+                                                lineNumber: 109,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, activity.id, true, {
                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                        lineNumber: 99,
+                                        lineNumber: 101,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 97,
+                                lineNumber: 99,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 96,
+                            lineNumber: 98,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 95,
+                        lineNumber: 97,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 82,
+                lineNumber: 84,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/utils/tabContentGenerator.tsx",
-        lineNumber: 37,
+        lineNumber: 39,
         columnNumber: 5
     }, this);
 };
 _c = DashboardContent;
-const CustomerHandoverContent = ()=>{
+const HandoverImplementationContent = ()=>{
     const handoverData = [
         {
             key: '1',
@@ -6145,7 +6626,7 @@ const CustomerHandoverContent = ()=>{
                     children: text
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 179,
+                    lineNumber: 181,
                     columnNumber: 16
                 }, this);
             }
@@ -6175,7 +6656,7 @@ const CustomerHandoverContent = ()=>{
                     children: text
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 193,
+                    lineNumber: 195,
                     columnNumber: 16
                 }, this);
             }
@@ -6197,7 +6678,7 @@ const CustomerHandoverContent = ()=>{
                             children: "查看详情"
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 206,
+                            lineNumber: 208,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
@@ -6206,46 +6687,22 @@ const CustomerHandoverContent = ()=>{
                             children: "开始交接"
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 207,
+                            lineNumber: 209,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 205,
+                    lineNumber: 207,
                     columnNumber: 9
                 }, this)
         }
     ];
     return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-            title: "客户交接管理",
+            title: "交接实施管理",
             extra: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SearchOutlined, {}, void 0, false, {
-                            fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 219,
-                            columnNumber: 27
-                        }, void 0),
-                        children: "搜索"
-                    }, void 0, false, {
-                        fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 219,
-                        columnNumber: 13
-                    }, void 0),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FilterOutlined, {}, void 0, false, {
-                            fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 220,
-                            columnNumber: 27
-                        }, void 0),
-                        children: "筛选"
-                    }, void 0, false, {
-                        fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 220,
-                        columnNumber: 13
-                    }, void 0),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                         type: "primary",
                         icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
@@ -6258,152 +6715,178 @@ const CustomerHandoverContent = ()=>{
                         fileName: "src/utils/tabContentGenerator.tsx",
                         lineNumber: 221,
                         columnNumber: 13
+                    }, void 0),
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DownloadOutlined, {}, void 0, false, {
+                            fileName: "src/utils/tabContentGenerator.tsx",
+                            lineNumber: 224,
+                            columnNumber: 27
+                        }, void 0),
+                        children: "导出数据"
+                    }, void 0, false, {
+                        fileName: "src/utils/tabContentGenerator.tsx",
+                        lineNumber: 224,
+                        columnNumber: 13
                     }, void 0)
                 ]
             }, void 0, true, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 218,
+                lineNumber: 220,
                 columnNumber: 11
             }, void 0),
-            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
-                columns: columns,
-                dataSource: handoverData,
-                pagination: {
-                    total: 50,
-                    pageSize: 10,
-                    showSizeChanger: true,
-                    showQuickJumper: true,
-                    showTotal: (total, range)=>`第 ${range[0]}-${range[1]} 条/共 ${total} 条`
-                }
-            }, void 0, false, {
-                fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 225,
-                columnNumber: 9
-            }, this)
-        }, void 0, false, {
-            fileName: "src/utils/tabContentGenerator.tsx",
-            lineNumber: 215,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
-        fileName: "src/utils/tabContentGenerator.tsx",
-        lineNumber: 214,
-        columnNumber: 5
-    }, this);
-};
-_c1 = CustomerHandoverContent;
-const ImplementationContent = ()=>{
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-            title: "实施搭建管理",
-            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                gutter: [
-                    16,
-                    16
-                ],
-                children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                        span: 8,
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                            size: "small",
-                            title: "进行中的项目",
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
-                                title: "项目数量",
-                                value: 12,
-                                prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TrophyOutlined, {}, void 0, false, {
+            children: [
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    gutter: [
+                        16,
+                        16
+                    ],
+                    style: {
+                        marginBottom: 16
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 6,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                size: "small",
+                                title: "待交接客户",
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                                    title: "客户数量",
+                                    value: 8,
+                                    prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
+                                        fileName: "src/utils/tabContentGenerator.tsx",
+                                        lineNumber: 234,
+                                        columnNumber: 57
+                                    }, void 0)
+                                }, void 0, false, {
+                                    fileName: "src/utils/tabContentGenerator.tsx",
+                                    lineNumber: 234,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/utils/tabContentGenerator.tsx",
+                                lineNumber: 233,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/utils/tabContentGenerator.tsx",
+                            lineNumber: 232,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 6,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                size: "small",
+                                title: "进行中交接",
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                                    title: "客户数量",
+                                    value: 12,
+                                    prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SyncOutlined, {
+                                        spin: true
+                                    }, void 0, false, {
+                                        fileName: "src/utils/tabContentGenerator.tsx",
+                                        lineNumber: 239,
+                                        columnNumber: 58
+                                    }, void 0)
+                                }, void 0, false, {
+                                    fileName: "src/utils/tabContentGenerator.tsx",
+                                    lineNumber: 239,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/utils/tabContentGenerator.tsx",
+                                lineNumber: 238,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/utils/tabContentGenerator.tsx",
+                            lineNumber: 237,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 6,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                size: "small",
+                                title: "已完成交接",
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                                    title: "客户数量",
+                                    value: 45,
+                                    prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {}, void 0, false, {
+                                        fileName: "src/utils/tabContentGenerator.tsx",
+                                        lineNumber: 244,
+                                        columnNumber: 58
+                                    }, void 0)
+                                }, void 0, false, {
+                                    fileName: "src/utils/tabContentGenerator.tsx",
+                                    lineNumber: 244,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/utils/tabContentGenerator.tsx",
+                                lineNumber: 243,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/utils/tabContentGenerator.tsx",
+                            lineNumber: 242,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 6,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                size: "small",
+                                title: "实施项目",
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                                    title: "项目数量",
+                                    value: 15,
+                                    prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TrophyOutlined, {}, void 0, false, {
+                                        fileName: "src/utils/tabContentGenerator.tsx",
+                                        lineNumber: 249,
+                                        columnNumber: 58
+                                    }, void 0)
+                                }, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
                                     lineNumber: 249,
-                                    columnNumber: 58
-                                }, void 0)
+                                    columnNumber: 15
+                                }, this)
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 249,
-                                columnNumber: 15
+                                lineNumber: 248,
+                                columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 248,
-                            columnNumber: 13
+                            lineNumber: 247,
+                            columnNumber: 11
                         }, this)
-                    }, void 0, false, {
-                        fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 247,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                        span: 8,
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                            size: "small",
-                            title: "已完成项目",
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
-                                title: "项目数量",
-                                value: 45,
-                                prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {}, void 0, false, {
-                                    fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 254,
-                                    columnNumber: 58
-                                }, void 0)
-                            }, void 0, false, {
-                                fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 254,
-                                columnNumber: 15
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 253,
-                            columnNumber: 13
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 252,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                        span: 8,
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                            size: "small",
-                            title: "延期项目",
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
-                                title: "项目数量",
-                                value: 3,
-                                prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {}, void 0, false, {
-                                    fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 259,
-                                    columnNumber: 57
-                                }, void 0)
-                            }, void 0, false, {
-                                fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 259,
-                                columnNumber: 15
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 258,
-                            columnNumber: 13
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 257,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 246,
-                columnNumber: 9
-            }, this)
-        }, void 0, false, {
+                    ]
+                }, void 0, true, {
+                    fileName: "src/utils/tabContentGenerator.tsx",
+                    lineNumber: 231,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
+                    columns: columns,
+                    dataSource: handoverData,
+                    pagination: false,
+                    size: "small"
+                }, void 0, false, {
+                    fileName: "src/utils/tabContentGenerator.tsx",
+                    lineNumber: 255,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
             fileName: "src/utils/tabContentGenerator.tsx",
-            lineNumber: 245,
+            lineNumber: 217,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/utils/tabContentGenerator.tsx",
-        lineNumber: 244,
+        lineNumber: 216,
         columnNumber: 5
     }, this);
 };
-_c2 = ImplementationContent;
+_c1 = HandoverImplementationContent;
 const DefaultContent = ({ tabName })=>{
     return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
@@ -6416,48 +6899,77 @@ const DefaultContent = ({ tabName })=>{
                     children: tabName
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 273,
+                    lineNumber: 271,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("p", {
                     children: "此功能正在开发中，敬请期待..."
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 274,
+                    lineNumber: 272,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                     type: "primary",
                     icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ReloadOutlined, {}, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 275,
+                        lineNumber: 273,
                         columnNumber: 38
                     }, void 0),
                     children: "刷新页面"
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 275,
+                    lineNumber: 273,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/utils/tabContentGenerator.tsx",
-            lineNumber: 272,
+            lineNumber: 270,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/utils/tabContentGenerator.tsx",
-        lineNumber: 271,
+        lineNumber: 269,
         columnNumber: 5
     }, this);
 };
-_c3 = DefaultContent;
+_c2 = DefaultContent;
+// 路径到内容标题的映射
+const pathToTitleMap = {
+    '/dashboard/work': '我的工作看板',
+    '/dashboard/layers': '客户分层盘点',
+    '/dashboard/focus': '近期客户关注重点',
+    '/dashboard/competition': '客成部门大比武',
+    '/dashboard/coordination': '大服务体系内协同',
+    '/profiles/handover-implementation': '交接实施',
+    '/profiles/service': '持续服务',
+    '/profiles/renewal': '续约管理',
+    '/profiles/recall': '召回孵化',
+    '/profiles/churn': '流失归因',
+    '/revenue/consultation': '咨询应答',
+    '/revenue/upgrade': '定制升舱建议',
+    '/revenue/learning': '学习项目推荐',
+    '/revenue/purchase': '课程采购活动',
+    '/revenue/alliance': '战略活动结盟',
+    '/revenue/message': '消息推送管理',
+    '/resources/deployment': '实施部署套件',
+    '/resources/support': '年度服务支撑',
+    '/resources/equipment': '续约升级装备',
+    '/resources/knowledge': '团队能力建设',
+    '/ai-tools/consultant': '实施顾问分身',
+    '/ai-tools/simulator': '续费模拟器',
+    '/ai-tools/communication': '干系人沟通话术',
+    '/ai-tools/travel': '面客差旅行程表',
+    '/ai-tools/prediction': '预测水晶球',
+    '/ai-tools/avatar': '我的虚拟分身',
+    '/ai-tools/tags': '智能标签在干活'
+};
 const generateTabContent = (tabName)=>{
     // 创建中文label到英文key的映射表
     const labelToKeyMap = {
         '我的工作看板': 'work-dashboard',
-        '客户交接': 'customer-handover',
-        '实施搭建': 'implementation',
+        '交接实施': 'handover-implementation',
         '客户分层盘点': 'customer-layers',
         '近期客户关注重点': 'customer-focus',
         '客成部门大比武': 'department-competition',
@@ -6490,19 +7002,13 @@ const generateTabContent = (tabName)=>{
         case 'work-dashboard':
             return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(DashboardContent, {}, void 0, false, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 322,
+                lineNumber: 350,
                 columnNumber: 14
             }, this);
-        case 'customer-handover':
-            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(CustomerHandoverContent, {}, void 0, false, {
+        case 'handover-implementation':
+            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(HandoverImplementationContent, {}, void 0, false, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 324,
-                columnNumber: 14
-            }, this);
-        case 'implementation':
-            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(ImplementationContent, {}, void 0, false, {
-                fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 326,
+                lineNumber: 352,
                 columnNumber: 14
             }, this);
         default:
@@ -6510,7 +7016,7 @@ const generateTabContent = (tabName)=>{
                 tabName: tabName
             }, void 0, false, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 328,
+                lineNumber: 354,
                 columnNumber: 14
             }, this);
     }
@@ -6518,11 +7024,9 @@ const generateTabContent = (tabName)=>{
 var _c;
 var _c1;
 var _c2;
-var _c3;
 $RefreshReg$(_c, "DashboardContent");
-$RefreshReg$(_c1, "CustomerHandoverContent");
-$RefreshReg$(_c2, "ImplementationContent");
-$RefreshReg$(_c3, "DefaultContent");
+$RefreshReg$(_c1, "HandoverImplementationContent");
+$RefreshReg$(_c2, "DefaultContent");
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {

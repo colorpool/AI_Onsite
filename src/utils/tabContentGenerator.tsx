@@ -13,6 +13,8 @@ import {
   PlusOutlined,
   SearchOutlined,
   FilterOutlined,
+  DownloadOutlined,
+  SyncOutlined,
 } from '@ant-design/icons';
 import { DashboardMetrics, CustomerProfile } from '@/types/tab';
 
@@ -117,8 +119,8 @@ export const DashboardContent: React.FC = () => {
   );
 };
 
-// 客户交接内容
-export const CustomerHandoverContent: React.FC = () => {
+// 交接实施内容
+export const HandoverImplementationContent: React.FC = () => {
   const handoverData = [
     {
       key: '1',
@@ -213,53 +215,49 @@ export const CustomerHandoverContent: React.FC = () => {
   return (
     <div>
       <Card
-        title="客户交接管理"
+        title="交接实施管理"
         extra={
           <Space>
-            <Button icon={<SearchOutlined />}>搜索</Button>
-            <Button icon={<FilterOutlined />}>筛选</Button>
-            <Button type="primary" icon={<PlusOutlined />}>新建交接</Button>
+            <Button type="primary" icon={<PlusOutlined />}>
+              新建交接
+            </Button>
+            <Button icon={<DownloadOutlined />}>
+              导出数据
+            </Button>
           </Space>
         }
       >
-        <Table
-          columns={columns}
-          dataSource={handoverData}
-          pagination={{
-            total: 50,
-            pageSize: 10,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条/共 ${total} 条`,
-          }}
-        />
-      </Card>
-    </div>
-  );
-};
-
-// 实施搭建内容
-export const ImplementationContent: React.FC = () => {
-  return (
-    <div>
-      <Card title="实施搭建管理">
-        <Row gutter={[16, 16]}>
-          <Col span={8}>
-            <Card size="small" title="进行中的项目">
-              <Statistic title="项目数量" value={12} prefix={<TrophyOutlined />} />
+        {/* 统计卡片 */}
+        <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+          <Col span={6}>
+            <Card size="small" title="待交接客户">
+              <Statistic title="客户数量" value={8} prefix={<UserOutlined />} />
             </Card>
           </Col>
-          <Col span={8}>
-            <Card size="small" title="已完成项目">
-              <Statistic title="项目数量" value={45} prefix={<CheckCircleOutlined />} />
+          <Col span={6}>
+            <Card size="small" title="进行中交接">
+              <Statistic title="客户数量" value={12} prefix={<SyncOutlined spin />} />
             </Card>
           </Col>
-          <Col span={8}>
-            <Card size="small" title="延期项目">
-              <Statistic title="项目数量" value={3} prefix={<ExclamationCircleOutlined />} />
+          <Col span={6}>
+            <Card size="small" title="已完成交接">
+              <Statistic title="客户数量" value={45} prefix={<CheckCircleOutlined />} />
+            </Card>
+          </Col>
+          <Col span={6}>
+            <Card size="small" title="实施项目">
+              <Statistic title="项目数量" value={15} prefix={<TrophyOutlined />} />
             </Card>
           </Col>
         </Row>
+
+        {/* 交接列表 */}
+        <Table
+          columns={columns}
+          dataSource={handoverData}
+          pagination={false}
+          size="small"
+        />
       </Card>
     </div>
   );
@@ -280,13 +278,43 @@ export const DefaultContent: React.FC<{ tabName: string }> = ({ tabName }) => {
   );
 };
 
+// 路径到内容标题的映射
+const pathToTitleMap: { [key: string]: string } = {
+  '/dashboard/work': '我的工作看板',
+  '/dashboard/layers': '客户分层盘点',
+  '/dashboard/focus': '近期客户关注重点',
+  '/dashboard/competition': '客成部门大比武',
+  '/dashboard/coordination': '大服务体系内协同',
+  '/profiles/handover-implementation': '交接实施',
+  '/profiles/service': '持续服务',
+  '/profiles/renewal': '续约管理',
+  '/profiles/recall': '召回孵化',
+  '/profiles/churn': '流失归因',
+  '/revenue/consultation': '咨询应答',
+  '/revenue/upgrade': '定制升舱建议',
+  '/revenue/learning': '学习项目推荐',
+  '/revenue/purchase': '课程采购活动',
+  '/revenue/alliance': '战略活动结盟',
+  '/revenue/message': '消息推送管理',
+  '/resources/deployment': '实施部署套件',
+  '/resources/support': '年度服务支撑',
+  '/resources/equipment': '续约升级装备',
+  '/resources/knowledge': '团队能力建设',
+  '/ai-tools/consultant': '实施顾问分身',
+  '/ai-tools/simulator': '续费模拟器',
+  '/ai-tools/communication': '干系人沟通话术',
+  '/ai-tools/travel': '面客差旅行程表',
+  '/ai-tools/prediction': '预测水晶球',
+  '/ai-tools/avatar': '我的虚拟分身',
+  '/ai-tools/tags': '智能标签在干活',
+};
+
 // Tab内容生成器
 export const generateTabContent = (tabName: string): React.ReactNode => {
   // 创建中文label到英文key的映射表
   const labelToKeyMap: { [key: string]: string } = {
     '我的工作看板': 'work-dashboard',
-    '客户交接': 'customer-handover',
-    '实施搭建': 'implementation',
+    '交接实施': 'handover-implementation',
     '客户分层盘点': 'customer-layers',
     '近期客户关注重点': 'customer-focus',
     '客成部门大比武': 'department-competition',
@@ -320,10 +348,8 @@ export const generateTabContent = (tabName: string): React.ReactNode => {
   switch (key) {
     case 'work-dashboard':
       return <DashboardContent />;
-    case 'customer-handover':
-      return <CustomerHandoverContent />;
-    case 'implementation':
-      return <ImplementationContent />;
+    case 'handover-implementation':
+      return <HandoverImplementationContent />;
     default:
       return <DefaultContent tabName={tabName} />;
   }

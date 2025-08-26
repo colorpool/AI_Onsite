@@ -50,7 +50,10 @@ const mockCRMSyncData = {
         '张三 - 技术总监',
         '李四 - 项目经理'
     ],
-    salesNotes: '客户对数据安全要求较高，需要重点关注合规性配置。客户团队技术能力较强，可以快速上手。'
+    salesNotes: '客户对数据安全要求较高，需要重点关注合规性配置。客户团队技术能力较强，可以快速上手。',
+    accountCount: 50,
+    salesSource: 'direct',
+    salesPerson: '王销售'
 };
 const mockStakeholders = [
     {
@@ -122,7 +125,7 @@ const mockCustomerHandovers = [
     {
         id: '1',
         customerName: '北京科技有限公司',
-        handoverStatus: 'aligned',
+        handoverStatus: 'normal',
         riskLevel: 'low',
         hasHandoverDocument: true,
         hasRiskAlert: false,
@@ -140,7 +143,7 @@ const mockCustomerHandovers = [
     {
         id: '2',
         customerName: '上海智能科技有限公司',
-        handoverStatus: 'processing',
+        handoverStatus: 'not_handover',
         riskLevel: 'medium',
         hasHandoverDocument: false,
         hasRiskAlert: true,
@@ -149,12 +152,18 @@ const mockCustomerHandovers = [
         handoverRating: 3.8,
         handoverComment: '需要进一步沟通客户需求',
         createdAt: '2024-01-12 14:20:00',
-        updatedAt: '2024-01-14 11:45:00'
+        updatedAt: '2024-01-14 11:45:00',
+        crmData: {
+            ...mockCRMSyncData,
+            accountCount: 25,
+            salesSource: 'channel',
+            channelPartner: '上海渠道合作伙伴有限公司'
+        }
     },
     {
         id: '3',
         customerName: '深圳创新科技有限公司',
-        handoverStatus: 'pending',
+        handoverStatus: 'risk',
         riskLevel: 'high',
         hasHandoverDocument: true,
         hasRiskAlert: true,
@@ -163,7 +172,13 @@ const mockCustomerHandovers = [
         handoverRating: 2.5,
         handoverComment: '客户期望与产品功能存在较大差距',
         createdAt: '2024-01-08 09:30:00',
-        updatedAt: '2024-01-13 15:20:00'
+        updatedAt: '2024-01-13 15:20:00',
+        crmData: {
+            ...mockCRMSyncData,
+            accountCount: 100,
+            salesSource: 'direct',
+            salesPerson: '李销售'
+        }
     }
 ];
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;

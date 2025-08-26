@@ -71,11 +71,11 @@ export default [
     routes: [
       {
         path: '/profiles',
-        redirect: '/profiles/handover',
+        redirect: '/profiles/handover-implementation',
       },
       {
-        path: '/profiles/handover',
-        name: '客户交接',
+        path: '/profiles/handover-implementation',
+        name: '交接实施',
         icon: 'userAdd',
         component: './handover',
       },
@@ -89,12 +89,6 @@ export default [
         component: './handover/[id]',
         hideInMenu: true,
         name: '客户交接详情',
-      },
-      {
-        path: '/profiles/implementation',
-        name: '实施搭建',
-        icon: 'tool',
-        component: './CustomerSuccess',
       },
       {
         path: '/profiles/service',

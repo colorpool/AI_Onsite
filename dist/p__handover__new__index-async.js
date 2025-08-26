@@ -37,7 +37,7 @@ const HandoverCreatePage = ()=>{
     const [loading, setLoading] = (0, _react.useState)(false);
     // 处理返回
     const handleBack = ()=>{
-        navigate('/profiles/handover');
+        navigate('/profiles/handover-implementation');
     };
     // 处理保存
     const handleSave = async ()=>{
@@ -48,7 +48,7 @@ const HandoverCreatePage = ()=>{
             // 模拟API调用
             await new Promise((resolve)=>setTimeout(resolve, 1000));
             _antd.message.success('客户交接创建成功！');
-            navigate('/profiles/handover');
+            navigate('/profiles/handover-implementation');
         } catch (error) {
             console.log('创建失败:', error);
         } finally{
@@ -59,7 +59,8 @@ const HandoverCreatePage = ()=>{
         style: {
             padding: '24px',
             background: '#f5f5f5',
-            minHeight: 'calc(100vh - 120px)'
+            minHeight: 'calc(100vh - 120px)',
+            paddingBottom: '60px' // 为footer留出底部间距
         },
         children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
@@ -106,12 +107,12 @@ const HandoverCreatePage = ()=>{
                                                     placeholder: "请输入客户名称"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/new/index.tsx",
-                                                    lineNumber: 91,
+                                                    lineNumber: 92,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/new/index.tsx",
-                                                lineNumber: 86,
+                                                lineNumber: 87,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
@@ -131,7 +132,7 @@ const HandoverCreatePage = ()=>{
                                                             children: "待处理"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 100,
+                                                            lineNumber: 101,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -139,7 +140,7 @@ const HandoverCreatePage = ()=>{
                                                             children: "处理中"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 101,
+                                                            lineNumber: 102,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -147,7 +148,7 @@ const HandoverCreatePage = ()=>{
                                                             children: "已对齐"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 102,
+                                                            lineNumber: 103,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -155,18 +156,18 @@ const HandoverCreatePage = ()=>{
                                                             children: "部分对齐"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 103,
+                                                            lineNumber: 104,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/new/index.tsx",
-                                                    lineNumber: 99,
+                                                    lineNumber: 100,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/new/index.tsx",
-                                                lineNumber: 94,
+                                                lineNumber: 95,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
@@ -186,7 +187,7 @@ const HandoverCreatePage = ()=>{
                                                             children: "高风险"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 113,
+                                                            lineNumber: 114,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -194,7 +195,7 @@ const HandoverCreatePage = ()=>{
                                                             children: "中风险"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 114,
+                                                            lineNumber: 115,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -202,29 +203,29 @@ const HandoverCreatePage = ()=>{
                                                             children: "低风险"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 115,
+                                                            lineNumber: 116,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/new/index.tsx",
-                                                    lineNumber: 112,
+                                                    lineNumber: 113,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/new/index.tsx",
-                                                lineNumber: 107,
+                                                lineNumber: 108,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/handover/new/index.tsx",
-                                        lineNumber: 85,
+                                        lineNumber: 86,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/new/index.tsx",
-                                    lineNumber: 84,
+                                    lineNumber: 85,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -253,7 +254,7 @@ const HandoverCreatePage = ()=>{
                                                             children: "已对齐"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 130,
+                                                            lineNumber: 131,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -261,7 +262,7 @@ const HandoverCreatePage = ()=>{
                                                             children: "部分对齐"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 131,
+                                                            lineNumber: 132,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -269,18 +270,18 @@ const HandoverCreatePage = ()=>{
                                                             children: "未对齐"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/new/index.tsx",
-                                                            lineNumber: 132,
+                                                            lineNumber: 133,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/new/index.tsx",
-                                                    lineNumber: 129,
+                                                    lineNumber: 130,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/new/index.tsx",
-                                                lineNumber: 124,
+                                                lineNumber: 125,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
@@ -291,12 +292,12 @@ const HandoverCreatePage = ()=>{
                                                     rows: 3
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/new/index.tsx",
-                                                    lineNumber: 140,
+                                                    lineNumber: 141,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/new/index.tsx",
-                                                lineNumber: 136,
+                                                lineNumber: 137,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
@@ -307,29 +308,29 @@ const HandoverCreatePage = ()=>{
                                                     rows: 3
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/new/index.tsx",
-                                                    lineNumber: 150,
+                                                    lineNumber: 151,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/new/index.tsx",
-                                                lineNumber: 146,
+                                                lineNumber: 147,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/handover/new/index.tsx",
-                                        lineNumber: 123,
+                                        lineNumber: 124,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/new/index.tsx",
-                                    lineNumber: 122,
+                                    lineNumber: 123,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/handover/new/index.tsx",
-                            lineNumber: 82,
+                            lineNumber: 83,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -351,7 +352,7 @@ const HandoverCreatePage = ()=>{
                                                 children: "有"
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/new/index.tsx",
-                                                lineNumber: 167,
+                                                lineNumber: 168,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -359,18 +360,18 @@ const HandoverCreatePage = ()=>{
                                                 children: "无"
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/new/index.tsx",
-                                                lineNumber: 168,
+                                                lineNumber: 169,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/handover/new/index.tsx",
-                                        lineNumber: 166,
+                                        lineNumber: 167,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/new/index.tsx",
-                                    lineNumber: 161,
+                                    lineNumber: 162,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
@@ -384,18 +385,18 @@ const HandoverCreatePage = ()=>{
                                         rows: 4
                                     }, void 0, false, {
                                         fileName: "src/pages/handover/new/index.tsx",
-                                        lineNumber: 177,
+                                        lineNumber: 178,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/new/index.tsx",
-                                    lineNumber: 172,
+                                    lineNumber: 173,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/handover/new/index.tsx",
-                            lineNumber: 160,
+                            lineNumber: 161,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -420,12 +421,12 @@ const HandoverCreatePage = ()=>{
                                         min: 1
                                     }, void 0, false, {
                                         fileName: "src/pages/handover/new/index.tsx",
-                                        lineNumber: 191,
+                                        lineNumber: 192,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/new/index.tsx",
-                                    lineNumber: 186,
+                                    lineNumber: 187,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
@@ -436,18 +437,18 @@ const HandoverCreatePage = ()=>{
                                         rows: 3
                                     }, void 0, false, {
                                         fileName: "src/pages/handover/new/index.tsx",
-                                        lineNumber: 202,
+                                        lineNumber: 203,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/new/index.tsx",
-                                    lineNumber: 198,
+                                    lineNumber: 199,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/handover/new/index.tsx",
-                            lineNumber: 185,
+                            lineNumber: 186,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -465,14 +466,14 @@ const HandoverCreatePage = ()=>{
                                     children: "取消"
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/new/index.tsx",
-                                    lineNumber: 218,
+                                    lineNumber: 219,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                     type: "primary",
                                     icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SaveOutlined, {}, void 0, false, {
                                         fileName: "src/pages/handover/new/index.tsx",
-                                        lineNumber: 223,
+                                        lineNumber: 224,
                                         columnNumber: 23
                                     }, void 0),
                                     onClick: handleSave,
@@ -484,29 +485,29 @@ const HandoverCreatePage = ()=>{
                                     children: "创建交接"
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/new/index.tsx",
-                                    lineNumber: 221,
+                                    lineNumber: 222,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/handover/new/index.tsx",
-                            lineNumber: 210,
+                            lineNumber: 211,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/handover/new/index.tsx",
-                    lineNumber: 73,
+                    lineNumber: 74,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "src/pages/handover/new/index.tsx",
-                lineNumber: 68,
+                lineNumber: 69,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "src/pages/handover/new/index.tsx",
-            lineNumber: 61,
+            lineNumber: 62,
             columnNumber: 7
         }, this)
     }, void 0, false, {

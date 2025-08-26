@@ -3,7 +3,7 @@ import { useLocation } from '@umijs/max';
 import { generateTabContent } from '@/utils/tabContentGenerator';
 import WorkbenchDashboard from './WorkbenchDashboard';
 import TieringMatrix from './TieringMatrix';
-import Footer from '../../components/Footer';
+
 
 // 路径到内容标题的映射
 const pathToTitleMap: { [key: string]: string } = {
@@ -12,8 +12,7 @@ const pathToTitleMap: { [key: string]: string } = {
   '/dashboard/focus': '近期客户关注重点',
   '/dashboard/competition': '客成部门大比武',
   '/dashboard/coordination': '大服务体系内协同',
-  '/profiles/handover': '客户交接',
-  '/profiles/implementation': '实施搭建',
+  '/profiles/handover-implementation': '交接实施',
   '/profiles/service': '持续服务',
   '/profiles/renewal': '续约管理',
   '/profiles/recall': '召回孵化',
@@ -59,12 +58,10 @@ const CustomerSuccess: React.FC = () => {
     <div style={{ 
       padding: '24px',
       background: '#fafafa',
-      minHeight: 'calc(100vh - 64px)'
+      minHeight: 'calc(100vh - 120px)', // 调整高度，为tab栏和footer留出空间
+      paddingBottom: '60px' // 为footer留出底部间距
     }}>
       {content}
-      
-      {/* 钉学科技Footer */}
-      <Footer />
     </div>
   );
 };
