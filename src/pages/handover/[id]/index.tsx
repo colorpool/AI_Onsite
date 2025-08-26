@@ -30,11 +30,46 @@ import {
 import { useNavigate, useParams, history } from 'umi';
 import { mockCustomerHandovers, mockCRMSyncData, mockStakeholders, mockOnboardingTasks, mockInternalComments } from '../../../mock/handoverData';
 import { CustomerHandover, Stakeholder, OnboardingTask, InternalComment } from '../../../types/handover';
-import Footer from '../../../components/Footer';
+
+import HandoverDetailHeader from '../../../components/handover/HandoverDetailHeader';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 const { Panel } = Collapse;
+
+// 页签样式
+const tabStyles = {
+  tabBar: {
+    margin: 0,
+    backgroundColor: '#fff',
+    borderBottom: '1px solid #f0f0f0',
+    padding: '0 24px'
+  },
+      tab: {
+      padding: '16px 32px',
+      margin: '0 16px 0 0',
+      border: 'none',
+      background: 'transparent',
+      transition: 'all 0.3s ease',
+      minWidth: '120px',
+      textAlign: 'center'
+    },
+  tabActive: {
+    background: '#fff',
+    borderBottom: '2px solid #1890ff'
+  },
+  tabBtn: {
+    fontSize: '14px',
+    fontWeight: 500,
+    color: '#666',
+    transition: 'color 0.3s ease',
+    whiteSpace: 'nowrap'
+  },
+  tabBtnActive: {
+    color: '#1890ff',
+    fontWeight: 600
+  }
+};
 
 const HandoverDetailPage: React.FC = () => {
   const navigate = useNavigate();
@@ -86,7 +121,7 @@ const HandoverDetailPage: React.FC = () => {
         } else {
           console.log('未找到数据，ID:', id);
           message.error('未找到客户交接记录');
-          navigate('/profiles/handover');
+          navigate('/profiles/handover-implementation');
         }
       } catch (error) {
         console.error('加载数据失败:', error);
@@ -109,13 +144,28 @@ const HandoverDetailPage: React.FC = () => {
     
     // 延迟导航，确保tab删除事件先处理
     setTimeout(() => {
-      navigate('/profiles/handover');
+      navigate('/profiles/handover-implementation');
     }, 50);
   };
 
   // 处理新建议
   const handleNewSuggestion = () => {
-    message.success('已创建“新建议”草稿');
+    message.success('已创建"新建议"草稿');
+  };
+
+  // 处理编辑
+  const handleEdit = () => {
+    message.info('编辑功能开发中...');
+  };
+
+  // 处理查看合同
+  const handleViewContract = () => {
+    message.info('查看合同功能开发中...');
+  };
+
+  // 处理分享
+  const handleShare = () => {
+    message.info('分享功能开发中...');
   };
 
   // 处理任务完成状态
@@ -151,7 +201,8 @@ const HandoverDetailPage: React.FC = () => {
         padding: '24px', 
         textAlign: 'center',
         background: '#f5f5f5',
-        minHeight: 'calc(100vh - 120px)'
+        minHeight: 'calc(100vh - 120px)',
+        paddingBottom: '60px' // 为footer留出底部间距
       }}>
         <div>加载中...</div>
       </div>
@@ -164,7 +215,8 @@ const HandoverDetailPage: React.FC = () => {
         padding: '24px', 
         textAlign: 'center',
         background: '#f5f5f5',
-        minHeight: 'calc(100vh - 120px)'
+        minHeight: 'calc(100vh - 120px)',
+        paddingBottom: '60px' // 为footer留出底部间距
       }}>
         <div>未找到客户交接记录</div>
       </div>
@@ -173,17 +225,15 @@ const HandoverDetailPage: React.FC = () => {
 
   // 状态标签颜色映射
   const statusColorMap = {
-    pending: 'orange',
-    processing: 'blue',
-    aligned: 'green',
-    partially_aligned: 'gold'
+    normal: 'green',
+    not_handover: 'orange',
+    risk: 'red'
   };
 
   const statusTextMap = {
-    pending: '待处理',
-    processing: '处理中',
-    aligned: '已对齐',
-    partially_aligned: '部分对齐'
+    normal: '正常交接',
+    not_handover: '未交接',
+    risk: '有风险'
   };
 
   const riskColorMap = {
@@ -208,77 +258,46 @@ const HandoverDetailPage: React.FC = () => {
       <div style={{
         padding: '24px',
         background: '#f5f5f5',
-        minHeight: 'calc(100vh - 120px)'
+        minHeight: 'calc(100vh - 120px)',
+        paddingBottom: '60px' // 为footer留出底部间距
       }}>
         <div style={{
-          maxWidth: '800px',
+          maxWidth: '1200px',
           margin: '0 auto'
         }}>
         
-        {/* 档案头部 */}
+        {/* 新设计的头部组件 */}
+        <div style={{ marginBottom: '24px' }}>
+          <HandoverDetailHeader
+            handoverData={handoverData}
+            onBack={handleBack}
+            onEdit={handleEdit}
+            onViewContract={handleViewContract}
+            onShare={handleShare}
+          />
+        </div>
+        {/* 主要内容区域 */}
         <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          marginBottom: '16px',
-          background: '#fff',
-          padding: '24px',
+          backgroundColor: '#fff',
           borderRadius: '8px',
+          overflow: 'hidden',
           boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
         }}>
-          {/* 左侧：返回按钮和客户信息 */}
-          <div style={{ flex: 1 }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginBottom: '16px',
-              gap: '12px'
-            }}>
-              <Button
-                onClick={handleBack}
-                icon={<ArrowLeftOutlined />}
-                style={{ border: 'none', padding: 0, color: '#666' }}
-              >
-                返回
-              </Button>
-            </div>
-            
-            <Title level={2} style={{ margin: 0, marginBottom: '16px', fontSize: '24px', fontWeight: 600 }}>
-              {handoverData.customerName}
-            </Title>
-            
-            <Space size="middle" wrap>
-              <Tag color={statusColorMap[handoverData.handoverStatus]}>
-                {statusTextMap[handoverData.handoverStatus]}
-              </Tag>
-              <Tag color={handoverData.hasRiskAlert ? 'orange' : 'default'}>
-                风险提示: {handoverData.hasRiskAlert ? '有' : '无'}
-              </Tag>
-              <Tag color={handoverData.expectationAlignment === 'aligned' ? 'green' : 'orange'}>
-                期望对齐: {handoverData.expectationAlignment === 'aligned' ? '已对齐' : '部分对齐'}
-              </Tag>
-            </Space>
-          </div>
-          
-          {/* 右侧：操作按钮 */}
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <Button icon={<EditOutlined />}>
-              编辑
-            </Button>
-            <Button type="primary" icon={<CheckCircleOutlined />} onClick={handleNewSuggestion}>
-              新建议
-            </Button>
-          </div>
-        </div>
-        {/* Tabs导航 */}
-        <Tabs
-          defaultActiveKey="overview"
-          items={[
+          <Tabs
+            defaultActiveKey="action-plan"
+            style={{
+              margin: 0
+            }}
+            tabBarStyle={tabStyles.tabBar}
+            tabBarGutter={24}
+            size="large"
+            type="line"
+            items={[
             {
-              key: 'overview',
-              label: '交接概览',
+              key: 'action-plan',
+              label: '行动计划',
               children: (
-                <div>
+                <div style={{ padding: '24px' }}>
                   {/* Onboarding行动计划 */}
                   <Card title="Onboarding行动计划" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
                     <div style={{ padding: '8px 0' }}>
@@ -299,26 +318,6 @@ const HandoverDetailPage: React.FC = () => {
                     </div>
                   </Card>
 
-                  {/* 核心痛点与期望 */}
-                  <Card title="核心痛点与期望" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
-                    <TextArea
-                      value={analysisData.painPoints}
-                      onChange={(e) => setAnalysisData(prev => ({ ...prev, painPoints: e.target.value }))}
-                      rows={3}
-                      placeholder="请输入客户的核心痛点和期望..."
-                    />
-                  </Card>
-
-                  {/* 附加成功标准 */}
-                  <Card title="附加成功标准" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
-                    <TextArea
-                      value={analysisData.successCriteria}
-                      onChange={(e) => setAnalysisData(prev => ({ ...prev, successCriteria: e.target.value }))}
-                      rows={3}
-                      placeholder="请输入补充的成功标准..."
-                    />
-                  </Card>
-
                   {/* 近期协作动态 */}
                   <Card title="近期协作动态" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
                     <div style={{ maxHeight: '240px', overflowY: 'auto' }}>
@@ -333,72 +332,6 @@ const HandoverDetailPage: React.FC = () => {
                         </div>
                       ))}
                     </div>
-                  </Card>
-
-                  {/* CRM同步信息 */}
-                  <Card style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
-                    <Collapse defaultActiveKey={[]} ghost expandIcon={({ isActive }) => (isActive ? <UpOutlined /> : <DownOutlined />)}>
-                      <Panel header="CRM同步信息" key="crm">
-                        <div style={{ padding: '8px 0' }}>
-                          <div style={{ marginBottom: '20px' }}>
-                            <Text strong style={{ display: 'block', marginBottom: '12px', color: '#333' }}>
-                              合同信息
-                            </Text>
-                            <Row gutter={[16, 8]}>
-                              <Col span={12}>
-                                <Text type="secondary">合同金额:</Text>
-                                <Text style={{ marginLeft: '8px' }}>¥{mockCRMSyncData.contractAmount}</Text>
-                              </Col>
-                              <Col span={12}>
-                                <Text type="secondary">服务周期:</Text>
-                                <Text style={{ marginLeft: '8px' }}>{mockCRMSyncData.servicePeriod}</Text>
-                              </Col>
-                            </Row>
-                          </div>
-
-                          <div style={{ marginBottom: '20px' }}>
-                            <Text strong style={{ display: 'block', marginBottom: '12px', color: '#333' }}>
-                              产品信息
-                            </Text>
-                            <div>
-                              <Text type="secondary">已购产品:</Text>
-                              <div style={{ marginTop: '8px' }}>
-                                {mockCRMSyncData.purchasedProducts.map((product, index) => (
-                                  <Tag key={index} color="blue" style={{ marginBottom: '4px' }}>
-                                    {product}
-                                  </Tag>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div style={{ marginBottom: '20px' }}>
-                            <Text strong style={{ display: 'block', marginBottom: '12px', color: '#333' }}>
-                              联系人信息
-                            </Text>
-                            <div>
-                              <Text type="secondary">关键联系人:</Text>
-                              <div style={{ marginTop: '8px' }}>
-                                {mockCRMSyncData.keyContacts.map((contact, index) => (
-                                  <div key={index} style={{ marginBottom: '8px', padding: '8px', background: '#f8f9fa', borderRadius: '4px' }}>
-                                    <Text>{contact}</Text>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div>
-                            <Text strong style={{ display: 'block', marginBottom: '12px', color: '#333' }}>
-                              销售备注
-                            </Text>
-                            <div style={{ padding: '12px', background: '#f8f9fa', borderRadius: '4px' }}>
-                              <Text>{mockCRMSyncData.salesNotes}</Text>
-                            </div>
-                          </div>
-                        </div>
-                      </Panel>
-                    </Collapse>
                   </Card>
 
                   {/* 内部协作沟通 */}
@@ -449,55 +382,10 @@ const HandoverDetailPage: React.FC = () => {
               )
             },
             {
-              key: 'health',
-              label: '健康度监控',
+              key: 'basic-info',
+              label: '基础信息',
               children: (
-                <div>
-                  <Card title="健康分趋势" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
-                    <div style={{ height: 180, background: 'linear-gradient(180deg, #e6f7ff, #fff)', border: '1px dashed #91d5ff', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1890ff' }}>
-                      折线图占位（健康分趋势）
-                    </div>
-                  </Card>
-                  <Card title="活跃度分析" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
-                    <Row gutter={16}>
-                      {[
-                        { label: '登录', value: 76 },
-                        { label: '访问页面', value: 58 },
-                        { label: '功能使用', value: 42 },
-                        { label: 'API调用', value: 30 },
-                      ].map((m) => (
-                        <Col xs={24} sm={12} key={m.label} style={{ marginBottom: 12 }}>
-                          <div style={{ marginBottom: 6 }}>{m.label}</div>
-                          <Progress percent={m.value} showInfo />
-                        </Col>
-                      ))}
-                    </Row>
-                  </Card>
-                </div>
-              )
-            },
-            {
-              key: 'history',
-              label: '服务历史',
-              children: (
-                <Card size="small" style={{ borderRadius: '8px' }}>
-                  <Timeline mode="left">
-                    <Timeline.Item label={handoverData.createdAt}>创建交接记录</Timeline.Item>
-                    {onboardingTasks
-                      .filter(t => t.completed)
-                      .map(t => (
-                        <Timeline.Item key={t.id} color="green">完成任务：{t.title}</Timeline.Item>
-                      ))}
-                    <Timeline.Item label={handoverData.updatedAt} color="blue">最近一次更新</Timeline.Item>
-                  </Timeline>
-                </Card>
-              )
-            },
-            {
-              key: 'info',
-              label: '客户信息',
-              children: (
-                <div>
+                <div style={{ padding: '24px' }}>
                   <Card title="基本信息" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
                     <Descriptions column={1} size="small">
                       <Descriptions.Item label="客户名称">{handoverData.customerName}</Descriptions.Item>
@@ -511,40 +399,225 @@ const HandoverDetailPage: React.FC = () => {
                   </Card>
                   <Card title="CRM信息" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
                     <Descriptions column={2} size="small">
-                      <Descriptions.Item label="合同金额">¥{mockCRMSyncData.contractAmount}</Descriptions.Item>
-                      <Descriptions.Item label="服务周期">{mockCRMSyncData.servicePeriod}</Descriptions.Item>
+                      <Descriptions.Item label="合同金额">
+                        <Text strong style={{ color: '#1890ff' }}>¥{handoverData.crmData?.contractAmount?.toLocaleString() || '0'}</Text>
+                      </Descriptions.Item>
+                      <Descriptions.Item label="服务周期">{handoverData.crmData?.servicePeriod || '未知'}</Descriptions.Item>
+                      <Descriptions.Item label="购买账号数">
+                        <Text strong style={{ color: '#52c41a' }}>{handoverData.crmData?.accountCount || '0'} 个</Text>
+                      </Descriptions.Item>
                       <Descriptions.Item label="已购产品" span={2}>
-                        {mockCRMSyncData.purchasedProducts.map((p, i) => (
+                        {handoverData.crmData?.purchasedProducts?.map((p, i) => (
                           <Tag key={i} color="blue" style={{ marginBottom: 4 }}>{p}</Tag>
-                        ))}
+                        )) || '暂无产品信息'}
                       </Descriptions.Item>
                     </Descriptions>
                   </Card>
-                  <Card title="干系人信息" size="small" style={{ borderRadius: '8px' }}>
-                    {(handoverData.stakeholders || []).map((s) => (
-                      <div key={s.id} style={{ padding: '8px 0', borderBottom: '1px solid #f0f0f0' }}>
-                        <Space>
-                          <Avatar icon={<UserOutlined />} />
-                          <span>{s.name}</span>
-                          <Tag>{s.position}</Tag>
-                          <Tag color="purple">{s.role}</Tag>
-                          <span style={{ color: '#999' }}>{s.contact}</span>
-                        </Space>
+                  <Card title="销售来源信息" size="small" style={{ borderRadius: '8px' }}>
+                    <Descriptions column={2} size="small">
+                      <Descriptions.Item label="销售类型">
+                        <Tag color={handoverData.crmData?.salesSource === 'direct' ? 'blue' : 'green'}>
+                          {handoverData.crmData?.salesSource === 'direct' ? '直营' : handoverData.crmData?.salesSource === 'channel' ? '渠道' : '直营'}
+                        </Tag>
+                      </Descriptions.Item>
+                      {handoverData.crmData?.salesSource === 'direct' && (
+                        <Descriptions.Item label="销售人员">
+                          <Text strong>{handoverData.crmData?.salesPerson || '未知'}</Text>
+                        </Descriptions.Item>
+                      )}
+                      {handoverData.crmData?.salesSource === 'channel' && (
+                        <Descriptions.Item label="渠道合作伙伴">
+                          <Text strong>{handoverData.crmData?.channelPartner || '未知'}</Text>
+                        </Descriptions.Item>
+                      )}
+                    </Descriptions>
+                    <div style={{ marginTop: '16px' }}>
+                      <Text strong style={{ display: 'block', marginBottom: '8px' }}>销售备注</Text>
+                      <div style={{ padding: '12px', background: '#f8f9fa', borderRadius: '6px', border: '1px solid #e8e8e8' }}>
+                        <Text>{handoverData.crmData?.salesNotes || '暂无备注'}</Text>
                       </div>
-                    ))}
+                    </div>
+                  </Card>
+                </div>
+              )
+            },
+            {
+              key: 'expectation-alignment',
+              label: '期望对齐',
+              children: (
+                <div style={{ padding: '24px' }}>
+                  <Card title="期望对齐状态" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '12px' }}>对齐状态</Text>
+                        <div style={{ marginTop: '4px' }}>
+                          <Tag color={handoverData.expectationAlignment === 'aligned' ? 'green' : handoverData.expectationAlignment === 'partially_aligned' ? 'gold' : 'red'} style={{ fontSize: '14px', padding: '4px 12px' }}>
+                            {handoverData.expectationAlignment === 'aligned' ? '已对齐' : handoverData.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'}
+                          </Tag>
+                        </div>
+                      </div>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '12px' }}>档案完整度</Text>
+                        <div style={{ marginTop: '4px' }}>
+                          <Progress 
+                            percent={handoverData.expectationAlignment === 'aligned' ? 100 : handoverData.expectationAlignment === 'partially_aligned' ? 60 : 30} 
+                            size="small" 
+                            showInfo={false}
+                            strokeColor={handoverData.expectationAlignment === 'aligned' ? '#52c41a' : handoverData.expectationAlignment === 'partially_aligned' ? '#faad14' : '#ff4d4f'}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                  <Card title="核心痛点与期望" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
+                    <TextArea
+                      value={analysisData.painPoints}
+                      onChange={(e) => setAnalysisData(prev => ({ ...prev, painPoints: e.target.value }))}
+                      rows={3}
+                      placeholder="请输入客户的核心痛点和期望..."
+                    />
+                  </Card>
+                  <Card title="成功标准" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
+                    <TextArea
+                      value={analysisData.successCriteria}
+                      onChange={(e) => setAnalysisData(prev => ({ ...prev, successCriteria: e.target.value }))}
+                      rows={3}
+                      placeholder="请输入补充的成功标准..."
+                    />
+                  </Card>
+                </div>
+              )
+            },
+            {
+              key: 'stakeholders',
+              label: '干系人',
+              children: (
+                <div style={{ padding: '24px' }}>
+                  <Card title="干系人信息" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
+                    {(handoverData.stakeholders || []).length > 0 ? (
+                      (handoverData.stakeholders || []).map((s) => (
+                        <div key={s.id} style={{ padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <Avatar icon={<UserOutlined />} />
+                              <span style={{ fontWeight: 500, minWidth: '60px' }}>{s.name}</span>
+                              <Tag color="blue">{s.position}</Tag>
+                              <Tag color="purple">{s.role}</Tag>
+                            </div>
+                            <span style={{ color: '#666', fontSize: '12px' }}>{s.contact}</span>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div style={{ padding: '20px', textAlign: 'center', color: '#999' }}>
+                        暂无干系人信息
+                      </div>
+                    )}
+                  </Card>
+                  <Card title="关键联系人" size="small" style={{ borderRadius: '8px' }}>
+                    <div>
+                      {handoverData.crmData?.keyContacts && handoverData.crmData.keyContacts.length > 0 ? (
+                        handoverData.crmData.keyContacts.map((contact, index) => (
+                          <div key={index} style={{ marginBottom: '12px', padding: '12px', background: '#f8f9fa', borderRadius: '6px', border: '1px solid #e8e8e8' }}>
+                            <Text>{contact}</Text>
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ padding: '20px', textAlign: 'center', color: '#999' }}>
+                          暂无关键联系人信息
+                        </div>
+                      )}
+                    </div>
+                  </Card>
+                </div>
+              )
+            },
+            {
+              key: 'risks-opportunities',
+              label: '风险与商机',
+              children: (
+                <div style={{ padding: '24px' }}>
+                  <Card title="风险提示" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '12px' }}>风险等级</Text>
+                        <div style={{ marginTop: '4px' }}>
+                          <Tag color={riskColorMap[handoverData.riskLevel]} style={{ fontSize: '14px', padding: '4px 12px' }}>
+                            {riskTextMap[handoverData.riskLevel]}
+                          </Tag>
+                        </div>
+                      </div>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '12px' }}>风险评分</Text>
+                        <div style={{ marginTop: '4px' }}>
+                          <Progress 
+                            percent={handoverData.riskLevel === 'high' ? 90 : handoverData.riskLevel === 'medium' ? 60 : 30} 
+                            size="small" 
+                            showInfo={false}
+                            strokeColor={riskColorMap[handoverData.riskLevel]}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <Text strong style={{ display: 'block', marginBottom: '8px' }}>风险详情</Text>
+                      <TextArea
+                        value={analysisData.risks}
+                        onChange={(e) => setAnalysisData(prev => ({ ...prev, risks: e.target.value }))}
+                        rows={3}
+                        placeholder="请输入风险详情..."
+                      />
+                    </div>
+                  </Card>
+                  <Card title="商机识别" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '12px' }}>商机等级</Text>
+                        <div style={{ marginTop: '4px' }}>
+                          <Tag color="green" style={{ fontSize: '14px', padding: '4px 12px' }}>
+                            高潜力
+                          </Tag>
+                        </div>
+                      </div>
+                      <div>
+                        <Text type="secondary" style={{ fontSize: '12px' }}>预估价值</Text>
+                        <div style={{ marginTop: '4px' }}>
+                          <Text strong style={{ color: '#52c41a' }}>¥50,000</Text>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <Text strong style={{ display: 'block', marginBottom: '8px' }}>商机描述</Text>
+                      <TextArea
+                        rows={3}
+                        placeholder="请输入潜在的商机和扩展机会..."
+                      />
+                    </div>
+                  </Card>
+                  <Card title="服务历史" size="small" style={{ borderRadius: '8px' }}>
+                    <Timeline mode="left">
+                      <Timeline.Item label={handoverData.createdAt}>创建交接记录</Timeline.Item>
+                      {onboardingTasks
+                        .filter(t => t.completed)
+                        .map(t => (
+                          <Timeline.Item key={t.id} color="green">完成任务：{t.title}</Timeline.Item>
+                        ))}
+                      <Timeline.Item label={handoverData.updatedAt} color="blue">最近一次更新</Timeline.Item>
+                    </Timeline>
                   </Card>
                 </div>
               )
             }
-          ]}
-        />
+            ]}
+          />
+        </div>
       </div>
       
-      {/* 钉学科技Footer */}
-      <Footer />
+
     </div>
     </>
   );
 };
 
 export default HandoverDetailPage;
+

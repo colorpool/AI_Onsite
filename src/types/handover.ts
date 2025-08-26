@@ -1,5 +1,5 @@
 // 客户交接状态
-export type HandoverStatus = 'pending' | 'processing' | 'aligned' | 'partially_aligned';
+export type HandoverStatus = 'normal' | 'not_handover' | 'risk';
 
 // 风险等级
 export type RiskLevel = 'high' | 'medium' | 'low';
@@ -23,6 +23,10 @@ export interface CRMSyncData {
   purchasedProducts: string[];
   keyContacts: string[];
   salesNotes: string;
+  accountCount: number; // 企业购买的账号数
+  salesSource?: 'direct' | 'channel'; // 销售来源：直营/渠道
+  salesPerson?: string; // 销售人员姓名（直营时使用）
+  channelPartner?: string; // 渠道合作伙伴（渠道时使用）
 }
 
 // 客户交接记录

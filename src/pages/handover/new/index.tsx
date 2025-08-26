@@ -30,7 +30,7 @@ const HandoverCreatePage: React.FC = () => {
 
   // 处理返回
   const handleBack = () => {
-    navigate('/profiles/handover');
+    navigate('/profiles/handover-implementation');
   };
 
   // 处理保存
@@ -44,7 +44,7 @@ const HandoverCreatePage: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       message.success('客户交接创建成功！');
-      navigate('/profiles/handover');
+      navigate('/profiles/handover-implementation');
     } catch (error) {
       console.log('创建失败:', error);
     } finally {
@@ -56,7 +56,8 @@ const HandoverCreatePage: React.FC = () => {
     <div style={{ 
       padding: '24px',
       background: '#f5f5f5',
-      minHeight: 'calc(100vh - 120px)'
+      minHeight: 'calc(100vh - 120px)',
+      paddingBottom: '60px' // 为footer留出底部间距
     }}>
       <div style={{ 
         maxWidth: '1000px', 

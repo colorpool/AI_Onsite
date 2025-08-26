@@ -139,15 +139,14 @@ export const layout: RunTimeLayoutConfig = ({
       // if (initialState?.loading) return <PageLoading />;
       return (
         <TabProvider>
-          <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <div style={{ position: 'sticky', top: 0, zIndex: 1000, background: '#fff' }}>
               <TabBarWrapper />
             </div>
-            <div style={{ flex: 1, padding: 0 }}>
+            <div style={{ flex: 1, overflow: 'auto', padding: 0 }}>
               {children}
             </div>
           </div>
-
         </TabProvider>
       );
     },

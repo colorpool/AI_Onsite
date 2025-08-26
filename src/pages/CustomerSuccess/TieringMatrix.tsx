@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Row, Col, Card, Typography, Tooltip, Space, Button, Badge, Dropdown, Table, Avatar, Tag, Input } from 'antd';
 import { SettingOutlined, QuestionCircleOutlined, MoreOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
-import Footer from '../../components/Footer';
+
 
 const { Title, Text } = Typography;
 
@@ -704,8 +704,7 @@ const TieringMatrix: React.FC = () => {
         />
       </Card>
       
-      {/* 钉学科技Footer */}
-      <Footer />
+
     </div>
   );
 };

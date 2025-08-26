@@ -14,6 +14,7 @@ const useStyles = createStyles(({ token }) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     height: '40px', // 减少高度，让Tab更紧凑
+    overflow: 'hidden', // 防止内容溢出
   },
   customTabs: {
     flex: 1,
@@ -21,23 +22,29 @@ const useStyles = createStyles(({ token }) => ({
     '& .ant-tabs-nav': {
       margin: 0,
       overflow: 'auto', // 添加水平滚动
+      scrollbarWidth: 'thin', // Firefox滚动条样式
+      scrollbarColor: `${token.colorBorderSecondary} transparent`, // Firefox滚动条颜色
       '&::-webkit-scrollbar': {
-        height: '4px',
+        height: '6px',
       },
       '&::-webkit-scrollbar-track': {
         background: 'transparent',
+        borderRadius: '3px',
       },
       '&::-webkit-scrollbar-thumb': {
         background: token.colorBorderSecondary,
-        borderRadius: '2px',
+        borderRadius: '3px',
+        '&:hover': {
+          background: token.colorTextSecondary,
+        },
       },
-      '&::-webkit-scrollbar-thumb:hover': {
-        background: token.colorTextSecondary,
-      },
+    },
+    '& .ant-tabs-nav-wrap': {
+      overflow: 'visible', // 确保滚动容器可见
     },
     '& .ant-tabs-tab': {
       padding: '6px 10px', // 减少内边距，让Tab更紧凑
-      margin: '0 1px 0 0', // 缩短间距从2px改为1px
+      margin: '0 16px 0 0 !important', // 增加tab之间的间距，使用!important确保优先级
       borderRadius: '6px 6px 0 0',
       border: `1px solid ${token.colorBorderSecondary}`,
       borderBottom: 'none',
@@ -47,6 +54,7 @@ const useStyles = createStyles(({ token }) => ({
       whiteSpace: 'nowrap', // 防止文字换行
       minWidth: '80px', // 减小最小宽度，适应短文本
       maxWidth: 'none', // 移除最大宽度限制，让tab根据内容自适应
+      flexShrink: 0, // 防止tab被压缩
       '&:hover': {
         background: token.colorBgTextHover,
       },
@@ -78,6 +86,12 @@ const useStyles = createStyles(({ token }) => ({
     },
     '& .ant-tabs-nav-operations': {
       display: 'none !important',
+    },
+    '& .ant-tabs-nav-list': {
+      display: 'flex',
+      alignItems: 'center',
+      minWidth: 'fit-content', // 确保容器宽度至少能容纳内容
+      flexWrap: 'nowrap', // 防止换行
     },
 
   },
@@ -209,7 +223,7 @@ const TabBar: React.FC<TabBarProps> = React.memo(({
         hideAdd
         addIcon={null}
         type="card"
-        tabBarGutter={0}
+        tabBarGutter={8}
         tabBarStyle={{ margin: 0 }}
       />
       <div className={styles.tabActions}>

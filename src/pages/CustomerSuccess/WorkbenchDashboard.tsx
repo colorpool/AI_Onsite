@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { 
   Card, 
   Row, 
@@ -19,7 +19,12 @@ import {
   Tooltip,
   Calendar,
   theme,
-  Drawer
+  Drawer,
+  Modal,
+  Form,
+  Input,
+  Select as AntSelect,
+  Popconfirm
 } from 'antd';
 import { 
   UserOutlined, 
@@ -51,10 +56,12 @@ import {
   FireOutlined,
   AlertOutlined,
   HeartOutlined,
-  PieChartOutlined
+  PieChartOutlined,
+  EditOutlined,
+  DeleteOutlined
 } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
-import Footer from '../../components/Footer';
+
 import { mockCustomerHandovers } from '../../mock/handoverData';
 import type { CustomerHandover } from '../../types/handover';
 
@@ -320,6 +327,10 @@ const ActionSection: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [handoverDrawerOpen, setHandoverDrawerOpen] = useState<boolean>(false);
   const [selectedHandover, setSelectedHandover] = useState<CustomerHandover | null>(null);
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState<boolean>(false);
+  const [editingContext, setEditingContext] = useState<{ section: 'today' | 'thisWeek' | 'future'; id?: number } | null>(null);
+  const [form] = Form.useForm();
+  const [hoveredItem, setHoveredItem] = useState<{ section: 'today' | 'thisWeek' | 'future'; id: number } | null>(null);
   
   // 智能提醒与任务队列数据
   const intelligentTasks = {
@@ -360,8 +371,12 @@ const ActionSection: React.FC = () => {
     return texts[type as keyof typeof texts] || '其他';
   };
 
-  // 我的日程与待办数据
-  const scheduleData = {
+  // 我的日程与待办数据（使用状态管理以支持新增/编辑/删除）
+  const [scheduleData, setScheduleData] = useState<{
+    today: Array<{ id: number; task: string; customer: string; time: string; type: string; completed: boolean }>;
+    thisWeek: Array<{ id: number; task: string; customer: string; time: string; type: string; completed: boolean }>;
+    future: Array<{ id: number; task: string; customer: string; time: string; type: string; completed: boolean }>;
+  }>({
     today: [
       { id: 1, task: '客户回访 - 阿里巴巴', customer: '阿里巴巴集团', time: '14:00', type: 'business-review', completed: false },
       { id: 2, task: '续约谈判准备', customer: '腾讯科技', time: '16:00', type: 'renewal', completed: false },
@@ -377,6 +392,139 @@ const ActionSection: React.FC = () => {
       { id: 8, task: '季度业务回顾', customer: '京东集团', time: '下周三 14:00', type: 'business-review', completed: false },
       { id: 9, task: '合同续签仪式', customer: '拼多多', time: '下周五 16:00', type: 'contract', completed: false },
     ]
+  });
+
+  const allIds = useMemo(() => {
+    return new Set<number>([
+      ...scheduleData.today.map(i => i.id),
+      ...scheduleData.thisWeek.map(i => i.id),
+      ...scheduleData.future.map(i => i.id),
+    ]);
+  }, [scheduleData]);
+
+  const getNextId = () => {
+    let next = 1;
+    while (allIds.has(next)) next += 1;
+    return next;
+  };
+
+  const openAddModal = () => {
+    setEditingContext({ section: 'today' });
+    form.resetFields();
+    setIsScheduleModalOpen(true);
+  };
+
+  const openEditModal = (section: 'today' | 'thisWeek' | 'future', id: number) => {
+    const record = scheduleData[section].find(i => i.id === id);
+    if (record) {
+      setEditingContext({ section, id });
+      form.setFieldsValue({
+        section,
+        task: record.task,
+        customer: record.customer,
+        time: record.time,
+        type: record.type,
+        completed: record.completed,
+      });
+      setIsScheduleModalOpen(true);
+    }
+  };
+
+  const handleDelete = (section: 'today' | 'thisWeek' | 'future', id: number) => {
+    setScheduleData(prev => ({
+      ...prev,
+      [section]: prev[section].filter(i => i.id !== id)
+    }));
+  };
+
+  const handleToggleCompleted = (section: 'today' | 'thisWeek' | 'future', id: number, checked: boolean) => {
+    setScheduleData(prev => ({
+      ...prev,
+      [section]: prev[section].map(i => i.id === id ? { ...i, completed: checked } : i)
+    }));
+  };
+
+  const handleModalOk = async () => {
+    const values = await form.validateFields();
+    const { section, task, customer, time, type } = values as { section: 'today' | 'thisWeek' | 'future'; task: string; customer: string; time: string; type: string };
+    const completed = Boolean(values.completed);
+
+    setScheduleData(prev => {
+      if (editingContext && editingContext.id != null) {
+        // 编辑
+        const originalSection = editingContext.section;
+        // 如果切换了分组，需要从原分组删除，添加到新分组
+        const updatedOriginal = prev[originalSection].filter(i => i.id !== editingContext.id);
+        const updatedTarget = [
+          ...prev[section].filter(i => i.id !== editingContext.id),
+          { id: editingContext.id, task, customer, time, type, completed }
+        ];
+        return {
+          ...prev,
+          [originalSection]: updatedOriginal,
+          [section]: updatedTarget
+        };
+      }
+      // 新增
+      const newItem = { id: getNextId(), task, customer, time, type, completed };
+      return {
+        ...prev,
+        [section]: [...prev[section], newItem]
+      };
+    });
+
+    setIsScheduleModalOpen(false);
+    setEditingContext(null);
+  };
+
+  const handleModalCancel = () => {
+    setIsScheduleModalOpen(false);
+    setEditingContext(null);
+  };
+
+  // 日历视图：悬停与隐藏的本地状态
+  const [hoveredCalendarIdx, setHoveredCalendarIdx] = useState<number | null>(null);
+  const [hiddenCalendarItems, setHiddenCalendarItems] = useState<{ [date: string]: number[] }>({});
+
+  const inferSectionByDate = (dateStr: string): 'today' | 'thisWeek' | 'future' => {
+    try {
+      const today = new Date();
+      const target = new Date(dateStr);
+      const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const startOfTarget = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+      const diffMs = startOfTarget.getTime() - startOfToday.getTime();
+      const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      if (diffDays === 0) return 'today';
+      if (diffDays > 0 && diffDays <= 7) return 'thisWeek';
+      return 'future';
+    } catch {
+      return 'future';
+    }
+  };
+
+  const openEditFromCalendar = (
+    dateStr: string,
+    item: { task: string; customer: string; time: string; type: string }
+  ) => {
+    const section = inferSectionByDate(dateStr);
+    setEditingContext({ section });
+    form.setFieldsValue({
+      section,
+      task: item.task,
+      customer: item.customer,
+      time: item.time,
+      type: item.type,
+      completed: false,
+    });
+    setIsScheduleModalOpen(true);
+  };
+
+  const deleteFromCalendarView = (dateStr: string, index: number) => {
+    setHiddenCalendarItems((prev) => {
+      const existed = prev[dateStr] || [];
+      if (existed.includes(index)) return prev;
+      return { ...prev, [dateStr]: [...existed, index] };
+    });
   };
 
   // 日历事件数据
@@ -425,33 +573,7 @@ const ActionSection: React.FC = () => {
       ]
     };
     
-    // 为当前月份添加一些随机事件
-    for (let day = 1; day <= 31; day++) {
-      if (Math.random() > 0.7) { // 30%的概率有事件
-        const dayStr = day.toString().padStart(2, '0');
-        const dateKey = `${currentYear}-${monthStr}-${dayStr}`;
-        
-        // 如果这个日期还没有事件，就添加一个
-        if (!events[dateKey]) {
-          const eventTypes = ['business-review', 'renewal', 'training', 'report', 'survey', 'demo', 'meeting', 'contract'];
-          const customers = ['阿里巴巴集团', '腾讯科技', '字节跳动', '美团点评', '滴滴出行', '小米科技', '百度公司', '京东集团'];
-          
-          const randomType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
-          const randomCustomer = customers[Math.floor(Math.random() * customers.length)];
-          const randomHour = Math.floor(Math.random() * 8) + 9; // 9-17点
-          const randomMinute = Math.random() > 0.5 ? '00' : '30';
-          
-          events[dateKey] = [
-            {
-              task: `${getTaskTypeText(randomType)} - ${randomCustomer}`,
-              customer: randomCustomer,
-              time: `${randomHour}:${randomMinute}`,
-              type: randomType
-            }
-          ];
-        }
-      }
-    }
+    // 注意：不再生成随机事件，保持稳定
     
     return events;
   })();
@@ -505,7 +627,7 @@ const ActionSection: React.FC = () => {
             bodyStyle={{ padding: '16px' }}
           >
             <Tabs defaultActiveKey="handover" size="small">
-              <TabPane tab="客户交接" key="handover">
+              <TabPane tab="交接实施" key="handover">
                 <List
                   dataSource={mockCustomerHandovers}
                   renderItem={(item) => (
@@ -519,8 +641,8 @@ const ActionSection: React.FC = () => {
                         title={item.customerName}
                         description={
                           <Space size="small" wrap>
-                            <Tag color={item.handoverStatus === 'aligned' ? 'green' : item.handoverStatus === 'processing' ? 'blue' : item.handoverStatus === 'partially_aligned' ? 'gold' : 'orange'}>
-                              {item.handoverStatus === 'aligned' ? '已对齐' : item.handoverStatus === 'processing' ? '进行中' : item.handoverStatus === 'partially_aligned' ? '部分对齐' : '待处理'}
+                            <Tag color={item.expectationAlignment === 'aligned' ? 'green' : item.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange'}>
+                              {item.expectationAlignment === 'aligned' ? '已对齐' : item.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'}
                             </Tag>
                             <Tag color={item.hasRiskAlert ? 'orange' : 'default'}>
                               风险提示: {item.hasRiskAlert ? '有' : '无'}
@@ -549,8 +671,8 @@ const ActionSection: React.FC = () => {
                   {selectedHandover && (
                     <div>
                       <Space size="small" wrap style={{ marginBottom: 12 }}>
-                        <Tag color={selectedHandover.handoverStatus === 'aligned' ? 'green' : selectedHandover.handoverStatus === 'processing' ? 'blue' : selectedHandover.handoverStatus === 'partially_aligned' ? 'gold' : 'orange'}>
-                          {selectedHandover.handoverStatus === 'aligned' ? '已对齐' : selectedHandover.handoverStatus === 'processing' ? '进行中' : selectedHandover.handoverStatus === 'partially_aligned' ? '部分对齐' : '待处理'}
+                        <Tag color={selectedHandover.expectationAlignment === 'aligned' ? 'green' : selectedHandover.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange'}>
+                          {selectedHandover.expectationAlignment === 'aligned' ? '已对齐' : selectedHandover.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'}
                         </Tag>
                         <Tag color={selectedHandover.hasRiskAlert ? 'orange' : 'default'}>风险提示: {selectedHandover.hasRiskAlert ? '有' : '无'}</Tag>
                         {typeof selectedHandover.handoverRating === 'number' && <Tag color="gold">评分: {selectedHandover.handoverRating}</Tag>}
@@ -757,6 +879,13 @@ const ActionSection: React.FC = () => {
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <Button
+                    type="primary"
+                    size="small"
+                    shape="circle"
+                    icon={<PlusOutlined />}
+                    onClick={openAddModal}
+                  />
+                  <Button
                     type={viewMode === 'list' ? 'primary' : 'text'}
                     size="small"
                     icon={<UnorderedListOutlined />}
@@ -783,14 +912,25 @@ const ActionSection: React.FC = () => {
               <List
                     dataSource={scheduleData.today}
                 renderItem={(item) => (
-                  <List.Item style={{ padding: '8px 0' }}>
+                  <List.Item
+                    style={{ padding: '8px 0' }}
+                    onMouseEnter={() => setHoveredItem({ section: 'today', id: item.id })}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    actions={
+                      hoveredItem && hoveredItem.section === 'today' && hoveredItem.id === item.id
+                        ? [
+                            <Button key="edit" size="small" type="text" icon={<EditOutlined />} onClick={() => openEditModal('today', item.id)} />,
+                            <Popconfirm key="delete" title="确认删除该日程？" onConfirm={() => handleDelete('today', item.id)}>
+                              <Button size="small" type="text" danger icon={<DeleteOutlined />} />
+                            </Popconfirm>
+                          ]
+                        : []
+                    }
+                  >
                     <List.Item.Meta
-                          avatar={<Checkbox checked={item.completed} />}
+                          avatar={<Checkbox checked={item.completed} onChange={(e) => handleToggleCompleted('today', item.id, e.target.checked)} />}
                       title={
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span style={{ textDecoration: item.completed ? 'line-through' : 'none', opacity: item.completed ? 0.6 : 1 }}>
-                                {item.task}
-                              </span>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '8px' }}>
                           <Tag 
                             color={getTaskTypeColor(item.type)} 
                             style={{ 
@@ -801,6 +941,9 @@ const ActionSection: React.FC = () => {
                           >
                             {getTaskTypeText(item.type)}
                           </Tag>
+                          <span style={{ textDecoration: item.completed ? 'line-through' : 'none', opacity: item.completed ? 0.6 : 1 }}>
+                            {item.task}
+                          </span>
                         </div>
                       }
                       description={
@@ -821,14 +964,25 @@ const ActionSection: React.FC = () => {
               <List
                     dataSource={scheduleData.thisWeek}
                 renderItem={(item) => (
-                  <List.Item style={{ padding: '8px 0' }}>
+                  <List.Item
+                    style={{ padding: '8px 0' }}
+                    onMouseEnter={() => setHoveredItem({ section: 'thisWeek', id: item.id })}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    actions={
+                      hoveredItem && hoveredItem.section === 'thisWeek' && hoveredItem.id === item.id
+                        ? [
+                            <Button key="edit" size="small" type="text" icon={<EditOutlined />} onClick={() => openEditModal('thisWeek', item.id)} />,
+                            <Popconfirm key="delete" title="确认删除该日程？" onConfirm={() => handleDelete('thisWeek', item.id)}>
+                              <Button size="small" type="text" danger icon={<DeleteOutlined />} />
+                            </Popconfirm>
+                          ]
+                        : []
+                    }
+                  >
                     <List.Item.Meta
-                          avatar={<Checkbox checked={item.completed} />}
+                          avatar={<Checkbox checked={item.completed} onChange={(e) => handleToggleCompleted('thisWeek', item.id, e.target.checked)} />}
                       title={
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span style={{ textDecoration: item.completed ? 'line-through' : 'none', opacity: item.completed ? 0.6 : 1 }}>
-                                {item.task}
-                              </span>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '8px' }}>
                           <Tag 
                             color={getTaskTypeColor(item.type)} 
                             style={{ 
@@ -839,6 +993,9 @@ const ActionSection: React.FC = () => {
                           >
                             {getTaskTypeText(item.type)}
                           </Tag>
+                          <span style={{ textDecoration: item.completed ? 'line-through' : 'none', opacity: item.completed ? 0.6 : 1 }}>
+                            {item.task}
+                          </span>
                         </div>
                       }
                       description={
@@ -859,14 +1016,25 @@ const ActionSection: React.FC = () => {
               <List
                     dataSource={scheduleData.future}
                     renderItem={(item) => (
-                      <List.Item style={{ padding: '8px 0' }}>
+                      <List.Item
+                        style={{ padding: '8px 0' }}
+                        onMouseEnter={() => setHoveredItem({ section: 'future', id: item.id })}
+                        onMouseLeave={() => setHoveredItem(null)}
+                        actions={
+                          hoveredItem && hoveredItem.section === 'future' && hoveredItem.id === item.id
+                            ? [
+                                <Button key="edit" size="small" type="text" icon={<EditOutlined />} onClick={() => openEditModal('future', item.id)} />,
+                                <Popconfirm key="delete" title="确认删除该日程？" onConfirm={() => handleDelete('future', item.id)}>
+                                  <Button size="small" type="text" danger icon={<DeleteOutlined />} />
+                                </Popconfirm>
+                              ]
+                            : []
+                        }
+                      >
                         <List.Item.Meta
-                          avatar={<Checkbox checked={item.completed} />}
+                          avatar={<Checkbox checked={item.completed} onChange={(e) => handleToggleCompleted('future', item.id, e.target.checked)} />}
                           title={
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span style={{ textDecoration: item.completed ? 'line-through' : 'none', opacity: item.completed ? 0.6 : 1 }}>
-                                {item.task}
-                              </span>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '8px' }}>
                               <Tag 
                                 color={getTaskTypeColor(item.type)} 
                                 style={{ 
@@ -877,6 +1045,9 @@ const ActionSection: React.FC = () => {
                               >
                                 {getTaskTypeText(item.type)}
                               </Tag>
+                              <span style={{ textDecoration: item.completed ? 'line-through' : 'none', opacity: item.completed ? 0.6 : 1 }}>
+                                {item.task}
+                              </span>
                             </div>
                           }
                           description={
@@ -980,14 +1151,27 @@ const ActionSection: React.FC = () => {
                     </div>
                     <List
                       size="small"
-                      dataSource={calendarEvents[selectedDate]}
-                renderItem={(item) => (
-                  <List.Item style={{ padding: '8px 0' }}>
+                      dataSource={(calendarEvents[selectedDate] || []).filter((_, idx) => !(hiddenCalendarItems[selectedDate] || []).includes(idx))}
+                renderItem={(item, index) => (
+                  <List.Item 
+                    style={{ padding: '8px 0' }}
+                    onMouseEnter={() => setHoveredCalendarIdx(index)}
+                    onMouseLeave={() => setHoveredCalendarIdx(null)}
+                    actions={
+                      hoveredCalendarIdx === index
+                        ? [
+                            <Button key="edit" size="small" type="text" icon={<EditOutlined />} onClick={() => openEditFromCalendar(selectedDate, item)} />,
+                            <Popconfirm key="delete" title="确认删除该日程？" onConfirm={() => deleteFromCalendarView(selectedDate, index)}>
+                              <Button size="small" type="text" danger icon={<DeleteOutlined />} />
+                            </Popconfirm>
+                          ]
+                        : []
+                    }
+                  >
                     <List.Item.Meta
                       avatar={<Checkbox />}
                       title={
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <span>{item.task}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '8px' }}>
                           <Tag 
                             color={getTaskTypeColor(item.type)} 
                             style={{ 
@@ -998,6 +1182,7 @@ const ActionSection: React.FC = () => {
                           >
                             {getTaskTypeText(item.type)}
                           </Tag>
+                          <span>{item.task}</span>
                         </div>
                       }
                       description={
@@ -1015,6 +1200,53 @@ const ActionSection: React.FC = () => {
               </div>
             )}
           </Card>
+          <Modal
+            title={editingContext && editingContext.id != null ? '编辑日程' : '新增日程'}
+            open={isScheduleModalOpen}
+            onOk={handleModalOk}
+            onCancel={handleModalCancel}
+            okText="保存"
+            cancelText="取消"
+            destroyOnClose
+          >
+            <Form form={form} layout="vertical" initialValues={{ section: editingContext?.section ?? 'today', completed: false }}>
+              <Form.Item name="section" label="分组" rules={[{ required: true, message: '请选择分组' }]}>
+                <AntSelect
+                  options={[
+                    { label: '今天', value: 'today' },
+                    { label: '本周', value: 'thisWeek' },
+                    { label: '未来', value: 'future' },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name="task" label="事项" rules={[{ required: true, message: '请输入事项' }]}>
+                <Input placeholder="例如：客户回访 - 阿里巴巴" />
+              </Form.Item>
+              <Form.Item name="customer" label="客户" rules={[{ required: true, message: '请输入客户名称' }]}>
+                <Input placeholder="例如：阿里巴巴集团" />
+              </Form.Item>
+              <Form.Item name="time" label="时间" rules={[{ required: true, message: '请输入时间' }]}>
+                <Input placeholder="例如：14:00 或 周三 15:00" />
+              </Form.Item>
+              <Form.Item name="type" label="类型" rules={[{ required: true, message: '请选择类型' }]}>
+                <AntSelect
+                  options={[
+                    { label: getTaskTypeText('business-review'), value: 'business-review' },
+                    { label: getTaskTypeText('renewal'), value: 'renewal' },
+                    { label: getTaskTypeText('training'), value: 'training' },
+                    { label: getTaskTypeText('report'), value: 'report' },
+                    { label: getTaskTypeText('survey'), value: 'survey' },
+                    { label: getTaskTypeText('demo'), value: 'demo' },
+                    { label: getTaskTypeText('meeting'), value: 'meeting' },
+                    { label: getTaskTypeText('contract'), value: 'contract' },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name="completed" valuePropName="checked">
+                <Checkbox>标记为已完成</Checkbox>
+              </Form.Item>
+            </Form>
+          </Modal>
         </Col>
       </Row>
     </Col>
@@ -1386,8 +1618,7 @@ export const WorkbenchDashboard: React.FC = () => {
         <InsightSection />
       </Row>
       
-      {/* 钉学科技Footer */}
-      <Footer />
+
     </div>
   );
 };

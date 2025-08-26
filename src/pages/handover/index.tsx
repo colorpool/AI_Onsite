@@ -90,7 +90,8 @@ const HandoverListPage: React.FC = () => {
       <div style={{ 
         padding: '24px',
         background: '#fafafa',
-        minHeight: 'calc(100vh - 120px)'
+        minHeight: 'calc(100vh - 120px)',
+        paddingBottom: '60px' // 为footer留出底部间距
       }}>
         <div style={{ 
           maxWidth: '1000px', 
@@ -104,7 +105,7 @@ const HandoverListPage: React.FC = () => {
             gap: '16px'
           }}>
             <Button 
-              onClick={() => navigate('/profiles/handover')}
+              onClick={() => navigate('/profiles/handover-implementation')}
               style={{ border: 'none', padding: 0 }}
             >
               返回
@@ -288,7 +289,8 @@ const HandoverListPage: React.FC = () => {
     <div style={{ 
       padding: '24px',
       background: '#f5f5f5',
-      minHeight: 'calc(100vh - 120px)'
+      minHeight: 'calc(100vh - 120px)',
+      paddingBottom: '60px' // 为footer留出底部间距
     }}>
       <div style={{ 
         maxWidth: '1400px', 
