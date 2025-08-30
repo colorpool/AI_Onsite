@@ -94,13 +94,13 @@ export default [
         path: '/profiles/service',
         name: '持续服务',
         icon: 'customerService',
-        component: './CustomerSuccess',
+        component: './profiles/service',
       },
       {
         path: '/profiles/renewal',
         name: '续约管理',
         icon: 'fileText',
-        component: './CustomerSuccess',
+        component: './profiles/service/renewal-management',
       },
       {
         path: '/profiles/recall',

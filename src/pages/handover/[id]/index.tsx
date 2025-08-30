@@ -27,11 +27,12 @@ import {
   DownOutlined,
   UpOutlined,
 } from '@ant-design/icons';
-import { useNavigate, useParams, history } from 'umi';
+import { useNavigate, useParams, useLocation } from 'umi';
 import { mockCustomerHandovers, mockCRMSyncData, mockStakeholders, mockOnboardingTasks, mockInternalComments } from '../../../mock/handoverData';
 import { CustomerHandover, Stakeholder, OnboardingTask, InternalComment } from '../../../types/handover';
 
 import HandoverDetailHeader from '../../../components/handover/HandoverDetailHeader';
+import StakeholderOrgChart from '../../../components/handover/StakeholderOrgChart';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -45,15 +46,14 @@ const tabStyles = {
     borderBottom: '1px solid #f0f0f0',
     padding: '0 24px'
   },
-      tab: {
-      padding: '16px 32px',
-      margin: '0 16px 0 0',
-      border: 'none',
-      background: 'transparent',
-      transition: 'all 0.3s ease',
-      minWidth: '120px',
-      textAlign: 'center'
-    },
+  tab: {
+    padding: '16px 32px',
+    margin: '0',
+    border: 'none',
+    background: 'transparent',
+    transition: 'all 0.3s ease',
+    textAlign: 'center'
+  },
   tabActive: {
     background: '#fff',
     borderBottom: '2px solid #1890ff'
@@ -74,16 +74,54 @@ const tabStyles = {
 const HandoverDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  
+  // 添加自定义样式来强制标签页均匀分布
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      .ant-tabs-nav-list {
+        width: 100% !important;
+        display: flex !important;
+      }
+      .ant-tabs-tab {
+        flex: 1 !important;
+        text-align: center !important;
+        margin: 0 !important;
+      }
+      .ant-tabs-tab-btn {
+        width: 100% !important;
+        text-align: center !important;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   const [loading, setLoading] = useState(true);
   const [handoverData, setHandoverData] = useState<CustomerHandover | null>(null);
   const [onboardingTasks, setOnboardingTasks] = useState<OnboardingTask[]>([]);
   const [internalComments, setInternalComments] = useState<InternalComment[]>([]);
   const [newComment, setNewComment] = useState('');
+  const [stakeholders, setStakeholders] = useState<Stakeholder[]>([]);
   const [analysisData, setAnalysisData] = useState({
     painPoints: '',
     successCriteria: '',
     risks: '',
   });
+
+  // 解析 URL 中的默认 tab，并保持与 URL 同步
+  const searchParams = new URLSearchParams(location.search);
+  const defaultTab = searchParams.get('tab') || 'action-plan';
+  const [activeTab, setActiveTab] = useState<string>(defaultTab);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab') || 'action-plan';
+    setActiveTab(tab);
+  }, [location.search]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -98,6 +136,7 @@ const HandoverDetailPage: React.FC = () => {
           setHandoverData(data);
           setOnboardingTasks(data.onboardingTasks || mockOnboardingTasks);
           setInternalComments(data.internalComments || mockInternalComments);
+          setStakeholders(data.stakeholders || mockStakeholders);
           
           // 设置分析数据
           setAnalysisData({
@@ -195,6 +234,23 @@ const HandoverDetailPage: React.FC = () => {
     message.success('评论已添加');
   };
 
+  // 处理干系人更新
+  const handleStakeholderUpdate = (updatedStakeholder: Stakeholder) => {
+    setStakeholders(prev => 
+      prev.map(s => s.id === updatedStakeholder.id ? updatedStakeholder : s)
+    );
+  };
+
+  // 处理干系人添加
+  const handleStakeholderAdd = (newStakeholder: Stakeholder) => {
+    setStakeholders(prev => [...prev, newStakeholder]);
+  };
+
+  // 处理干系人删除
+  const handleStakeholderDelete = (id: string) => {
+    setStakeholders(prev => prev.filter(s => s.id !== id));
+  };
+
   if (loading) {
     return (
       <div style={{ 
@@ -247,6 +303,7 @@ const HandoverDetailPage: React.FC = () => {
     medium: '中风险',
     low: '低风险'
   };
+  const ORG_CHART_HEIGHT = 560;
 
   return (
     <>
@@ -284,12 +341,23 @@ const HandoverDetailPage: React.FC = () => {
           boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
         }}>
           <Tabs
-            defaultActiveKey="action-plan"
+            activeKey={activeTab}
+            onChange={(key) => {
+              setActiveTab(key as string);
+              // 同步到 URL（不新增历史记录）
+              const params = new URLSearchParams(location.search);
+              params.set('tab', String(key));
+              navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+            }}
             style={{
               margin: 0
             }}
-            tabBarStyle={tabStyles.tabBar}
-            tabBarGutter={24}
+            tabBarStyle={{
+              margin: 0,
+              backgroundColor: '#fff',
+              borderBottom: '1px solid #f0f0f0',
+              padding: '0 24px'
+            }}
             size="large"
             type="line"
             items={[
@@ -493,42 +561,34 @@ const HandoverDetailPage: React.FC = () => {
               label: '干系人',
               children: (
                 <div style={{ padding: '24px' }}>
-                  <Card title="干系人信息" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
-                    {(handoverData.stakeholders || []).length > 0 ? (
-                      (handoverData.stakeholders || []).map((s) => (
-                        <div key={s.id} style={{ padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <Avatar icon={<UserOutlined />} />
-                              <span style={{ fontWeight: 500, minWidth: '60px' }}>{s.name}</span>
-                              <Tag color="blue">{s.position}</Tag>
-                              <Tag color="purple">{s.role}</Tag>
+                  <Row gutter={16}>
+                    <Col span={16}>
+                      <StakeholderOrgChart
+                        stakeholders={stakeholders}
+                        onStakeholderUpdate={handleStakeholderUpdate}
+                        onStakeholderAdd={handleStakeholderAdd}
+                        onStakeholderDelete={handleStakeholderDelete}
+                        chartHeight={ORG_CHART_HEIGHT}
+                      />
+                    </Col>
+                    <Col span={8}>
+                      <Card title="关键联系人" size="small" style={{ borderRadius: '8px' }}>
+                        <div style={{ height: ORG_CHART_HEIGHT, overflow: 'auto' }}>
+                          {handoverData.crmData?.keyContacts && handoverData.crmData.keyContacts.length > 0 ? (
+                            handoverData.crmData.keyContacts.map((contact, index) => (
+                              <div key={index} style={{ marginBottom: '12px', padding: '12px', background: '#f8f9fa', borderRadius: '6px', border: '1px solid #e8e8e8' }}>
+                                <Text>{contact}</Text>
+                              </div>
+                            ))
+                          ) : (
+                            <div style={{ padding: '20px', textAlign: 'center', color: '#999' }}>
+                              暂无关键联系人信息
                             </div>
-                            <span style={{ color: '#666', fontSize: '12px' }}>{s.contact}</span>
-                          </div>
+                          )}
                         </div>
-                      ))
-                    ) : (
-                      <div style={{ padding: '20px', textAlign: 'center', color: '#999' }}>
-                        暂无干系人信息
-                      </div>
-                    )}
-                  </Card>
-                  <Card title="关键联系人" size="small" style={{ borderRadius: '8px' }}>
-                    <div>
-                      {handoverData.crmData?.keyContacts && handoverData.crmData.keyContacts.length > 0 ? (
-                        handoverData.crmData.keyContacts.map((contact, index) => (
-                          <div key={index} style={{ marginBottom: '12px', padding: '12px', background: '#f8f9fa', borderRadius: '6px', border: '1px solid #e8e8e8' }}>
-                            <Text>{contact}</Text>
-                          </div>
-                        ))
-                      ) : (
-                        <div style={{ padding: '20px', textAlign: 'center', color: '#999' }}>
-                          暂无关键联系人信息
-                        </div>
-                      )}
-                    </div>
-                  </Card>
+                      </Card>
+                    </Col>
+                  </Row>
                 </div>
               )
             },

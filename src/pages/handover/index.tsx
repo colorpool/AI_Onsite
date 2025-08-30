@@ -28,7 +28,7 @@ import { useNavigate, useLocation } from 'umi';
 import { mockCustomerHandovers } from '../../mock/handoverData';
 import { CustomerHandover, HandoverStatus, RiskLevel } from '../../types/handover';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { Option } = Select;
 
 const HandoverListPage: React.FC = () => {
@@ -73,11 +73,9 @@ const HandoverListPage: React.FC = () => {
     message.success('导出功能开发中...');
   };
 
-  // 处理查看详情
-  const handleViewDetail = (record: CustomerHandover) => {
-    console.log('点击查看详情:', record);
-    const url = `/profiles/handover/${record.id}`;
-    console.log('跳转URL:', url);
+  // 处理查看详情（可指定默认标签页）
+  const handleViewDetail = (record: CustomerHandover, tabKey?: string) => {
+    const url = tabKey ? `/profiles/handover/${record.id}?tab=${tabKey}` : `/profiles/handover/${record.id}`;
     navigate(url);
   };
 
@@ -167,9 +165,9 @@ const HandoverListPage: React.FC = () => {
     const currentMonth = now.getMonth();
     const toDate = (s: string) => new Date(s.replace(/-/g, '/'));
 
-    const pendingCount = mockCustomerHandovers.filter(item => item.handoverStatus === 'pending').length;
+    const pendingCount = mockCustomerHandovers.filter(item => item.handoverStatus === 'not_handover').length;
     const completedThisMonth = mockCustomerHandovers.filter(item => {
-      if (item.handoverStatus !== 'aligned') return false;
+      if (item.expectationAlignment !== 'aligned') return false;
       const updated = toDate(item.updatedAt);
       return updated.getFullYear() === currentYear && updated.getMonth() === currentMonth;
     }).length;
@@ -214,20 +212,21 @@ const HandoverListPage: React.FC = () => {
       title: '客户名称',
       dataIndex: 'customerName',
       key: 'customerName',
-      width: 200,
+      width: 220,
+      render: (name: string, record: CustomerHandover) => (
+        <a onClick={() => handleViewDetail(record, 'basic-info')}>{name}</a>
+      ),
     },
     {
       title: '交接单',
       dataIndex: 'hasHandoverDocument',
       key: 'hasHandoverDocument',
-      width: 100,
+      width: 120,
       render: (hasDocument: boolean, record: CustomerHandover) => (
         hasDocument ? (
-          <a onClick={() => handleViewDetail(record)} style={{ color: '#1890ff' }}>
-            有
-          </a>
+          <Tag color="blue" style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'action-plan')}>有</Tag>
         ) : (
-          <span style={{ color: '#999' }}>无</span>
+          <Tag>无</Tag>
         )
       ),
     },
@@ -235,31 +234,39 @@ const HandoverListPage: React.FC = () => {
       title: '风险提示',
       dataIndex: 'hasRiskAlert',
       key: 'hasRiskAlert',
-      width: 100,
-      render: (hasRisk: boolean) => (
-        hasRisk ? (
-          <Tag color="orange">有</Tag>
-        ) : (
-          <span style={{ color: '#999' }}>无</span>
-        )
-      ),
+      width: 140,
+      render: (hasRisk: boolean, record: CustomerHandover) => {
+        if (!hasRisk) return <Tag>无风险</Tag>;
+        const level = record.riskLevel;
+        const color = riskColorMap[level as keyof typeof riskColorMap] || 'orange';
+        const text = riskTextMap[level as keyof typeof riskTextMap] || '有风险';
+        return (
+          <Tag color={color} style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'risks-opportunities')}>
+            {text}
+          </Tag>
+        );
+      },
     },
     {
       title: '干系人信息',
       dataIndex: 'stakeholderCount',
       key: 'stakeholderCount',
-      width: 120,
-      render: (count: number) => `${count}人`,
+      width: 140,
+      render: (count: number, record: CustomerHandover) => (
+        <Tag color="purple" style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'stakeholders')}>
+          {count} 人
+        </Tag>
+      ),
     },
     {
       title: '客户期望对齐',
       dataIndex: 'expectationAlignment',
       key: 'expectationAlignment',
-      width: 150,
-      render: (alignment: string) => {
+      width: 160,
+      render: (alignment: string, record: CustomerHandover) => {
         const colorMap = {
           aligned: 'green',
-          partially_aligned: 'orange',
+          partially_aligned: 'gold',
           not_aligned: 'red'
         };
         const textMap = {
@@ -268,7 +275,7 @@ const HandoverListPage: React.FC = () => {
           not_aligned: '未对齐'
         };
         return (
-          <Tag color={colorMap[alignment as keyof typeof colorMap]}>
+          <Tag color={colorMap[alignment as keyof typeof colorMap]} style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'expectation-alignment')}>
             {textMap[alignment as keyof typeof textMap]}
           </Tag>
         );
@@ -296,6 +303,11 @@ const HandoverListPage: React.FC = () => {
         maxWidth: '1400px', 
         margin: '0 auto'
       }}>
+        {/* 页面标题 */}
+        <div style={{ marginBottom: '24px' }}>
+          <Title level={2} style={{ margin: 0, color: '#262626' }}>交接实施</Title>
+          <Text type="secondary">确保从销售到服务的丝滑交接与价值对齐</Text>
+        </div>
 
         {/* 顶部数据看板 */}
         <div style={{ marginBottom: '24px' }}>
@@ -436,7 +448,15 @@ const HandoverListPage: React.FC = () => {
           />
 
           {/* 分页 */}
-          <div style={{ textAlign: 'right', marginTop: '16px' }}>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            marginTop: '16px' 
+          }}>
+            <div style={{ color: '#666', fontSize: '14px' }}>
+              共 {filteredData.length} 条记录
+            </div>
             <Pagination
               current={currentPage}
               total={filteredData.length}
