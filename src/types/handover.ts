@@ -14,6 +14,13 @@ export interface Stakeholder {
   position: string;
   role: StakeholderRole;
   contact: string;
+  status?: 'active' | 'left';
+  history?: Array<{
+    position: string;
+    startDate: string; // YYYY-MM-DD
+    endDate?: string;  // YYYY-MM-DD
+    note?: string;
+  }>;
 }
 
 // CRM同步数据

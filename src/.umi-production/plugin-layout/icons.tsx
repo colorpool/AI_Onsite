@@ -8,7 +8,6 @@ import TrophyOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@u
 import TeamOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/TeamOutlined';
 import UserOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/UserOutlined';
 import UserAddOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/UserAddOutlined';
-import ToolOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/ToolOutlined';
 import CustomerServiceOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/CustomerServiceOutlined';
 import FileTextOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/FileTextOutlined';
 import ExperimentOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/ExperimentOutlined';
@@ -27,4 +26,4 @@ import UserSwitchOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_module
 import EyeOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/EyeOutlined';
 import CarOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/CarOutlined';
 import TagsOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/TagsOutlined';
-export default { DashboardOutlined, BellOutlined, GroupOutlined, TrophyOutlined, TeamOutlined, UserOutlined, UserAddOutlined, ToolOutlined, CustomerServiceOutlined, FileTextOutlined, ExperimentOutlined, LineChartOutlined, MessageOutlined, CommentOutlined, ArrowUpOutlined, BookOutlined, ShoppingCartOutlined, ShareAltOutlined, SettingOutlined, BarChartOutlined, DatabaseOutlined, RobotOutlined, UserSwitchOutlined, EyeOutlined, CarOutlined, TagsOutlined };
+export default { DashboardOutlined, BellOutlined, GroupOutlined, TrophyOutlined, TeamOutlined, UserOutlined, UserAddOutlined, CustomerServiceOutlined, FileTextOutlined, ExperimentOutlined, LineChartOutlined, MessageOutlined, CommentOutlined, ArrowUpOutlined, BookOutlined, ShoppingCartOutlined, ShareAltOutlined, SettingOutlined, BarChartOutlined, DatabaseOutlined, RobotOutlined, UserSwitchOutlined, EyeOutlined, CarOutlined, TagsOutlined };

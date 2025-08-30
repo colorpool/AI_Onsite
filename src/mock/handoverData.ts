@@ -19,21 +19,36 @@ export const mockStakeholders: Stakeholder[] = [
     name: '张三',
     position: '技术总监',
     role: 'decision_maker',
-    contact: 'zhangsan@company.com'
+    contact: 'zhangsan@company.com',
+    status: 'active',
+    history: [
+      { position: '研发经理', startDate: '2020-01-01', endDate: '2022-06-30' },
+      { position: '技术总监', startDate: '2022-07-01' }
+    ]
   },
   {
     id: '2',
     name: '李四',
     position: '项目经理',
     role: 'user',
-    contact: 'lisi@company.com'
+    contact: 'lisi@company.com',
+    status: 'left',
+    history: [
+      { position: '实施顾问', startDate: '2021-03-01', endDate: '2022-12-31' },
+      { position: '项目经理', startDate: '2023-01-01', endDate: '2024-03-31', note: '离职' }
+    ]
   },
   {
     id: '3',
     name: '王五',
     position: '运维工程师',
     role: 'technical_contact',
-    contact: 'wangwu@company.com'
+    contact: 'wangwu@company.com',
+    status: 'active',
+    history: [
+      { position: '初级运维', startDate: '2022-05-01', endDate: '2023-08-01' },
+      { position: '运维工程师', startDate: '2023-08-02' }
+    ]
   }
 ];
 
@@ -120,7 +135,31 @@ export const mockCustomerHandovers: CustomerHandover[] = [
       accountCount: 25,
       salesSource: 'channel',
       channelPartner: '上海渠道合作伙伴有限公司'
-    }
+    },
+    stakeholders: [
+      {
+        id: '4',
+        name: '赵六',
+        position: '产品经理',
+        role: 'decision_maker',
+        contact: 'zhaoliu@company.com',
+        status: 'active',
+        history: [
+          { position: '资深产品', startDate: '2021-07-01', endDate: '2023-06-30' },
+          { position: '产品经理', startDate: '2023-07-01' }
+        ]
+      },
+      {
+        id: '5',
+        name: '钱七',
+        position: '开发工程师',
+        role: 'user',
+        contact: 'qianqi@company.com',
+        status: 'active'
+      }
+    ],
+    onboardingTasks: mockOnboardingTasks,
+    internalComments: mockInternalComments
   },
   {
     id: '3',
@@ -140,6 +179,41 @@ export const mockCustomerHandovers: CustomerHandover[] = [
       accountCount: 100,
       salesSource: 'direct',
       salesPerson: '李销售'
-    }
+    },
+    stakeholders: [
+      {
+        id: '6',
+        name: '孙八',
+        position: '技术总监',
+        role: 'decision_maker',
+        contact: 'sunba@company.com',
+        status: 'active'
+      },
+      {
+        id: '7',
+        name: '周九',
+        position: '项目经理',
+        role: 'influencer',
+        contact: 'zhoujiu@company.com',
+        status: 'active',
+        history: [
+          { position: '实施顾问', startDate: '2020-09-01', endDate: '2022-12-31' },
+          { position: '项目经理', startDate: '2023-01-01' }
+        ]
+      },
+      {
+        id: '8',
+        name: '吴十',
+        position: '运维工程师',
+        role: 'technical_contact',
+        contact: 'wushi@company.com',
+        status: 'left',
+        history: [
+          { position: '运维工程师', startDate: '2022-01-01', endDate: '2024-05-31', note: '离职' }
+        ]
+      }
+    ],
+    onboardingTasks: mockOnboardingTasks,
+    internalComments: mockInternalComments
   }
 ];
