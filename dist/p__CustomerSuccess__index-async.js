@@ -1723,9 +1723,9 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _max = __mako_require__("src/.umi/exports.ts");
@@ -1745,7 +1745,6 @@ var _s3 = $RefreshSig$();
 var _s4 = $RefreshSig$();
 const { Title, Text } = _antd.Typography;
 const { TabPane } = _antd.Tabs;
-// 统一的卡片样式 - 参考图片的现代风格
 const cardStyle = {
     borderRadius: '12px',
     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
@@ -1753,7 +1752,6 @@ const cardStyle = {
     background: '#ffffff',
     marginBottom: '16px'
 };
-// 问候语生成函数
 const generateGreeting = (userName = '用户')=>{
     const now = new Date();
     const hour = now.getHours();
@@ -1805,18 +1803,16 @@ const generateGreeting = (userName = '用户')=>{
             '夜深人静，好好休息！'
         ];
     }
-    // 随机选择一条鼓励话语
     const randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
     return `${timeGreeting}，${userName}，${randomEncouragement}`;
 };
-// 顶部区域：个性化欢迎语 + 快捷链接
 const HeaderSection = ({ userName, greeting })=>{
     _s();
     const [quickLinks, setQuickLinks] = (0, _react.useState)([
         {
             id: 1,
             name: 'CRM',
-            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
+            icon: (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                 lineNumber: 146,
                 columnNumber: 33
@@ -1827,7 +1823,7 @@ const HeaderSection = ({ userName, greeting })=>{
         {
             id: 2,
             name: '禅道',
-            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
+            icon: (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                 lineNumber: 147,
                 columnNumber: 32
@@ -1838,7 +1834,7 @@ const HeaderSection = ({ userName, greeting })=>{
         {
             id: 3,
             name: '多维表',
-            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TableOutlined, {}, void 0, false, {
+            icon: (0, _jsxdevruntime.jsxDEV)(_icons.TableOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                 lineNumber: 148,
                 columnNumber: 33
@@ -1847,7 +1843,7 @@ const HeaderSection = ({ userName, greeting })=>{
             color: '#722ed1'
         }
     ]);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             display: 'flex',
             justifyContent: 'space-between',
@@ -1855,9 +1851,9 @@ const HeaderSection = ({ userName, greeting })=>{
             marginBottom: '24px'
         },
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                    (0, _jsxdevruntime.jsxDEV)(Title, {
                         level: 2,
                         style: {
                             margin: 0,
@@ -1870,7 +1866,7 @@ const HeaderSection = ({ userName, greeting })=>{
                         lineNumber: 160,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                    (0, _jsxdevruntime.jsxDEV)(Text, {
                         type: "secondary",
                         style: {
                             fontSize: '14px',
@@ -1888,16 +1884,16 @@ const HeaderSection = ({ userName, greeting })=>{
                 lineNumber: 159,
                 columnNumber: 13
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px'
                 },
                 children: [
-                    quickLinks.map((link)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                    quickLinks.map((link)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                             title: link.name,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                 type: "text",
                                 shape: "circle",
                                 size: "large",
@@ -1923,13 +1919,13 @@ const HeaderSection = ({ userName, greeting })=>{
                             lineNumber: 171,
                             columnNumber: 11
                         }, this)),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                         title: "添加快捷链接",
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "dashed",
                             shape: "circle",
                             size: "large",
-                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                            icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                 lineNumber: 198,
                                 columnNumber: 19
@@ -1965,29 +1961,28 @@ const HeaderSection = ({ userName, greeting })=>{
 };
 _s(HeaderSection, "3L6Rm4AxpmPtCayO7mNhPMHZlHM=");
 _c = HeaderSection;
-// 公司业绩指标横幅
 const CompanyKPIBanner = ()=>{
     _s1();
     const [timePeriod, setTimePeriod] = (0, _react.useState)('年度');
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+    return (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
         style: {
             ...cardStyle,
             marginBottom: '24px'
         },
-        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        title: (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center'
             },
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center'
                     },
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.BarChartOutlined, {
+                        (0, _jsxdevruntime.jsxDEV)(_icons.BarChartOutlined, {
                             style: {
                                 color: '#1890ff',
                                 marginRight: '8px'
@@ -1997,7 +1992,7 @@ const CompanyKPIBanner = ()=>{
                             lineNumber: 225,
                             columnNumber: 13
                         }, void 0),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                        (0, _jsxdevruntime.jsxDEV)("span", {
                             style: {
                                 fontSize: '16px',
                                 fontWeight: '600'
@@ -2014,14 +2009,14 @@ const CompanyKPIBanner = ()=>{
                     lineNumber: 224,
                     columnNumber: 11
                 }, void 0),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '16px'
                     },
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center',
@@ -2031,7 +2026,7 @@ const CompanyKPIBanner = ()=>{
                                 '年度',
                                 '季度',
                                 '月度'
-                            ].map((period)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            ].map((period)=>(0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                     type: timePeriod === period ? 'primary' : 'text',
                                     size: "small",
                                     style: {
@@ -2052,7 +2047,7 @@ const CompanyKPIBanner = ()=>{
                             lineNumber: 230,
                             columnNumber: 13
                         }, void 0),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center',
@@ -2064,14 +2059,14 @@ const CompanyKPIBanner = ()=>{
                                 color: '#666'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)("span", {
                                     children: "2025-01-01"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                     lineNumber: 260,
                                     columnNumber: 15
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
+                                (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
                                     style: {
                                         margin: '0 8px',
                                         fontSize: '10px'
@@ -2081,14 +2076,14 @@ const CompanyKPIBanner = ()=>{
                                     lineNumber: 261,
                                     columnNumber: 15
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)("span", {
                                     children: "2025-12-31"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                     lineNumber: 262,
                                     columnNumber: 15
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
+                                (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
                                     style: {
                                         marginLeft: '8px',
                                         fontSize: '12px'
@@ -2116,20 +2111,20 @@ const CompanyKPIBanner = ()=>{
             lineNumber: 223,
             columnNumber: 9
         }, void 0),
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+        children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
             gutter: [
                 24,
                 16
             ],
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 6,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '32px',
                                     fontWeight: '700',
@@ -2142,7 +2137,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 272,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 style: {
                                     fontSize: '14px'
@@ -2153,7 +2148,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 275,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
@@ -2161,7 +2156,7 @@ const CompanyKPIBanner = ()=>{
                                     marginTop: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                    (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px',
@@ -2172,7 +2167,7 @@ const CompanyKPIBanner = ()=>{
                                         lineNumber: 277,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px'
@@ -2200,14 +2195,14 @@ const CompanyKPIBanner = ()=>{
                     lineNumber: 270,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 6,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '32px',
                                     fontWeight: '700',
@@ -2220,7 +2215,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 285,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 style: {
                                     fontSize: '14px'
@@ -2231,7 +2226,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 288,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
@@ -2239,7 +2234,7 @@ const CompanyKPIBanner = ()=>{
                                     marginTop: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                    (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px',
@@ -2250,7 +2245,7 @@ const CompanyKPIBanner = ()=>{
                                         lineNumber: 290,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px'
@@ -2278,14 +2273,14 @@ const CompanyKPIBanner = ()=>{
                     lineNumber: 283,
                     columnNumber: 7
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 6,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '32px',
                                     fontWeight: '700',
@@ -2298,7 +2293,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 298,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 style: {
                                     fontSize: '14px'
@@ -2309,7 +2304,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 301,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
@@ -2317,7 +2312,7 @@ const CompanyKPIBanner = ()=>{
                                     marginTop: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                    (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px',
@@ -2328,7 +2323,7 @@ const CompanyKPIBanner = ()=>{
                                         lineNumber: 303,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px'
@@ -2356,14 +2351,14 @@ const CompanyKPIBanner = ()=>{
                     lineNumber: 296,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 6,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '32px',
                                     fontWeight: '700',
@@ -2376,7 +2371,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 311,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 style: {
                                     fontSize: '14px'
@@ -2387,7 +2382,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 314,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
@@ -2395,7 +2390,7 @@ const CompanyKPIBanner = ()=>{
                                     marginTop: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
+                                    (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
                                         style: {
                                             color: '#ff4d4f',
                                             fontSize: '12px',
@@ -2406,7 +2401,7 @@ const CompanyKPIBanner = ()=>{
                                         lineNumber: 316,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             color: '#ff4d4f',
                                             fontSize: '12px'
@@ -2448,7 +2443,6 @@ const CompanyKPIBanner = ()=>{
 };
 _s1(CompanyKPIBanner, "PuBGlDXNqW4kyfo2r81M60nQ59s=");
 _c1 = CompanyKPIBanner;
-// 左侧行动区组件
 const ActionSection = ()=>{
     _s2();
     const [viewMode, setViewMode] = (0, _react.useState)('list');
@@ -2459,7 +2453,6 @@ const ActionSection = ()=>{
     const [editingContext, setEditingContext] = (0, _react.useState)(null);
     const [form] = _antd.Form.useForm();
     const [hoveredItem, setHoveredItem] = (0, _react.useState)(null);
-    // 智能提醒与任务队列数据
     const intelligentTasks = {
         newImplementation: [
             {
@@ -2557,7 +2550,6 @@ const ActionSection = ()=>{
             }
         ]
     };
-    // 任务类型文本映射函数
     const getTaskTypeText = (type)=>{
         const texts = {
             'business-review': '业务回顾',
@@ -2571,7 +2563,6 @@ const ActionSection = ()=>{
         };
         return texts[type] || '其他';
     };
-    // 我的日程与待办数据（使用状态管理以支持新增/编辑/删除）
     const [scheduleData, setScheduleData] = (0, _react.useState)({
         today: [
             {
@@ -2712,9 +2703,7 @@ const ActionSection = ()=>{
         const completed = Boolean(values.completed);
         setScheduleData((prev)=>{
             if (editingContext && editingContext.id != null) {
-                // 编辑
                 const originalSection = editingContext.section;
-                // 如果切换了分组，需要从原分组删除，添加到新分组
                 const updatedOriginal = prev[originalSection].filter((i)=>i.id !== editingContext.id);
                 const updatedTarget = [
                     ...prev[section].filter((i)=>i.id !== editingContext.id),
@@ -2733,7 +2722,6 @@ const ActionSection = ()=>{
                     [section]: updatedTarget
                 };
             }
-            // 新增
             const newItem = {
                 id: getNextId(),
                 task,
@@ -2757,7 +2745,6 @@ const ActionSection = ()=>{
         setIsScheduleModalOpen(false);
         setEditingContext(null);
     };
-    // 日历视图：悬停与隐藏的本地状态
     const [hoveredCalendarIdx, setHoveredCalendarIdx] = (0, _react.useState)(null);
     const [hiddenCalendarItems, setHiddenCalendarItems] = (0, _react.useState)({});
     const inferSectionByDate = (dateStr)=>{
@@ -2803,14 +2790,12 @@ const ActionSection = ()=>{
             };
         });
     };
-    // 日历事件数据
     const calendarEvents = (()=>{
         const now = new Date();
         const currentYear = now.getFullYear();
         const currentMonth = now.getMonth() + 1;
         const monthStr = currentMonth.toString().padStart(2, '0');
         const events = {
-            // 使用当前月份的日期
             [`${currentYear}-${monthStr}-15`]: [
                 {
                     task: '客户回访 - 阿里巴巴',
@@ -2912,7 +2897,6 @@ const ActionSection = ()=>{
                 }
             ]
         };
-        // 注意：不再生成随机事件，保持稳定
         return events;
     })();
     const getTaskTypeColor = (type)=>{
@@ -2945,25 +2929,25 @@ const ActionSection = ()=>{
         };
         return colors[priority] || '#666';
     };
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+    return (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
         span: 16,
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+        children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
             gutter: [
                 0,
                 16
             ],
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                         style: cardStyle,
-                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        title: (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.BellOutlined, {
+                                (0, _jsxdevruntime.jsxDEV)(_icons.BellOutlined, {
                                     style: {
                                         color: '#1890ff',
                                         marginRight: '8px'
@@ -2973,7 +2957,7 @@ const ActionSection = ()=>{
                                     lineNumber: 625,
                                     columnNumber: 17
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)("span", {
                                     style: {
                                         fontSize: '16px',
                                         fontWeight: '600'
@@ -2993,18 +2977,18 @@ const ActionSection = ()=>{
                         bodyStyle: {
                             padding: '16px'
                         },
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tabs, {
+                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Tabs, {
                             defaultActiveKey: "handover",
                             size: "small",
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
                                     tab: "交接实施",
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                             dataSource: _handoverData.mockCustomerHandovers,
-                                            renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                            renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                     actions: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                             size: "small",
                                                             style: {
                                                                 borderRadius: '6px'
@@ -3020,8 +3004,8 @@ const ActionSection = ()=>{
                                                             columnNumber: 25
                                                         }, void 0)
                                                     ],
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                        avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                        avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                             style: {
                                                                 backgroundColor: '#1890ff'
                                                             },
@@ -3032,11 +3016,11 @@ const ActionSection = ()=>{
                                                             columnNumber: 33
                                                         }, void 0),
                                                         title: item.customerName,
-                                                        description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                        description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                             size: "small",
                                                             wrap: true,
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: item.expectationAlignment === 'aligned' ? 'green' : item.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange',
                                                                     children: item.expectationAlignment === 'aligned' ? '已对齐' : item.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'
                                                                 }, void 0, false, {
@@ -3044,7 +3028,7 @@ const ActionSection = ()=>{
                                                                     lineNumber: 646,
                                                                     columnNumber: 29
                                                                 }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: item.hasRiskAlert ? 'orange' : 'default',
                                                                     children: [
                                                                         "风险提示: ",
@@ -3055,7 +3039,7 @@ const ActionSection = ()=>{
                                                                     lineNumber: 649,
                                                                     columnNumber: 29
                                                                 }, void 0),
-                                                                typeof item.stakeholderCount === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                typeof item.stakeholderCount === 'number' && (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: "purple",
                                                                     children: [
                                                                         "干系人: ",
@@ -3066,7 +3050,7 @@ const ActionSection = ()=>{
                                                                     lineNumber: 653,
                                                                     columnNumber: 31
                                                                 }, void 0),
-                                                                typeof item.handoverRating === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                typeof item.handoverRating === 'number' && (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: "gold",
                                                                     children: [
                                                                         "评分: ",
@@ -3077,7 +3061,7 @@ const ActionSection = ()=>{
                                                                     lineNumber: 656,
                                                                     columnNumber: 31
                                                                 }, void 0),
-                                                                item.updatedAt && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                item.updatedAt && (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                     type: "secondary",
                                                                     children: [
                                                                         "更新时间: ",
@@ -3109,21 +3093,21 @@ const ActionSection = ()=>{
                                             lineNumber: 633,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
                                             title: (selectedHandover === null || selectedHandover === void 0 ? void 0 : selectedHandover.customerName) || '客户交接详情',
                                             open: handoverDrawerOpen,
                                             onClose: ()=>setHandoverDrawerOpen(false),
                                             width: 720,
-                                            children: selectedHandover && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            children: selectedHandover && (0, _jsxdevruntime.jsxDEV)("div", {
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         size: "small",
                                                         wrap: true,
                                                         style: {
                                                             marginBottom: 12
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: selectedHandover.expectationAlignment === 'aligned' ? 'green' : selectedHandover.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange',
                                                                 children: selectedHandover.expectationAlignment === 'aligned' ? '已对齐' : selectedHandover.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'
                                                             }, void 0, false, {
@@ -3131,7 +3115,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 676,
                                                                 columnNumber: 25
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: selectedHandover.hasRiskAlert ? 'orange' : 'default',
                                                                 children: [
                                                                     "风险提示: ",
@@ -3142,7 +3126,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 679,
                                                                 columnNumber: 25
                                                             }, this),
-                                                            typeof selectedHandover.handoverRating === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            typeof selectedHandover.handoverRating === 'number' && (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: "gold",
                                                                 children: [
                                                                     "评分: ",
@@ -3153,7 +3137,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 680,
                                                                 columnNumber: 81
                                                             }, this),
-                                                            typeof selectedHandover.stakeholderCount === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            typeof selectedHandover.stakeholderCount === 'number' && (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: "purple",
                                                                 children: [
                                                                     "干系人: ",
@@ -3170,12 +3154,12 @@ const ActionSection = ()=>{
                                                         lineNumber: 675,
                                                         columnNumber: 23
                                                     }, this),
-                                                    selectedHandover.crmData && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    selectedHandover.crmData && (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             marginBottom: 16
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                                 level: 5,
                                                                 style: {
                                                                     marginBottom: 8
@@ -3186,13 +3170,13 @@ const ActionSection = ()=>{
                                                                 lineNumber: 686,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                                                                 gutter: 16,
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                                                         span: 12,
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 type: "secondary",
                                                                                 children: "合同金额："
                                                                             }, void 0, false, {
@@ -3200,7 +3184,7 @@ const ActionSection = ()=>{
                                                                                 lineNumber: 688,
                                                                                 columnNumber: 44
                                                                             }, this),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 style: {
                                                                                     marginLeft: 8
                                                                                 },
@@ -3219,10 +3203,10 @@ const ActionSection = ()=>{
                                                                         lineNumber: 688,
                                                                         columnNumber: 29
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                                                         span: 12,
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 type: "secondary",
                                                                                 children: "服务周期："
                                                                             }, void 0, false, {
@@ -3230,7 +3214,7 @@ const ActionSection = ()=>{
                                                                                 lineNumber: 689,
                                                                                 columnNumber: 44
                                                                             }, this),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 style: {
                                                                                     marginLeft: 8
                                                                                 },
@@ -3252,12 +3236,12 @@ const ActionSection = ()=>{
                                                                 lineNumber: 687,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     marginTop: 8
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: "已购产品："
                                                                     }, void 0, false, {
@@ -3265,12 +3249,12 @@ const ActionSection = ()=>{
                                                                         lineNumber: 692,
                                                                         columnNumber: 29
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                         wrap: true,
                                                                         style: {
                                                                             marginTop: 6
                                                                         },
-                                                                        children: selectedHandover.crmData.purchasedProducts.map((p, i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                        children: selectedHandover.crmData.purchasedProducts.map((p, i)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                                 color: "blue",
                                                                                 children: p
                                                                             }, i, false, {
@@ -3289,12 +3273,12 @@ const ActionSection = ()=>{
                                                                 lineNumber: 691,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     marginTop: 8
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: "关键联系人："
                                                                     }, void 0, false, {
@@ -3302,15 +3286,15 @@ const ActionSection = ()=>{
                                                                         lineNumber: 698,
                                                                         columnNumber: 29
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             marginTop: 6
                                                                         },
-                                                                        children: selectedHandover.crmData.keyContacts.map((c, i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                        children: selectedHandover.crmData.keyContacts.map((c, i)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                                                 style: {
                                                                                     marginBottom: 4
                                                                                 },
-                                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     children: c
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -3339,12 +3323,12 @@ const ActionSection = ()=>{
                                                         lineNumber: 685,
                                                         columnNumber: 25
                                                     }, this),
-                                                    selectedHandover.onboardingTasks && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    selectedHandover.onboardingTasks && (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             marginBottom: 16
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                                 level: 5,
                                                                 style: {
                                                                     marginBottom: 8
@@ -3355,20 +3339,20 @@ const ActionSection = ()=>{
                                                                 lineNumber: 708,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                                 size: "small",
                                                                 dataSource: selectedHandover.onboardingTasks,
-                                                                renderItem: (t)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                                renderItem: (t)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                             children: [
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                                                     checked: t.completed
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                                     lineNumber: 715,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     style: {
                                                                                         textDecoration: t.completed ? 'line-through' : 'none'
                                                                                     },
@@ -3378,7 +3362,7 @@ const ActionSection = ()=>{
                                                                                     lineNumber: 716,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
-                                                                                t.dueDate && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                t.dueDate && (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     type: "secondary",
                                                                                     children: [
                                                                                         "截止: ",
@@ -3411,9 +3395,9 @@ const ActionSection = ()=>{
                                                         lineNumber: 707,
                                                         columnNumber: 25
                                                     }, this),
-                                                    selectedHandover.internalComments && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    selectedHandover.internalComments && (0, _jsxdevruntime.jsxDEV)("div", {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                                 level: 5,
                                                                 style: {
                                                                     marginBottom: 8
@@ -3424,18 +3408,18 @@ const ActionSection = ()=>{
                                                                 lineNumber: 727,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                                 size: "small",
                                                                 dataSource: selectedHandover.internalComments,
-                                                                renderItem: (c)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                renderItem: (c)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                             children: [
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                                                     style: {
                                                                                         marginBottom: 4
                                                                                     },
                                                                                     children: [
-                                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                             strong: true,
                                                                                             children: c.author
                                                                                         }, void 0, false, {
@@ -3443,7 +3427,7 @@ const ActionSection = ()=>{
                                                                                             lineNumber: 734,
                                                                                             columnNumber: 68
                                                                                         }, void 0),
-                                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                             type: "secondary",
                                                                                             style: {
                                                                                                 marginLeft: 8
@@ -3460,7 +3444,7 @@ const ActionSection = ()=>{
                                                                                     lineNumber: 734,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     children: c.content
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -3506,13 +3490,13 @@ const ActionSection = ()=>{
                                     lineNumber: 632,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
                                     tab: "新签实施",
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                         dataSource: intelligentTasks.newImplementation,
-                                        renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                        renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                 actions: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         type: "primary",
                                                         size: "small",
                                                         style: {
@@ -3525,8 +3509,8 @@ const ActionSection = ()=>{
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                    avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                    avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                         style: {
                                                             backgroundColor: '#1890ff'
                                                         },
@@ -3537,9 +3521,9 @@ const ActionSection = ()=>{
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
-                                                    description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "来源销售: ",
@@ -3550,7 +3534,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 762,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "合同金额: ",
@@ -3561,7 +3545,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 763,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "交付期限: ",
@@ -3572,7 +3556,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 764,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: getPriorityColor(item.priority),
                                                                 children: item.priority === 'high' ? '高优先级' : '中优先级'
                                                             }, void 0, false, {
@@ -3606,13 +3590,13 @@ const ActionSection = ()=>{
                                     lineNumber: 746,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
                                     tab: "待续费",
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                         dataSource: intelligentTasks.pendingRenewal,
-                                        renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                        renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                 actions: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         size: "small",
                                                         style: {
                                                             borderRadius: '6px'
@@ -3624,8 +3608,8 @@ const ActionSection = ()=>{
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                    avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                    avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                         style: {
                                                             backgroundColor: '#52c41a'
                                                         },
@@ -3636,9 +3620,9 @@ const ActionSection = ()=>{
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
-                                                    description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "合同到期: ",
@@ -3649,7 +3633,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 790,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "续费金额: ",
@@ -3660,7 +3644,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 791,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: "green",
                                                                 children: [
                                                                     "续费概率: ",
@@ -3698,11 +3682,11 @@ const ActionSection = ()=>{
                                     lineNumber: 776,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                                    tab: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                    tab: (0, _jsxdevruntime.jsxDEV)("span", {
                                         children: [
                                             "不活跃客户",
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
                                                 count: 3,
                                                 size: "small",
                                                 style: {
@@ -3719,11 +3703,11 @@ const ActionSection = ()=>{
                                         lineNumber: 803,
                                         columnNumber: 19
                                     }, void 0),
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                         dataSource: intelligentTasks.inactiveCustomers,
-                                        renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                        renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                 actions: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         size: "small",
                                                         style: {
                                                             borderRadius: '6px'
@@ -3735,8 +3719,8 @@ const ActionSection = ()=>{
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                    avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                    avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                         style: {
                                                             backgroundColor: getRiskColor(item.risk)
                                                         },
@@ -3747,9 +3731,9 @@ const ActionSection = ()=>{
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
-                                                    description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "最后活跃: ",
@@ -3760,7 +3744,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 823,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "健康分: ",
@@ -3771,7 +3755,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 824,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: getRiskColor(item.risk),
                                                                 children: item.risk === 'critical' ? '严重风险' : item.risk === 'high' ? '高风险' : '中风险'
                                                             }, void 0, false, {
@@ -3805,11 +3789,11 @@ const ActionSection = ()=>{
                                     lineNumber: 801,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                                    tab: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                    tab: (0, _jsxdevruntime.jsxDEV)("span", {
                                         children: [
                                             "高活跃客户",
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FireOutlined, {
+                                            (0, _jsxdevruntime.jsxDEV)(_icons.FireOutlined, {
                                                 style: {
                                                     color: '#fa8c16',
                                                     marginLeft: '4px'
@@ -3825,11 +3809,11 @@ const ActionSection = ()=>{
                                         lineNumber: 838,
                                         columnNumber: 19
                                     }, void 0),
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                         dataSource: intelligentTasks.activeOpportunities,
-                                        renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                        renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                 actions: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         type: "primary",
                                                         size: "small",
                                                         style: {
@@ -3842,8 +3826,8 @@ const ActionSection = ()=>{
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                    avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                    avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                         style: {
                                                             backgroundColor: '#fa8c16'
                                                         },
@@ -3854,9 +3838,9 @@ const ActionSection = ()=>{
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
-                                                    description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: item.opportunity
                                                             }, void 0, false, {
@@ -3864,7 +3848,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 858,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "潜在价值: ",
@@ -3875,7 +3859,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 859,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: "orange",
                                                                 children: item.stage
                                                             }, void 0, false, {
@@ -3925,25 +3909,25 @@ const ActionSection = ()=>{
                     lineNumber: 620,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             style: cardStyle,
-                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'space-between'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             display: 'flex',
                                             alignItems: 'center'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
+                                            (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
                                                 style: {
                                                     color: '#52c41a',
                                                     marginRight: '8px'
@@ -3953,7 +3937,7 @@ const ActionSection = ()=>{
                                                 lineNumber: 879,
                                                 columnNumber: 17
                                             }, void 0),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            (0, _jsxdevruntime.jsxDEV)("span", {
                                                 style: {
                                                     fontSize: '16px',
                                                     fontWeight: '600'
@@ -3970,17 +3954,17 @@ const ActionSection = ()=>{
                                         lineNumber: 878,
                                         columnNumber: 15
                                     }, void 0),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             display: 'flex',
                                             gap: '8px'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                 type: "primary",
                                                 size: "small",
                                                 shape: "circle",
-                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                     lineNumber: 887,
                                                     columnNumber: 27
@@ -3991,10 +3975,10 @@ const ActionSection = ()=>{
                                                 lineNumber: 883,
                                                 columnNumber: 19
                                             }, void 0),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                 type: viewMode === 'list' ? 'primary' : 'text',
                                                 size: "small",
-                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
+                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                     lineNumber: 893,
                                                     columnNumber: 27
@@ -4008,10 +3992,10 @@ const ActionSection = ()=>{
                                                 lineNumber: 890,
                                                 columnNumber: 19
                                             }, void 0),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                 type: viewMode === 'calendar' ? 'primary' : 'text',
                                                 size: "small",
-                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
+                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                     lineNumber: 900,
                                                     columnNumber: 27
@@ -4040,14 +4024,14 @@ const ActionSection = ()=>{
                             bodyStyle: {
                                 padding: '16px'
                             },
-                            children: viewMode === 'list' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                            children: viewMode === 'list' ? (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             marginBottom: '20px'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                 level: 5,
                                                 style: {
                                                     marginBottom: '12px',
@@ -4059,9 +4043,9 @@ const ActionSection = ()=>{
                                                 lineNumber: 913,
                                                 columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                 dataSource: scheduleData.today,
-                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                         style: {
                                                             padding: '8px 0'
                                                         },
@@ -4071,10 +4055,10 @@ const ActionSection = ()=>{
                                                             }),
                                                         onMouseLeave: ()=>setHoveredItem(null),
                                                         actions: hoveredItem && hoveredItem.section === 'today' && hoveredItem.id === item.id ? [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 size: "small",
                                                                 type: "text",
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                     lineNumber: 924,
                                                                     columnNumber: 79
@@ -4085,14 +4069,14 @@ const ActionSection = ()=>{
                                                                 lineNumber: 924,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
                                                                 title: "确认删除该日程？",
                                                                 onConfirm: ()=>handleDelete('today', item.id),
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                     size: "small",
                                                                     type: "text",
                                                                     danger: true,
-                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                         lineNumber: 926,
                                                                         columnNumber: 77
@@ -4108,8 +4092,8 @@ const ActionSection = ()=>{
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ] : [],
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                                 checked: item.completed,
                                                                 onChange: (e)=>handleToggleCompleted('today', item.id, e.target.checked)
                                                             }, void 0, false, {
@@ -4117,7 +4101,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 933,
                                                                 columnNumber: 35
                                                             }, void 0),
-                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -4125,7 +4109,7 @@ const ActionSection = ()=>{
                                                                     gap: '8px'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: getTaskTypeColor(item.type),
                                                                         style: {
                                                                             background: `${getTaskTypeColor(item.type)}15`,
@@ -4138,7 +4122,7 @@ const ActionSection = ()=>{
                                                                         lineNumber: 936,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                         style: {
                                                                             textDecoration: item.completed ? 'line-through' : 'none',
                                                                             opacity: item.completed ? 0.6 : 1
@@ -4155,9 +4139,9 @@ const ActionSection = ()=>{
                                                                 lineNumber: 935,
                                                                 columnNumber: 25
                                                             }, void 0),
-                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                            description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: item.customer
                                                                     }, void 0, false, {
@@ -4165,7 +4149,7 @@ const ActionSection = ()=>{
                                                                         lineNumber: 953,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: [
                                                                             "时间: ",
@@ -4203,12 +4187,12 @@ const ActionSection = ()=>{
                                         lineNumber: 912,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             marginBottom: '20px'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                 level: 5,
                                                 style: {
                                                     marginBottom: '12px',
@@ -4220,9 +4204,9 @@ const ActionSection = ()=>{
                                                 lineNumber: 965,
                                                 columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                 dataSource: scheduleData.thisWeek,
-                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                         style: {
                                                             padding: '8px 0'
                                                         },
@@ -4232,10 +4216,10 @@ const ActionSection = ()=>{
                                                             }),
                                                         onMouseLeave: ()=>setHoveredItem(null),
                                                         actions: hoveredItem && hoveredItem.section === 'thisWeek' && hoveredItem.id === item.id ? [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 size: "small",
                                                                 type: "text",
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                     lineNumber: 976,
                                                                     columnNumber: 79
@@ -4246,14 +4230,14 @@ const ActionSection = ()=>{
                                                                 lineNumber: 976,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
                                                                 title: "确认删除该日程？",
                                                                 onConfirm: ()=>handleDelete('thisWeek', item.id),
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                     size: "small",
                                                                     type: "text",
                                                                     danger: true,
-                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                         lineNumber: 978,
                                                                         columnNumber: 77
@@ -4269,8 +4253,8 @@ const ActionSection = ()=>{
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ] : [],
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                                 checked: item.completed,
                                                                 onChange: (e)=>handleToggleCompleted('thisWeek', item.id, e.target.checked)
                                                             }, void 0, false, {
@@ -4278,7 +4262,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 985,
                                                                 columnNumber: 35
                                                             }, void 0),
-                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -4286,7 +4270,7 @@ const ActionSection = ()=>{
                                                                     gap: '8px'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: getTaskTypeColor(item.type),
                                                                         style: {
                                                                             background: `${getTaskTypeColor(item.type)}15`,
@@ -4299,7 +4283,7 @@ const ActionSection = ()=>{
                                                                         lineNumber: 988,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                         style: {
                                                                             textDecoration: item.completed ? 'line-through' : 'none',
                                                                             opacity: item.completed ? 0.6 : 1
@@ -4316,9 +4300,9 @@ const ActionSection = ()=>{
                                                                 lineNumber: 987,
                                                                 columnNumber: 25
                                                             }, void 0),
-                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                            description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: item.customer
                                                                     }, void 0, false, {
@@ -4326,7 +4310,7 @@ const ActionSection = ()=>{
                                                                         lineNumber: 1005,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: [
                                                                             "时间: ",
@@ -4364,9 +4348,9 @@ const ActionSection = ()=>{
                                         lineNumber: 964,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                 level: 5,
                                                 style: {
                                                     marginBottom: '12px',
@@ -4378,9 +4362,9 @@ const ActionSection = ()=>{
                                                 lineNumber: 1017,
                                                 columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                 dataSource: scheduleData.future,
-                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                         style: {
                                                             padding: '8px 0'
                                                         },
@@ -4390,10 +4374,10 @@ const ActionSection = ()=>{
                                                             }),
                                                         onMouseLeave: ()=>setHoveredItem(null),
                                                         actions: hoveredItem && hoveredItem.section === 'future' && hoveredItem.id === item.id ? [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 size: "small",
                                                                 type: "text",
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                     lineNumber: 1028,
                                                                     columnNumber: 83
@@ -4404,14 +4388,14 @@ const ActionSection = ()=>{
                                                                 lineNumber: 1028,
                                                                 columnNumber: 33
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
                                                                 title: "确认删除该日程？",
                                                                 onConfirm: ()=>handleDelete('future', item.id),
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                     size: "small",
                                                                     type: "text",
                                                                     danger: true,
-                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                         lineNumber: 1030,
                                                                         columnNumber: 81
@@ -4427,8 +4411,8 @@ const ActionSection = ()=>{
                                                                 columnNumber: 33
                                                             }, void 0)
                                                         ] : [],
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                                 checked: item.completed,
                                                                 onChange: (e)=>handleToggleCompleted('future', item.id, e.target.checked)
                                                             }, void 0, false, {
@@ -4436,7 +4420,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 1037,
                                                                 columnNumber: 35
                                                             }, void 0),
-                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -4444,7 +4428,7 @@ const ActionSection = ()=>{
                                                                     gap: '8px'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: getTaskTypeColor(item.type),
                                                                         style: {
                                                                             background: `${getTaskTypeColor(item.type)}15`,
@@ -4457,7 +4441,7 @@ const ActionSection = ()=>{
                                                                         lineNumber: 1040,
                                                                         columnNumber: 31
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                         style: {
                                                                             textDecoration: item.completed ? 'line-through' : 'none',
                                                                             opacity: item.completed ? 0.6 : 1
@@ -4474,9 +4458,9 @@ const ActionSection = ()=>{
                                                                 lineNumber: 1039,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                            description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: item.customer
                                                                     }, void 0, false, {
@@ -4484,7 +4468,7 @@ const ActionSection = ()=>{
                                                                         lineNumber: 1057,
                                                                         columnNumber: 31
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: [
                                                                             "时间: ",
@@ -4523,12 +4507,12 @@ const ActionSection = ()=>{
                                         columnNumber: 13
                                     }, this)
                                 ]
-                            }, void 0, true) : /* 日历视图 */ /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            }, void 0, true) : (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     padding: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Calendar, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Calendar, {
                                         fullscreen: false,
                                         style: {
                                             border: 'none'
@@ -4541,7 +4525,7 @@ const ActionSection = ()=>{
                                             const dateStr = value.format('YYYY-MM-DD');
                                             const events = calendarEvents[dateStr] || [];
                                             if (events.length === 0) return null;
-                                            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            return (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     display: 'flex',
                                                     gap: '2px',
@@ -4550,7 +4534,7 @@ const ActionSection = ()=>{
                                                     justifyContent: 'center'
                                                 },
                                                 children: [
-                                                    events.slice(0, 3).map((event, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    events.slice(0, 3).map((event, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 width: '6px',
                                                                 height: '6px',
@@ -4564,7 +4548,7 @@ const ActionSection = ()=>{
                                                             lineNumber: 1094,
                                                             columnNumber: 27
                                                         }, void 0)),
-                                                    events.length > 3 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    events.length > 3 && (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             width: '6px',
                                                             height: '6px',
@@ -4595,7 +4579,7 @@ const ActionSection = ()=>{
                                         lineNumber: 1070,
                                         columnNumber: 17
                                     }, this),
-                                    selectedDate && calendarEvents[selectedDate] && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    selectedDate && calendarEvents[selectedDate] && (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             marginTop: '16px',
                                             padding: '12px',
@@ -4604,7 +4588,7 @@ const ActionSection = ()=>{
                                             border: '1px solid #e9ecef'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     display: 'flex',
                                                     alignItems: 'center',
@@ -4612,7 +4596,7 @@ const ActionSection = ()=>{
                                                     marginBottom: '12px'
                                                 },
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                         style: {
                                                             fontWeight: '600',
                                                             color: '#262626'
@@ -4626,7 +4610,7 @@ const ActionSection = ()=>{
                                                         lineNumber: 1142,
                                                         columnNumber: 23
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         type: "text",
                                                         size: "small",
                                                         onClick: ()=>setSelectedDate(''),
@@ -4646,20 +4630,20 @@ const ActionSection = ()=>{
                                                 lineNumber: 1136,
                                                 columnNumber: 21
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                 size: "small",
                                                 dataSource: (calendarEvents[selectedDate] || []).filter((_, idx)=>!(hiddenCalendarItems[selectedDate] || []).includes(idx)),
-                                                renderItem: (item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                renderItem: (item, index)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                         style: {
                                                             padding: '8px 0'
                                                         },
                                                         onMouseEnter: ()=>setHoveredCalendarIdx(index),
                                                         onMouseLeave: ()=>setHoveredCalendarIdx(null),
                                                         actions: hoveredCalendarIdx === index ? [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 size: "small",
                                                                 type: "text",
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                     lineNumber: 1165,
                                                                     columnNumber: 79
@@ -4670,14 +4654,14 @@ const ActionSection = ()=>{
                                                                 lineNumber: 1165,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
                                                                 title: "确认删除该日程？",
                                                                 onConfirm: ()=>deleteFromCalendarView(selectedDate, index),
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                     size: "small",
                                                                     type: "text",
                                                                     danger: true,
-                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                         lineNumber: 1167,
                                                                         columnNumber: 77
@@ -4693,13 +4677,13 @@ const ActionSection = ()=>{
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ] : [],
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {}, void 0, false, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {}, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                 lineNumber: 1174,
                                                                 columnNumber: 31
                                                             }, void 0),
-                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -4707,7 +4691,7 @@ const ActionSection = ()=>{
                                                                     gap: '8px'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: getTaskTypeColor(item.type),
                                                                         style: {
                                                                             background: `${getTaskTypeColor(item.type)}15`,
@@ -4720,7 +4704,7 @@ const ActionSection = ()=>{
                                                                         lineNumber: 1177,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                         children: item.task
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -4733,9 +4717,9 @@ const ActionSection = ()=>{
                                                                 lineNumber: 1176,
                                                                 columnNumber: 25
                                                             }, void 0),
-                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                            description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: item.customer
                                                                     }, void 0, false, {
@@ -4743,7 +4727,7 @@ const ActionSection = ()=>{
                                                                         lineNumber: 1192,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: [
                                                                             "时间: ",
@@ -4792,7 +4776,7 @@ const ActionSection = ()=>{
                             lineNumber: 874,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
                             title: editingContext && editingContext.id != null ? '编辑日程' : '新增日程',
                             open: isScheduleModalOpen,
                             onOk: handleModalOk,
@@ -4800,7 +4784,7 @@ const ActionSection = ()=>{
                             okText: "保存",
                             cancelText: "取消",
                             destroyOnClose: true,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
                                 form: form,
                                 layout: "vertical",
                                 initialValues: {
@@ -4808,7 +4792,7 @@ const ActionSection = ()=>{
                                     completed: false
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "section",
                                         label: "分组",
                                         rules: [
@@ -4817,7 +4801,7 @@ const ActionSection = ()=>{
                                                 message: '请选择分组'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                             options: [
                                                 {
                                                     label: '今天',
@@ -4842,7 +4826,7 @@ const ActionSection = ()=>{
                                         lineNumber: 1215,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "task",
                                         label: "事项",
                                         rules: [
@@ -4851,7 +4835,7 @@ const ActionSection = ()=>{
                                                 message: '请输入事项'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                             placeholder: "例如：客户回访 - 阿里巴巴"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -4863,7 +4847,7 @@ const ActionSection = ()=>{
                                         lineNumber: 1224,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "customer",
                                         label: "客户",
                                         rules: [
@@ -4872,7 +4856,7 @@ const ActionSection = ()=>{
                                                 message: '请输入客户名称'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                             placeholder: "例如：阿里巴巴集团"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -4884,7 +4868,7 @@ const ActionSection = ()=>{
                                         lineNumber: 1227,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "time",
                                         label: "时间",
                                         rules: [
@@ -4893,7 +4877,7 @@ const ActionSection = ()=>{
                                                 message: '请输入时间'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                             placeholder: "例如：14:00 或 周三 15:00"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -4905,7 +4889,7 @@ const ActionSection = ()=>{
                                         lineNumber: 1230,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "type",
                                         label: "类型",
                                         rules: [
@@ -4914,7 +4898,7 @@ const ActionSection = ()=>{
                                                 message: '请选择类型'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                             options: [
                                                 {
                                                     label: getTaskTypeText('business-review'),
@@ -4959,10 +4943,10 @@ const ActionSection = ()=>{
                                         lineNumber: 1233,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "completed",
                                         valuePropName: "checked",
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                             children: "标记为已完成"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -5009,11 +4993,9 @@ _s2(ActionSection, "N02Sg+cOMmk2DKhJhMPSbGeUpsc=", false, function() {
     ];
 });
 _c2 = ActionSection;
-// 右侧洞察区组件
 const InsightSection = ()=>{
     _s3();
     const [dataPeriod, setDataPeriod] = (0, _react.useState)('年度');
-    // 行业分析数据
     const industryData = [
         {
             industry: '互联网科技',
@@ -5041,7 +5023,6 @@ const InsightSection = ()=>{
             percentage: 11.7
         }
     ];
-    // 业务数据矩阵
     const businessMatrixData = [
         {
             type: '直营',
@@ -5058,32 +5039,32 @@ const InsightSection = ()=>{
             healthScore: 65.2
         }
     ];
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+    return (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
         span: 8,
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+        children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
             gutter: [
                 0,
                 16
             ],
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                         style: cardStyle,
-                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        title: (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         display: 'flex',
                                         alignItems: 'center'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.BarChartOutlined, {
+                                        (0, _jsxdevruntime.jsxDEV)(_icons.BarChartOutlined, {
                                             style: {
                                                 color: '#1890ff',
                                                 marginRight: '8px'
@@ -5093,7 +5074,7 @@ const InsightSection = ()=>{
                                             lineNumber: 1287,
                                             columnNumber: 19
                                         }, void 0),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        (0, _jsxdevruntime.jsxDEV)("span", {
                                             style: {
                                                 fontSize: '16px',
                                                 fontWeight: '600'
@@ -5110,7 +5091,7 @@ const InsightSection = ()=>{
                                     lineNumber: 1286,
                                     columnNumber: 15
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         display: 'flex',
                                         alignItems: 'center',
@@ -5120,7 +5101,7 @@ const InsightSection = ()=>{
                                         '年度',
                                         '季度',
                                         '月度'
-                                    ].map((period)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    ].map((period)=>(0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                             type: dataPeriod === period ? 'primary' : 'text',
                                             size: "small",
                                             style: {
@@ -5151,15 +5132,15 @@ const InsightSection = ()=>{
                             padding: '16px'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                                 gutter: [
                                     16,
                                     16
                                 ],
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                         span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 textAlign: 'center',
                                                 display: 'flex',
@@ -5167,7 +5148,7 @@ const InsightSection = ()=>{
                                                 justifyContent: 'center'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         fontSize: '28px',
                                                         fontWeight: '700',
@@ -5180,7 +5161,7 @@ const InsightSection = ()=>{
                                                     lineNumber: 1315,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     type: "secondary",
                                                     style: {
                                                         fontSize: '12px'
@@ -5191,7 +5172,7 @@ const InsightSection = ()=>{
                                                     lineNumber: 1318,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
@@ -5199,7 +5180,7 @@ const InsightSection = ()=>{
                                                         marginTop: '4px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px',
@@ -5210,7 +5191,7 @@ const InsightSection = ()=>{
                                                             lineNumber: 1320,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px'
@@ -5238,9 +5219,9 @@ const InsightSection = ()=>{
                                         lineNumber: 1313,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                         span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 textAlign: 'center',
                                                 display: 'flex',
@@ -5248,7 +5229,7 @@ const InsightSection = ()=>{
                                                 justifyContent: 'center'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         fontSize: '28px',
                                                         fontWeight: '700',
@@ -5261,7 +5242,7 @@ const InsightSection = ()=>{
                                                     lineNumber: 1328,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     type: "secondary",
                                                     style: {
                                                         fontSize: '12px'
@@ -5272,7 +5253,7 @@ const InsightSection = ()=>{
                                                     lineNumber: 1331,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
@@ -5280,7 +5261,7 @@ const InsightSection = ()=>{
                                                         marginTop: '4px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px',
@@ -5291,7 +5272,7 @@ const InsightSection = ()=>{
                                                             lineNumber: 1333,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px'
@@ -5319,9 +5300,9 @@ const InsightSection = ()=>{
                                         lineNumber: 1326,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                         span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 textAlign: 'center',
                                                 display: 'flex',
@@ -5329,7 +5310,7 @@ const InsightSection = ()=>{
                                                 justifyContent: 'center'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         fontSize: '28px',
                                                         fontWeight: '700',
@@ -5342,7 +5323,7 @@ const InsightSection = ()=>{
                                                     lineNumber: 1341,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     type: "secondary",
                                                     style: {
                                                         fontSize: '12px'
@@ -5353,7 +5334,7 @@ const InsightSection = ()=>{
                                                     lineNumber: 1344,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
@@ -5361,7 +5342,7 @@ const InsightSection = ()=>{
                                                         marginTop: '4px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px',
@@ -5372,7 +5353,7 @@ const InsightSection = ()=>{
                                                             lineNumber: 1346,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px'
@@ -5406,12 +5387,12 @@ const InsightSection = ()=>{
                                 lineNumber: 1312,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     marginTop: '20px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             fontSize: '14px',
                                             fontWeight: '600',
@@ -5425,7 +5406,7 @@ const InsightSection = ()=>{
                                         lineNumber: 1355,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             border: '1px solid #f0f0f0',
                                             borderRadius: '8px',
@@ -5433,7 +5414,7 @@ const InsightSection = ()=>{
                                             background: '#fff'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     display: 'grid',
                                                     gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
@@ -5441,7 +5422,7 @@ const InsightSection = ()=>{
                                                     borderBottom: '1px solid #f0f0f0'
                                                 },
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -5455,7 +5436,7 @@ const InsightSection = ()=>{
                                                         lineNumber: 1371,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -5469,7 +5450,7 @@ const InsightSection = ()=>{
                                                         lineNumber: 1374,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -5483,7 +5464,7 @@ const InsightSection = ()=>{
                                                         lineNumber: 1377,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -5497,7 +5478,7 @@ const InsightSection = ()=>{
                                                         lineNumber: 1380,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -5517,14 +5498,14 @@ const InsightSection = ()=>{
                                                 lineNumber: 1365,
                                                 columnNumber: 17
                                             }, this),
-                                            businessMatrixData.map((row, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            businessMatrixData.map((row, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'grid',
                                                         gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
                                                         borderBottom: index < businessMatrixData.length - 1 ? '1px solid #f0f0f0' : 'none'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -5538,7 +5519,7 @@ const InsightSection = ()=>{
                                                             lineNumber: 1395,
                                                             columnNumber: 15
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -5552,7 +5533,7 @@ const InsightSection = ()=>{
                                                             lineNumber: 1404,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -5566,7 +5547,7 @@ const InsightSection = ()=>{
                                                             lineNumber: 1413,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -5580,7 +5561,7 @@ const InsightSection = ()=>{
                                                             lineNumber: 1422,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -5623,17 +5604,17 @@ const InsightSection = ()=>{
                     lineNumber: 1281,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                         style: cardStyle,
-                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        title: (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PieChartOutlined, {
+                                (0, _jsxdevruntime.jsxDEV)(_icons.PieChartOutlined, {
                                     style: {
                                         color: '#fa8c16',
                                         marginRight: '8px'
@@ -5643,7 +5624,7 @@ const InsightSection = ()=>{
                                     lineNumber: 1453,
                                     columnNumber: 17
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)("span", {
                                     style: {
                                         fontSize: '16px',
                                         fontWeight: '600'
@@ -5663,9 +5644,9 @@ const InsightSection = ()=>{
                         bodyStyle: {
                             padding: '16px'
                         },
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                     type: "secondary",
                                     style: {
                                         fontSize: '12px',
@@ -5678,20 +5659,20 @@ const InsightSection = ()=>{
                                     lineNumber: 1460,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         gap: '12px'
                                     },
-                                    children: industryData.map((item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    children: industryData.map((item, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 gap: '12px'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         width: '60px',
                                                         fontSize: '12px',
@@ -5705,7 +5686,7 @@ const InsightSection = ()=>{
                                                     lineNumber: 1468,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         flex: 1,
                                                         height: '20px',
@@ -5714,7 +5695,7 @@ const InsightSection = ()=>{
                                                         position: 'relative',
                                                         overflow: 'hidden'
                                                     },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             height: '100%',
                                                             width: `${item.percentage * 3}%`,
@@ -5744,7 +5725,7 @@ const InsightSection = ()=>{
                                                     lineNumber: 1478,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         width: '40px',
                                                         fontSize: '12px',
@@ -5770,12 +5751,12 @@ const InsightSection = ()=>{
                                     lineNumber: 1465,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         marginTop: '20px'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                             style: {
                                                 fontSize: '14px',
                                                 fontWeight: '600',
@@ -5789,7 +5770,7 @@ const InsightSection = ()=>{
                                             lineNumber: 1511,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'flex',
                                                 justifyContent: 'center',
@@ -5799,7 +5780,7 @@ const InsightSection = ()=>{
                                                 borderRadius: '8px',
                                                 border: '1px solid #f0f0f0'
                                             },
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     width: '80px',
                                                     height: '80px',
@@ -5813,7 +5794,7 @@ const InsightSection = ()=>{
                     )`,
                                                     position: 'relative'
                                                 },
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         position: 'absolute',
                                                         top: '50%',
@@ -5840,21 +5821,21 @@ const InsightSection = ()=>{
                                             lineNumber: 1514,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'grid',
                                                 gridTemplateColumns: '1fr 1fr',
                                                 gap: '8px',
                                                 marginTop: '12px'
                                             },
-                                            children: industryData.map((item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            children: industryData.map((item, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         gap: '6px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 width: '12px',
                                                                 height: '12px',
@@ -5872,7 +5853,7 @@ const InsightSection = ()=>{
                                                             lineNumber: 1559,
                                                             columnNumber: 23
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             style: {
                                                                 fontSize: '11px',
                                                                 color: '#666'
@@ -5905,7 +5886,7 @@ const InsightSection = ()=>{
                                     lineNumber: 1510,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         marginTop: '12px',
                                         padding: '8px 0',
@@ -5915,7 +5896,7 @@ const InsightSection = ()=>{
                                         alignItems: 'center'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             style: {
                                                 fontSize: '11px'
@@ -5930,7 +5911,7 @@ const InsightSection = ()=>{
                                             lineNumber: 1581,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             style: {
                                                 fontSize: '11px'
@@ -5983,14 +5964,14 @@ const WorkbenchDashboard = ()=>{
     const { initialState } = (0, _max.useModel)('@@initialState');
     const userName = (initialState === null || initialState === void 0 ? void 0 : (_initialState_currentUser = initialState.currentUser) === null || _initialState_currentUser === void 0 ? void 0 : _initialState_currentUser.name) || 'Serati Ma';
     const greeting = generateGreeting(userName);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '32px 40px',
             background: '#f5f5f5',
             minHeight: 'calc(100vh - 64px)'
         },
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(HeaderSection, {
+            (0, _jsxdevruntime.jsxDEV)(HeaderSection, {
                 userName: userName,
                 greeting: greeting
             }, void 0, false, {
@@ -5998,20 +5979,20 @@ const WorkbenchDashboard = ()=>{
                 lineNumber: 1609,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(CompanyKPIBanner, {}, void 0, false, {
+            (0, _jsxdevruntime.jsxDEV)(CompanyKPIBanner, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                 lineNumber: 1612,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+            (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                 gutter: 24,
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(ActionSection, {}, void 0, false, {
+                    (0, _jsxdevruntime.jsxDEV)(ActionSection, {}, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                         lineNumber: 1617,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(InsightSection, {}, void 0, false, {
+                    (0, _jsxdevruntime.jsxDEV)(InsightSection, {}, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                         lineNumber: 1620,
                         columnNumber: 9
@@ -6082,13 +6063,13 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/react/index.js"));
+var _react = _interop_require_default._(__mako_require__("node_modules/react/index.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var _tabContentGenerator = __mako_require__("src/utils/tabContentGenerator.tsx");
-var _WorkbenchDashboard = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/CustomerSuccess/WorkbenchDashboard.tsx"));
-var _TieringMatrix = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/pages/CustomerSuccess/TieringMatrix.tsx"));
+var _WorkbenchDashboard = _interop_require_default._(__mako_require__("src/pages/CustomerSuccess/WorkbenchDashboard.tsx"));
+var _TieringMatrix = _interop_require_default._(__mako_require__("src/pages/CustomerSuccess/TieringMatrix.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -6098,7 +6079,6 @@ self.$RefreshReg$ = (type, id)=>{
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
-// 路径到内容标题的映射
 const pathToTitleMap = {
     '/dashboard/work': '我的工作看板',
     '/dashboard/layers': '客户分层盘点',
@@ -6131,28 +6111,24 @@ const pathToTitleMap = {
 const CustomerSuccess = ()=>{
     _s();
     const location = (0, _max.useLocation)();
-    // 根据当前路径获取页面标题
     const pageTitle = pathToTitleMap[location.pathname] || '客户成功系统';
-    // 如果是工作台页面，显示新的工作台界面
-    if (location.pathname === '/dashboard/work') return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_WorkbenchDashboard.default, {}, void 0, false, {
+    if (location.pathname === '/dashboard/work') return (0, _jsxdevruntime.jsxDEV)(_WorkbenchDashboard.default, {}, void 0, false, {
         fileName: "src/pages/CustomerSuccess/index.tsx",
         lineNumber: 48,
         columnNumber: 12
     }, this);
-    // 客户分层矩阵
-    if (location.pathname === '/dashboard/layers') return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_TieringMatrix.default, {}, void 0, false, {
+    if (location.pathname === '/dashboard/layers') return (0, _jsxdevruntime.jsxDEV)(_TieringMatrix.default, {}, void 0, false, {
         fileName: "src/pages/CustomerSuccess/index.tsx",
         lineNumber: 52,
         columnNumber: 12
     }, this);
-    // 根据页面标题生成内容
     const content = (0, _tabContentGenerator.generateTabContent)(pageTitle);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             background: '#fafafa',
             minHeight: 'calc(100vh - 120px)',
-            paddingBottom: '60px' // 为footer留出底部间距
+            paddingBottom: '60px'
         },
         children: content
     }, void 0, false, {

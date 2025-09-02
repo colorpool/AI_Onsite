@@ -94,7 +94,13 @@ export default [
         path: '/profiles/service',
         name: '持续服务',
         icon: 'customerService',
-        component: './profiles/service',
+        component: './profiles/service/ContinuousService',
+      },
+      {
+        path: '/profiles/service/:id',
+        component: './profiles/service/ContinuousServiceDetail',
+        hideInMenu: true,
+        name: '持续服务详情',
       },
       {
         path: '/profiles/renewal',

@@ -9,5 +9,6 @@ import Footer from './Footer';
 import { Question, SelectLang } from './RightContent';
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown';
 import NotificationBar from './NotificationBar';
+import ErrorBoundary from './ErrorBoundary';
 
-export { AvatarDropdown, AvatarName, Footer, Question, SelectLang, NotificationBar };
+export { AvatarDropdown, AvatarName, Footer, Question, SelectLang, NotificationBar, ErrorBoundary };

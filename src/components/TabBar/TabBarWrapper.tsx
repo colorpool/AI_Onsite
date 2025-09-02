@@ -99,12 +99,16 @@ const TabBarWrapper: React.FC = React.memo(() => {
       return;
     }
     
-    // 处理客户交接详情页的动态标题
+    // 处理客户交接详情页与持续服务详情页的动态标题
     let title = routeToTitleMap[currentPath] || '未知页面';
     
     // 如果是客户交接详情页，设置为默认标题，等待动态更新
     if (currentPath.match(/^\/profiles\/handover\/\d+$/)) {
       title = '客户交接详情';
+    }
+    // 持续服务详情页标题
+    if (currentPath.match(/^\/profiles\/service\/\w+$/)) {
+      title = '持续服务详情';
     }
     
     // 如果当前路径没有对应的Tab，则添加一个
@@ -123,9 +127,9 @@ const TabBarWrapper: React.FC = React.memo(() => {
     }
   }, [location.pathname, tabs, activeKey, addTab, setActiveTab]);
 
-  // 如果没有Tab，不显示TabBar
+  // 如果没有Tab，只显示NotificationBar
   if (tabs.length === 0) {
-    return null;
+    return <NotificationBar />;
   }
 
   return (

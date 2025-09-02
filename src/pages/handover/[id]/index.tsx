@@ -85,13 +85,16 @@ const HandoverDetailPage: React.FC = () => {
         display: flex !important;
       }
       .ant-tabs-tab {
-        flex: 1 !important;
-        text-align: center !important;
-        margin: 0 !important;
+        min-width: 80px !important;
+        max-width: none !important;
+        text-align: left !important;
+        margin: 0 8px 0 0 !important;
+        flex-shrink: 0 !important;
       }
       .ant-tabs-tab-btn {
         width: 100% !important;
-        text-align: center !important;
+        text-align: left !important;
+        white-space: nowrap !important;
       }
     `;
     document.head.appendChild(style);

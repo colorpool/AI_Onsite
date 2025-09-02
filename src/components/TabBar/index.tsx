@@ -43,7 +43,7 @@ const useStyles = createStyles(({ token }) => ({
       overflow: 'visible', // 确保滚动容器可见
     },
     '& .ant-tabs-tab': {
-      padding: '6px 10px', // 减少内边距，让Tab更紧凑
+      padding: '6px 10px', // 恢复正常的内边距
       margin: '0 16px 0 0 !important', // 增加tab之间的间距，使用!important确保优先级
       borderRadius: '6px 6px 0 0',
       border: `1px solid ${token.colorBorderSecondary}`,
@@ -96,7 +96,6 @@ const useStyles = createStyles(({ token }) => ({
 
   },
   tabCloseButton: {
-    marginLeft: '8px',
     padding: '2px',
     borderRadius: '50%',
     border: 'none',
@@ -198,8 +197,14 @@ const TabBar: React.FC<TabBarProps> = React.memo(({
   const tabItems = tabs.map(tab => ({
     key: tab.key,
     label: (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <span>{tab.label}</span>
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'space-between',
+        width: '100%',
+        minWidth: '80px'
+      }}>
+        <span style={{ flex: 1, textAlign: 'left' }}>{tab.label}</span>
         {tab.closable !== false && tabs.length > 1 && (
           <CloseOutlined
             className={styles.tabCloseButton}
@@ -207,6 +212,7 @@ const TabBar: React.FC<TabBarProps> = React.memo(({
               e.stopPropagation();
               onTabClose(tab.key);
             }}
+            style={{ marginLeft: '8px', flexShrink: 0 }}
           />
         )}
       </div>
