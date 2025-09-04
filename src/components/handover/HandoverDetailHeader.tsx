@@ -70,7 +70,7 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
   const renewalCount = 2;
 
   return (
-    <div style={{ backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)' }}>
+    <div style={{ backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)', position: 'relative' }}>
       {/* 顶部操作栏 */}
       <div style={{
         display: 'flex',
@@ -167,7 +167,8 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
         alignItems: 'center',
         padding: '16px 24px 20px 24px',
         gap: '16px',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        position: 'relative'
       }}>
         {/* 交接状态标签 */}
         <Tag
@@ -229,7 +230,14 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
         >
           续约{renewalCount}次
         </Tag>
+
+        {/* 编号：状态栏内部右侧垂直居中 */}
+        <div style={{ position: 'absolute', right: 24, top: '50%', transform: 'translateY(-50%)', color: '#8c8c8c', fontSize: 12 }}>
+          交接单编号：<span style={{ fontFamily: 'monospace' }}>{handoverData.handoverNumber}</span>
+        </div>
       </div>
+
+
     </div>
   );
 };

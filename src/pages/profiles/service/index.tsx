@@ -26,7 +26,10 @@ import {
   SearchOutlined,
   ReloadOutlined,
   ExportOutlined,
-  SettingOutlined
+  SettingOutlined,
+  BarChartOutlined,
+  TeamOutlined,
+  CustomerServiceOutlined
 } from '@ant-design/icons';
 
 type HealthLevel = '健康' | '一般' | '风险';
@@ -252,6 +255,15 @@ const ServiceWorkbench: React.FC = () => {
     },
   ];
 
+  // 统一卡片样式（参考我的工作台）
+  const cardStyle = {
+    borderRadius: '12px',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+    border: '1px solid #f0f0f0',
+    background: '#ffffff',
+    marginBottom: '16px',
+  };
+
   return (
     <div style={{
       padding: '24px',
@@ -265,39 +277,122 @@ const ServiceWorkbench: React.FC = () => {
       }}>
         {/* 页面标题 */}
         <div style={{ marginBottom: '24px' }}>
-          <Typography.Title level={2} style={{ margin: 0, color: '#262626' }}>持续服务</Typography.Title>
-          <Typography.Text type="secondary">以数据驱动的日常服务运营与健康度管理</Typography.Text>
+          <Typography.Title level={2} style={{ margin: 0, color: '#262626', fontWeight: '600' }}>持续服务</Typography.Title>
+          <Typography.Text type="secondary" style={{ fontSize: '14px', color: '#666' }}>以数据驱动的日常服务运营与健康度管理</Typography.Text>
         </div>
 
         {/* 顶部数据看板 */}
         <div style={{ marginBottom: '24px' }}>
           <Row gutter={16}>
-            <Col xs={24} sm={8}>
-              <Card style={{ borderRadius: '8px' }}>
-                <Statistic title="总客户数" value={counts.total} valueStyle={{ fontWeight: 700 }} />
+            <Col xs={24} sm={6}>
+              <Card 
+                style={cardStyle}
+                title={
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <BarChartOutlined style={{ color: '#1890ff', marginRight: '8px' }} />
+                    <span style={{ fontSize: '16px', fontWeight: '600' }}>总客户数</span>
+                  </div>
+                }
+                bodyStyle={{ padding: '16px' }}
+              >
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '32px', fontWeight: '700', color: '#1890ff', marginBottom: '8px' }}>
+                    {counts.total}
+                  </div>
+                  <Typography.Text type="secondary" style={{ fontSize: '14px' }}>已完成交接的客户</Typography.Text>
+                </div>
               </Card>
             </Col>
-            <Col xs={24} sm={8}>
-              <Card style={{ borderRadius: '8px' }}>
-                <Statistic title="平均健康分" value={counts.avgHealth} valueStyle={{ fontWeight: 700 }} />
+            <Col xs={24} sm={6}>
+              <Card 
+                style={cardStyle}
+                title={
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <TeamOutlined style={{ color: '#52c41a', marginRight: '8px' }} />
+                    <span style={{ fontSize: '16px', fontWeight: '600' }}>平均健康分</span>
+                  </div>
+                }
+                bodyStyle={{ padding: '16px' }}
+              >
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '32px', fontWeight: '700', color: '#52c41a', marginBottom: '8px' }}>
+                    {counts.avgHealth}
+                  </div>
+                  <Typography.Text type="secondary" style={{ fontSize: '14px' }}>客户健康度均值</Typography.Text>
+                </div>
               </Card>
             </Col>
-            <Col xs={24} sm={8}>
-              <Card style={{ borderRadius: '8px' }}>
-                <Statistic title="风险客户数" value={counts.risky} valueStyle={{ fontWeight: 700 }} />
+            <Col xs={24} sm={6}>
+              <Card 
+                style={cardStyle}
+                title={
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <CustomerServiceOutlined style={{ color: '#fa541c', marginRight: '8px' }} />
+                    <span style={{ fontSize: '16px', fontWeight: '600' }}>风险客户数</span>
+                  </div>
+                }
+                bodyStyle={{ padding: '16px' }}
+              >
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '32px', fontWeight: '700', color: '#fa541c', marginBottom: '8px' }}>
+                    {counts.risky}
+                  </div>
+                  <Typography.Text type="secondary" style={{ fontSize: '14px' }}>需要关注的客户</Typography.Text>
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={6}>
+              <Card 
+                style={cardStyle}
+                title={
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ fontSize: '16px', fontWeight: '600' }}>健康度分布</span>
+                  </div>
+                }
+                bodyStyle={{ padding: '16px' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
+                  <div style={{ position: 'relative', width: 72, height: 72, borderRadius: '50%', background: `conic-gradient(${[
+                    { name: '健康', value: counts.healthy, color: '#52c41a' },
+                    { name: '一般', value: counts.medium, color: '#8c8c8c' },
+                    { name: '风险', value: counts.risky, color: '#fa541c' }
+                  ].map((d, idx, arr) => {
+                    const total = arr.reduce((s, i) => s + i.value, 0) || 1;
+                    const start = arr.slice(0, idx).reduce((s, i) => s + i.value, 0) / total * 360;
+                    const end = (start + d.value / total * 360);
+                    return `${d.color} ${start}deg ${end}deg`;
+                  }).join(', ')})` }} />
+                  <div style={{ display: 'grid', gap: 6 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 2, background: '#52c41a' }} />
+                      <span>健康：{counts.healthy}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 2, background: '#8c8c8c' }} />
+                      <span>一般：{counts.medium}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 2, background: '#fa541c' }} />
+                      <span>风险：{counts.risky}</span>
+                    </div>
+                  </div>
+                </div>
               </Card>
             </Col>
           </Row>
         </div>
 
-                {/* 筛选区域 */}
-        <div style={{ 
-          background: '#fff',
-          borderRadius: '8px',
-          padding: '24px',
-          marginBottom: '24px',
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
-        }}>
+        {/* 筛选区域 */}
+        <Card 
+          style={cardStyle}
+          title={
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <SearchOutlined style={{ color: '#1890ff', marginRight: '8px' }} />
+              <span style={{ fontSize: '16px', fontWeight: '600' }}>客户筛选</span>
+            </div>
+          }
+          bodyStyle={{ padding: '24px' }}
+        >
           <div style={{ 
             display: 'flex', 
             alignItems: 'center',
@@ -376,14 +471,24 @@ const ServiceWorkbench: React.FC = () => {
               </Space>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* 数据表格 */}
-        <div style={{
-          background: '#fff',
-          borderRadius: '8px',
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
-        }}>
+        <Card 
+          style={cardStyle}
+          title={
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <SettingOutlined style={{ color: '#1890ff', marginRight: '8px' }} />
+                <span style={{ fontSize: '16px', fontWeight: '600' }}>客户服务数据</span>
+              </div>
+              <Typography.Text type="secondary" style={{ fontSize: '12px' }}>
+                共 {filteredAccounts.length} 条记录
+              </Typography.Text>
+            </div>
+          }
+          bodyStyle={{ padding: '0' }}
+        >
           <Table
             rowKey="key"
             columns={columns}
@@ -398,8 +503,12 @@ const ServiceWorkbench: React.FC = () => {
               onChange: (page) => setCurrentPage(page),
             }}
             size="middle"
+            style={{ 
+              background: '#fff',
+              borderRadius: '0 0 12px 12px'
+            }}
           />
-        </div>
+        </Card>
 
         {/* 客户详情抽屉 */}
         <Drawer

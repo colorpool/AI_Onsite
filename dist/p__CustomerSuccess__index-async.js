@@ -12,9 +12,9 @@ __mako_require__.d(exports, "default", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var prevRefreshReg;
@@ -49,13 +49,11 @@ const valueTierScoreHint = {
     中价值: '评分区间: 60 - 79',
     低价值: '评分区间: 0 - 59'
 };
-// 蓝色饱和度梯度（高->低）
 const valueTierRowColor = {
     高价值: '#2f54eb14',
     中价值: '#2f54eb0d',
     低价值: '#2f54eb08'
 };
-// 生命周期色调（用于边框/强调色）
 const lifecycleAccentColor = {
     导入期: '#40a9ff',
     成长期: '#fa8c16',
@@ -125,13 +123,13 @@ function generateMockCustomers() {
         const repeats = Math.random() > 0.5 ? 2 : 1;
         for(let i = 0; i < repeats; i++){
             const lifecycle = lifecycleStages[Math.floor(Math.random() * lifecycleStages.length)];
-            const valueScore = Math.floor(Math.random() * 61) + 40; // 40-100
+            const valueScore = Math.floor(Math.random() * 61) + 40;
             const valueTier = valueScore >= 80 ? '高价值' : valueScore >= 60 ? '中价值' : '低价值';
             const rAndM = Math.floor(Math.random() * 61) + 40;
             const f = Math.floor(Math.random() * 61) + 20;
             const serviceScore = Math.floor(Math.random() * 61) + 20;
             const trend = Math.random() > 0.6 ? 'down' : 'up';
-            const arr = Math.round((Math.random() * 400 + 100) * 1000); // 100k - 500k
+            const arr = Math.round((Math.random() * 400 + 100) * 1000);
             customers.push({
                 id: String(id++),
                 name: `${baseName}${i ? '·子业务' + i : ''}`,
@@ -156,14 +154,6 @@ const stageAbbrev = {
     成熟期: '熟',
     衰退期: '衰'
 };
-// 数据源：默认为本地mock，如有可用接口则自动对接
-// 预期接口：GET /api/customer-tiers -> { customers: Customer[] }
-// 字段需包含：valueScore, f, serviceScore, valueTier, lifecycle, arr, csm, name
-// 注意：若接口失败，会回落到mock数据
-//
-// 气泡图与桑基图的数据将自动基于 customers 聚合计算
-// 初始化为mock数据
-// 实时数据将通过useEffect尝试拉取并覆盖
 let initialMock = generateMockCustomers();
 const TieringMatrix = ()=>{
     _s();
@@ -213,7 +203,6 @@ const TieringMatrix = ()=>{
         customers
     ]);
     const selectedTitle = selected ? `${selected.valueTier} · ${selected.stage}` : '全部客户';
-    // 聚合每个矩阵分群的数据：计数、均值与总ARR
     const segmentAgg = (0, _react.useMemo)(()=>{
         const agg = {};
         for (const vt of valueTiers)for (const st of lifecycleStages){
@@ -252,11 +241,8 @@ const TieringMatrix = ()=>{
     }, [
         segmentAgg
     ]);
-    // 气泡图工具提示
     const [bubbleTip, setBubbleTip] = (0, _react.useState)(null);
-    // 桑基图工具提示
     const [sankeyTip, setSankeyTip] = (0, _react.useState)(null);
-    // 尝试从接口获取数据
     (0, _react.useEffect)(()=>{
         async function fetchData() {
             try {
@@ -270,9 +256,7 @@ const TieringMatrix = ()=>{
                         return;
                     }
                 }
-            } catch (e) {
-            // ignore
-            }
+            } catch (e) {}
             setCustomers(initialMock);
         }
         fetchData();
@@ -298,9 +282,9 @@ const TieringMatrix = ()=>{
             dataIndex: 'name',
             key: 'name',
             sorter: (a, b)=>a.name.localeCompare(b.name),
-            render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+            render: (_, record)=>(0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                             style: {
                                 backgroundColor: record.logoColor
                             },
@@ -310,7 +294,7 @@ const TieringMatrix = ()=>{
                             lineNumber: 251,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                        (0, _jsxdevruntime.jsxDEV)("span", {
                             children: record.name
                         }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
@@ -335,9 +319,9 @@ const TieringMatrix = ()=>{
             dataIndex: 'valueScore',
             key: 'valueScore',
             sorter: (a, b)=>a.valueScore - b.valueScore,
-            render: (v, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+            render: (v, record)=>(0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                        (0, _jsxdevruntime.jsxDEV)(Text, {
                             strong: true,
                             children: [
                                 v,
@@ -348,7 +332,7 @@ const TieringMatrix = ()=>{
                             lineNumber: 271,
                             columnNumber: 11
                         }, this),
-                        record.trend === 'up' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                        record.trend === 'up' ? (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                             style: {
                                 color: '#52c41a'
                             }
@@ -356,7 +340,7 @@ const TieringMatrix = ()=>{
                             fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                             lineNumber: 273,
                             columnNumber: 13
-                        }, this) : record.trend === 'down' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
+                        }, this) : record.trend === 'down' ? (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
                             style: {
                                 color: '#ff4d4f'
                             }
@@ -381,7 +365,7 @@ const TieringMatrix = ()=>{
                     value: s
                 })),
             onFilter: (value, record)=>record.lifecycle === value,
-            render: (v)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+            render: (v)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     color: lifecycleAccentColor[v],
                     style: {
                         borderColor: `${lifecycleAccentColor[v]}55`
@@ -413,7 +397,6 @@ const TieringMatrix = ()=>{
         }
     ];
     const headerTitle = selected ? `客户列表 - ${selected.valueTier} & ${selected.stage} (${filteredCustomers.length})` : `客户列表 - 全部客户 (${filteredCustomers.length})`;
-    // ---- Charts data helpers ----
     function hashStringToNumber(input) {
         let hash = 0;
         for(let i = 0; i < input.length; i++){
@@ -427,10 +410,9 @@ const TieringMatrix = ()=>{
         const base = selected ? 70 : 65;
         const variance = selected ? 12 : 10;
         const seed = hashStringToNumber(key);
-        const length = 12; // 近12周
+        const length = 12;
         const points = [];
         for(let i = 0; i < length; i++){
-            // 简单可重复的伪随机
             const n = Math.sin(seed % 1000 * (i + 1)) * 0.5 + Math.cos(seed % 777 * (i + 2)) * 0.5;
             const value = Math.max(40, Math.min(95, base + n * variance + (i - length / 2) * 0.4));
             points.push(Math.round(value));
@@ -440,16 +422,14 @@ const TieringMatrix = ()=>{
         selected
     ]);
     const tierMigration = (0, _react.useMemo)(()=>{
-        // 基于选中人群，构造稳定的“上升/持平/下降”分布
         const key = selected ? `${selected.valueTier}-${selected.stage}` : 'ALL';
         const seed = hashStringToNumber(key);
         const size = filteredCustomers.length || 1;
-        const ratioUp = 0.2 + seed % 30 / 100; // 20%-50%
-        const ratioDown = 0.1 + seed % 15 / 100; // 10%-25%
+        const ratioUp = 0.2 + seed % 30 / 100;
+        const ratioDown = 0.1 + seed % 15 / 100;
         const up = Math.round(size * ratioUp);
         const down = Math.round(size * ratioDown);
         const same = Math.max(0, size - up - down);
-        // 拆分路径
         const up_l2m = Math.round(up * 0.45);
         const up_m2h = Math.max(0, up - up_l2m);
         const down_h2m = Math.round(down * 0.6);
@@ -470,14 +450,14 @@ const TieringMatrix = ()=>{
         filteredCustomers.length,
         selected
     ]);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
-            padding: 24,
+            padding: '32px 40px',
             background: '#f5f5f5',
             minHeight: 'calc(100vh - 64px)'
         },
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     display: 'flex',
                     alignItems: 'center',
@@ -485,9 +465,9 @@ const TieringMatrix = ()=>{
                     marginBottom: 16
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    (0, _jsxdevruntime.jsxDEV)("div", {
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                 level: 2,
                                 style: {
                                     margin: 0,
@@ -500,7 +480,7 @@ const TieringMatrix = ()=>{
                                 lineNumber: 379,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 children: "将客户按“价值等级”与“生命周期”进行矩阵分层，以指导精细化服务策略。"
                             }, void 0, false, {
@@ -514,9 +494,9 @@ const TieringMatrix = ()=>{
                         lineNumber: 378,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                         type: "link",
-                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
+                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                             lineNumber: 382,
                             columnNumber: 35
@@ -533,7 +513,7 @@ const TieringMatrix = ()=>{
                 lineNumber: 377,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                 style: {
                     ...cardStyle
                 },
@@ -541,14 +521,14 @@ const TieringMatrix = ()=>{
                     padding: 16
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             marginBottom: 8,
                             display: 'flex',
                             alignItems: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 children: "当前筛选："
                             }, void 0, false, {
@@ -556,7 +536,7 @@ const TieringMatrix = ()=>{
                                 lineNumber: 387,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 strong: true,
                                 style: {
                                     marginLeft: 8
@@ -573,35 +553,35 @@ const TieringMatrix = ()=>{
                         lineNumber: 386,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                         gutter: [
                             12,
                             12
                         ],
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 span: 4
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                                 lineNumber: 392,
                                 columnNumber: 11
                             }, this),
-                            lifecycleStages.map((stage)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            lifecycleStages.map((stage)=>(0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                     span: 5,
                                     style: {
                                         display: 'flex',
                                         alignItems: 'center'
                                     },
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
                                                 color: lifecycleAccentColor[stage]
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                                                 lineNumber: 396,
                                                 columnNumber: 17
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                 style: {
                                                     color: '#262626',
                                                     fontWeight: 500
@@ -629,7 +609,7 @@ const TieringMatrix = ()=>{
                         lineNumber: 390,
                         columnNumber: 9
                     }, this),
-                    valueTiers.map((tier)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    valueTiers.map((tier)=>(0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                             gutter: [
                                 12,
                                 10
@@ -639,11 +619,11 @@ const TieringMatrix = ()=>{
                                 marginTop: 2
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                     span: 4,
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                 style: {
                                                     fontWeight: 600,
                                                     color: '#1f1f1f'
@@ -654,9 +634,9 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 406,
                                                 columnNumber: 17
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                                                 title: valueTierScoreHint[tier],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
+                                                children: (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
                                                     style: {
                                                         color: '#8c8c8c'
                                                     }
@@ -698,9 +678,9 @@ const TieringMatrix = ()=>{
                                             label: '应用服务剧本'
                                         }
                                     ];
-                                    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                    return (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                         span: 5,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 ...getCellStyle(tier, stage, isSelected),
                                                 position: 'relative'
@@ -712,14 +692,14 @@ const TieringMatrix = ()=>{
                                             onMouseEnter: (e)=>e.currentTarget.style.boxShadow = `0 4px 12px rgba(0,0,0,0.08), 0 0 0 3px ${lifecycleAccentColor[stage]}11`,
                                             onMouseLeave: (e)=>e.currentTarget.style.boxShadow = isSelected ? `0 0 0 3px ${lifecycleAccentColor[stage]}22` : 'none',
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         justifyContent: 'space-between'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             type: "secondary",
                                                             style: {
                                                                 fontSize: 12
@@ -734,21 +714,21 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 429,
                                                             columnNumber: 23
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 display: 'flex',
                                                                 alignItems: 'center',
                                                                 gap: 8
                                                             },
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
+                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
                                                                     color: lifecycleAccentColor[stage]
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                                                                     lineNumber: 431,
                                                                     columnNumber: 25
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Dropdown, {
+                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Dropdown, {
                                                                     trigger: [
                                                                         'click'
                                                                     ],
@@ -762,7 +742,7 @@ const TieringMatrix = ()=>{
                                                                             if (key === 'list') scrollToListAndHighlight();
                                                                         }
                                                                     },
-                                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MoreOutlined, {
+                                                                    children: (0, _jsxdevruntime.jsxDEV)(_icons.MoreOutlined, {
                                                                         style: {
                                                                             color: '#8c8c8c'
                                                                         },
@@ -789,7 +769,7 @@ const TieringMatrix = ()=>{
                                                     lineNumber: 428,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         marginTop: 6,
                                                         fontSize: 24,
@@ -802,7 +782,7 @@ const TieringMatrix = ()=>{
                                                     lineNumber: 448,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         marginTop: 2,
                                                         fontSize: 12,
@@ -838,20 +818,20 @@ const TieringMatrix = ()=>{
                 lineNumber: 385,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+            (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                 gutter: 16,
                 style: {
                     marginTop: 16
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                         xs: 24,
                         lg: 12,
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             style: {
                                 ...cardStyle
                             },
-                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                            title: (0, _jsxdevruntime.jsxDEV)("span", {
                                 style: {
                                     fontWeight: 600
                                 },
@@ -861,14 +841,14 @@ const TieringMatrix = ()=>{
                                 lineNumber: 462,
                                 columnNumber: 49
                             }, void 0),
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            children: (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     width: '100%',
                                     height: 260,
                                     position: 'relative'
                                 },
                                 children: [
-                                    (bubbleTip === null || bubbleTip === void 0 ? void 0 : bubbleTip.visible) && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (bubbleTip === null || bubbleTip === void 0 ? void 0 : bubbleTip.visible) && (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             position: 'absolute',
                                             left: bubbleTip.x,
@@ -888,7 +868,7 @@ const TieringMatrix = ()=>{
                                         lineNumber: 465,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("svg", {
+                                    (0, _jsxdevruntime.jsxDEV)("svg", {
                                         viewBox: "0 0 420 200",
                                         preserveAspectRatio: "none",
                                         style: {
@@ -896,7 +876,7 @@ const TieringMatrix = ()=>{
                                             height: '100%'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("line", {
+                                            (0, _jsxdevruntime.jsxDEV)("line", {
                                                 x1: "40",
                                                 y1: "10",
                                                 x2: "40",
@@ -907,7 +887,7 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 471,
                                                 columnNumber: 17
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("line", {
+                                            (0, _jsxdevruntime.jsxDEV)("line", {
                                                 x1: "40",
                                                 y1: "170",
                                                 x2: "400",
@@ -923,9 +903,9 @@ const TieringMatrix = ()=>{
                                             }).map((_, i)=>{
                                                 const v = i * 20;
                                                 const y = 170 - v / 100 * 150;
-                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                return (0, _jsxdevruntime.jsxDEV)("g", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("line", {
+                                                        (0, _jsxdevruntime.jsxDEV)("line", {
                                                             x1: "36",
                                                             y1: y,
                                                             x2: "40",
@@ -936,7 +916,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 479,
                                                             columnNumber: 23
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                                        (0, _jsxdevruntime.jsxDEV)("text", {
                                                             x: "10",
                                                             y: y + 4,
                                                             fontSize: "10",
@@ -959,9 +939,9 @@ const TieringMatrix = ()=>{
                                             }).map((_, i)=>{
                                                 const v = i * 20;
                                                 const x = 40 + v / 100 * 360;
-                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                return (0, _jsxdevruntime.jsxDEV)("g", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("line", {
+                                                        (0, _jsxdevruntime.jsxDEV)("line", {
                                                             x1: x,
                                                             y1: "170",
                                                             x2: x,
@@ -972,7 +952,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 490,
                                                             columnNumber: 23
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                                        (0, _jsxdevruntime.jsxDEV)("text", {
                                                             x: x,
                                                             y: "188",
                                                             fontSize: "10",
@@ -997,9 +977,9 @@ const TieringMatrix = ()=>{
                                                 const y = 170 - s.avgActive / 100 * 150;
                                                 const r = 6 + s.totalArr / maxSegmentArr * 16;
                                                 const color = lifecycleAccentColor[s.stage];
-                                                const html = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                const html = (0, _jsxdevruntime.jsxDEV)("div", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 fontWeight: 600,
                                                                 marginBottom: 4
@@ -1010,7 +990,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 505,
                                                             columnNumber: 25
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
                                                                 "客户数：",
                                                                 s.count
@@ -1020,7 +1000,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 506,
                                                             columnNumber: 25
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
                                                                 "总ARR：¥",
                                                                 (s.totalArr / 10000).toFixed(1),
@@ -1031,7 +1011,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 507,
                                                             columnNumber: 25
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
                                                                 "平均健康分：",
                                                                 s.avgHealth
@@ -1041,7 +1021,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 508,
                                                             columnNumber: 25
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
                                                                 "平均活跃度：",
                                                                 s.avgActive
@@ -1057,7 +1037,7 @@ const TieringMatrix = ()=>{
                                                     lineNumber: 504,
                                                     columnNumber: 23
                                                 }, this);
-                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("circle", {
+                                                return (0, _jsxdevruntime.jsxDEV)("circle", {
                                                     cx: x,
                                                     cy: y,
                                                     r: r,
@@ -1114,10 +1094,10 @@ const TieringMatrix = ()=>{
                                                         lifecycleAccentColor['衰退期']
                                                     ]
                                                 ];
-                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
-                                                    children: entries.map(([label, color], i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                return (0, _jsxdevruntime.jsxDEV)("g", {
+                                                    children: entries.map(([label, color], i)=>(0, _jsxdevruntime.jsxDEV)("g", {
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("rect", {
+                                                                (0, _jsxdevruntime.jsxDEV)("rect", {
                                                                     x: 44 + i * 90,
                                                                     y: 12,
                                                                     width: 10,
@@ -1130,7 +1110,7 @@ const TieringMatrix = ()=>{
                                                                     lineNumber: 548,
                                                                     columnNumber: 27
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                                                (0, _jsxdevruntime.jsxDEV)("text", {
                                                                     x: 58 + i * 90,
                                                                     y: 21,
                                                                     fontSize: "10",
@@ -1153,9 +1133,9 @@ const TieringMatrix = ()=>{
                                                     columnNumber: 21
                                                 }, this);
                                             })(),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                            (0, _jsxdevruntime.jsxDEV)("g", {
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("circle", {
+                                                    (0, _jsxdevruntime.jsxDEV)("circle", {
                                                         cx: "60",
                                                         cy: "150",
                                                         r: "6",
@@ -1167,7 +1147,7 @@ const TieringMatrix = ()=>{
                                                         lineNumber: 557,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("circle", {
+                                                    (0, _jsxdevruntime.jsxDEV)("circle", {
                                                         cx: "90",
                                                         cy: "150",
                                                         r: "10",
@@ -1179,7 +1159,7 @@ const TieringMatrix = ()=>{
                                                         lineNumber: 558,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("circle", {
+                                                    (0, _jsxdevruntime.jsxDEV)("circle", {
                                                         cx: "130",
                                                         cy: "150",
                                                         r: "14",
@@ -1191,7 +1171,7 @@ const TieringMatrix = ()=>{
                                                         lineNumber: 559,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                                    (0, _jsxdevruntime.jsxDEV)("text", {
                                                         x: "160",
                                                         y: "154",
                                                         fontSize: "10",
@@ -1208,7 +1188,7 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 556,
                                                 columnNumber: 17
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                            (0, _jsxdevruntime.jsxDEV)("text", {
                                                 x: "220",
                                                 y: "198",
                                                 textAnchor: "middle",
@@ -1220,7 +1200,7 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 563,
                                                 columnNumber: 17
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                            (0, _jsxdevruntime.jsxDEV)("text", {
                                                 x: "12",
                                                 y: "14",
                                                 textAnchor: "start",
@@ -1232,7 +1212,7 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 564,
                                                 columnNumber: 17
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                            (0, _jsxdevruntime.jsxDEV)("text", {
                                                 x: "400",
                                                 y: "16",
                                                 textAnchor: "end",
@@ -1266,14 +1246,14 @@ const TieringMatrix = ()=>{
                         lineNumber: 461,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                         xs: 24,
                         lg: 12,
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             style: {
                                 ...cardStyle
                             },
-                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                            title: (0, _jsxdevruntime.jsxDEV)("span", {
                                 style: {
                                     fontWeight: 600
                                 },
@@ -1283,14 +1263,14 @@ const TieringMatrix = ()=>{
                                 lineNumber: 574,
                                 columnNumber: 49
                             }, void 0),
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            children: (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     width: '100%',
                                     height: 260,
                                     position: 'relative'
                                 },
                                 children: [
-                                    (sankeyTip === null || sankeyTip === void 0 ? void 0 : sankeyTip.visible) && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (sankeyTip === null || sankeyTip === void 0 ? void 0 : sankeyTip.visible) && (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             position: 'absolute',
                                             left: sankeyTip.x,
@@ -1310,7 +1290,7 @@ const TieringMatrix = ()=>{
                                         lineNumber: 577,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("svg", {
+                                    (0, _jsxdevruntime.jsxDEV)("svg", {
                                         viewBox: "0 0 420 200",
                                         preserveAspectRatio: "none",
                                         style: {
@@ -1331,7 +1311,6 @@ const TieringMatrix = ()=>{
                                                     positions[`L-${t}`] = 40 + i * 60;
                                                     positions[`R-${t}`] = 40 + i * 60;
                                                 });
-                                                // 使用之前的迁移数据构造流
                                                 const flows = [
                                                     {
                                                         from: '低价值',
@@ -1383,11 +1362,11 @@ const TieringMatrix = ()=>{
                                                     const cx2 = 260;
                                                     return `M ${leftX} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${rightX} ${y2}`;
                                                 }
-                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                return (0, _jsxdevruntime.jsxDEV)("g", {
                                                     children: [
-                                                        tiers.map((t)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                        tiers.map((t)=>(0, _jsxdevruntime.jsxDEV)("g", {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("rect", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("rect", {
                                                                         x: leftX - 28,
                                                                         y: positions[`L-${t}`] - 10,
                                                                         width: 56,
@@ -1400,7 +1379,7 @@ const TieringMatrix = ()=>{
                                                                         lineNumber: 612,
                                                                         columnNumber: 27
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("text", {
                                                                         x: leftX - 32,
                                                                         y: positions[`L-${t}`] + 4,
                                                                         fontSize: "12",
@@ -1421,9 +1400,9 @@ const TieringMatrix = ()=>{
                                                                 lineNumber: 611,
                                                                 columnNumber: 25
                                                             }, this)),
-                                                        tiers.map((t)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                        tiers.map((t)=>(0, _jsxdevruntime.jsxDEV)("g", {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("rect", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("rect", {
                                                                         x: rightX - 28,
                                                                         y: positions[`R-${t}`] - 10,
                                                                         width: 56,
@@ -1436,7 +1415,7 @@ const TieringMatrix = ()=>{
                                                                         lineNumber: 618,
                                                                         columnNumber: 27
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("text", {
                                                                         x: rightX + 32,
                                                                         y: positions[`R-${t}`] + 4,
                                                                         fontSize: "12",
@@ -1457,7 +1436,7 @@ const TieringMatrix = ()=>{
                                                                 lineNumber: 617,
                                                                 columnNumber: 25
                                                             }, this)),
-                                                        flows.map((f, idx)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("path", {
+                                                        flows.map((f, idx)=>(0, _jsxdevruntime.jsxDEV)("path", {
                                                                 d: pathD(positions[`L-${f.from}`], positions[`R-${f.to}`]),
                                                                 stroke: f.color,
                                                                 strokeOpacity: 0.5,
@@ -1493,7 +1472,7 @@ const TieringMatrix = ()=>{
                                                     columnNumber: 21
                                                 }, this);
                                             })(),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                            (0, _jsxdevruntime.jsxDEV)("text", {
                                                 x: "400",
                                                 y: "16",
                                                 textAnchor: "end",
@@ -1536,10 +1515,10 @@ const TieringMatrix = ()=>{
                                                         '#D3F261'
                                                     ]
                                                 ];
-                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
-                                                    children: items.map(([label, color], i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                return (0, _jsxdevruntime.jsxDEV)("g", {
+                                                    children: items.map(([label, color], i)=>(0, _jsxdevruntime.jsxDEV)("g", {
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("rect", {
+                                                                (0, _jsxdevruntime.jsxDEV)("rect", {
                                                                     x: 44 + i % 4 * 88,
                                                                     y: 12 + Math.floor(i / 4) * 18,
                                                                     width: 10,
@@ -1552,7 +1531,7 @@ const TieringMatrix = ()=>{
                                                                     lineNumber: 661,
                                                                     columnNumber: 27
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
+                                                                (0, _jsxdevruntime.jsxDEV)("text", {
                                                                     x: 58 + i % 4 * 88,
                                                                     y: 21 + Math.floor(i / 4) * 18,
                                                                     fontSize: "10",
@@ -1603,7 +1582,7 @@ const TieringMatrix = ()=>{
                 lineNumber: 459,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                 ref: listRef,
                 style: {
                     ...cardStyle,
@@ -1612,7 +1591,7 @@ const TieringMatrix = ()=>{
                     border: listHighlight ? '1px solid #91caff' : cardStyle.border,
                     transition: 'box-shadow 0.3s ease, border-color 0.3s ease'
                 },
-                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                title: (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
@@ -1620,7 +1599,7 @@ const TieringMatrix = ()=>{
                         width: '100%'
                     },
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                        (0, _jsxdevruntime.jsxDEV)("span", {
                             style: {
                                 fontSize: 16,
                                 fontWeight: 600
@@ -1631,7 +1610,7 @@ const TieringMatrix = ()=>{
                             lineNumber: 688,
                             columnNumber: 11
                         }, void 0),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input.Search, {
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Input.Search, {
                             allowClear: true,
                             placeholder: "搜索客户/CSM/标签...",
                             style: {
@@ -1650,7 +1629,7 @@ const TieringMatrix = ()=>{
                     lineNumber: 687,
                     columnNumber: 9
                 }, void 0),
-                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
+                children: (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
                     rowKey: "id",
                     dataSource: filteredCustomers,
                     columns: columns,

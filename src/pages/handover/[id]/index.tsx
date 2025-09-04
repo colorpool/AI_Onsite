@@ -77,29 +77,32 @@ const HandoverDetailPage: React.FC = () => {
   const location = useLocation();
   
   // 添加自定义样式来强制标签页均匀分布
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      .ant-tabs-nav-list {
-        width: 100% !important;
-        display: flex !important;
-      }
-      .ant-tabs-tab {
-        flex: 1 !important;
-        text-align: center !important;
-        margin: 0 !important;
-      }
-      .ant-tabs-tab-btn {
-        width: 100% !important;
-        text-align: center !important;
-      }
-    `;
-    document.head.appendChild(style);
-    
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
+  // 已删除：该样式会影响 Tabs 的默认布局，造成样式问题
+  // useEffect(() => {
+  //   const style = document.createElement('style');
+  //   style.textContent = `
+  //     .ant-tabs-nav-list {
+  //       width: 100% !important;
+  //       display: flex !important;
+  //     }
+  //     .ant-tabs-tab {
+  //       min-width: 80px !important;
+  //       max-width: none !important;
+  //       text-align: left !important;
+  //       margin: 0 8px 0 0 !important;
+  //       flex-shrink: 0 !important;
+  //     }
+  //     .ant-tabs-tab-btn {
+  //       width: 100% !important;
+  //       text-align: left !important;
+  //       white-space: nowrap !important;
+  //     }
+  //   `;
+  //   document.head.appendChild(style);
+  //   return () => {
+  //     document.head.removeChild(style);
+  //   };
+  // }, []);
   const [loading, setLoading] = useState(true);
   const [handoverData, setHandoverData] = useState<CustomerHandover | null>(null);
   const [onboardingTasks, setOnboardingTasks] = useState<OnboardingTask[]>([]);
@@ -318,28 +321,24 @@ const HandoverDetailPage: React.FC = () => {
         minHeight: 'calc(100vh - 120px)',
         paddingBottom: '60px' // 为footer留出底部间距
       }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto'
-        }}>
-        
-        {/* 新设计的头部组件 */}
-        <div style={{ marginBottom: '24px' }}>
-          <HandoverDetailHeader
-            handoverData={handoverData}
-            onBack={handleBack}
-            onEdit={handleEdit}
-            onViewContract={handleViewContract}
-            onShare={handleShare}
-          />
-        </div>
-        {/* 主要内容区域 */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '8px',
-          overflow: 'hidden',
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
-        }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          {/* 新设计的头部组件 */}
+          <div style={{ marginBottom: '24px' }}>
+            <HandoverDetailHeader
+              handoverData={handoverData}
+              onBack={handleBack}
+              onEdit={handleEdit}
+              onViewContract={handleViewContract}
+              onShare={handleShare}
+            />
+          </div>
+          {/* 主要内容区域 */}
+          <div style={{
+            backgroundColor: '#fff',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
+          }}>
           <Tabs
             activeKey={activeTab}
             onChange={(key) => {
@@ -367,7 +366,25 @@ const HandoverDetailPage: React.FC = () => {
               children: (
                 <div style={{ padding: '24px' }}>
                   {/* Onboarding行动计划 */}
-                  <Card title="Onboarding行动计划" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
+                  <Card 
+                    title="Onboarding行动计划" 
+                    style={{ marginBottom: '16px', borderRadius: '8px' }} 
+                    size="small"
+                    extra={
+                      <Button 
+                        type="primary" 
+                        size="small"
+                        disabled={!onboardingTasks.every(task => task.completed) || !!handoverData?.deliveredAt}
+                        onClick={() => {
+                          const now = new Date().toISOString();
+                          setHandoverData(prev => prev ? { ...prev, deliveredAt: now, handoverStatus: 'completed' as any } : null);
+                          message.success('交付完成确认成功！交接记录已标记为已完成');
+                        }}
+                      >
+                        {handoverData?.deliveredAt ? '已交付完成' : '确认交付完成'}
+                      </Button>
+                    }
+                  >
                     <div style={{ padding: '8px 0' }}>
                       {onboardingTasks.map((task) => (
                         <div key={task.id} style={{ marginBottom: '12px' }}>
@@ -383,6 +400,23 @@ const HandoverDetailPage: React.FC = () => {
                           )}
                         </div>
                       ))}
+                      
+                      {handoverData?.deliveredAt && (
+                        <div style={{ 
+                          marginTop: '16px', 
+                          padding: '12px', 
+                          backgroundColor: '#f6ffed', 
+                          border: '1px solid #b7eb8f', 
+                          borderRadius: '6px' 
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <CheckCircleOutlined style={{ color: '#52c41a' }} />
+                            <Text style={{ color: '#52c41a', fontWeight: '500' }}>
+                              交付完成时间: {new Date(handoverData.deliveredAt).toLocaleString()}
+                            </Text>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </Card>
 
@@ -670,11 +704,9 @@ const HandoverDetailPage: React.FC = () => {
             }
             ]}
           />
+          </div>
         </div>
       </div>
-      
-
-    </div>
     </>
   );
 };

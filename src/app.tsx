@@ -37,24 +37,9 @@ export async function getInitialState(): Promise<{
     const envInfo = getEnvironmentInfo();
     
     const fetchUserInfo = async () => {
-      // 生产环境直接返回Mock用户，避免API调用
-      if (isProduction()) {
-        console.log('Production environment detected, using mock data');
-        return getMockCurrentUser();
-      }
-      
-      // 开发环境尝试调用真实API
-      try {
-        console.log('Development environment, calling API');
-        const msg = await queryCurrentUser({
-          skipErrorHandler: true,
-        });
-        return msg.data;
-      } catch (error) {
-        console.log('API call failed:', error);
-        // 开发环境API失败时也使用Mock数据，避免重定向循环
-        return getMockCurrentUser();
-      }
+      // 暂时在所有环境都使用Mock数据，避免API调用问题
+      console.log('Using mock data to avoid API issues');
+      return getMockCurrentUser();
     };
     
     const currentUser = await fetchUserInfo();

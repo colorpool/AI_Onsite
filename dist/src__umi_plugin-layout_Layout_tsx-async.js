@@ -172,7 +172,7 @@ function Component$$(props) {
         "fixSiderbar": true,
         "colorWeak": false,
         "title": "智能驻场-钉学科技",
-        "pwa": true,
+        "pwa": false,
         "logo": "/simple-logo.svg",
         "iconfontUrl": "",
         "token": {},

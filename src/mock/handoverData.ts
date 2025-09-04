@@ -101,6 +101,7 @@ export const mockInternalComments: InternalComment[] = [
 export const mockCustomerHandovers: CustomerHandover[] = [
   {
     id: '1',
+    handoverNumber: 'HO-2024-001',
     customerName: '北京科技有限公司',
     handoverStatus: 'normal',
     riskLevel: 'low',
@@ -112,6 +113,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     handoverComment: '服务专业，响应及时',
     createdAt: '2024-01-10 10:00:00',
     updatedAt: '2024-01-15 16:30:00',
+    salesCreatedAt: '2024-01-05 14:20:00',
     crmData: mockCRMSyncData,
     stakeholders: mockStakeholders,
     onboardingTasks: mockOnboardingTasks,
@@ -119,6 +121,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
   },
   {
     id: '2',
+    handoverNumber: 'HO-2024-002',
     customerName: '上海智能科技有限公司',
     handoverStatus: 'not_handover',
     riskLevel: 'medium',
@@ -130,6 +133,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     handoverComment: '需要进一步沟通客户需求',
     createdAt: '2024-01-12 14:20:00',
     updatedAt: '2024-01-14 11:45:00',
+    salesCreatedAt: '2024-01-08 09:15:00',
     crmData: {
       ...mockCRMSyncData,
       accountCount: 25,
@@ -163,6 +167,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
   },
   {
     id: '3',
+    handoverNumber: 'HO-2024-003',
     customerName: '深圳创新科技有限公司',
     handoverStatus: 'risk',
     riskLevel: 'high',
@@ -174,6 +179,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     handoverComment: '客户期望与产品功能存在较大差距',
     createdAt: '2024-01-08 09:30:00',
     updatedAt: '2024-01-13 15:20:00',
+    salesCreatedAt: '2024-01-03 11:45:00',
     crmData: {
       ...mockCRMSyncData,
       accountCount: 100,
@@ -211,6 +217,140 @@ export const mockCustomerHandovers: CustomerHandover[] = [
         history: [
           { position: '运维工程师', startDate: '2022-01-01', endDate: '2024-05-31', note: '离职' }
         ]
+      }
+    ],
+    onboardingTasks: mockOnboardingTasks,
+    internalComments: mockInternalComments
+  },
+  {
+    id: '4',
+    handoverNumber: 'HO-2024-004',
+    customerName: '杭州互联网科技有限公司',
+    handoverStatus: 'normal',
+    riskLevel: 'low',
+    hasHandoverDocument: true,
+    hasRiskAlert: false,
+    stakeholderCount: 4,
+    expectationAlignment: 'aligned',
+    handoverRating: 4.2,
+    handoverComment: '客户满意度较高，服务响应及时',
+    createdAt: '2024-01-09 16:00:00',
+    updatedAt: '2024-01-16 10:30:00',
+    salesCreatedAt: '2024-01-04 13:20:00',
+    crmData: {
+      ...mockCRMSyncData,
+      accountCount: 35,
+      salesSource: 'direct',
+      salesPerson: '张销售'
+    },
+    stakeholders: [
+      {
+        id: '9',
+        name: '郑十一',
+        position: '技术总监',
+        role: 'decision_maker',
+        contact: 'zhengshiyi@company.com',
+        status: 'active'
+      },
+      {
+        id: '10',
+        name: '王十二',
+        position: '产品经理',
+        role: 'user',
+        contact: 'wangshier@company.com',
+        status: 'active'
+      }
+    ],
+    onboardingTasks: mockOnboardingTasks,
+    internalComments: mockInternalComments
+  },
+  {
+    id: '5',
+    handoverNumber: 'HO-2024-005',
+    customerName: '成都软件开发有限公司',
+    handoverStatus: 'not_handover',
+    riskLevel: 'medium',
+    hasHandoverDocument: false,
+    hasRiskAlert: true,
+    stakeholderCount: 6,
+    expectationAlignment: 'partially_aligned',
+    handoverRating: 3.6,
+    handoverComment: '需要加强技术支持和培训',
+    createdAt: '2024-01-11 11:00:00',
+    updatedAt: '2024-01-17 14:15:00',
+    salesCreatedAt: '2024-01-06 15:30:00',
+    crmData: {
+      ...mockCRMSyncData,
+      accountCount: 45,
+      salesSource: 'channel',
+      channelPartner: '成都渠道合作伙伴有限公司'
+    },
+    stakeholders: [
+      {
+        id: '11',
+        name: '李十三',
+        position: '技术总监',
+        role: 'decision_maker',
+        contact: 'lishisan@company.com',
+        status: 'active'
+      },
+      {
+        id: '12',
+        name: '刘十四',
+        position: '项目经理',
+        role: 'influencer',
+        contact: 'liushisi@company.com',
+        status: 'active'
+      }
+    ],
+    onboardingTasks: mockOnboardingTasks,
+    internalComments: mockInternalComments
+  },
+  {
+    id: '6',
+    handoverNumber: 'HO-2024-006',
+    customerName: '广州数字化企业服务有限公司',
+    handoverStatus: 'normal',
+    riskLevel: 'low',
+    hasHandoverDocument: true,
+    hasRiskAlert: false,
+    stakeholderCount: 8,
+    expectationAlignment: 'aligned',
+    handoverRating: 4.8,
+    handoverComment: '客户对服务非常满意，续约意愿强烈',
+    createdAt: '2024-01-07 13:00:00',
+    updatedAt: '2024-01-18 09:45:00',
+    salesCreatedAt: '2024-01-02 10:15:00',
+    crmData: {
+      ...mockCRMSyncData,
+      accountCount: 80,
+      salesSource: 'direct',
+      salesPerson: '陈销售'
+    },
+    stakeholders: [
+      {
+        id: '13',
+        name: '黄十五',
+        position: '技术总监',
+        role: 'decision_maker',
+        contact: 'huangshiwu@company.com',
+        status: 'active'
+      },
+      {
+        id: '14',
+        name: '赵十六',
+        position: '产品经理',
+        role: 'user',
+        contact: 'zhaoshiliu@company.com',
+        status: 'active'
+      },
+      {
+        id: '15',
+        name: '孙十七',
+        position: '运维工程师',
+        role: 'technical_contact',
+        contact: 'sunshiqi@company.com',
+        status: 'active'
       }
     ],
     onboardingTasks: mockOnboardingTasks,
