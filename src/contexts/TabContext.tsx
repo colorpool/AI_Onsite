@@ -20,6 +20,13 @@ const TabContext = createContext<{
   dispatch: React.Dispatch<TabAction>;
 } | null>(null);
 
+// 提供一个安全的默认上下文，避免在Provider未挂载时崩溃
+const defaultTabContext: { state: TabState; dispatch: React.Dispatch<TabAction> } = {
+  state: { tabs: [], activeKey: '', nextTabId: 1 },
+  // 默认dispatch为无操作函数，保证在极端情况下不报错
+  dispatch: () => undefined,
+};
+
 const tabReducer = (state: TabState, action: TabAction): TabState => {
   switch (action.type) {
     case 'ADD_TAB':
@@ -109,10 +116,7 @@ export const TabProvider: React.FC<TabProviderProps> = ({ children }) => {
 
 export const useTabContext = () => {
   const context = useContext(TabContext);
-  if (!context) {
-    throw new Error('useTabContext must be used within a TabProvider');
-  }
-  return context;
+  return context ?? defaultTabContext;
 };
 
 export const useTabManager = () => {
@@ -120,8 +124,10 @@ export const useTabManager = () => {
 
   const addTab = (tab: TabItem) => {
     dispatch({ type: 'ADD_TAB', payload: tab });
-    // 导航到对应路径
-    history.push(tab.path);
+      // 只有当目标路径与当前路径不一致时才进行导航，避免重复入栈
+    if (history.location.pathname !== tab.path) {
+      history.push(tab.path);
+    }
   };
 
   const removeTab = (key: string) => {

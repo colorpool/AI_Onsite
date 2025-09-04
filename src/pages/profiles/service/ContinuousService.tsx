@@ -60,14 +60,12 @@ import {
   mockServicePlaybooks,
   mockKeyActions,
   mockServiceOverview,
-  healthColors,
-  lifecycleColors
+  healthColors
 } from '../../../mock/continuousServiceData';
 import type { 
   Customer, 
   CustomerFilter, 
-  HealthLevel, 
-  LifecycleStage,
+  HealthLevel,
   ActionType,
   ValueBoard,
   QBRMeeting,
@@ -104,9 +102,6 @@ const OverviewTab: React.FC = () => {
       if (customerFilter.healthLevel && customer.healthLevel !== customerFilter.healthLevel) {
         return false;
       }
-      if (customerFilter.lifecycleStage && customer.lifecycleStage !== customerFilter.lifecycleStage) {
-        return false;
-      }
       if (customerFilter.renewalRisk !== undefined && customer.isRenewalRisk !== customerFilter.renewalRisk) {
         return false;
       }
@@ -134,21 +129,11 @@ const OverviewTab: React.FC = () => {
     { id: 'f3', name: '新锐互联网', tags: ['互联网科技', '培训部>3人'] },
   ];
 
-  // 可配置查询条件（本地状态）
-  const [movementLevel, setMovementLevel] = useState<'all' | 'high' | 'medium' | 'low'>('all');
-  const [movementKeyword, setMovementKeyword] = useState('');
-
   // 重点关注客户：直接使用模拟数据（无筛选）
   const mockedFocusCustomers = focusCustomers;
 
-  const filteredMovements = useMemo(() => {
-    return movementEvents.filter(e => {
-      const levelOk = movementLevel === 'all' || e.level === movementLevel;
-      const kw = movementKeyword.trim();
-      const kwOk = kw === '' || e.title.includes(kw) || e.detail.includes(kw);
-      return levelOk && kwOk;
-    });
-  }, [movementEvents, movementLevel, movementKeyword]);
+  // 异动情况：直接使用模拟数据（无筛选）
+  const filteredMovements = movementEvents;
 
   // 移除筛选逻辑
 
@@ -159,24 +144,24 @@ const OverviewTab: React.FC = () => {
       dataIndex: 'name',
       key: 'name',
       width: 200,
-      render: (text: string) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar size={32} icon={<UserOutlined />} style={{ marginRight: 8 }} />
-          <span style={{ fontWeight: 500 }}>{text}</span>
-        </div>
+      sorter: (a: Customer, b: Customer) => a.name.localeCompare(b.name),
+      render: (text: string, record: Customer) => (
+        <a onClick={() => navigate(`/profiles/service/${record.id}`)} style={{ fontWeight: 500 }}>{text}</a>
       )
     },
     {
       title: 'CSM',
       dataIndex: 'csm',
       key: 'csm',
-      width: 100
+      width: 100,
+      sorter: (a: Customer, b: Customer) => a.csm.localeCompare(b.csm),
     },
     {
       title: '健康分',
       dataIndex: 'healthScore',
       key: 'healthScore',
       width: 120,
+      sorter: (a: Customer, b: Customer) => a.healthScore - b.healthScore,
       render: (score: number, record: Customer) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Progress 
@@ -195,17 +180,9 @@ const OverviewTab: React.FC = () => {
       dataIndex: 'healthLevel',
       key: 'healthLevel',
       width: 100,
+      sorter: (a: Customer, b: Customer) => a.healthLevel.localeCompare(b.healthLevel),
       render: (level: HealthLevel) => (
         <Tag color={healthColors[level]}>{level}</Tag>
-      )
-    },
-    {
-      title: '生命周期',
-      dataIndex: 'lifecycleStage',
-      key: 'lifecycleStage',
-      width: 100,
-      render: (stage: LifecycleStage) => (
-        <Tag color={lifecycleColors[stage]}>{stage}</Tag>
       )
     },
     {
@@ -213,6 +190,7 @@ const OverviewTab: React.FC = () => {
       dataIndex: 'contractAmount',
       key: 'contractAmount',
       width: 120,
+      sorter: (a: Customer, b: Customer) => a.contractAmount - b.contractAmount,
       render: (amount: number) => `¥${amount.toLocaleString()}`
     },
     {
@@ -220,6 +198,7 @@ const OverviewTab: React.FC = () => {
       dataIndex: 'isRenewalRisk',
       key: 'isRenewalRisk',
       width: 100,
+      sorter: (a: Customer, b: Customer) => Number(a.isRenewalRisk) - Number(b.isRenewalRisk),
       render: (isRisk: boolean) => (
         <Badge 
           status={isRisk ? 'error' : 'success'} 
@@ -232,57 +211,44 @@ const OverviewTab: React.FC = () => {
       dataIndex: 'lastContactDate',
       key: 'lastContactDate',
       width: 120,
+      sorter: (a: Customer, b: Customer) => new Date(a.lastContactDate).getTime() - new Date(b.lastContactDate).getTime(),
       render: (date: string) => new Date(date).toLocaleDateString()
-    },
-    {
-      title: '操作',
-      key: 'action',
-      width: 120,
-      render: (_: any, record: Customer) => (
-        <Button 
-          type="link" 
-          size="small"
-          onClick={() => navigate(`/profiles/service/${record.id}`)}
-        >
-          查看详情
-        </Button>
-      )
     }
   ];
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div style={{ padding: 0 }}>
       {/* 顶部一行：左侧三指标合并卡片 + 右侧健康度分布卡片 */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         <Col xs={24} lg={18}>
-          <Card style={{ ...cardStyle, height: headerCardHeight }}>
+          <Card style={{ ...cardStyle, height: headerCardHeight }} bodyStyle={{ padding: 16 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '28px', fontWeight: 700, color: '#1890ff', marginBottom: 4 }}>
+                <div style={{ fontSize: '32px', fontWeight: 700, color: '#1890ff', marginBottom: 8 }}>
                   {mockServiceOverview.totalCustomers}
                 </div>
-                <Text type="secondary" style={{ fontSize: 12 }}>总客户数</Text>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 6 }}>
+                <Text type="secondary" style={{ fontSize: 14 }}>总客户数</Text>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 8 }}>
                   <ArrowUpOutlined style={{ color: '#52c41a', fontSize: 12, marginRight: 4 }} />
                   <Text style={{ color: '#52c41a', fontSize: 12 }}>+12</Text>
                 </div>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '28px', fontWeight: 700, color: '#52c41a', marginBottom: 4 }}>
+                <div style={{ fontSize: '32px', fontWeight: 700, color: '#52c41a', marginBottom: 8 }}>
                   {mockServiceOverview.avgHealthScore}
                 </div>
-                <Text type="secondary" style={{ fontSize: 12 }}>平均健康分</Text>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 6 }}>
+                <Text type="secondary" style={{ fontSize: 14 }}>平均健康分</Text>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 8 }}>
                   <ArrowUpOutlined style={{ color: '#52c41a', fontSize: 12, marginRight: 4 }} />
                   <Text style={{ color: '#52c41a', fontSize: 12 }}>+3.2</Text>
                 </div>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '28px', fontWeight: 700, color: '#f5222d', marginBottom: 4 }}>
+                <div style={{ fontSize: '32px', fontWeight: 700, color: '#f5222d', marginBottom: 8 }}>
                   {mockServiceOverview.riskCustomers}
                 </div>
-                <Text type="secondary" style={{ fontSize: 12 }}>风险客户数</Text>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 6 }}>
+                <Text type="secondary" style={{ fontSize: 14 }}>风险客户数</Text>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 8 }}>
                   <ArrowDownOutlined style={{ color: '#ff4d4f', fontSize: 12, marginRight: 4 }} />
                   <Text style={{ color: '#ff4d4f', fontSize: 12 }}>-2</Text>
                 </div>
@@ -291,7 +257,7 @@ const OverviewTab: React.FC = () => {
           </Card>
         </Col>
         <Col xs={24} lg={6}>
-          <Card style={{ ...cardStyle, height: headerCardHeight }}>
+          <Card style={{ ...cardStyle, height: headerCardHeight }} bodyStyle={{ padding: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <div style={{ position: 'relative', width: 88, height: 88, borderRadius: '50%', background: `conic-gradient(${healthDistributionData.map((d, idx, arr) => {
                 const total = arr.reduce((s, i) => s + i.value, 0) || 1;
@@ -319,41 +285,29 @@ const OverviewTab: React.FC = () => {
           <Card 
             style={{
               ...cardStyle,
-              marginBottom: 0,
-              padding: '16px'
+              marginBottom: 0
             }}
-            bodyStyle={{ padding: '12px 0' }}
+            bodyStyle={{ padding: 16 }}
             title={
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <AlertOutlined style={{ color: '#fa8c16', marginRight: '8px' }} />
-                  <span style={{ fontSize: '16px', fontWeight: '600' }}>异动情况</span>
-                </div>
-                <Space size={8}>
-                  <Select size="small" value={movementLevel} onChange={setMovementLevel} style={{ width: 96 }}>
-                    <Option value="all">全部</Option>
-                    <Option value="high">高</Option>
-                    <Option value="medium">中</Option>
-                    <Option value="low">低</Option>
-                  </Select>
-                  <Input size="small" placeholder="关键词" value={movementKeyword} onChange={(e)=>setMovementKeyword(e.target.value)} style={{ width: 120 }} />
-                </Space>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
+                <AlertOutlined style={{ color: '#fa8c16', marginRight: '6px' }} />
+                <span style={{ fontSize: '16px', fontWeight: '600' }}>异动情况</span>
               </div>
             }
           >
-            <div style={{ display: 'grid', gap: 12 }}>
+            <div style={{ padding: 0, display: 'grid', gap: 4 }}>
               {filteredMovements.map(e => (
-                <Card key={e.id} size="small" style={{ borderRadius: 8 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Card key={e.id} size="small" style={{ borderRadius: 4, border: '1px solid #f0f0f0', marginBottom: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0' }}>
                     <div>
-                      <Text strong style={{ marginRight: 8 }}>{e.title}</Text>
-                      <Text type="secondary" style={{ fontSize: 12 }}>{e.detail}</Text>
+                      <Text strong style={{ marginRight: 6, fontSize: '14px' }}>{e.title}</Text>
+                      <Text type="secondary" style={{ fontSize: '12px' }}>{e.detail}</Text>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <Tag color={e.level === 'high' ? 'red' : e.level === 'medium' ? 'orange' : 'default'}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <Tag color={e.level === 'high' ? 'red' : e.level === 'medium' ? 'orange' : 'default'} style={{ fontSize: '11px', padding: '1px 4px' }}>
                         {e.level === 'high' ? '高' : e.level === 'medium' ? '中' : '低'}
                       </Tag>
-                      <Text type="secondary" style={{ fontSize: 12 }}>{e.date}</Text>
+                      <Text type="secondary" style={{ fontSize: '12px' }}>{e.date}</Text>
                     </div>
                   </div>
                 </Card>
@@ -367,28 +321,27 @@ const OverviewTab: React.FC = () => {
           <Card 
             style={{
               ...cardStyle,
-              marginBottom: 0,
-              padding: '16px'
+              marginBottom: 0
             }}
-            bodyStyle={{ padding: '12px 0' }}
+            bodyStyle={{ padding: 16 }}
             title={
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <StarOutlined style={{ color: '#722ed1', marginRight: '8px' }} />
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
+                <StarOutlined style={{ color: '#722ed1', marginRight: '6px' }} />
                 <span style={{ fontSize: '16px', fontWeight: '600' }}>重点关注客户</span>
               </div>
             }
           >
-            <div style={{ display: 'grid', gap: 12 }}>
+            <div style={{ padding: 0, display: 'grid', gap: 4 }}>
               {mockedFocusCustomers.map(c => (
-                <Card key={c.id} size="small" style={{ borderRadius: 8 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <Avatar size={24} icon={<UserOutlined />} />
-                      <Text strong>{c.name}</Text>
+                <Card key={c.id} size="small" style={{ borderRadius: 4, border: '1px solid #f0f0f0', marginBottom: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <Avatar size={20} icon={<UserOutlined />} />
+                      <Text strong style={{ fontSize: '14px' }}>{c.name}</Text>
                     </div>
-                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                    <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                       {c.tags.map((t, i) => (
-                        <Tag key={i} color={i % 3 === 0 ? 'blue' : i % 3 === 1 ? 'purple' : 'green'} style={{ borderRadius: 6 }}>
+                        <Tag key={i} color={i % 3 === 0 ? 'blue' : i % 3 === 1 ? 'purple' : 'green'} style={{ borderRadius: 3, fontSize: '11px', padding: '1px 4px' }}>
                           {t}
                         </Tag>
                       ))}
@@ -403,76 +356,9 @@ const OverviewTab: React.FC = () => {
 
       {/* 客户列表 - 采用交接实施页面的现代化风格 */}
       <div style={{ 
-        background: '#fff',
-        borderRadius: '8px',
-        padding: '24px',
-        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
+        ...cardStyle,
+        padding: '16px'
       }}>
-        {/* 筛选器 - 采用交接实施页面的筛选风格 */}
-        <div style={{ 
-          marginBottom: 16, 
-          padding: 16, 
-          background: '#fafafa', 
-          borderRadius: '8px',
-          border: '1px solid #f0f0f0'
-        }}>
-          <Row gutter={[16, 16]} align="middle">
-            <Col xs={24} sm={6}>
-              <Input
-                placeholder="搜索客户名称"
-                prefix={<SearchOutlined />}
-                value={customerFilter.name}
-                onChange={e => setCustomerFilter(prev => ({ ...prev, name: e.target.value }))}
-                style={{ borderRadius: '6px' }}
-              />
-            </Col>
-            <Col xs={24} sm={5}>
-              <Select
-                placeholder="健康等级"
-                style={{ width: '100%', borderRadius: '6px' }}
-                value={customerFilter.healthLevel}
-                onChange={value => setCustomerFilter(prev => ({ ...prev, healthLevel: value }))}
-                allowClear
-              >
-                <Option value="健康">健康</Option>
-                <Option value="一般">一般</Option>
-                <Option value="风险">风险</Option>
-              </Select>
-            </Col>
-            <Col xs={24} sm={5}>
-              <Select
-                placeholder="生命周期"
-                style={{ width: '100%', borderRadius: '6px' }}
-                value={customerFilter.lifecycleStage}
-                onChange={value => setCustomerFilter(prev => ({ ...prev, lifecycleStage: value }))}
-                allowClear
-              >
-                <Option value="成长期">成长期</Option>
-                <Option value="成熟期">成熟期</Option>
-                <Option value="衰退期">衰退期</Option>
-              </Select>
-            </Col>
-            <Col xs={24} sm={5}>
-              <Select
-                placeholder="续费风险"
-                style={{ width: '100%', borderRadius: '6px' }}
-                value={customerFilter.renewalRisk}
-                onChange={value => setCustomerFilter(prev => ({ ...prev, renewalRisk: value }))}
-                allowClear
-              >
-                <Option value={true}>是</Option>
-                <Option value={false}>否</Option>
-              </Select>
-            </Col>
-            {/* 操作组：搜索（最左，蓝色图标按钮）、导出、刷新 */}
-            <Col xs={24} sm={3} style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-              <Button type="primary" shape="circle" icon={<SearchOutlined />} onClick={() => message.success('搜索完成')} />
-              <Button type="text" icon={<ExportOutlined />} onClick={() => message.success('导出功能开发中')} />
-              <Button type="text" icon={<ReloadOutlined />} onClick={() => message.success('数据已刷新')} />
-            </Col>
-          </Row>
-        </div>
-
         <Table
           columns={columns}
           dataSource={filteredCustomers}
@@ -487,6 +373,7 @@ const OverviewTab: React.FC = () => {
             showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条，共 ${total} 条`
           }}
           size="middle"
+          scroll={{ x: 1000 }}
           style={{ background: '#fff' }}
         />
       </div>
@@ -693,7 +580,7 @@ const KeyActionsTab: React.FC = () => {
   ];
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div style={{ padding: 0 }}>
       <div style={{ display: 'grid', gap: 24, gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))' }}>
         {actionBlocks.map(block => (
           <Card
@@ -781,7 +668,7 @@ const PlaybooksTab: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div style={{ padding: 0 }}>
       <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))' }}>
         {mockServicePlaybooks.map(playbook => (
           <Card
@@ -820,7 +707,7 @@ const PlaybooksTab: React.FC = () => {
             
                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 12 }}>
                {playbook.applicableStage.map(stage => (
-                 <Tag key={stage} color={lifecycleColors[stage]} style={{ borderRadius: '6px' }}>
+                 <Tag key={stage} color={stage === '成长期' ? 'blue' : stage === '成熟期' ? 'purple' : 'green'} style={{ borderRadius: '6px' }}>
                    {stage}
                  </Tag>
                ))}
@@ -844,69 +731,72 @@ const PlaybooksTab: React.FC = () => {
 const ContinuousService: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
 
-  const tabItems = [
-    {
-      key: 'overview',
-      label: '概览与监控',
-      children: <OverviewTab />
-    },
-    {
-      key: 'actions',
-      label: '关键动作',
-      children: <KeyActionsTab />
-    },
-    {
-      key: 'playbooks',
-      label: '服务剧本',
-      children: <PlaybooksTab />
-    }
-  ];
+  const QuickLink: React.FC<{ active: boolean; icon: React.ReactNode; label: string; onClick: () => void }>=({ active, icon, label, onClick })=> (
+    <Button
+      type="text"
+      onClick={onClick}
+      style={{
+        height: 36,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
+        padding: '0 12px',
+        borderRadius: 18,
+        background: active ? '#1890ff15' : 'transparent',
+        border: active ? '1px solid #1890ff33' : '1px solid transparent',
+        color: active ? '#1890ff' : '#595959',
+        fontWeight: 500,
+      }}
+    >
+      {icon}
+      <span>{label}</span>
+    </Button>
+  );
 
   return (
     <div style={{
-      padding: '24px',
+      padding: '32px 40px',
       background: '#f5f5f5',
       minHeight: 'calc(100vh - 120px)',
       paddingBottom: '60px'
     }}>
-      <div style={{
-        maxWidth: '1400px',
-        margin: '0 auto'
-      }}>
-        {/* 页面标题 - 采用工作看板的现代化风格 */}
-        <div style={{ marginBottom: '24px' }}>
-          <Title level={2} style={{ margin: 0, color: '#262626', fontWeight: '600' }}>
-            持续服务
-          </Title>
-          <Text type="secondary" style={{ fontSize: '14px', color: '#666' }}>
-            基于客户成功体系化运营的智能服务平台
-          </Text>
+      {/* 页面标题 - 采用工作看板的现代化风格 */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {activeTab !== 'overview' && (
+            <Button type="text" onClick={() => setActiveTab('overview')} style={{ color: '#666' }}>
+              ← 返回
+            </Button>
+          )}
+          <div>
+            <Title level={2} style={{ margin: 0, color: '#262626', fontWeight: '600' }}>
+              持续服务
+            </Title>
+            <Text type="secondary" style={{ fontSize: '14px', color: '#666' }}>
+              基于客户成功体系化运营的智能服务平台
+            </Text>
+          </div>
         </div>
-
-        {/* 主要内容区域 - 采用交接实施页面的现代化风格 */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '12px',
-          overflow: 'hidden',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
-          border: '1px solid #f0f0f0'
-        }}>
-          <Tabs
-            activeKey={activeTab}
-            onChange={setActiveTab}
-            items={tabItems}
-            size="large"
-            style={{ margin: 0 }}
-            tabBarStyle={{
-              margin: 0,
-              backgroundColor: '#fff',
-              borderBottom: '1px solid #f0f0f0',
-              padding: '0 24px'
-            }}
-            tabBarGutter={32}
+        <Space size={8}>
+          <QuickLink
+            active={activeTab === 'actions'}
+            icon={<PlayCircleOutlined style={{ color: activeTab === 'actions' ? '#1890ff' : '#8c8c8c' }} />}
+            label="关键动作"
+            onClick={() => setActiveTab('actions')}
           />
-        </div>
+          <QuickLink
+            active={activeTab === 'playbooks'}
+            icon={<FileTextOutlined style={{ color: activeTab === 'playbooks' ? '#1890ff' : '#8c8c8c' }} />}
+            label="服务剧本"
+            onClick={() => setActiveTab('playbooks')}
+          />
+        </Space>
       </div>
+
+      {/* 直接渲染模块，无外层白色底容器，宽度与工作看板一致 */}
+      {activeTab === 'overview' && <OverviewTab />}
+      {activeTab === 'actions' && <KeyActionsTab />}
+      {activeTab === 'playbooks' && <PlaybooksTab />}
     </div>
   );
 };

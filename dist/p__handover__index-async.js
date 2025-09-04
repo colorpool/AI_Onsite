@@ -12,9 +12,9 @@ __mako_require__.d(exports, "default", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _umi = __mako_require__("src/.umi/exports.ts");
@@ -30,60 +30,46 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 const { Title, Text } = _antd.Typography;
 const { Option } = _antd.Select;
+const cardStyle = {
+    borderRadius: '12px',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+    border: '1px solid #f0f0f0',
+    background: '#ffffff',
+    marginBottom: '16px'
+};
 const HandoverListPage = ()=>{
     _s();
     const navigate = (0, _umi.useNavigate)();
     const location = (0, _umi.useLocation)();
-    // 搜索筛选状态
+    const [currentPage, setCurrentPage] = (0, _react.useState)(1);
+    const pageSize = 5;
+    const [searchText, setSearchText] = (0, _react.useState)('');
+    const [searchedColumn, setSearchedColumn] = (0, _react.useState)('');
+    (0, _react.useRef)(null);
     const [searchParams, setSearchParams] = (0, _react.useState)({
         customerName: '',
         status: undefined,
         riskLevel: undefined
     });
-    // 分页状态
-    const [currentPage, setCurrentPage] = (0, _react.useState)(1);
-    const pageSize = 10;
-    // 处理搜索
-    const handleSearch = ()=>{
-        setCurrentPage(1);
-        _antd.message.success('搜索完成');
-    };
-    // 处理重置
-    const handleReset = ()=>{
-        setSearchParams({
-            customerName: '',
-            status: undefined,
-            riskLevel: undefined
-        });
-        setCurrentPage(1);
-        _antd.message.success('已重置筛选条件');
-    };
-    // 处理新增交接
-    const handleAddHandover = ()=>{
-        navigate('/profiles/handover/new');
-    };
-    // 处理查看详情（可指定默认标签页）
     const handleViewDetail = (record, tabKey)=>{
         const url = tabKey ? `/profiles/handover/${record.id}?tab=${tabKey}` : `/profiles/handover/${record.id}`;
         navigate(url);
     };
-    // 根据当前路径决定显示什么内容
     const pathname = location.pathname;
-    // 如果是创建页面
-    if (pathname === '/profiles/handover/new') return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    if (pathname === '/profiles/handover/new') return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             background: '#fafafa',
             minHeight: 'calc(100vh - 120px)',
-            paddingBottom: '60px' // 为footer留出底部间距
+            paddingBottom: '60px'
         },
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        children: (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 maxWidth: '1000px',
                 margin: '0 auto'
             },
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
@@ -91,7 +77,7 @@ const HandoverListPage = ()=>{
                         gap: '16px'
                     },
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             onClick: ()=>navigate('/profiles/handover-implementation'),
                             style: {
                                 border: 'none',
@@ -100,10 +86,10 @@ const HandoverListPage = ()=>{
                             children: "返回"
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 105,
+                            lineNumber: 193,
                             columnNumber: 13
                         }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                        (0, _jsxdevruntime.jsxDEV)(Title, {
                             level: 3,
                             style: {
                                 margin: 0,
@@ -113,28 +99,28 @@ const HandoverListPage = ()=>{
                             children: "创建新客户交接"
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 111,
+                            lineNumber: 199,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 99,
+                    lineNumber: 187,
                     columnNumber: 11
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         background: '#fff',
                         borderRadius: '8px',
                         padding: '24px'
                     },
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center',
                             padding: '40px'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                 level: 4,
                                 style: {
                                     color: '#666'
@@ -142,55 +128,56 @@ const HandoverListPage = ()=>{
                                 children: "创建客户交接表单"
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 123,
+                                lineNumber: 211,
                                 columnNumber: 15
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("p", {
+                            (0, _jsxdevruntime.jsxDEV)("p", {
                                 style: {
                                     color: '#999'
                                 },
                                 children: "这里将显示创建客户交接的表单内容"
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 126,
+                                lineNumber: 214,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/handover/index.tsx",
-                        lineNumber: 122,
+                        lineNumber: 210,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 117,
+                    lineNumber: 205,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/handover/index.tsx",
-            lineNumber: 94,
+            lineNumber: 182,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "src/pages/handover/index.tsx",
-        lineNumber: 88,
+        lineNumber: 176,
         columnNumber: 7
     }, this);
-    // 如果是详情页面，不显示列表页内容
-    if (pathname.match(/^\/profiles\/handover\/\d+$/)) return null;
-    // 过滤数据
+    if (pathname.match(/^\/profiles\/handover\/\d+$/) || pathname === '/profiles/handover/history') return null;
     const filteredData = (0, _react.useMemo)(()=>{
         return _handoverData.mockCustomerHandovers.filter((item)=>{
+            var _item_customerName, _item_handoverNumber;
+            const text = (searchText || '').trim().toLowerCase();
+            const matchText = !text || ((_item_customerName = item.customerName) === null || _item_customerName === void 0 ? void 0 : _item_customerName.toLowerCase().includes(text)) || ((_item_handoverNumber = item.handoverNumber) === null || _item_handoverNumber === void 0 ? void 0 : _item_handoverNumber.toLowerCase().includes(text));
             const matchName = !searchParams.customerName || item.customerName.includes(searchParams.customerName);
             const matchStatus = !searchParams.status || item.handoverStatus === searchParams.status;
             const matchRisk = !searchParams.riskLevel || item.riskLevel === searchParams.riskLevel;
-            return matchName && matchStatus && matchRisk;
+            return matchText && matchName && matchStatus && matchRisk;
         });
     }, [
-        searchParams
+        searchParams,
+        searchText
     ]);
-    // 分页数据
     const paginatedData = (0, _react.useMemo)(()=>{
         const startIndex = (currentPage - 1) * pageSize;
         return filteredData.slice(startIndex, startIndex + pageSize);
@@ -198,7 +185,6 @@ const HandoverListPage = ()=>{
         filteredData,
         currentPage
     ]);
-    // 顶部数据看板统计
     const kpi = (0, _react.useMemo)(()=>{
         const now = new Date();
         const currentYear = now.getFullYear();
@@ -217,31 +203,45 @@ const HandoverListPage = ()=>{
             riskyCount
         };
     }, []);
-    // 风险等级颜色映射
     const riskColorMap = {
         high: 'red',
         medium: 'orange',
         low: 'green'
     };
-    // 风险等级文本映射
     const riskTextMap = {
         high: '高风险',
         medium: '中风险',
         low: '低风险'
     };
-    // 表格列定义
     const columns = [
+        {
+            title: '交接单编号',
+            dataIndex: 'handoverNumber',
+            key: 'handoverNumber',
+            width: 120,
+            render: (num, record)=>(0, _jsxdevruntime.jsxDEV)("span", {
+                    style: {
+                        fontFamily: 'monospace'
+                    },
+                    children: num
+                }, void 0, false, {
+                    fileName: "src/pages/handover/index.tsx",
+                    lineNumber: 307,
+                    columnNumber: 9
+                }, this)
+        },
         {
             title: '客户名称',
             dataIndex: 'customerName',
             key: 'customerName',
             width: 220,
-            render: (name, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("a", {
+            sorter: (a, b)=>a.customerName.localeCompare(b.customerName),
+            render: (name, record)=>(0, _jsxdevruntime.jsxDEV)("a", {
                     onClick: ()=>handleViewDetail(record, 'basic-info'),
                     children: name
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 217,
+                    lineNumber: 317,
                     columnNumber: 9
                 }, this)
         },
@@ -249,8 +249,9 @@ const HandoverListPage = ()=>{
             title: '交接单',
             dataIndex: 'hasHandoverDocument',
             key: 'hasHandoverDocument',
-            width: 120,
-            render: (hasDocument, record)=>hasDocument ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+            width: 80,
+            sorter: (a, b)=>Number(a.hasHandoverDocument) - Number(b.hasHandoverDocument),
+            render: (hasDocument, record)=>hasDocument ? (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     color: "blue",
                     style: {
                         cursor: 'pointer'
@@ -259,13 +260,13 @@ const HandoverListPage = ()=>{
                     children: "有"
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 227,
+                    lineNumber: 328,
                     columnNumber: 11
-                }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                }, this) : (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     children: "无"
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 229,
+                    lineNumber: 330,
                     columnNumber: 11
                 }, this)
         },
@@ -273,19 +274,20 @@ const HandoverListPage = ()=>{
             title: '风险提示',
             dataIndex: 'hasRiskAlert',
             key: 'hasRiskAlert',
-            width: 140,
+            width: 100,
+            sorter: (a, b)=>Number(a.hasRiskAlert) - Number(b.hasRiskAlert),
             render: (hasRisk, record)=>{
-                if (!hasRisk) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                if (!hasRisk) return (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     children: "无风险"
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 239,
+                    lineNumber: 341,
                     columnNumber: 30
                 }, this);
                 const level = record.riskLevel;
                 const color = riskColorMap[level] || 'orange';
                 const text = riskTextMap[level] || '有风险';
-                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                return (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     color: color,
                     style: {
                         cursor: 'pointer'
@@ -294,17 +296,18 @@ const HandoverListPage = ()=>{
                     children: text
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 244,
+                    lineNumber: 346,
                     columnNumber: 11
                 }, this);
             }
         },
         {
-            title: '干系人信息',
+            title: '干系人',
             dataIndex: 'stakeholderCount',
             key: 'stakeholderCount',
-            width: 140,
-            render: (count, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+            width: 100,
+            sorter: (a, b)=>(a.stakeholderCount || 0) - (b.stakeholderCount || 0),
+            render: (count, record)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     color: "purple",
                     style: {
                         cursor: 'pointer'
@@ -316,7 +319,7 @@ const HandoverListPage = ()=>{
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 256,
+                    lineNumber: 359,
                     columnNumber: 9
                 }, this)
         },
@@ -324,7 +327,8 @@ const HandoverListPage = ()=>{
             title: '客户期望对齐',
             dataIndex: 'expectationAlignment',
             key: 'expectationAlignment',
-            width: 160,
+            width: 120,
+            sorter: (a, b)=>a.expectationAlignment.localeCompare(b.expectationAlignment),
             render: (alignment, record)=>{
                 const colorMap = {
                     aligned: 'green',
@@ -336,7 +340,7 @@ const HandoverListPage = ()=>{
                     partially_aligned: '部分对齐',
                     not_aligned: '未对齐'
                 };
-                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                return (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     color: colorMap[alignment],
                     style: {
                         cursor: 'pointer'
@@ -345,531 +349,704 @@ const HandoverListPage = ()=>{
                     children: textMap[alignment]
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 278,
+                    lineNumber: 382,
                     columnNumber: 11
                 }, this);
             }
         },
         {
-            title: '交接评价',
+            title: '销售创建时间',
+            dataIndex: 'salesCreatedAt',
+            key: 'salesCreatedAt',
+            width: 120,
+            sorter: (a, b)=>new Date(a.salesCreatedAt || '').getTime() - new Date(b.salesCreatedAt || '').getTime(),
+            render: (date)=>date ? new Date(date).toLocaleDateString() : '-'
+        },
+        {
+            title: '客户满意度',
             dataIndex: 'handoverRating',
             key: 'handoverRating',
             width: 150,
-            render: (rating, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+            sorter: (a, b)=>(a.handoverRating || 0) - (b.handoverRating || 0),
+            render: (rating, record)=>(0, _jsxdevruntime.jsxDEV)("div", {
+                    style: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                    },
                     children: [
-                        rating,
-                        "分 - ",
-                        record.handoverComment
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Rate, {
+                            disabled: true,
+                            value: rating,
+                            style: {
+                                fontSize: '16px'
+                            }
+                        }, void 0, false, {
+                            fileName: "src/pages/handover/index.tsx",
+                            lineNumber: 404,
+                            columnNumber: 11
+                        }, this),
+                        (0, _jsxdevruntime.jsxDEV)("span", {
+                            style: {
+                                color: '#1890ff',
+                                fontWeight: '500'
+                            },
+                            children: rating
+                        }, void 0, false, {
+                            fileName: "src/pages/handover/index.tsx",
+                            lineNumber: 409,
+                            columnNumber: 11
+                        }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 290,
+                    lineNumber: 403,
                     columnNumber: 9
                 }, this)
         }
     ];
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
-            padding: '24px',
+            padding: '32px 40px',
             background: '#f5f5f5',
-            minHeight: 'calc(100vh - 120px)',
-            paddingBottom: '60px' // 为footer留出底部间距
+            minHeight: 'calc(100vh - 64px)'
         },
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-            style: {
-                maxWidth: '1400px',
-                margin: '0 auto'
-            },
-            children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                    style: {
-                        marginBottom: '24px'
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
-                            level: 2,
-                            style: {
-                                margin: 0,
-                                color: '#262626'
-                            },
-                            children: "交接实施"
-                        }, void 0, false, {
-                            fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 308,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                            type: "secondary",
-                            children: "确保从销售到服务的丝滑交接与价值对齐"
-                        }, void 0, false, {
-                            fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 309,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 307,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                    style: {
-                        marginBottom: '24px'
-                    },
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                        gutter: 16,
+        children: [
+            (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '24px'
+                },
+                children: [
+                    (0, _jsxdevruntime.jsxDEV)("div", {
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                xs: 24,
-                                sm: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                    style: {
-                                        borderRadius: '8px'
-                                    },
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
-                                        title: "待处理交接",
-                                        value: kpi.pendingCount,
-                                        valueStyle: {
-                                            fontWeight: 700
-                                        }
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 317,
-                                        columnNumber: 17
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 316,
-                                    columnNumber: 15
-                                }, this)
+                            (0, _jsxdevruntime.jsxDEV)(Title, {
+                                level: 2,
+                                style: {
+                                    margin: 0,
+                                    color: '#262626'
+                                },
+                                children: "交接实施"
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 315,
-                                columnNumber: 13
+                                lineNumber: 431,
+                                columnNumber: 15
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                xs: 24,
-                                sm: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                    style: {
-                                        borderRadius: '8px'
-                                    },
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
-                                        title: "本月已完成",
-                                        value: kpi.completedThisMonth,
-                                        valueStyle: {
-                                            fontWeight: 700
-                                        }
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 322,
-                                        columnNumber: 17
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 321,
-                                    columnNumber: 15
-                                }, this)
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
+                                type: "secondary",
+                                children: "确保从销售到服务的丝滑交接与价值对齐"
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 320,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                xs: 24,
-                                sm: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                    style: {
-                                        borderRadius: '8px'
-                                    },
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
-                                        title: "存在风险交接",
-                                        value: kpi.riskyCount,
-                                        valueStyle: {
-                                            fontWeight: 700
-                                        }
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 327,
-                                        columnNumber: 17
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 326,
-                                    columnNumber: 15
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 325,
-                                columnNumber: 13
+                                lineNumber: 432,
+                                columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/handover/index.tsx",
-                        lineNumber: 314,
-                        columnNumber: 11
+                        lineNumber: 430,
+                        columnNumber: 13
+                    }, this),
+                    (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px'
+                        },
+                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                            title: "历史交接查询",
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                type: "text",
+                                shape: "circle",
+                                size: "large",
+                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.HistoryOutlined, {}, void 0, false, {
+                                    fileName: "src/pages/handover/index.tsx",
+                                    lineNumber: 442,
+                                    columnNumber: 25
+                                }, void 0),
+                                style: {
+                                    width: '44px',
+                                    height: '44px',
+                                    background: '#1890ff15',
+                                    border: '1px solid #1890ff30',
+                                    color: '#1890ff',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                },
+                                onClick: ()=>navigate('/profiles/handover/history')
+                            }, void 0, false, {
+                                fileName: "src/pages/handover/index.tsx",
+                                lineNumber: 438,
+                                columnNumber: 17
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/pages/handover/index.tsx",
+                            lineNumber: 437,
+                            columnNumber: 15
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "src/pages/handover/index.tsx",
+                        lineNumber: 436,
+                        columnNumber: 13
                     }, this)
-                }, void 0, false, {
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/handover/index.tsx",
+                lineNumber: 424,
+                columnNumber: 11
+            }, this),
+            (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    marginBottom: '24px'
+                },
+                children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    gutter: 16,
+                    children: [
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            xs: 24,
+                            sm: 8,
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                style: {
+                                    ...cardStyle,
+                                    marginBottom: 0
+                                },
+                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                                    title: (0, _jsxdevruntime.jsxDEV)("span", {
+                                        children: [
+                                            "待处理交接",
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                                                title: (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    style: {
+                                                        maxWidth: '300px'
+                                                    },
+                                                    children: [
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                fontWeight: 'bold',
+                                                                marginBottom: '8px'
+                                                            },
+                                                            children: "待处理交接"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 471,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: "含义：当前需要处理的客户交接任务数量"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 472,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: "来源：CRM系统中的交接任务状态"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 473,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: '计算方式：状态为"待处理"的交接记录总数'
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 474,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                color: '#ffa940'
+                                                            },
+                                                            children: "提示：建议优先处理高优先级客户"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 475,
+                                                            columnNumber: 29
+                                                        }, void 0)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/pages/handover/index.tsx",
+                                                    lineNumber: 470,
+                                                    columnNumber: 27
+                                                }, void 0),
+                                                placement: "top",
+                                                overlayStyle: {
+                                                    maxWidth: '320px',
+                                                    fontSize: '12px'
+                                                },
+                                                children: (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
+                                                    style: {
+                                                        marginLeft: '8px',
+                                                        color: '#8c8c8c',
+                                                        fontSize: '14px',
+                                                        cursor: 'pointer'
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/handover/index.tsx",
+                                                    lineNumber: 484,
+                                                    columnNumber: 25
+                                                }, void 0)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/handover/index.tsx",
+                                                lineNumber: 468,
+                                                columnNumber: 23
+                                            }, void 0)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/handover/index.tsx",
+                                        lineNumber: 466,
+                                        columnNumber: 21
+                                    }, void 0),
+                                    value: kpi.pendingCount,
+                                    valueStyle: {
+                                        fontWeight: 700
+                                    }
+                                }, void 0, false, {
+                                    fileName: "src/pages/handover/index.tsx",
+                                    lineNumber: 464,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/pages/handover/index.tsx",
+                                lineNumber: 463,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/pages/handover/index.tsx",
+                            lineNumber: 462,
+                            columnNumber: 13
+                        }, this),
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            xs: 24,
+                            sm: 8,
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                style: {
+                                    ...cardStyle,
+                                    marginBottom: 0
+                                },
+                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                                    title: (0, _jsxdevruntime.jsxDEV)("span", {
+                                        children: [
+                                            "本月已完成",
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                                                title: (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    style: {
+                                                        maxWidth: '300px'
+                                                    },
+                                                    children: [
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                fontWeight: 'bold',
+                                                                marginBottom: '8px'
+                                                            },
+                                                            children: "本月已完成"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 509,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: "含义：本月成功完成的客户交接数量"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 510,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: "来源：交接完成时间在本月内的记录"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 511,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: '计算方式：状态为"已完成"且完成时间在本月'
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 512,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                color: '#52c41a'
+                                                            },
+                                                            children: "提示：反映团队本月工作效率"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 513,
+                                                            columnNumber: 29
+                                                        }, void 0)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/pages/handover/index.tsx",
+                                                    lineNumber: 508,
+                                                    columnNumber: 27
+                                                }, void 0),
+                                                placement: "top",
+                                                overlayStyle: {
+                                                    maxWidth: '320px',
+                                                    fontSize: '12px'
+                                                },
+                                                children: (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
+                                                    style: {
+                                                        marginLeft: '8px',
+                                                        color: '#8c8c8c',
+                                                        fontSize: '14px',
+                                                        cursor: 'pointer'
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/handover/index.tsx",
+                                                    lineNumber: 522,
+                                                    columnNumber: 25
+                                                }, void 0)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/handover/index.tsx",
+                                                lineNumber: 506,
+                                                columnNumber: 23
+                                            }, void 0)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/handover/index.tsx",
+                                        lineNumber: 504,
+                                        columnNumber: 21
+                                    }, void 0),
+                                    value: kpi.completedThisMonth,
+                                    valueStyle: {
+                                        fontWeight: 700
+                                    }
+                                }, void 0, false, {
+                                    fileName: "src/pages/handover/index.tsx",
+                                    lineNumber: 502,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/pages/handover/index.tsx",
+                                lineNumber: 501,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/pages/handover/index.tsx",
+                            lineNumber: 500,
+                            columnNumber: 13
+                        }, this),
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            xs: 24,
+                            sm: 8,
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                style: {
+                                    ...cardStyle,
+                                    marginBottom: 0
+                                },
+                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
+                                    title: (0, _jsxdevruntime.jsxDEV)("span", {
+                                        children: [
+                                            "存在风险交接",
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                                                title: (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    style: {
+                                                        maxWidth: '300px'
+                                                    },
+                                                    children: [
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                fontWeight: 'bold',
+                                                                marginBottom: '8px'
+                                                            },
+                                                            children: "存在风险交接"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 547,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: "含义：需要特别关注的潜在风险交接"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 548,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: "来源：风险评估系统自动识别"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 549,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                marginBottom: '6px'
+                                                            },
+                                                            children: '计算方式：风险等级为"中"或"高"的交接'
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 550,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            style: {
+                                                                color: '#ff4d4f'
+                                                            },
+                                                            children: "提示：建议优先处理，避免客户流失"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/handover/index.tsx",
+                                                            lineNumber: 551,
+                                                            columnNumber: 29
+                                                        }, void 0)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/pages/handover/index.tsx",
+                                                    lineNumber: 546,
+                                                    columnNumber: 27
+                                                }, void 0),
+                                                placement: "top",
+                                                overlayStyle: {
+                                                    maxWidth: '320px',
+                                                    fontSize: '12px'
+                                                },
+                                                children: (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
+                                                    style: {
+                                                        marginLeft: '8px',
+                                                        color: '#8c8c8c',
+                                                        fontSize: '14px',
+                                                        cursor: 'pointer'
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/handover/index.tsx",
+                                                    lineNumber: 560,
+                                                    columnNumber: 25
+                                                }, void 0)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/handover/index.tsx",
+                                                lineNumber: 544,
+                                                columnNumber: 23
+                                            }, void 0)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/handover/index.tsx",
+                                        lineNumber: 542,
+                                        columnNumber: 21
+                                    }, void 0),
+                                    value: kpi.riskyCount,
+                                    valueStyle: {
+                                        fontWeight: 700
+                                    }
+                                }, void 0, false, {
+                                    fileName: "src/pages/handover/index.tsx",
+                                    lineNumber: 540,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/pages/handover/index.tsx",
+                                lineNumber: 539,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/pages/handover/index.tsx",
+                            lineNumber: 538,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 313,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                    style: {
-                        background: '#fff',
-                        borderRadius: '8px',
-                        padding: '24px',
-                        marginBottom: '24px',
-                        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
-                    },
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    lineNumber: 461,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "src/pages/handover/index.tsx",
+                lineNumber: 460,
+                columnNumber: 9
+            }, this),
+            (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    ...cardStyle,
+                    padding: '24px'
+                },
+                children: [
+                    (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             display: 'flex',
                             justifyContent: 'space-between',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            marginBottom: '16px'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                size: "middle",
-                                wrap: true,
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
-                                        allowClear: true,
-                                        placeholder: "客户名称: 请输入",
-                                        value: searchParams.customerName,
-                                        onChange: (e)=>setSearchParams((prev)=>({
-                                                    ...prev,
-                                                    customerName: e.target.value
-                                                })),
-                                        style: {
-                                            width: 220
-                                        },
-                                        size: "middle"
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 349,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
-                                        allowClear: true,
-                                        placeholder: "交接状态: 请选择",
-                                        value: searchParams.status,
-                                        onChange: (value)=>setSearchParams((prev)=>({
-                                                    ...prev,
-                                                    status: value
-                                                })),
-                                        style: {
-                                            width: 180
-                                        },
-                                        size: "middle",
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
-                                                value: "pending",
-                                                children: "待处理"
-                                            }, void 0, false, {
-                                                fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 365,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
-                                                value: "processing",
-                                                children: "处理中"
-                                            }, void 0, false, {
-                                                fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 366,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
-                                                value: "aligned",
-                                                children: "已对齐"
-                                            }, void 0, false, {
-                                                fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 367,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
-                                                value: "partially_aligned",
-                                                children: "部分对齐"
-                                            }, void 0, false, {
-                                                fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 368,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 357,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
-                                        allowClear: true,
-                                        placeholder: "风险等级: 请选择",
-                                        value: searchParams.riskLevel,
-                                        onChange: (value)=>setSearchParams((prev)=>({
-                                                    ...prev,
-                                                    riskLevel: value
-                                                })),
-                                        style: {
-                                            width: 180
-                                        },
-                                        size: "middle",
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
-                                                value: "high",
-                                                children: "高风险"
-                                            }, void 0, false, {
-                                                fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 378,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
-                                                value: "medium",
-                                                children: "中风险"
-                                            }, void 0, false, {
-                                                fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 379,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
-                                                value: "low",
-                                                children: "低风险"
-                                            }, void 0, false, {
-                                                fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 380,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 370,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                placeholder: "搜索客户名称或交接单编号",
+                                prefix: (0, _jsxdevruntime.jsxDEV)(_icons.SearchOutlined, {}, void 0, false, {
+                                    fileName: "src/pages/handover/index.tsx",
+                                    lineNumber: 592,
+                                    columnNumber: 23
+                                }, void 0),
+                                value: searchText,
+                                onChange: (e)=>setSearchText(e.target.value),
+                                allowClear: true,
+                                style: {
+                                    width: 300,
+                                    borderRadius: '6px'
+                                }
+                            }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 348,
+                                lineNumber: 590,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                 size: "small",
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        onClick: handleReset,
-                                        children: "重置"
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 385,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        type: "primary",
-                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SearchOutlined, {}, void 0, false, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.ReloadOutlined, {}, void 0, false, {
                                             fileName: "src/pages/handover/index.tsx",
-                                            lineNumber: 390,
+                                            lineNumber: 601,
                                             columnNumber: 23
                                         }, void 0),
-                                        onClick: handleSearch,
-                                        children: "查询"
+                                        onClick: ()=>{
+                                            setSearchText('');
+                                            setSearchedColumn('');
+                                            setSearchParams({
+                                                customerName: '',
+                                                status: undefined,
+                                                riskLevel: undefined
+                                            });
+                                            setCurrentPage(1);
+                                            _antd.message.success('已重置所有筛选条件');
+                                        },
+                                        title: "重置所有筛选条件"
                                     }, void 0, false, {
                                         fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 388,
+                                        lineNumber: 600,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                        style: {
-                                            color: '#1890ff',
-                                            cursor: 'pointer',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '4px'
-                                        },
-                                        children: [
-                                            "展开",
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DownOutlined, {
-                                                style: {
-                                                    fontSize: '12px'
-                                                }
-                                            }, void 0, false, {
-                                                fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 405,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.DownloadOutlined, {}, void 0, false, {
+                                            fileName: "src/pages/handover/index.tsx",
+                                            lineNumber: 616,
+                                            columnNumber: 29
+                                        }, void 0)
+                                    }, void 0, false, {
                                         fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 395,
+                                        lineNumber: 616,
+                                        columnNumber: 15
+                                    }, this),
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
+                                            fileName: "src/pages/handover/index.tsx",
+                                            lineNumber: 617,
+                                            columnNumber: 29
+                                        }, void 0)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/handover/index.tsx",
+                                        lineNumber: 617,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 384,
+                                lineNumber: 599,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/handover/index.tsx",
-                        lineNumber: 343,
+                        lineNumber: 584,
                         columnNumber: 11
-                    }, this)
-                }, void 0, false, {
-                    fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 335,
-                    columnNumber: 9
-                }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                    style: {
-                        background: '#fff',
-                        borderRadius: '8px',
-                        padding: '24px',
-                        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                            style: {
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                alignItems: 'center',
-                                marginBottom: '16px'
-                            },
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                size: "small",
+                    }, this),
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
+                        columns: columns,
+                        dataSource: paginatedData,
+                        rowKey: "id",
+                        pagination: false,
+                        size: "small",
+                        scroll: {
+                            x: 900
+                        },
+                        style: {
+                            background: '#fff'
+                        }
+                    }, void 0, false, {
+                        fileName: "src/pages/handover/index.tsx",
+                        lineNumber: 622,
+                        columnNumber: 11
+                    }, this),
+                    (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginTop: '16px'
+                        },
+                        children: [
+                            (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    color: '#666',
+                                    fontSize: '14px'
+                                },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        type: "primary",
-                                        onClick: handleAddHandover,
-                                        style: {
-                                            borderRadius: '6px',
-                                            fontWeight: '500'
-                                        },
-                                        children: "+ 新建"
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 426,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ReloadOutlined, {}, void 0, false, {
-                                            fileName: "src/pages/handover/index.tsx",
-                                            lineNumber: 433,
-                                            columnNumber: 29
-                                        }, void 0)
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 433,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DownloadOutlined, {}, void 0, false, {
-                                            fileName: "src/pages/handover/index.tsx",
-                                            lineNumber: 434,
-                                            columnNumber: 29
-                                        }, void 0)
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 434,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
-                                            fileName: "src/pages/handover/index.tsx",
-                                            lineNumber: 435,
-                                            columnNumber: 29
-                                        }, void 0)
-                                    }, void 0, false, {
-                                        fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 435,
-                                        columnNumber: 15
-                                    }, this)
+                                    "共 ",
+                                    filteredData.length,
+                                    " 条记录"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 425,
+                                lineNumber: 639,
+                                columnNumber: 13
+                            }, this),
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Pagination, {
+                                current: currentPage,
+                                total: filteredData.length,
+                                pageSize: pageSize,
+                                onChange: setCurrentPage,
+                                showSizeChanger: false,
+                                showQuickJumper: true,
+                                showTotal: (total, range)=>`第 ${range[0]}-${range[1]} 条/共 ${total} 条`
+                            }, void 0, false, {
+                                fileName: "src/pages/handover/index.tsx",
+                                lineNumber: 642,
                                 columnNumber: 13
                             }, this)
-                        }, void 0, false, {
-                            fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 418,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
-                            columns: columns,
-                            dataSource: paginatedData,
-                            rowKey: "id",
-                            pagination: false,
-                            size: "small",
-                            scroll: {
-                                x: 1000
-                            },
-                            style: {
-                                background: '#fff'
-                            }
-                        }, void 0, false, {
-                            fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 440,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                            style: {
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                marginTop: '16px'
-                            },
-                            children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        color: '#666',
-                                        fontSize: '14px'
-                                    },
-                                    children: [
-                                        "共 ",
-                                        filteredData.length,
-                                        " 条记录"
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 457,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Pagination, {
-                                    current: currentPage,
-                                    total: filteredData.length,
-                                    pageSize: pageSize,
-                                    onChange: setCurrentPage,
-                                    showSizeChanger: false,
-                                    showQuickJumper: true,
-                                    showTotal: (total, range)=>`第 ${range[0]}-${range[1]} 条/共 ${total} 条`
-                                }, void 0, false, {
-                                    fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 460,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 451,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 412,
-                    columnNumber: 9
-                }, this)
-            ]
-        }, void 0, true, {
-            fileName: "src/pages/handover/index.tsx",
-            lineNumber: 302,
-            columnNumber: 7
-        }, this)
-    }, void 0, false, {
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/handover/index.tsx",
+                        lineNumber: 633,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/handover/index.tsx",
+                lineNumber: 580,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/pages/handover/index.tsx",
-        lineNumber: 296,
+        lineNumber: 418,
         columnNumber: 5
     }, this);
 };
-_s(HandoverListPage, "FaXQRE/hrEyh3Q3tROmwbIReaKw=", false, function() {
+_s(HandoverListPage, "NpiywVuqEzd+emI7ROUx/HB+hxU=", false, function() {
     return [
         _umi.useNavigate,
         _umi.useLocation

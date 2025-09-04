@@ -1,67 +1,154 @@
 import React, { useState, useMemo } from 'react';
 import { 
+  Card, 
+  Table, 
   Button, 
-  Row, 
-  Col, 
-  Typography, 
   Input, 
   Select, 
   Space, 
-  Table, 
   Tag, 
+  Typography, 
+  Row, 
+  Col, 
+  Statistic, 
   Pagination,
   message,
-  Breadcrumb,
-  Card,
-  Statistic
+  Tooltip,
+  Rate
 } from 'antd';
 import { 
-  PlusOutlined, 
   SearchOutlined, 
   ReloadOutlined, 
-  ExportOutlined,
+  DownloadOutlined, 
   SettingOutlined,
-  DownloadOutlined,
-  DownOutlined
+  PlusOutlined,
+  DownOutlined,
+  QuestionCircleOutlined,
+  HistoryOutlined
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'umi';
 import { mockCustomerHandovers } from '../../mock/handoverData';
-import { CustomerHandover, HandoverStatus, RiskLevel } from '../../types/handover';
+import { CustomerHandover, HandoverStatus, RiskLevel, HandoverSearchParams } from '../../types/handover';
+import type { InputRef } from 'antd';
+import type { ColumnType } from 'antd/es/table';
+import type { FilterConfirmProps } from 'antd/es/table/interface';
+import { useRef } from 'react';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
+// 统一的卡片样式 - 参考工作看板的现代风格
+const cardStyle = {
+  borderRadius: '12px',
+  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+  border: '1px solid #f0f0f0',
+  background: '#ffffff',
+  marginBottom: '16px',
+};
+
 const HandoverListPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5; // 一页显示5个数据
   
   // 搜索筛选状态
-  const [searchParams, setSearchParams] = useState({
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef<InputRef>(null);
+  
+  const [searchParams, setSearchParams] = useState<HandoverSearchParams>({
     customerName: '',
-    status: undefined as HandoverStatus | undefined,
-    riskLevel: undefined as RiskLevel | undefined
+    status: undefined,
+    riskLevel: undefined
   });
 
-  // 分页状态
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
-
   // 处理搜索
-  const handleSearch = () => {
-    setCurrentPage(1);
-    message.success('搜索完成');
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: keyof CustomerHandover,
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
 
   // 处理重置
-  const handleReset = () => {
-    setSearchParams({
-      customerName: '',
-      status: undefined,
-      riskLevel: undefined
-    });
-    setCurrentPage(1);
-    message.success('已重置筛选条件');
+  const handleReset = (clearFilters: () => void) => {
+    clearFilters();
+    setSearchText('');
   };
+
+  // 获取列搜索属性
+  const getColumnSearchProps = (dataIndex: keyof CustomerHandover): ColumnType<CustomerHandover> => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div style={{ padding: 8 }} onKeyDown={e => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`搜索 ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            搜索
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            重置
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText((selectedKeys as string[])[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            筛选
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            关闭
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) => {
+      const fieldValue = record[dataIndex];
+      if (fieldValue === null || fieldValue === undefined) return false;
+      return fieldValue
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase());
+    },
+    onFilterDropdownOpenChange: visible => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+  });
 
   // 处理新增交接
   const handleAddHandover = () => {
@@ -81,6 +168,7 @@ const HandoverListPage: React.FC = () => {
 
   // 根据当前路径决定显示什么内容
   const pathname = location.pathname;
+  
   
   // 如果是创建页面
   if (pathname === '/profiles/handover/new') {
@@ -133,14 +221,16 @@ const HandoverListPage: React.FC = () => {
     );
   }
   
-  // 如果是详情页面，不显示列表页内容
-  if (pathname.match(/^\/profiles\/handover\/\d+$/)) {
+  // 如果是详情页面或历史查询页面，不显示列表页内容
+  if (pathname.match(/^\/profiles\/handover\/\d+$/) || pathname === '/profiles/handover/history') {
     return null;
   }
 
   // 过滤数据
   const filteredData = useMemo(() => {
     return mockCustomerHandovers.filter(item => {
+      const text = (searchText || '').trim().toLowerCase();
+      const matchText = !text || (item.customerName?.toLowerCase().includes(text) || item.handoverNumber?.toLowerCase().includes(text));
       const matchName = !searchParams.customerName || 
         item.customerName.includes(searchParams.customerName);
       const matchStatus = !searchParams.status || 
@@ -148,9 +238,9 @@ const HandoverListPage: React.FC = () => {
       const matchRisk = !searchParams.riskLevel || 
         item.riskLevel === searchParams.riskLevel;
       
-      return matchName && matchStatus && matchRisk;
+      return matchText && matchName && matchStatus && matchRisk;
     });
-  }, [searchParams]);
+  }, [searchParams, searchText]);
 
   // 分页数据
   const paginatedData = useMemo(() => {
@@ -209,10 +299,20 @@ const HandoverListPage: React.FC = () => {
   // 表格列定义
   const columns = [
     {
+      title: '交接单编号',
+      dataIndex: 'handoverNumber',
+      key: 'handoverNumber',
+      width: 120,
+      render: (num: string, record: CustomerHandover) => (
+        <span style={{ fontFamily: 'monospace' }}>{num}</span>
+      ),
+    },
+    {
       title: '客户名称',
       dataIndex: 'customerName',
       key: 'customerName',
       width: 220,
+      sorter: (a: CustomerHandover, b: CustomerHandover) => a.customerName.localeCompare(b.customerName),
       render: (name: string, record: CustomerHandover) => (
         <a onClick={() => handleViewDetail(record, 'basic-info')}>{name}</a>
       ),
@@ -221,7 +321,8 @@ const HandoverListPage: React.FC = () => {
       title: '交接单',
       dataIndex: 'hasHandoverDocument',
       key: 'hasHandoverDocument',
-      width: 120,
+      width: 80,
+      sorter: (a: CustomerHandover, b: CustomerHandover) => Number(a.hasHandoverDocument) - Number(b.hasHandoverDocument),
       render: (hasDocument: boolean, record: CustomerHandover) => (
         hasDocument ? (
           <Tag color="blue" style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'action-plan')}>有</Tag>
@@ -234,7 +335,8 @@ const HandoverListPage: React.FC = () => {
       title: '风险提示',
       dataIndex: 'hasRiskAlert',
       key: 'hasRiskAlert',
-      width: 140,
+      width: 100,
+      sorter: (a: CustomerHandover, b: CustomerHandover) => Number(a.hasRiskAlert) - Number(b.hasRiskAlert),
       render: (hasRisk: boolean, record: CustomerHandover) => {
         if (!hasRisk) return <Tag>无风险</Tag>;
         const level = record.riskLevel;
@@ -248,10 +350,11 @@ const HandoverListPage: React.FC = () => {
       },
     },
     {
-      title: '干系人信息',
+      title: '干系人',
       dataIndex: 'stakeholderCount',
       key: 'stakeholderCount',
-      width: 140,
+      width: 100,
+      sorter: (a: CustomerHandover, b: CustomerHandover) => (a.stakeholderCount || 0) - (b.stakeholderCount || 0),
       render: (count: number, record: CustomerHandover) => (
         <Tag color="purple" style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'stakeholders')}>
           {count} 人
@@ -262,7 +365,8 @@ const HandoverListPage: React.FC = () => {
       title: '客户期望对齐',
       dataIndex: 'expectationAlignment',
       key: 'expectationAlignment',
-      width: 160,
+      width: 120,
+      sorter: (a: CustomerHandover, b: CustomerHandover) => a.expectationAlignment.localeCompare(b.expectationAlignment),
       render: (alignment: string, record: CustomerHandover) => {
         const colorMap = {
           aligned: 'green',
@@ -282,155 +386,233 @@ const HandoverListPage: React.FC = () => {
       },
     },
     {
-      title: '交接评价',
+      title: '销售创建时间',
+      dataIndex: 'salesCreatedAt',
+      key: 'salesCreatedAt',
+      width: 120,
+      sorter: (a: CustomerHandover, b: CustomerHandover) => new Date(a.salesCreatedAt || '').getTime() - new Date(b.salesCreatedAt || '').getTime(),
+      render: (date: string) => date ? new Date(date).toLocaleDateString() : '-',
+    },
+    {
+      title: '客户满意度',
       dataIndex: 'handoverRating',
       key: 'handoverRating',
       width: 150,
+      sorter: (a: CustomerHandover, b: CustomerHandover) => (a.handoverRating || 0) - (b.handoverRating || 0),
       render: (rating: number, record: CustomerHandover) => (
-        <span>{rating}分 - {record.handoverComment}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Rate 
+            disabled 
+            value={rating} 
+            style={{ fontSize: '16px' }}
+          />
+          <span style={{ color: '#1890ff', fontWeight: '500' }}>
+            {rating}
+          </span>
+        </div>
       ),
     },
   ];
 
   return (
     <div style={{ 
-      padding: '24px',
+      padding: '32px 40px',
       background: '#f5f5f5',
-      minHeight: 'calc(100vh - 120px)',
-      paddingBottom: '60px' // 为footer留出底部间距
+      minHeight: 'calc(100vh - 64px)'
     }}>
-      <div style={{ 
-        maxWidth: '1400px', 
-        margin: '0 auto'
-      }}>
-        {/* 页面标题 */}
-        <div style={{ marginBottom: '24px' }}>
-          <Title level={2} style={{ margin: 0, color: '#262626' }}>交接实施</Title>
-          <Text type="secondary">确保从销售到服务的丝滑交接与价值对齐</Text>
-        </div>
+      {/* 页面标题 */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            marginBottom: '24px'
+          }}>
+            <div>
+              <Title level={2} style={{ margin: 0, color: '#262626' }}>交接实施</Title>
+              <Text type="secondary">确保从销售到服务的丝滑交接与价值对齐</Text>
+            </div>
+            
+            {/* 右侧：快捷链接 */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Tooltip title="历史交接查询">
+                <Button
+                  type="text"
+                  shape="circle"
+                  size="large"
+                  icon={<HistoryOutlined />}
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    background: '#1890ff15',
+                    border: '1px solid #1890ff30',
+                    color: '#1890ff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  onClick={() => navigate('/profiles/handover/history')}
+                />
+              </Tooltip>
+            </div>
+          </div>
 
         {/* 顶部数据看板 */}
         <div style={{ marginBottom: '24px' }}>
           <Row gutter={16}>
             <Col xs={24} sm={8}>
-              <Card style={{ borderRadius: '8px' }}>
-                <Statistic title="待处理交接" value={kpi.pendingCount} valueStyle={{ fontWeight: 700 }} />
+              <Card style={{ ...cardStyle, marginBottom: 0 }}>
+                <Statistic 
+                  title={
+                    <span>
+                      待处理交接
+                      <Tooltip 
+                        title={
+                          <div style={{ maxWidth: '300px' }}>
+                            <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>待处理交接</div>
+                            <div style={{ marginBottom: '6px' }}>含义：当前需要处理的客户交接任务数量</div>
+                            <div style={{ marginBottom: '6px' }}>来源：CRM系统中的交接任务状态</div>
+                            <div style={{ marginBottom: '6px' }}>计算方式：状态为"待处理"的交接记录总数</div>
+                            <div style={{ color: '#ffa940' }}>提示：建议优先处理高优先级客户</div>
+                          </div>
+                        }
+                        placement="top"
+                        overlayStyle={{ 
+                          maxWidth: '320px',
+                          fontSize: '12px'
+                        }}
+                      >
+                        <QuestionCircleOutlined 
+                          style={{ 
+                            marginLeft: '8px', 
+                            color: '#8c8c8c',
+                            fontSize: '14px',
+                            cursor: 'pointer'
+                          }} 
+                        />
+                      </Tooltip>
+                    </span>
+                  } 
+                  value={kpi.pendingCount} 
+                  valueStyle={{ fontWeight: 700 }} 
+                />
               </Card>
             </Col>
             <Col xs={24} sm={8}>
-              <Card style={{ borderRadius: '8px' }}>
-                <Statistic title="本月已完成" value={kpi.completedThisMonth} valueStyle={{ fontWeight: 700 }} />
+              <Card style={{ ...cardStyle, marginBottom: 0 }}>
+                <Statistic 
+                  title={
+                    <span>
+                      本月已完成
+                      <Tooltip 
+                        title={
+                          <div style={{ maxWidth: '300px' }}>
+                            <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>本月已完成</div>
+                            <div style={{ marginBottom: '6px' }}>含义：本月成功完成的客户交接数量</div>
+                            <div style={{ marginBottom: '6px' }}>来源：交接完成时间在本月内的记录</div>
+                            <div style={{ marginBottom: '6px' }}>计算方式：状态为"已完成"且完成时间在本月</div>
+                            <div style={{ color: '#52c41a' }}>提示：反映团队本月工作效率</div>
+                          </div>
+                        }
+                        placement="top"
+                        overlayStyle={{ 
+                          maxWidth: '320px',
+                          fontSize: '12px'
+                        }}
+                      >
+                        <QuestionCircleOutlined 
+                          style={{ 
+                            marginLeft: '8px', 
+                            color: '#8c8c8c',
+                            fontSize: '14px',
+                            cursor: 'pointer'
+                          }} 
+                        />
+                      </Tooltip>
+                    </span>
+                  } 
+                  value={kpi.completedThisMonth} 
+                  valueStyle={{ fontWeight: 700 }} 
+                />
               </Card>
             </Col>
             <Col xs={24} sm={8}>
-              <Card style={{ borderRadius: '8px' }}>
-                <Statistic title="存在风险交接" value={kpi.riskyCount} valueStyle={{ fontWeight: 700 }} />
+              <Card style={{ ...cardStyle, marginBottom: 0 }}>
+                <Statistic 
+                  title={
+                    <span>
+                      存在风险交接
+                      <Tooltip 
+                        title={
+                          <div style={{ maxWidth: '300px' }}>
+                            <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>存在风险交接</div>
+                            <div style={{ marginBottom: '6px' }}>含义：需要特别关注的潜在风险交接</div>
+                            <div style={{ marginBottom: '6px' }}>来源：风险评估系统自动识别</div>
+                            <div style={{ marginBottom: '6px' }}>计算方式：风险等级为"中"或"高"的交接</div>
+                            <div style={{ color: '#ff4d4f' }}>提示：建议优先处理，避免客户流失</div>
+                          </div>
+                        }
+                        placement="top"
+                        overlayStyle={{ 
+                          maxWidth: '320px',
+                          fontSize: '12px'
+                        }}
+                      >
+                        <QuestionCircleOutlined 
+                          style={{ 
+                            marginLeft: '8px', 
+                            color: '#8c8c8c',
+                            fontSize: '14px',
+                            cursor: 'pointer'
+                          }} 
+                        />
+                      </Tooltip>
+                    </span>
+                  } 
+                  value={kpi.riskyCount} 
+                  valueStyle={{ fontWeight: 700 }} 
+                />
               </Card>
             </Col>
           </Row>
         </div>
 
-
-        {/* 筛选区域 - 白色矩形 */}
+        {/* 列表区域 - 白色矩形 */}
         <div style={{ 
-          background: '#fff',
-          borderRadius: '8px',
-          padding: '24px',
-          marginBottom: '24px',
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
+          ...cardStyle,
+          padding: '24px'
         }}>
-          
           <div style={{ 
             display: 'flex', 
             justifyContent: 'space-between', 
-            alignItems: 'center'
-          }}>
-            <Space size="middle" wrap>
-              <Input 
-                allowClear 
-                placeholder="客户名称: 请输入" 
-                value={searchParams.customerName}
-                onChange={(e) => setSearchParams(prev => ({ ...prev, customerName: e.target.value }))}
-                style={{ width: 220 }}
-                size="middle"
-              />
-              <Select
-                allowClear
-                placeholder="交接状态: 请选择"
-                value={searchParams.status}
-                onChange={(value) => setSearchParams(prev => ({ ...prev, status: value }))}
-                style={{ width: 180 }}
-                size="middle"
-              >
-                <Option value="pending">待处理</Option>
-                <Option value="processing">处理中</Option>
-                <Option value="aligned">已对齐</Option>
-                <Option value="partially_aligned">部分对齐</Option>
-              </Select>
-              <Select
-                allowClear
-                placeholder="风险等级: 请选择"
-                value={searchParams.riskLevel}
-                onChange={(value) => setSearchParams(prev => ({ ...prev, riskLevel: value }))}
-                style={{ width: 180 }}
-                size="middle"
-              >
-                <Option value="high">高风险</Option>
-                <Option value="medium">中风险</Option>
-                <Option value="low">低风险</Option>
-              </Select>
-            </Space>
-
-            <Space size="small">
-              <Button onClick={handleReset}>
-                重置
-              </Button>
-              <Button 
-                type="primary" 
-                icon={<SearchOutlined />}
-                onClick={handleSearch}
-              >
-                查询
-              </Button>
-              <span 
-                style={{ 
-                  color: '#1890ff', 
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px'
-                }}
-              >
-                展开
-                <DownOutlined style={{ fontSize: '12px' }} />
-              </span>
-            </Space>
-          </div>
-        </div>
-
-        {/* 列表区域 - 白色矩形 */}
-        <div style={{ 
-          background: '#fff',
-          borderRadius: '8px',
-          padding: '24px',
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
-        }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'flex-end', 
             alignItems: 'center',
             marginBottom: '16px'
           }}>
+            <Input
+              placeholder="搜索客户名称或交接单编号"
+              prefix={<SearchOutlined />}
+              value={searchText}
+              onChange={e => setSearchText(e.target.value)}
+              allowClear
+              style={{ width: 300, borderRadius: '6px' }}
+            />
 
             <Space size="small">
               <Button 
-                type="primary" 
-                onClick={handleAddHandover}
-                style={{ borderRadius: '6px', fontWeight: '500' }}
-              >
-                + 新建
-              </Button>
-              <Button icon={<ReloadOutlined />} />
+                icon={<ReloadOutlined />} 
+                onClick={() => {
+                  // 重置所有搜索、筛选、排序状态
+                  setSearchText('');
+                  setSearchedColumn('');
+                  setSearchParams({
+                    customerName: '',
+                    status: undefined,
+                    riskLevel: undefined
+                  });
+                  setCurrentPage(1);
+                  message.success('已重置所有筛选条件');
+                }}
+                title="重置所有筛选条件"
+              />
               <Button icon={<DownloadOutlined />} />
               <Button icon={<SettingOutlined />} />
             </Space>
@@ -443,7 +625,7 @@ const HandoverListPage: React.FC = () => {
             rowKey="id"
             pagination={false}
             size="small"
-            scroll={{ x: 1000 }}
+            scroll={{ x: 900 }}
             style={{ background: '#fff' }}
           />
 
@@ -470,7 +652,6 @@ const HandoverListPage: React.FC = () => {
             />
           </div>
         </div>
-      </div>
     </div>
   );
 };

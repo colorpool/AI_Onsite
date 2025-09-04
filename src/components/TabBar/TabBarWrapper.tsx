@@ -12,6 +12,7 @@ const routeToTitleMap: Record<string, string> = {
   '/dashboard/competition': '客成部门大比武',
   '/dashboard/coordination': '大服务体系内协同',
   '/profiles/handover-implementation': '交接实施',
+  '/profiles/handover/history': '历史交接查询',
   '/profiles/service': '持续服务',
   '/profiles/renewal': '续约管理',
   '/profiles/recall': '召回孵化',

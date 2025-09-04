@@ -39,6 +39,7 @@ export interface CRMSyncData {
 // 客户交接记录
 export interface CustomerHandover {
   id: string;
+  handoverNumber: string; // 交接单编号
   customerName: string;
   handoverStatus: HandoverStatus;
   riskLevel: RiskLevel;
@@ -50,6 +51,8 @@ export interface CustomerHandover {
   handoverComment: string;
   createdAt: string;
   updatedAt: string;
+  salesCreatedAt?: string; // 销售创建时间
+  deliveredAt?: string; // 交付完成时间
   crmData?: CRMSyncData;
   stakeholders?: Stakeholder[];
   riskDetails?: string;

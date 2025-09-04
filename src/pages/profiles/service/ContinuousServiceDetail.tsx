@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Card, 
   Row, 
@@ -16,7 +16,7 @@ import {
   Input,
   Select
 } from 'antd';
-import {
+import { 
   UserOutlined,
   PhoneOutlined,
   MailOutlined,
@@ -29,7 +29,9 @@ import {
   ClockCircleOutlined,
   ArrowLeftOutlined
 } from '@ant-design/icons';
+import HandoverDetailHeader from '@/components/handover/HandoverDetailHeader';
 import { useParams, useNavigate } from 'umi';
+import { mockCustomers } from '@/mock/continuousServiceData';
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -40,31 +42,40 @@ const ContinuousServiceDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [customer, setCustomer] = useState<any>(null);
+  const topRef = useRef<HTMLDivElement | null>(null);
   const [newRecordModalVisible, setNewRecordModalVisible] = useState(false);
   const [form] = Form.useForm();
 
-  // 模拟客户数据
+  // 加载与列表一致的客户数据（通过URL中的id）
   useEffect(() => {
-    const mockCustomer = {
-      id: '1',
-      name: '北京科技有限公司',
-      healthLevel: '健康',
-      healthScore: 85,
-      lifecycle: '成长期',
-      renewalRisk: '低',
+    // 在统一mock数据中查找该客户
+    const base = mockCustomers.find((c) => c.id === id);
+    if (!base) {
+      // 未找到则保持原有占位数据以避免空白
+      return;
+    }
+
+    // 将列表的关键字段映射到详情所需结构，其余字段仍用示例占位
+    const mapped = {
+      id: base.id,
+      name: base.name,
+      healthLevel: base.healthLevel,
+      healthScore: base.healthScore,
+      lifecycle: (base as any).lifecycleStage || '成长期',
+      renewalRisk: base.isRenewalRisk ? '高' : '低',
       industry: '互联网科技',
       companySize: '500-1000人',
-      address: '北京市朝阳区建国门外大街1号',
-      contractAmount: 500000,
-      contractEndDate: '2026-08-31',
-      purchasedProducts: ['产品A', '插件B', '高级服务'],
+      address: '示例地址',
+      contractAmount: base.contractAmount,
+      contractEndDate: base.renewalDate,
+      purchasedProducts: ['产品A', '插件B'],
       keyContacts: [
         {
           id: '1',
-          name: '张总',
-          title: '技术总监',
-          phone: '138-0013-8000',
-          email: 'zhang@company.com',
+          name: base.csm,
+          title: '客户成功经理',
+          phone: '138-0000-0000',
+          email: 'csm@example.com',
           isPrimary: true
         }
       ],
@@ -73,14 +84,14 @@ const ContinuousServiceDetail: React.FC = () => {
           id: '1',
           type: 'phone',
           title: '客户回访电话',
-          content: '与张总进行了30分钟的产品使用情况回访',
-          operator: 'CSM-王五',
+          content: '与客户进行了产品使用情况回访',
+          operator: `CSM-${base.csm}`,
           timestamp: '2024-01-15 14:30'
         }
       ]
-    };
-    
-    setCustomer(mockCustomer);
+    } as any;
+
+    setCustomer(mapped);
   }, [id]);
 
   // 获取健康度颜色
@@ -98,74 +109,34 @@ const ContinuousServiceDetail: React.FC = () => {
   }
 
   return (
-    <div style={{
+    <div ref={topRef} style={{
       padding: '24px',
       background: '#f5f5f5',
-      minHeight: 'calc(100vh - 120px)'
+      minHeight: 'calc(100vh - 120px)',
+      paddingBottom: '60px'
     }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto'
-      }}>
-        {/* 页面头部 */}
-        <Card style={{
-          borderRadius: '12px',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
-          border: '1px solid #f0f0f0',
-          background: '#ffffff',
-          marginBottom: '24px'
-        }}>
-          <Row gutter={24} align="middle">
-            <Col flex="1">
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Button 
-                  type="text" 
-                  icon={<ArrowLeftOutlined />} 
-                  onClick={() => navigate(-1)}
-                  style={{ padding: '4px 8px', height: 'auto', marginRight: 16, color: '#666' }}
-                >
-                  返回
-                </Button>
-                <Title level={2} style={{ margin: 0, color: '#262626', fontWeight: '600' }}>
-                  {customer.name}
-                </Title>
-              </div>
-              <div style={{ marginTop: '12px' }}>
-                <Space size="middle" wrap>
-                  <Tag color={getHealthColor(customer.healthLevel)} style={{ fontSize: '14px', padding: '4px 12px' }}>
-                    健康度：{customer.healthLevel} ({customer.healthScore}分)
-                  </Tag>
-                  <Tag color="processing" style={{ fontSize: '14px', padding: '4px 12px' }}>
-                    生命周期：{customer.lifecycle}
-                  </Tag>
-                  <Tag color="success" style={{ fontSize: '14px', padding: '4px 12px' }}>
-                    续约风险：{customer.renewalRisk}
-                  </Tag>
-                </Space>
-              </div>
-            </Col>
-            <Col>
-              <Space size="middle">
-                <Button 
-                  type="primary" 
-                  icon={<PlusOutlined />}
-                  size="large"
-                  onClick={() => setNewRecordModalVisible(true)}
-                  style={{ borderRadius: '8px' }}
-                >
-                  + 新建服务记录
-                </Button>
-                <Button 
-                  icon={<TeamOutlined />}
-                  size="large"
-                  style={{ borderRadius: '8px' }}
-                >
-                  发起业务复盘 (QBR)
-                </Button>
-              </Space>
-            </Col>
-          </Row>
-        </Card>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* 复用交接实施的表头风格 */}
+        <div style={{ marginBottom: '24px' }}>
+          <HandoverDetailHeader
+            handoverData={{
+              id: customer.id,
+              customerName: customer.name,
+              handoverStatus: 'normal' as any,
+              riskLevel: customer.healthLevel === '风险' ? 'high' as any : customer.healthLevel === '一般' ? 'medium' as any : 'low' as any,
+              handoverNumber: 'SV-' + customer.id,
+              createdAt: '2024-01-01',
+              updatedAt: '2024-01-15',
+              crmData: { salesSource: 'direct', salesPerson: customer.csm } as any,
+            } as any}
+            onBack={() => navigate('/profiles/service')}
+            onEdit={() => setNewRecordModalVisible(true)}
+            onViewContract={() => {}
+            }
+            onShare={() => {}
+            }
+          />
+        </div>
 
         {/* 推荐服务剧本 */}
         <Card 
@@ -383,7 +354,7 @@ const ContinuousServiceDetail: React.FC = () => {
             </Card>
           </Col>
         </Row>
-      </div>
+      </>
 
       {/* 新建服务记录模态框 */}
       <Modal

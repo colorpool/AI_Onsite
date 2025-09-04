@@ -13,9 +13,9 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/react/index.js"));
+var _react = _interop_require_default._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var prevRefreshReg;
@@ -26,8 +26,7 @@ self.$RefreshReg$ = (type, id)=>{
     _reactrefresh.register(type, module.id + id);
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
-// 平台图标组件 - 使用钉钉风格
-const PlatformIcon = ()=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+const PlatformIcon = ()=>(0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             width: 24,
             height: 24,
@@ -50,7 +49,6 @@ const PlatformIcon = ()=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
 _c = PlatformIcon;
 const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, onShare })=>{
     var _handoverData_crmData, _handoverData_crmData1, _handoverData_crmData2, _handoverData_crmData3, _handoverData_crmData4;
-    // 状态颜色映射
     const getStatusConfig = (status)=>{
         const configs = {
             'normal': {
@@ -72,7 +70,6 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
         };
     };
     const statusConfig = getStatusConfig(handoverData.handoverStatus);
-    // 计算档案完整度（示例逻辑）
     const calculateCompleteness = ()=>{
         let score = 0;
         if (handoverData.stakeholders && handoverData.stakeholders.length > 0) score += 30;
@@ -82,16 +79,16 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
         return score;
     };
     const completeness = calculateCompleteness();
-    // 计算续约次数（示例数据）
     const renewalCount = 2;
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             backgroundColor: '#fff',
             borderRadius: '8px',
-            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)',
+            position: 'relative'
         },
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     display: 'flex',
                     alignItems: 'center',
@@ -100,16 +97,16 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                     borderBottom: '1px solid #f0f0f0'
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             display: 'flex',
                             alignItems: 'center',
                             flex: 1
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                 type: "text",
-                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowLeftOutlined, {}, void 0, false, {
+                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.ArrowLeftOutlined, {}, void 0, false, {
                                     fileName: "src/components/handover/HandoverDetailHeader.tsx",
                                     lineNumber: 86,
                                     columnNumber: 19
@@ -128,12 +125,12 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                                 lineNumber: 84,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(PlatformIcon, {}, void 0, false, {
+                            (0, _jsxdevruntime.jsxDEV)(PlatformIcon, {}, void 0, false, {
                                 fileName: "src/components/handover/HandoverDetailHeader.tsx",
                                 lineNumber: 99,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("h1", {
+                            (0, _jsxdevruntime.jsxDEV)("h1", {
                                 style: {
                                     margin: 0,
                                     fontSize: '24px',
@@ -153,14 +150,14 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                         lineNumber: 83,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             display: 'flex',
                             alignItems: 'center',
                             gap: '20px'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                            (0, _jsxdevruntime.jsxDEV)("span", {
                                 style: {
                                     color: '#666',
                                     fontSize: '14px'
@@ -171,12 +168,12 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                                 lineNumber: 114,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                 size: "middle",
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                         type: "default",
-                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                             fileName: "src/components/handover/HandoverDetailHeader.tsx",
                                             lineNumber: 129,
                                             columnNumber: 21
@@ -192,9 +189,9 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                                         lineNumber: 127,
                                         columnNumber: 13
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                         type: "text",
-                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
+                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
                                             fileName: "src/components/handover/HandoverDetailHeader.tsx",
                                             lineNumber: 141,
                                             columnNumber: 21
@@ -210,9 +207,9 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                                         lineNumber: 139,
                                         columnNumber: 13
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                         type: "text",
-                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ShareAltOutlined, {}, void 0, false, {
+                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.ShareAltOutlined, {}, void 0, false, {
                                             fileName: "src/components/handover/HandoverDetailHeader.tsx",
                                             lineNumber: 152,
                                             columnNumber: 21
@@ -246,16 +243,17 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                 lineNumber: 75,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     display: 'flex',
                     alignItems: 'center',
                     padding: '16px 24px 20px 24px',
                     gap: '16px',
-                    flexWrap: 'wrap'
+                    flexWrap: 'wrap',
+                    position: 'relative'
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                         style: {
                             backgroundColor: statusConfig.color,
                             color: '#fff',
@@ -269,10 +267,10 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                         children: statusConfig.text
                     }, void 0, false, {
                         fileName: "src/components/handover/HandoverDetailHeader.tsx",
-                        lineNumber: 173,
+                        lineNumber: 174,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                         style: {
                             backgroundColor: '#f5f5f5',
                             color: '#666',
@@ -289,10 +287,10 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                         ]
                     }, void 0, true, {
                         fileName: "src/components/handover/HandoverDetailHeader.tsx",
-                        lineNumber: 189,
+                        lineNumber: 190,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                         style: {
                             backgroundColor: '#f5f5f5',
                             color: '#666',
@@ -308,10 +306,10 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                         ]
                     }, void 0, true, {
                         fileName: "src/components/handover/HandoverDetailHeader.tsx",
-                        lineNumber: 204,
+                        lineNumber: 205,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                         style: {
                             backgroundColor: '#f5f5f5',
                             color: '#666',
@@ -328,7 +326,34 @@ const HandoverDetailHeader = ({ handoverData, onBack, onEdit, onViewContract, on
                         ]
                     }, void 0, true, {
                         fileName: "src/components/handover/HandoverDetailHeader.tsx",
-                        lineNumber: 219,
+                        lineNumber: 220,
+                        columnNumber: 9
+                    }, this),
+                    (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            position: 'absolute',
+                            right: 24,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#8c8c8c',
+                            fontSize: 12
+                        },
+                        children: [
+                            "交接单编号：",
+                            (0, _jsxdevruntime.jsxDEV)("span", {
+                                style: {
+                                    fontFamily: 'monospace'
+                                },
+                                children: handoverData.handoverNumber
+                            }, void 0, false, {
+                                fileName: "src/components/handover/HandoverDetailHeader.tsx",
+                                lineNumber: 236,
+                                columnNumber: 17
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/handover/HandoverDetailHeader.tsx",
+                        lineNumber: 235,
                         columnNumber: 9
                     }, this)
                 ]
@@ -1202,16 +1227,16 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _umi = __mako_require__("src/.umi/exports.ts");
 var _handoverData = __mako_require__("src/mock/handoverData.ts");
-var _HandoverDetailHeader = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/handover/HandoverDetailHeader.tsx"));
-var _StakeholderOrgChart = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/handover/StakeholderOrgChart.tsx"));
+var _HandoverDetailHeader = _interop_require_default._(__mako_require__("src/components/handover/HandoverDetailHeader.tsx"));
+var _StakeholderOrgChart = _interop_require_default._(__mako_require__("src/components/handover/StakeholderOrgChart.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -1224,7 +1249,6 @@ var _s = $RefreshSig$();
 const { Title, Text } = _antd.Typography;
 const { TextArea } = _antd.Input;
 const { Panel } = _antd.Collapse;
-// 页签样式
 const tabStyles = {
     tabBar: {
         margin: 0,
@@ -1262,32 +1286,6 @@ const HandoverDetailPage = ()=>{
     const navigate = (0, _umi.useNavigate)();
     const { id } = (0, _umi.useParams)();
     const location = (0, _umi.useLocation)();
-    // 添加自定义样式来强制标签页均匀分布
-    (0, _react.useEffect)(()=>{
-        const style = document.createElement('style');
-        style.textContent = `
-      .ant-tabs-nav-list {
-        width: 100% !important;
-        display: flex !important;
-      }
-      .ant-tabs-tab {
-        min-width: 80px !important;
-        max-width: none !important;
-        text-align: left !important;
-        margin: 0 8px 0 0 !important;
-        flex-shrink: 0 !important;
-      }
-      .ant-tabs-tab-btn {
-        width: 100% !important;
-        text-align: left !important;
-        white-space: nowrap !important;
-      }
-    `;
-        document.head.appendChild(style);
-        return ()=>{
-            document.head.removeChild(style);
-        };
-    }, []);
     const [loading, setLoading] = (0, _react.useState)(true);
     const [handoverData, setHandoverData] = (0, _react.useState)(null);
     const [onboardingTasks, setOnboardingTasks] = (0, _react.useState)([]);
@@ -1299,7 +1297,6 @@ const HandoverDetailPage = ()=>{
         successCriteria: '',
         risks: ''
     });
-    // 解析 URL 中的默认 tab，并保持与 URL 同步
     const searchParams = new URLSearchParams(location.search);
     const defaultTab = searchParams.get('tab') || 'action-plan';
     const [activeTab, setActiveTab] = (0, _react.useState)(defaultTab);
@@ -1323,16 +1320,13 @@ const HandoverDetailPage = ()=>{
                     setOnboardingTasks(data.onboardingTasks || _handoverData.mockOnboardingTasks);
                     setInternalComments(data.internalComments || _handoverData.mockInternalComments);
                     setStakeholders(data.stakeholders || _handoverData.mockStakeholders);
-                    // 设置分析数据
                     setAnalysisData({
                         painPoints: data.corePainPoints || '客户对数据安全要求较高，需要满足行业合规标准。',
                         successCriteria: data.successCriteria || '完成系统部署，用户培训，实现业务流程数字化。',
                         risks: data.riskDetails || '客户技术团队经验不足，可能需要额外的技术支持。'
                     });
-                    // 动态设置页面标题
                     const title = `${data.customerName} - 客户交接详情`;
                     document.title = title;
-                    // 触发tab标题更新
                     setTimeout(()=>{
                         const event = new CustomEvent('tabTitleUpdate', {
                             detail: {
@@ -1359,33 +1353,26 @@ const HandoverDetailPage = ()=>{
         id,
         navigate
     ]);
-    // 处理返回
     const handleBack = ()=>{
-        // 触发删除当前详情页tab的事件
         const event = new CustomEvent('tabClose', {
             detail: {
                 path: location.pathname
             }
         });
         window.dispatchEvent(event);
-        // 延迟导航，确保tab删除事件先处理
         setTimeout(()=>{
             navigate('/profiles/handover-implementation');
         }, 50);
     };
-    // 处理编辑
     const handleEdit = ()=>{
         _antd.message.info('编辑功能开发中...');
     };
-    // 处理查看合同
     const handleViewContract = ()=>{
         _antd.message.info('查看合同功能开发中...');
     };
-    // 处理分享
     const handleShare = ()=>{
         _antd.message.info('分享功能开发中...');
     };
-    // 处理任务完成状态
     const handleTaskToggle = (taskId)=>{
         const newTasks = onboardingTasks.map((task)=>task.id === taskId ? {
                 ...task,
@@ -1393,7 +1380,6 @@ const HandoverDetailPage = ()=>{
             } : task);
         setOnboardingTasks(newTasks);
     };
-    // 处理添加评论
     const handleAddComment = ()=>{
         if (!newComment.trim()) {
             _antd.message.warning('请输入评论内容');
@@ -1412,30 +1398,27 @@ const HandoverDetailPage = ()=>{
         setNewComment('');
         _antd.message.success('评论已添加');
     };
-    // 处理干系人更新
     const handleStakeholderUpdate = (updatedStakeholder)=>{
         setStakeholders((prev)=>prev.map((s)=>s.id === updatedStakeholder.id ? updatedStakeholder : s));
     };
-    // 处理干系人添加
     const handleStakeholderAdd = (newStakeholder)=>{
         setStakeholders((prev)=>[
                 ...prev,
                 newStakeholder
             ]);
     };
-    // 处理干系人删除
     const handleStakeholderDelete = (id)=>{
         setStakeholders((prev)=>prev.filter((s)=>s.id !== id));
     };
-    if (loading) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    if (loading) return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             textAlign: 'center',
             background: '#f5f5f5',
             minHeight: 'calc(100vh - 120px)',
-            paddingBottom: '60px' // 为footer留出底部间距
+            paddingBottom: '60px'
         },
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        children: (0, _jsxdevruntime.jsxDEV)("div", {
             children: "加载中..."
         }, void 0, false, {
             fileName: "src/pages/handover/[id]/index.tsx",
@@ -1447,15 +1430,15 @@ const HandoverDetailPage = ()=>{
         lineNumber: 259,
         columnNumber: 7
     }, this);
-    if (!handoverData) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    if (!handoverData) return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '24px',
             textAlign: 'center',
             background: '#f5f5f5',
             minHeight: 'calc(100vh - 120px)',
-            paddingBottom: '60px' // 为footer留出底部间距
+            paddingBottom: '60px'
         },
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        children: (0, _jsxdevruntime.jsxDEV)("div", {
             children: "未找到客户交接记录"
         }, void 0, false, {
             fileName: "src/pages/handover/[id]/index.tsx",
@@ -1467,7 +1450,6 @@ const HandoverDetailPage = ()=>{
         lineNumber: 273,
         columnNumber: 7
     }, this);
-    // 状态标签颜色映射
     const statusColorMap = {
         normal: 'green',
         not_handover: 'orange',
@@ -1489,10 +1471,10 @@ const HandoverDetailPage = ()=>{
         low: '低风险'
     };
     const ORG_CHART_HEIGHT = 560;
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+    return (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_max.Helmet, {
-                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("title", {
+            (0, _jsxdevruntime.jsxDEV)(_max.Helmet, {
+                children: (0, _jsxdevruntime.jsxDEV)("title", {
                     children: handoverData ? `${handoverData.customerName} - 客户交接详情` : '客户交接详情'
                 }, void 0, false, {
                     fileName: "src/pages/handover/[id]/index.tsx",
@@ -1504,24 +1486,24 @@ const HandoverDetailPage = ()=>{
                 lineNumber: 313,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     padding: '24px',
                     background: '#f5f5f5',
                     minHeight: 'calc(100vh - 120px)',
-                    paddingBottom: '60px' // 为footer留出底部间距
+                    paddingBottom: '60px'
                 },
-                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                children: (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
-                        maxWidth: '1200px',
+                        maxWidth: '1100px',
                         margin: '0 auto'
                     },
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 marginBottom: '24px'
                             },
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_HandoverDetailHeader.default, {
+                            children: (0, _jsxdevruntime.jsxDEV)(_HandoverDetailHeader.default, {
                                 handoverData: handoverData,
                                 onBack: handleBack,
                                 onEdit: handleEdit,
@@ -1529,26 +1511,25 @@ const HandoverDetailPage = ()=>{
                                 onShare: handleShare
                             }, void 0, false, {
                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                lineNumber: 331,
-                                columnNumber: 11
+                                lineNumber: 327,
+                                columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/handover/[id]/index.tsx",
-                            lineNumber: 330,
-                            columnNumber: 9
+                            lineNumber: 326,
+                            columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 backgroundColor: '#fff',
                                 borderRadius: '8px',
                                 overflow: 'hidden',
                                 boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)'
                             },
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tabs, {
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Tabs, {
                                 activeKey: activeTab,
                                 onChange: (key)=>{
                                     setActiveTab(key);
-                                    // 同步到 URL（不新增历史记录）
                                     const params = new URLSearchParams(location.search);
                                     params.set('tab', String(key));
                                     navigate(`${location.pathname}?${params.toString()}`, {
@@ -1570,104 +1551,174 @@ const HandoverDetailPage = ()=>{
                                     {
                                         key: 'action-plan',
                                         label: '行动计划',
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 padding: '24px'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "Onboarding行动计划",
                                                     style: {
                                                         marginBottom: '16px',
                                                         borderRadius: '8px'
                                                     },
                                                     size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                        style: {
-                                                            padding: '8px 0'
+                                                    extra: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                        type: "primary",
+                                                        size: "small",
+                                                        disabled: !onboardingTasks.every((task)=>task.completed) || !!(handoverData === null || handoverData === void 0 ? void 0 : handoverData.deliveredAt),
+                                                        onClick: ()=>{
+                                                            const now = new Date().toISOString();
+                                                            setHandoverData((prev)=>prev ? {
+                                                                    ...prev,
+                                                                    deliveredAt: now,
+                                                                    handoverStatus: 'completed'
+                                                                } : null);
+                                                            _antd.message.success('交付完成确认成功！交接记录已标记为已完成');
                                                         },
-                                                        children: onboardingTasks.map((task)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                style: {
-                                                                    marginBottom: '12px'
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
-                                                                        checked: task.completed,
-                                                                        onChange: ()=>handleTaskToggle(task.id),
-                                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                                                            style: {
-                                                                                textDecoration: task.completed ? 'line-through' : 'none',
-                                                                                color: task.completed ? '#999' : '#333',
-                                                                                fontSize: '14px'
-                                                                            },
-                                                                            children: task.title
-                                                                        }, void 0, false, {
-                                                                            fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 378,
-                                                                            columnNumber: 29
-                                                                        }, void 0)
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 377,
-                                                                        columnNumber: 27
-                                                                    }, void 0),
-                                                                    task.dueDate && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                        type: "secondary",
-                                                                        style: {
-                                                                            fontSize: '12px',
-                                                                            marginLeft: '8px'
-                                                                        },
-                                                                        children: task.dueDate
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 383,
-                                                                        columnNumber: 29
-                                                                    }, void 0)
-                                                                ]
-                                                            }, task.id, true, {
-                                                                fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 376,
-                                                                columnNumber: 25
-                                                            }, void 0))
+                                                        children: (handoverData === null || handoverData === void 0 ? void 0 : handoverData.deliveredAt) ? '已交付完成' : '确认交付完成'
                                                     }, void 0, false, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
                                                         lineNumber: 374,
+                                                        columnNumber: 23
+                                                    }, void 0),
+                                                    children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        style: {
+                                                            padding: '8px 0'
+                                                        },
+                                                        children: [
+                                                            onboardingTasks.map((task)=>(0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    style: {
+                                                                        marginBottom: '12px'
+                                                                    },
+                                                                    children: [
+                                                                        (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                                            checked: task.completed,
+                                                                            onChange: ()=>handleTaskToggle(task.id),
+                                                                            children: (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                                style: {
+                                                                                    textDecoration: task.completed ? 'line-through' : 'none',
+                                                                                    color: task.completed ? '#999' : '#333',
+                                                                                    fontSize: '14px'
+                                                                                },
+                                                                                children: task.title
+                                                                            }, void 0, false, {
+                                                                                fileName: "src/pages/handover/[id]/index.tsx",
+                                                                                lineNumber: 392,
+                                                                                columnNumber: 29
+                                                                            }, void 0)
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/pages/handover/[id]/index.tsx",
+                                                                            lineNumber: 391,
+                                                                            columnNumber: 27
+                                                                        }, void 0),
+                                                                        task.dueDate && (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            type: "secondary",
+                                                                            style: {
+                                                                                fontSize: '12px',
+                                                                                marginLeft: '8px'
+                                                                            },
+                                                                            children: task.dueDate
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/pages/handover/[id]/index.tsx",
+                                                                            lineNumber: 397,
+                                                                            columnNumber: 29
+                                                                        }, void 0)
+                                                                    ]
+                                                                }, task.id, true, {
+                                                                    fileName: "src/pages/handover/[id]/index.tsx",
+                                                                    lineNumber: 390,
+                                                                    columnNumber: 25
+                                                                }, void 0)),
+                                                            (handoverData === null || handoverData === void 0 ? void 0 : handoverData.deliveredAt) && (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                style: {
+                                                                    marginTop: '16px',
+                                                                    padding: '12px',
+                                                                    backgroundColor: '#f6ffed',
+                                                                    border: '1px solid #b7eb8f',
+                                                                    borderRadius: '6px'
+                                                                },
+                                                                children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    style: {
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        gap: '8px'
+                                                                    },
+                                                                    children: [
+                                                                        (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {
+                                                                            style: {
+                                                                                color: '#52c41a'
+                                                                            }
+                                                                        }, void 0, false, {
+                                                                            fileName: "src/pages/handover/[id]/index.tsx",
+                                                                            lineNumber: 413,
+                                                                            columnNumber: 29
+                                                                        }, void 0),
+                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            style: {
+                                                                                color: '#52c41a',
+                                                                                fontWeight: '500'
+                                                                            },
+                                                                            children: [
+                                                                                "交付完成时间: ",
+                                                                                new Date(handoverData.deliveredAt).toLocaleString()
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "src/pages/handover/[id]/index.tsx",
+                                                                            lineNumber: 414,
+                                                                            columnNumber: 29
+                                                                        }, void 0)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "src/pages/handover/[id]/index.tsx",
+                                                                    lineNumber: 412,
+                                                                    columnNumber: 27
+                                                                }, void 0)
+                                                            }, void 0, false, {
+                                                                fileName: "src/pages/handover/[id]/index.tsx",
+                                                                lineNumber: 405,
+                                                                columnNumber: 25
+                                                            }, void 0)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/pages/handover/[id]/index.tsx",
+                                                        lineNumber: 388,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 373,
+                                                    lineNumber: 369,
                                                     columnNumber: 19
                                                 }, void 0),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "近期协作动态",
                                                     style: {
                                                         marginBottom: '16px',
                                                         borderRadius: '8px'
                                                     },
                                                     size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             maxHeight: '240px',
                                                             overflowY: 'auto'
                                                         },
-                                                        children: internalComments.slice(0, 5).map((comment)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        children: internalComments.slice(0, 5).map((comment)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     padding: '12px 0',
                                                                     borderBottom: '1px solid #f0f0f0'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             display: 'flex',
                                                                             alignItems: 'center',
                                                                             marginBottom: '6px'
                                                                         },
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
-                                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                    lineNumber: 398,
+                                                                                    lineNumber: 429,
                                                                                     columnNumber: 43
                                                                                 }, void 0),
                                                                                 size: 24,
@@ -1676,20 +1727,20 @@ const HandoverDetailPage = ()=>{
                                                                                 }
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 398,
+                                                                                lineNumber: 429,
                                                                                 columnNumber: 29
                                                                             }, void 0),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                            (0, _jsxdevruntime.jsxDEV)("span", {
                                                                                 style: {
                                                                                     fontWeight: 500
                                                                                 },
                                                                                 children: comment.author
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 399,
+                                                                                lineNumber: 430,
                                                                                 columnNumber: 29
                                                                             }, void 0),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                            (0, _jsxdevruntime.jsxDEV)("span", {
                                                                                 style: {
                                                                                     color: '#999',
                                                                                     marginLeft: '8px',
@@ -1698,72 +1749,72 @@ const HandoverDetailPage = ()=>{
                                                                                 children: comment.createdAt
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 400,
+                                                                                lineNumber: 431,
                                                                                 columnNumber: 29
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 397,
+                                                                        lineNumber: 428,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             fontSize: '14px'
                                                                         },
                                                                         children: comment.content
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 402,
+                                                                        lineNumber: 433,
                                                                         columnNumber: 27
                                                                     }, void 0)
                                                                 ]
                                                             }, comment.id, true, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 396,
+                                                                lineNumber: 427,
                                                                 columnNumber: 25
                                                             }, void 0))
                                                     }, void 0, false, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 394,
+                                                        lineNumber: 425,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 393,
+                                                    lineNumber: 424,
                                                     columnNumber: 19
                                                 }, void 0),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     style: {
                                                         marginBottom: '16px',
                                                         borderRadius: '8px'
                                                     },
                                                     size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Collapse, {
+                                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Collapse, {
                                                         defaultActiveKey: [],
                                                         ghost: true,
-                                                        expandIcon: ({ isActive })=>isActive ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UpOutlined, {}, void 0, false, {
+                                                        expandIcon: ({ isActive })=>isActive ? (0, _jsxdevruntime.jsxDEV)(_icons.UpOutlined, {}, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 410,
+                                                                lineNumber: 441,
                                                                 columnNumber: 101
-                                                            }, void 0) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DownOutlined, {}, void 0, false, {
+                                                            }, void 0) : (0, _jsxdevruntime.jsxDEV)(_icons.DownOutlined, {}, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 410,
+                                                                lineNumber: 441,
                                                                 columnNumber: 118
                                                             }, void 0),
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Panel, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(Panel, {
                                                             header: "内部协作沟通",
-                                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     padding: '8px 0'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             marginBottom: '20px'
                                                                         },
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TextArea, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(TextArea, {
                                                                                 placeholder: "输入评论，支持@功能...",
                                                                                 value: newComment,
                                                                                 onChange: (e)=>setNewComment(e.target.value),
@@ -1773,37 +1824,37 @@ const HandoverDetailPage = ()=>{
                                                                                 }
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 414,
+                                                                                lineNumber: 445,
                                                                                 columnNumber: 29
                                                                             }, void 0),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                                 type: "primary",
                                                                                 size: "small",
                                                                                 onClick: handleAddComment,
                                                                                 children: "发送评论"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 415,
+                                                                                lineNumber: 446,
                                                                                 columnNumber: 29
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 413,
+                                                                        lineNumber: 444,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {
                                                                         style: {
                                                                             margin: '16px 0'
                                                                         }
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 419,
+                                                                        lineNumber: 450,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 strong: true,
                                                                                 style: {
                                                                                     display: 'block',
@@ -1813,15 +1864,15 @@ const HandoverDetailPage = ()=>{
                                                                                 children: "历史评论"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 421,
+                                                                                lineNumber: 452,
                                                                                 columnNumber: 29
                                                                             }, void 0),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                                 style: {
                                                                                     maxHeight: '300px',
                                                                                     overflowY: 'auto'
                                                                                 },
-                                                                                children: internalComments.map((comment)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                                children: internalComments.map((comment)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                                                         style: {
                                                                                             marginBottom: '16px',
                                                                                             padding: '12px',
@@ -1830,17 +1881,17 @@ const HandoverDetailPage = ()=>{
                                                                                             background: '#fff'
                                                                                         },
                                                                                         children: [
-                                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                                                 style: {
                                                                                                     display: 'flex',
                                                                                                     alignItems: 'center',
                                                                                                     marginBottom: '8px'
                                                                                                 },
                                                                                                 children: [
-                                                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
-                                                                                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
+                                                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                                                                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                                            lineNumber: 428,
+                                                                                                            lineNumber: 459,
                                                                                                             columnNumber: 51
                                                                                                         }, void 0),
                                                                                                         style: {
@@ -1848,10 +1899,10 @@ const HandoverDetailPage = ()=>{
                                                                                                         }
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                                        lineNumber: 428,
+                                                                                                        lineNumber: 459,
                                                                                                         columnNumber: 37
                                                                                                     }, void 0),
-                                                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                                                         style: {
                                                                                                             fontWeight: 'bold',
                                                                                                             fontSize: '14px'
@@ -1859,10 +1910,10 @@ const HandoverDetailPage = ()=>{
                                                                                                         children: comment.author
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                                        lineNumber: 429,
+                                                                                                        lineNumber: 460,
                                                                                                         columnNumber: 37
                                                                                                     }, void 0),
-                                                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                                                         style: {
                                                                                                             color: '#999',
                                                                                                             marginLeft: '8px',
@@ -1871,27 +1922,27 @@ const HandoverDetailPage = ()=>{
                                                                                                         children: comment.createdAt
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                                        lineNumber: 430,
+                                                                                                        lineNumber: 461,
                                                                                                         columnNumber: 37
                                                                                                     }, void 0)
                                                                                                 ]
                                                                                             }, void 0, true, {
                                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                                lineNumber: 427,
+                                                                                                lineNumber: 458,
                                                                                                 columnNumber: 35
                                                                                             }, void 0),
-                                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                                                 style: {
                                                                                                     fontSize: '14px',
                                                                                                     lineHeight: '1.5'
                                                                                                 },
                                                                                                 children: [
                                                                                                     comment.content,
-                                                                                                    comment.mentions && comment.mentions.length > 0 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                                                    comment.mentions && comment.mentions.length > 0 && (0, _jsxdevruntime.jsxDEV)("div", {
                                                                                                         style: {
                                                                                                             marginTop: '4px'
                                                                                                         },
-                                                                                                        children: comment.mentions.map((mention)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                                                        children: comment.mentions.map((mention)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                                                                 color: "blue",
                                                                                                                 children: [
                                                                                                                     "@",
@@ -1899,147 +1950,147 @@ const HandoverDetailPage = ()=>{
                                                                                                                 ]
                                                                                                             }, mention, true, {
                                                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                                                lineNumber: 437,
+                                                                                                                lineNumber: 468,
                                                                                                                 columnNumber: 43
                                                                                                             }, void 0))
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                                        lineNumber: 435,
+                                                                                                        lineNumber: 466,
                                                                                                         columnNumber: 39
                                                                                                     }, void 0)
                                                                                                 ]
                                                                                             }, void 0, true, {
                                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                                lineNumber: 432,
+                                                                                                lineNumber: 463,
                                                                                                 columnNumber: 35
                                                                                             }, void 0)
                                                                                         ]
                                                                                     }, comment.id, true, {
                                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                        lineNumber: 426,
+                                                                                        lineNumber: 457,
                                                                                         columnNumber: 33
                                                                                     }, void 0))
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 424,
+                                                                                lineNumber: 455,
                                                                                 columnNumber: 29
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 420,
+                                                                        lineNumber: 451,
                                                                         columnNumber: 27
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 412,
+                                                                lineNumber: 443,
                                                                 columnNumber: 25
                                                             }, void 0)
                                                         }, "communication", false, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 411,
+                                                            lineNumber: 442,
                                                             columnNumber: 23
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 410,
+                                                        lineNumber: 441,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 409,
+                                                    lineNumber: 440,
                                                     columnNumber: 19
                                                 }, void 0)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                            lineNumber: 371,
+                                            lineNumber: 367,
                                             columnNumber: 17
                                         }, void 0)
                                     },
                                     {
                                         key: 'basic-info',
                                         label: '基础信息',
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 padding: '24px'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "基本信息",
                                                     size: "small",
                                                     style: {
                                                         marginBottom: '16px',
                                                         borderRadius: '8px'
                                                     },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
                                                         column: 1,
                                                         size: "small",
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                 label: "客户名称",
                                                                 children: handoverData.customerName
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 462,
+                                                                lineNumber: 493,
                                                                 columnNumber: 23
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                 label: "交接状态",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: statusColorMap[handoverData.handoverStatus],
                                                                     children: statusTextMap[handoverData.handoverStatus]
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 464,
+                                                                    lineNumber: 495,
                                                                     columnNumber: 25
                                                                 }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 463,
+                                                                lineNumber: 494,
                                                                 columnNumber: 23
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                 label: "风险等级",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: riskColorMap[handoverData.riskLevel],
                                                                     children: riskTextMap[handoverData.riskLevel]
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 467,
+                                                                    lineNumber: 498,
                                                                     columnNumber: 25
                                                                 }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 466,
+                                                                lineNumber: 497,
                                                                 columnNumber: 23
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 461,
+                                                        lineNumber: 492,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 460,
+                                                    lineNumber: 491,
                                                     columnNumber: 19
                                                 }, void 0),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "CRM信息",
                                                     size: "small",
                                                     style: {
                                                         marginBottom: '16px',
                                                         borderRadius: '8px'
                                                     },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
                                                         column: 2,
                                                         size: "small",
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                 label: "合同金额",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                     strong: true,
                                                                     style: {
                                                                         color: '#1890ff'
@@ -2050,25 +2101,25 @@ const HandoverDetailPage = ()=>{
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 474,
+                                                                    lineNumber: 505,
                                                                     columnNumber: 25
                                                                 }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 473,
+                                                                lineNumber: 504,
                                                                 columnNumber: 23
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                 label: "服务周期",
                                                                 children: ((_handoverData_crmData1 = handoverData.crmData) === null || _handoverData_crmData1 === void 0 ? void 0 : _handoverData_crmData1.servicePeriod) || '未知'
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 476,
+                                                                lineNumber: 507,
                                                                 columnNumber: 23
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                 label: "购买账号数",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                     strong: true,
                                                                     style: {
                                                                         color: '#52c41a'
@@ -2079,18 +2130,18 @@ const HandoverDetailPage = ()=>{
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 478,
+                                                                    lineNumber: 509,
                                                                     columnNumber: 25
                                                                 }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 477,
+                                                                lineNumber: 508,
                                                                 columnNumber: 23
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                 label: "已购产品",
                                                                 span: 2,
-                                                                children: ((_handoverData_crmData3 = handoverData.crmData) === null || _handoverData_crmData3 === void 0 ? void 0 : (_handoverData_crmData_purchasedProducts = _handoverData_crmData3.purchasedProducts) === null || _handoverData_crmData_purchasedProducts === void 0 ? void 0 : _handoverData_crmData_purchasedProducts.map((p, i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                children: ((_handoverData_crmData3 = handoverData.crmData) === null || _handoverData_crmData3 === void 0 ? void 0 : (_handoverData_crmData_purchasedProducts = _handoverData_crmData3.purchasedProducts) === null || _handoverData_crmData_purchasedProducts === void 0 ? void 0 : _handoverData_crmData_purchasedProducts.map((p, i)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: "blue",
                                                                         style: {
                                                                             marginBottom: 4
@@ -2098,93 +2149,93 @@ const HandoverDetailPage = ()=>{
                                                                         children: p
                                                                     }, i, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 482,
+                                                                        lineNumber: 513,
                                                                         columnNumber: 27
                                                                     }, void 0))) || '暂无产品信息'
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 480,
+                                                                lineNumber: 511,
                                                                 columnNumber: 23
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 472,
+                                                        lineNumber: 503,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 471,
+                                                    lineNumber: 502,
                                                     columnNumber: 19
                                                 }, void 0),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "销售来源信息",
                                                     size: "small",
                                                     style: {
                                                         borderRadius: '8px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
                                                             column: 2,
                                                             size: "small",
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                     label: "销售类型",
-                                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: ((_handoverData_crmData4 = handoverData.crmData) === null || _handoverData_crmData4 === void 0 ? void 0 : _handoverData_crmData4.salesSource) === 'direct' ? 'blue' : 'green',
                                                                         children: ((_handoverData_crmData5 = handoverData.crmData) === null || _handoverData_crmData5 === void 0 ? void 0 : _handoverData_crmData5.salesSource) === 'direct' ? '直营' : ((_handoverData_crmData6 = handoverData.crmData) === null || _handoverData_crmData6 === void 0 ? void 0 : _handoverData_crmData6.salesSource) === 'channel' ? '渠道' : '直营'
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 490,
+                                                                        lineNumber: 521,
                                                                         columnNumber: 25
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 489,
+                                                                    lineNumber: 520,
                                                                     columnNumber: 23
                                                                 }, void 0),
-                                                                ((_handoverData_crmData7 = handoverData.crmData) === null || _handoverData_crmData7 === void 0 ? void 0 : _handoverData_crmData7.salesSource) === 'direct' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                                ((_handoverData_crmData7 = handoverData.crmData) === null || _handoverData_crmData7 === void 0 ? void 0 : _handoverData_crmData7.salesSource) === 'direct' && (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                     label: "销售人员",
-                                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         strong: true,
                                                                         children: ((_handoverData_crmData8 = handoverData.crmData) === null || _handoverData_crmData8 === void 0 ? void 0 : _handoverData_crmData8.salesPerson) || '未知'
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 496,
+                                                                        lineNumber: 527,
                                                                         columnNumber: 27
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 495,
+                                                                    lineNumber: 526,
                                                                     columnNumber: 25
                                                                 }, void 0),
-                                                                ((_handoverData_crmData9 = handoverData.crmData) === null || _handoverData_crmData9 === void 0 ? void 0 : _handoverData_crmData9.salesSource) === 'channel' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                                ((_handoverData_crmData9 = handoverData.crmData) === null || _handoverData_crmData9 === void 0 ? void 0 : _handoverData_crmData9.salesSource) === 'channel' && (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
                                                                     label: "渠道合作伙伴",
-                                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         strong: true,
                                                                         children: ((_handoverData_crmData10 = handoverData.crmData) === null || _handoverData_crmData10 === void 0 ? void 0 : _handoverData_crmData10.channelPartner) || '未知'
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 501,
+                                                                        lineNumber: 532,
                                                                         columnNumber: 27
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 500,
+                                                                    lineNumber: 531,
                                                                     columnNumber: 25
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 488,
+                                                            lineNumber: 519,
                                                             columnNumber: 21
                                                         }, void 0),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 marginTop: '16px'
                                                             },
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                     strong: true,
                                                                     style: {
                                                                         display: 'block',
@@ -2193,72 +2244,72 @@ const HandoverDetailPage = ()=>{
                                                                     children: "销售备注"
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 506,
+                                                                    lineNumber: 537,
                                                                     columnNumber: 23
                                                                 }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                                     style: {
                                                                         padding: '12px',
                                                                         background: '#f8f9fa',
                                                                         borderRadius: '6px',
                                                                         border: '1px solid #e8e8e8'
                                                                     },
-                                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         children: ((_handoverData_crmData11 = handoverData.crmData) === null || _handoverData_crmData11 === void 0 ? void 0 : _handoverData_crmData11.salesNotes) || '暂无备注'
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 508,
+                                                                        lineNumber: 539,
                                                                         columnNumber: 25
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 507,
+                                                                    lineNumber: 538,
                                                                     columnNumber: 23
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 505,
+                                                            lineNumber: 536,
                                                             columnNumber: 21
                                                         }, void 0)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 487,
+                                                    lineNumber: 518,
                                                     columnNumber: 19
                                                 }, void 0)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                            lineNumber: 459,
+                                            lineNumber: 490,
                                             columnNumber: 17
                                         }, void 0)
                                     },
                                     {
                                         key: 'expectation-alignment',
                                         label: '期望对齐',
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 padding: '24px'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "期望对齐状态",
                                                     size: "small",
                                                     style: {
                                                         marginBottom: '16px',
                                                         borderRadius: '8px'
                                                     },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             display: 'flex',
                                                             alignItems: 'center',
                                                             gap: '16px'
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         style: {
                                                                             fontSize: '12px'
@@ -2266,14 +2317,14 @@ const HandoverDetailPage = ()=>{
                                                                         children: "对齐状态"
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 523,
+                                                                        lineNumber: 554,
                                                                         columnNumber: 25
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             marginTop: '4px'
                                                                         },
-                                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                             color: handoverData.expectationAlignment === 'aligned' ? 'green' : handoverData.expectationAlignment === 'partially_aligned' ? 'gold' : 'red',
                                                                             style: {
                                                                                 fontSize: '14px',
@@ -2282,23 +2333,23 @@ const HandoverDetailPage = ()=>{
                                                                             children: handoverData.expectationAlignment === 'aligned' ? '已对齐' : handoverData.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 525,
+                                                                            lineNumber: 556,
                                                                             columnNumber: 27
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 524,
+                                                                        lineNumber: 555,
                                                                         columnNumber: 25
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 522,
+                                                                lineNumber: 553,
                                                                 columnNumber: 23
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         style: {
                                                                             fontSize: '12px'
@@ -2306,53 +2357,53 @@ const HandoverDetailPage = ()=>{
                                                                         children: "档案完整度"
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 531,
+                                                                        lineNumber: 562,
                                                                         columnNumber: 25
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             marginTop: '4px'
                                                                         },
-                                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
+                                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
                                                                             percent: handoverData.expectationAlignment === 'aligned' ? 100 : handoverData.expectationAlignment === 'partially_aligned' ? 60 : 30,
                                                                             size: "small",
                                                                             showInfo: false,
                                                                             strokeColor: handoverData.expectationAlignment === 'aligned' ? '#52c41a' : handoverData.expectationAlignment === 'partially_aligned' ? '#faad14' : '#ff4d4f'
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 533,
+                                                                            lineNumber: 564,
                                                                             columnNumber: 27
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 532,
+                                                                        lineNumber: 563,
                                                                         columnNumber: 25
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 530,
+                                                                lineNumber: 561,
                                                                 columnNumber: 23
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 521,
+                                                        lineNumber: 552,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 520,
+                                                    lineNumber: 551,
                                                     columnNumber: 19
                                                 }, void 0),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "核心痛点与期望",
                                                     style: {
                                                         marginBottom: '16px',
                                                         borderRadius: '8px'
                                                     },
                                                     size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TextArea, {
+                                                    children: (0, _jsxdevruntime.jsxDEV)(TextArea, {
                                                         value: analysisData.painPoints,
                                                         onChange: (e)=>setAnalysisData((prev)=>({
                                                                     ...prev,
@@ -2362,22 +2413,22 @@ const HandoverDetailPage = ()=>{
                                                         placeholder: "请输入客户的核心痛点和期望..."
                                                     }, void 0, false, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 544,
+                                                        lineNumber: 575,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 543,
+                                                    lineNumber: 574,
                                                     columnNumber: 19
                                                 }, void 0),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "成功标准",
                                                     style: {
                                                         marginBottom: '16px',
                                                         borderRadius: '8px'
                                                     },
                                                     size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TextArea, {
+                                                    children: (0, _jsxdevruntime.jsxDEV)(TextArea, {
                                                         value: analysisData.successCriteria,
                                                         onChange: (e)=>setAnalysisData((prev)=>({
                                                                     ...prev,
@@ -2387,34 +2438,34 @@ const HandoverDetailPage = ()=>{
                                                         placeholder: "请输入补充的成功标准..."
                                                     }, void 0, false, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 552,
+                                                        lineNumber: 583,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 551,
+                                                    lineNumber: 582,
                                                     columnNumber: 19
                                                 }, void 0)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                            lineNumber: 519,
+                                            lineNumber: 550,
                                             columnNumber: 17
                                         }, void 0)
                                     },
                                     {
                                         key: 'stakeholders',
                                         label: '干系人',
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 padding: '24px'
                                             },
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                                                 gutter: 16,
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                                         span: 16,
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_StakeholderOrgChart.default, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_StakeholderOrgChart.default, {
                                                             stakeholders: stakeholders,
                                                             onStakeholderUpdate: handleStakeholderUpdate,
                                                             onStakeholderAdd: handleStakeholderAdd,
@@ -2422,28 +2473,28 @@ const HandoverDetailPage = ()=>{
                                                             chartHeight: ORG_CHART_HEIGHT
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 569,
+                                                            lineNumber: 600,
                                                             columnNumber: 23
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 568,
+                                                        lineNumber: 599,
                                                         columnNumber: 21
                                                     }, void 0),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                                         span: 8,
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                             title: "关键联系人",
                                                             size: "small",
                                                             style: {
                                                                 borderRadius: '8px'
                                                             },
-                                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     height: ORG_CHART_HEIGHT,
                                                                     overflow: 'auto'
                                                                 },
-                                                                children: ((_handoverData_crmData12 = handoverData.crmData) === null || _handoverData_crmData12 === void 0 ? void 0 : _handoverData_crmData12.keyContacts) && handoverData.crmData.keyContacts.length > 0 ? handoverData.crmData.keyContacts.map((contact, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                children: ((_handoverData_crmData12 = handoverData.crmData) === null || _handoverData_crmData12 === void 0 ? void 0 : _handoverData_crmData12.keyContacts) && handoverData.crmData.keyContacts.length > 0 ? handoverData.crmData.keyContacts.map((contact, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             marginBottom: '12px',
                                                                             padding: '12px',
@@ -2451,18 +2502,18 @@ const HandoverDetailPage = ()=>{
                                                                             borderRadius: '6px',
                                                                             border: '1px solid #e8e8e8'
                                                                         },
-                                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                             children: contact
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 583,
+                                                                            lineNumber: 614,
                                                                             columnNumber: 33
                                                                         }, void 0)
                                                                     }, index, false, {
                                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                                        lineNumber: 582,
+                                                                        lineNumber: 613,
                                                                         columnNumber: 31
-                                                                    }, void 0)) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    }, void 0)) : (0, _jsxdevruntime.jsxDEV)("div", {
                                                                     style: {
                                                                         padding: '20px',
                                                                         textAlign: 'center',
@@ -2471,45 +2522,45 @@ const HandoverDetailPage = ()=>{
                                                                     children: "暂无关键联系人信息"
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 587,
+                                                                    lineNumber: 618,
                                                                     columnNumber: 29
                                                                 }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 579,
+                                                                lineNumber: 610,
                                                                 columnNumber: 25
                                                             }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 578,
+                                                            lineNumber: 609,
                                                             columnNumber: 23
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 577,
+                                                        lineNumber: 608,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                lineNumber: 567,
+                                                lineNumber: 598,
                                                 columnNumber: 19
                                             }, void 0)
                                         }, void 0, false, {
                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                            lineNumber: 566,
+                                            lineNumber: 597,
                                             columnNumber: 17
                                         }, void 0)
                                     },
                                     {
                                         key: 'risks-opportunities',
                                         label: '风险与商机',
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 padding: '24px'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "风险提示",
                                                     size: "small",
                                                     style: {
@@ -2517,7 +2568,7 @@ const HandoverDetailPage = ()=>{
                                                         borderRadius: '8px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 display: 'flex',
                                                                 alignItems: 'center',
@@ -2525,9 +2576,9 @@ const HandoverDetailPage = ()=>{
                                                                 marginBottom: '16px'
                                                             },
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                                     children: [
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                             type: "secondary",
                                                                             style: {
                                                                                 fontSize: '12px'
@@ -2535,14 +2586,14 @@ const HandoverDetailPage = ()=>{
                                                                             children: "风险等级"
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 606,
+                                                                            lineNumber: 637,
                                                                             columnNumber: 25
                                                                         }, void 0),
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                                             style: {
                                                                                 marginTop: '4px'
                                                                             },
-                                                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                                 color: riskColorMap[handoverData.riskLevel],
                                                                                 style: {
                                                                                     fontSize: '14px',
@@ -2551,23 +2602,23 @@ const HandoverDetailPage = ()=>{
                                                                                 children: riskTextMap[handoverData.riskLevel]
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 608,
+                                                                                lineNumber: 639,
                                                                                 columnNumber: 27
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 607,
+                                                                            lineNumber: 638,
                                                                             columnNumber: 25
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 605,
+                                                                    lineNumber: 636,
                                                                     columnNumber: 23
                                                                 }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                                     children: [
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                             type: "secondary",
                                                                             style: {
                                                                                 fontSize: '12px'
@@ -2575,43 +2626,43 @@ const HandoverDetailPage = ()=>{
                                                                             children: "风险评分"
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 614,
+                                                                            lineNumber: 645,
                                                                             columnNumber: 25
                                                                         }, void 0),
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                                             style: {
                                                                                 marginTop: '4px'
                                                                             },
-                                                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
+                                                                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
                                                                                 percent: handoverData.riskLevel === 'high' ? 90 : handoverData.riskLevel === 'medium' ? 60 : 30,
                                                                                 size: "small",
                                                                                 showInfo: false,
                                                                                 strokeColor: riskColorMap[handoverData.riskLevel]
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 616,
+                                                                                lineNumber: 647,
                                                                                 columnNumber: 27
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 615,
+                                                                            lineNumber: 646,
                                                                             columnNumber: 25
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 613,
+                                                                    lineNumber: 644,
                                                                     columnNumber: 23
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 604,
+                                                            lineNumber: 635,
                                                             columnNumber: 21
                                                         }, void 0),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                     strong: true,
                                                                     style: {
                                                                         display: 'block',
@@ -2620,10 +2671,10 @@ const HandoverDetailPage = ()=>{
                                                                     children: "风险详情"
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 626,
+                                                                    lineNumber: 657,
                                                                     columnNumber: 23
                                                                 }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TextArea, {
+                                                                (0, _jsxdevruntime.jsxDEV)(TextArea, {
                                                                     value: analysisData.risks,
                                                                     onChange: (e)=>setAnalysisData((prev)=>({
                                                                                 ...prev,
@@ -2633,22 +2684,22 @@ const HandoverDetailPage = ()=>{
                                                                     placeholder: "请输入风险详情..."
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 627,
+                                                                    lineNumber: 658,
                                                                     columnNumber: 23
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 625,
+                                                            lineNumber: 656,
                                                             columnNumber: 21
                                                         }, void 0)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 603,
+                                                    lineNumber: 634,
                                                     columnNumber: 19
                                                 }, void 0),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "商机识别",
                                                     size: "small",
                                                     style: {
@@ -2656,7 +2707,7 @@ const HandoverDetailPage = ()=>{
                                                         borderRadius: '8px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 display: 'flex',
                                                                 alignItems: 'center',
@@ -2664,9 +2715,9 @@ const HandoverDetailPage = ()=>{
                                                                 marginBottom: '16px'
                                                             },
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                                     children: [
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                             type: "secondary",
                                                                             style: {
                                                                                 fontSize: '12px'
@@ -2674,14 +2725,14 @@ const HandoverDetailPage = ()=>{
                                                                             children: "商机等级"
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 638,
+                                                                            lineNumber: 669,
                                                                             columnNumber: 25
                                                                         }, void 0),
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                                             style: {
                                                                                 marginTop: '4px'
                                                                             },
-                                                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                                 color: "green",
                                                                                 style: {
                                                                                     fontSize: '14px',
@@ -2690,23 +2741,23 @@ const HandoverDetailPage = ()=>{
                                                                                 children: "高潜力"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 640,
+                                                                                lineNumber: 671,
                                                                                 columnNumber: 27
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 639,
+                                                                            lineNumber: 670,
                                                                             columnNumber: 25
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 637,
+                                                                    lineNumber: 668,
                                                                     columnNumber: 23
                                                                 }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                                     children: [
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                             type: "secondary",
                                                                             style: {
                                                                                 fontSize: '12px'
@@ -2714,14 +2765,14 @@ const HandoverDetailPage = ()=>{
                                                                             children: "预估价值"
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 646,
+                                                                            lineNumber: 677,
                                                                             columnNumber: 25
                                                                         }, void 0),
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                                             style: {
                                                                                 marginTop: '4px'
                                                                             },
-                                                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 strong: true,
                                                                                 style: {
                                                                                     color: '#52c41a'
@@ -2729,29 +2780,29 @@ const HandoverDetailPage = ()=>{
                                                                                 children: "¥50,000"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                                lineNumber: 648,
+                                                                                lineNumber: 679,
                                                                                 columnNumber: 27
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                                            lineNumber: 647,
+                                                                            lineNumber: 678,
                                                                             columnNumber: 25
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 645,
+                                                                    lineNumber: 676,
                                                                     columnNumber: 23
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 636,
+                                                            lineNumber: 667,
                                                             columnNumber: 21
                                                         }, void 0),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                     strong: true,
                                                                     style: {
                                                                         display: 'block',
@@ -2760,47 +2811,47 @@ const HandoverDetailPage = ()=>{
                                                                     children: "商机描述"
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 653,
+                                                                    lineNumber: 684,
                                                                     columnNumber: 23
                                                                 }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TextArea, {
+                                                                (0, _jsxdevruntime.jsxDEV)(TextArea, {
                                                                     rows: 3,
                                                                     placeholder: "请输入潜在的商机和扩展机会..."
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 654,
+                                                                    lineNumber: 685,
                                                                     columnNumber: 23
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                                            lineNumber: 652,
+                                                            lineNumber: 683,
                                                             columnNumber: 21
                                                         }, void 0)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 635,
+                                                    lineNumber: 666,
                                                     columnNumber: 19
                                                 }, void 0),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                                                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                                     title: "服务历史",
                                                     size: "small",
                                                     style: {
                                                         borderRadius: '8px'
                                                     },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Timeline, {
+                                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Timeline, {
                                                         mode: "left",
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Timeline.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Timeline.Item, {
                                                                 label: handoverData.createdAt,
                                                                 children: "创建交接记录"
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 662,
+                                                                lineNumber: 693,
                                                                 columnNumber: 23
                                                             }, void 0),
-                                                            onboardingTasks.filter((t)=>t.completed).map((t)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Timeline.Item, {
+                                                            onboardingTasks.filter((t)=>t.completed).map((t)=>(0, _jsxdevruntime.jsxDEV)(_antd.Timeline.Item, {
                                                                     color: "green",
                                                                     children: [
                                                                         "完成任务：",
@@ -2808,46 +2859,46 @@ const HandoverDetailPage = ()=>{
                                                                     ]
                                                                 }, t.id, true, {
                                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                                    lineNumber: 666,
+                                                                    lineNumber: 697,
                                                                     columnNumber: 27
                                                                 }, void 0)),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Timeline.Item, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Timeline.Item, {
                                                                 label: handoverData.updatedAt,
                                                                 color: "blue",
                                                                 children: "最近一次更新"
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                                                lineNumber: 668,
+                                                                lineNumber: 699,
                                                                 columnNumber: 23
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/handover/[id]/index.tsx",
-                                                        lineNumber: 661,
+                                                        lineNumber: 692,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/[id]/index.tsx",
-                                                    lineNumber: 660,
+                                                    lineNumber: 691,
                                                     columnNumber: 19
                                                 }, void 0)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/handover/[id]/index.tsx",
-                                            lineNumber: 602,
+                                            lineNumber: 633,
                                             columnNumber: 17
                                         }, void 0)
                                     }
                                 ]
                             }, void 0, false, {
                                 fileName: "src/pages/handover/[id]/index.tsx",
-                                lineNumber: 346,
+                                lineNumber: 342,
                                 columnNumber: 11
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/handover/[id]/index.tsx",
-                            lineNumber: 340,
-                            columnNumber: 9
+                            lineNumber: 336,
+                            columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
@@ -2863,7 +2914,7 @@ const HandoverDetailPage = ()=>{
         ]
     }, void 0, true);
 };
-_s(HandoverDetailPage, "vkTjJ19pe/BZm6NLd/Ds40EKhOI=", false, function() {
+_s(HandoverDetailPage, "0j9nYeKM4xcQPJD0oeZqJrOUVd0=", false, function() {
     return [
         _umi.useNavigate,
         _umi.useParams,

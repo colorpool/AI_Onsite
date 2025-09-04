@@ -372,7 +372,7 @@ const TieringMatrix: React.FC = () => {
   }, [filteredCustomers.length, selected]);
 
   return (
-    <div style={{ padding: 24, background: '#f5f5f5', minHeight: 'calc(100vh - 64px)' }}>
+    <div style={{ padding: '32px 40px', background: '#f5f5f5', minHeight: 'calc(100vh - 64px)' }}>
       {/* 顶部区域 */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
         <div>

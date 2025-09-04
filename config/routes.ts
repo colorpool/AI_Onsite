@@ -91,6 +91,12 @@ export default [
         name: '客户交接详情',
       },
       {
+        path: '/profiles/handover/history',
+        component: './handover/HistoryHandover',
+        hideInMenu: true,
+        name: '历史交接查询',
+      },
+      {
         path: '/profiles/service',
         name: '持续服务',
         icon: 'customerService',

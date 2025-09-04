@@ -3,9 +3,6 @@
 // 客户健康度等级
 export type HealthLevel = '健康' | '一般' | '风险';
 
-// 客户生命周期阶段
-export type LifecycleStage = '成长期' | '成熟期' | '衰退期';
-
 // 关键动作类型
 export type ActionType = 'A1' | 'A2' | 'A3' | 'A4' | 'A5';
 
@@ -28,7 +25,6 @@ export interface Customer {
   csm: string; // 客户成功经理
   healthScore: number; // 健康分 0-100
   healthLevel: HealthLevel;
-  lifecycleStage: LifecycleStage;
   contractAmount: number; // 合同金额
   renewalDate: string; // 续费日期
   isRenewalRisk: boolean; // 是否续费风险

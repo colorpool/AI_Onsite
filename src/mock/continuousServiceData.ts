@@ -399,9 +399,9 @@ export const healthColors = {
   '一般': '#faad14', 
   '风险': '#f5222d'
 };
-
 export const lifecycleColors = {
   '成长期': '#1890ff',
   '成熟期': '#13c2c2',
   '衰退期': '#eb2f96'
 };
+
