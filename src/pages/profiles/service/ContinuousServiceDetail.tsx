@@ -354,7 +354,7 @@ const ContinuousServiceDetail: React.FC = () => {
             </Card>
           </Col>
         </Row>
-      </>
+      </div>
 
       {/* 新建服务记录模态框 */}
       <Modal
