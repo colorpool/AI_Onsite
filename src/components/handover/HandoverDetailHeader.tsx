@@ -4,9 +4,12 @@ import {
   ArrowLeftOutlined, 
   EditOutlined, 
   FileTextOutlined,
-  ShareAltOutlined
+  ShareAltOutlined,
+  StarOutlined,
+  StarFilled
 } from '@ant-design/icons';
 import { CustomerHandover } from '../../types/handover';
+import { getPlatformType } from '../../mock/continuousServiceData';
 
 interface HandoverDetailHeaderProps {
   handoverData: CustomerHandover;
@@ -14,33 +17,58 @@ interface HandoverDetailHeaderProps {
   onEdit: () => void;
   onViewContract: () => void;
   onShare: () => void;
+  numberLabel?: string; // 可选的编号标签文本
+  isFavorite?: boolean; // 是否星标
+  onToggleFavorite?: () => void; // 切换星标状态
 }
 
-// 平台图标组件 - 使用钉钉风格
-const PlatformIcon = () => (
-  <div style={{
-    width: 24,
-    height: 24,
-    backgroundColor: '#1677ff',
-    borderRadius: '6px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#fff',
-    fontSize: '12px',
-    fontWeight: 'bold',
-    marginRight: '12px'
-  }}>
-    钉
-  </div>
-);
+// 平台图标组件 - 动态显示平台类型
+const PlatformIcon: React.FC<{ customerId: string }> = ({ customerId }) => {
+  const platformType = getPlatformType(customerId);
+  
+  // 获取平台配置
+  const getPlatformConfig = (platform: string) => {
+    const configs = {
+      'dingtalk': { text: '钉', color: '#1677ff' },
+      'wechat_work': { text: '企', color: '#07c160' },
+      'feishu': { text: '飞', color: '#00d4aa' },
+      'lark': { text: 'L', color: '#00d4aa' },
+      'dingtalk_global': { text: 'D', color: '#1677ff' },
+      'standalone': { text: '独', color: '#722ed1' }
+    };
+    return configs[platform as keyof typeof configs] || { text: '未', color: '#d9d9d9' };
+  };
+  
+  const config = getPlatformConfig(platformType);
+  
+  return (
+    <div style={{
+      width: 24,
+      height: 24,
+      backgroundColor: config.color,
+      borderRadius: '6px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#fff',
+      fontSize: '12px',
+      fontWeight: 'bold',
+      marginRight: '12px'
+    }}>
+      {config.text}
+    </div>
+  );
+};
 
 const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
   handoverData,
   onBack,
   onEdit,
   onViewContract,
-  onShare
+  onShare,
+  numberLabel = '交接单编号',
+  isFavorite = false,
+  onToggleFavorite
 }) => {
   // 状态颜色映射
   const getStatusConfig = (status: string) => {
@@ -96,7 +124,7 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
             返回
           </Button>
           
-          <PlatformIcon />
+          <PlatformIcon customerId={handoverData.customerId} />
           
           <h1 style={{
             margin: 0,
@@ -124,6 +152,19 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
           </span>
           
           <Space size="middle">
+            {onToggleFavorite && (
+              <Button
+                type="text"
+                icon={isFavorite ? <StarFilled /> : <StarOutlined />}
+                onClick={onToggleFavorite}
+                style={{
+                  color: isFavorite ? '#faad14' : '#666',
+                  padding: '4px 8px'
+                }}
+                title={isFavorite ? '取消关注' : '添加关注'}
+              />
+            )}
+            
             <Button
               type="default"
               icon={<EditOutlined />}
@@ -145,7 +186,9 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
                 padding: '4px 8px'
               }}
               title="查看合同"
-            />
+            >
+              查看合同
+            </Button>
             
             <Button
               type="text"
@@ -156,7 +199,9 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
                 padding: '4px 8px'
               }}
               title="分享"
-            />
+            >
+              分享
+            </Button>
           </Space>
         </div>
       </div>
@@ -233,11 +278,9 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
 
         {/* 编号：状态栏内部右侧垂直居中 */}
         <div style={{ position: 'absolute', right: 24, top: '50%', transform: 'translateY(-50%)', color: '#8c8c8c', fontSize: 12 }}>
-          交接单编号：<span style={{ fontFamily: 'monospace' }}>{handoverData.handoverNumber}</span>
+          {numberLabel}：<span style={{ fontFamily: 'monospace' }}>{handoverData.handoverNumber}</span>
         </div>
       </div>
-
-
     </div>
   );
 };

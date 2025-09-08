@@ -12,9 +12,9 @@ __mako_require__.d(exports, "default", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var prevRefreshReg;
@@ -49,11 +49,13 @@ const valueTierScoreHint = {
     中价值: '评分区间: 60 - 79',
     低价值: '评分区间: 0 - 59'
 };
+// 蓝色饱和度梯度（高->低）
 const valueTierRowColor = {
     高价值: '#2f54eb14',
     中价值: '#2f54eb0d',
     低价值: '#2f54eb08'
 };
+// 生命周期色调（用于边框/强调色）
 const lifecycleAccentColor = {
     导入期: '#40a9ff',
     成长期: '#fa8c16',
@@ -123,13 +125,13 @@ function generateMockCustomers() {
         const repeats = Math.random() > 0.5 ? 2 : 1;
         for(let i = 0; i < repeats; i++){
             const lifecycle = lifecycleStages[Math.floor(Math.random() * lifecycleStages.length)];
-            const valueScore = Math.floor(Math.random() * 61) + 40;
+            const valueScore = Math.floor(Math.random() * 61) + 40; // 40-100
             const valueTier = valueScore >= 80 ? '高价值' : valueScore >= 60 ? '中价值' : '低价值';
             const rAndM = Math.floor(Math.random() * 61) + 40;
             const f = Math.floor(Math.random() * 61) + 20;
             const serviceScore = Math.floor(Math.random() * 61) + 20;
             const trend = Math.random() > 0.6 ? 'down' : 'up';
-            const arr = Math.round((Math.random() * 400 + 100) * 1000);
+            const arr = Math.round((Math.random() * 400 + 100) * 1000); // 100k - 500k
             customers.push({
                 id: String(id++),
                 name: `${baseName}${i ? '·子业务' + i : ''}`,
@@ -154,6 +156,14 @@ const stageAbbrev = {
     成熟期: '熟',
     衰退期: '衰'
 };
+// 数据源：默认为本地mock，如有可用接口则自动对接
+// 预期接口：GET /api/customer-tiers -> { customers: Customer[] }
+// 字段需包含：valueScore, f, serviceScore, valueTier, lifecycle, arr, csm, name
+// 注意：若接口失败，会回落到mock数据
+//
+// 气泡图与桑基图的数据将自动基于 customers 聚合计算
+// 初始化为mock数据
+// 实时数据将通过useEffect尝试拉取并覆盖
 let initialMock = generateMockCustomers();
 const TieringMatrix = ()=>{
     _s();
@@ -203,6 +213,7 @@ const TieringMatrix = ()=>{
         customers
     ]);
     const selectedTitle = selected ? `${selected.valueTier} · ${selected.stage}` : '全部客户';
+    // 聚合每个矩阵分群的数据：计数、均值与总ARR
     const segmentAgg = (0, _react.useMemo)(()=>{
         const agg = {};
         for (const vt of valueTiers)for (const st of lifecycleStages){
@@ -241,8 +252,11 @@ const TieringMatrix = ()=>{
     }, [
         segmentAgg
     ]);
+    // 气泡图工具提示
     const [bubbleTip, setBubbleTip] = (0, _react.useState)(null);
+    // 桑基图工具提示
     const [sankeyTip, setSankeyTip] = (0, _react.useState)(null);
+    // 尝试从接口获取数据
     (0, _react.useEffect)(()=>{
         async function fetchData() {
             try {
@@ -256,7 +270,9 @@ const TieringMatrix = ()=>{
                         return;
                     }
                 }
-            } catch (e) {}
+            } catch (e) {
+            // ignore
+            }
             setCustomers(initialMock);
         }
         fetchData();
@@ -282,9 +298,9 @@ const TieringMatrix = ()=>{
             dataIndex: 'name',
             key: 'name',
             sorter: (a, b)=>a.name.localeCompare(b.name),
-            render: (_, record)=>(0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+            render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                             style: {
                                 backgroundColor: record.logoColor
                             },
@@ -294,7 +310,7 @@ const TieringMatrix = ()=>{
                             lineNumber: 251,
                             columnNumber: 11
                         }, this),
-                        (0, _jsxdevruntime.jsxDEV)("span", {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                             children: record.name
                         }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
@@ -319,9 +335,9 @@ const TieringMatrix = ()=>{
             dataIndex: 'valueScore',
             key: 'valueScore',
             sorter: (a, b)=>a.valueScore - b.valueScore,
-            render: (v, record)=>(0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+            render: (v, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)(Text, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                             strong: true,
                             children: [
                                 v,
@@ -332,7 +348,7 @@ const TieringMatrix = ()=>{
                             lineNumber: 271,
                             columnNumber: 11
                         }, this),
-                        record.trend === 'up' ? (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                        record.trend === 'up' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                             style: {
                                 color: '#52c41a'
                             }
@@ -340,7 +356,7 @@ const TieringMatrix = ()=>{
                             fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                             lineNumber: 273,
                             columnNumber: 13
-                        }, this) : record.trend === 'down' ? (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
+                        }, this) : record.trend === 'down' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
                             style: {
                                 color: '#ff4d4f'
                             }
@@ -365,7 +381,7 @@ const TieringMatrix = ()=>{
                     value: s
                 })),
             onFilter: (value, record)=>record.lifecycle === value,
-            render: (v)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+            render: (v)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     color: lifecycleAccentColor[v],
                     style: {
                         borderColor: `${lifecycleAccentColor[v]}55`
@@ -397,6 +413,7 @@ const TieringMatrix = ()=>{
         }
     ];
     const headerTitle = selected ? `客户列表 - ${selected.valueTier} & ${selected.stage} (${filteredCustomers.length})` : `客户列表 - 全部客户 (${filteredCustomers.length})`;
+    // ---- Charts data helpers ----
     function hashStringToNumber(input) {
         let hash = 0;
         for(let i = 0; i < input.length; i++){
@@ -410,9 +427,10 @@ const TieringMatrix = ()=>{
         const base = selected ? 70 : 65;
         const variance = selected ? 12 : 10;
         const seed = hashStringToNumber(key);
-        const length = 12;
+        const length = 12; // 近12周
         const points = [];
         for(let i = 0; i < length; i++){
+            // 简单可重复的伪随机
             const n = Math.sin(seed % 1000 * (i + 1)) * 0.5 + Math.cos(seed % 777 * (i + 2)) * 0.5;
             const value = Math.max(40, Math.min(95, base + n * variance + (i - length / 2) * 0.4));
             points.push(Math.round(value));
@@ -422,14 +440,16 @@ const TieringMatrix = ()=>{
         selected
     ]);
     const tierMigration = (0, _react.useMemo)(()=>{
+        // 基于选中人群，构造稳定的“上升/持平/下降”分布
         const key = selected ? `${selected.valueTier}-${selected.stage}` : 'ALL';
         const seed = hashStringToNumber(key);
         const size = filteredCustomers.length || 1;
-        const ratioUp = 0.2 + seed % 30 / 100;
-        const ratioDown = 0.1 + seed % 15 / 100;
+        const ratioUp = 0.2 + seed % 30 / 100; // 20%-50%
+        const ratioDown = 0.1 + seed % 15 / 100; // 10%-25%
         const up = Math.round(size * ratioUp);
         const down = Math.round(size * ratioDown);
         const same = Math.max(0, size - up - down);
+        // 拆分路径
         const up_l2m = Math.round(up * 0.45);
         const up_m2h = Math.max(0, up - up_l2m);
         const down_h2m = Math.round(down * 0.6);
@@ -450,14 +470,14 @@ const TieringMatrix = ()=>{
         filteredCustomers.length,
         selected
     ]);
-    return (0, _jsxdevruntime.jsxDEV)("div", {
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '32px 40px',
             background: '#f5f5f5',
             minHeight: 'calc(100vh - 64px)'
         },
         children: [
-            (0, _jsxdevruntime.jsxDEV)("div", {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     display: 'flex',
                     alignItems: 'center',
@@ -465,9 +485,9 @@ const TieringMatrix = ()=>{
                     marginBottom: 16
                 },
                 children: [
-                    (0, _jsxdevruntime.jsxDEV)("div", {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(Title, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
                                 level: 2,
                                 style: {
                                     margin: 0,
@@ -480,7 +500,7 @@ const TieringMatrix = ()=>{
                                 lineNumber: 379,
                                 columnNumber: 11
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(Text, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 children: "将客户按“价值等级”与“生命周期”进行矩阵分层，以指导精细化服务策略。"
                             }, void 0, false, {
@@ -494,9 +514,9 @@ const TieringMatrix = ()=>{
                         lineNumber: 378,
                         columnNumber: 9
                     }, this),
-                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                         type: "link",
-                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
+                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                             lineNumber: 382,
                             columnNumber: 35
@@ -513,7 +533,7 @@ const TieringMatrix = ()=>{
                 lineNumber: 377,
                 columnNumber: 7
             }, this),
-            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                 style: {
                     ...cardStyle
                 },
@@ -521,14 +541,14 @@ const TieringMatrix = ()=>{
                     padding: 16
                 },
                 children: [
-                    (0, _jsxdevruntime.jsxDEV)("div", {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             marginBottom: 8,
                             display: 'flex',
                             alignItems: 'center'
                         },
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(Text, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 children: "当前筛选："
                             }, void 0, false, {
@@ -536,7 +556,7 @@ const TieringMatrix = ()=>{
                                 lineNumber: 387,
                                 columnNumber: 11
                             }, this),
-                            (0, _jsxdevruntime.jsxDEV)(Text, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                 strong: true,
                                 style: {
                                     marginLeft: 8
@@ -553,35 +573,35 @@ const TieringMatrix = ()=>{
                         lineNumber: 386,
                         columnNumber: 9
                     }, this),
-                    (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                         gutter: [
                             12,
                             12
                         ],
                         children: [
-                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 span: 4
                             }, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                                 lineNumber: 392,
                                 columnNumber: 11
                             }, this),
-                            lifecycleStages.map((stage)=>(0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            lifecycleStages.map((stage)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                     span: 5,
                                     style: {
                                         display: 'flex',
                                         alignItems: 'center'
                                     },
-                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                         children: [
-                                            (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
                                                 color: lifecycleAccentColor[stage]
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                                                 lineNumber: 396,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                                 style: {
                                                     color: '#262626',
                                                     fontWeight: 500
@@ -609,7 +629,7 @@ const TieringMatrix = ()=>{
                         lineNumber: 390,
                         columnNumber: 9
                     }, this),
-                    valueTiers.map((tier)=>(0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    valueTiers.map((tier)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                             gutter: [
                                 12,
                                 10
@@ -619,11 +639,11 @@ const TieringMatrix = ()=>{
                                 marginTop: 2
                             },
                             children: [
-                                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                     span: 4,
-                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                         children: [
-                                            (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                                 style: {
                                                     fontWeight: 600,
                                                     color: '#1f1f1f'
@@ -634,9 +654,9 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 406,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                                                 title: valueTierScoreHint[tier],
-                                                children: (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.QuestionCircleOutlined, {
                                                     style: {
                                                         color: '#8c8c8c'
                                                     }
@@ -678,9 +698,9 @@ const TieringMatrix = ()=>{
                                             label: '应用服务剧本'
                                         }
                                     ];
-                                    return (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                         span: 5,
-                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 ...getCellStyle(tier, stage, isSelected),
                                                 position: 'relative'
@@ -692,14 +712,14 @@ const TieringMatrix = ()=>{
                                             onMouseEnter: (e)=>e.currentTarget.style.boxShadow = `0 4px 12px rgba(0,0,0,0.08), 0 0 0 3px ${lifecycleAccentColor[stage]}11`,
                                             onMouseLeave: (e)=>e.currentTarget.style.boxShadow = isSelected ? `0 0 0 3px ${lifecycleAccentColor[stage]}22` : 'none',
                                             children: [
-                                                (0, _jsxdevruntime.jsxDEV)("div", {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         justifyContent: 'space-between'
                                                     },
                                                     children: [
-                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             type: "secondary",
                                                             style: {
                                                                 fontSize: 12
@@ -714,21 +734,21 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 429,
                                                             columnNumber: 23
                                                         }, this),
-                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 display: 'flex',
                                                                 alignItems: 'center',
                                                                 gap: 8
                                                             },
                                                             children: [
-                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
+                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
                                                                     color: lifecycleAccentColor[stage]
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/TieringMatrix.tsx",
                                                                     lineNumber: 431,
                                                                     columnNumber: 25
                                                                 }, this),
-                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Dropdown, {
+                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Dropdown, {
                                                                     trigger: [
                                                                         'click'
                                                                     ],
@@ -742,7 +762,7 @@ const TieringMatrix = ()=>{
                                                                             if (key === 'list') scrollToListAndHighlight();
                                                                         }
                                                                     },
-                                                                    children: (0, _jsxdevruntime.jsxDEV)(_icons.MoreOutlined, {
+                                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MoreOutlined, {
                                                                         style: {
                                                                             color: '#8c8c8c'
                                                                         },
@@ -769,7 +789,7 @@ const TieringMatrix = ()=>{
                                                     lineNumber: 428,
                                                     columnNumber: 21
                                                 }, this),
-                                                (0, _jsxdevruntime.jsxDEV)("div", {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         marginTop: 6,
                                                         fontSize: 24,
@@ -782,7 +802,7 @@ const TieringMatrix = ()=>{
                                                     lineNumber: 448,
                                                     columnNumber: 21
                                                 }, this),
-                                                (0, _jsxdevruntime.jsxDEV)("div", {
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         marginTop: 2,
                                                         fontSize: 12,
@@ -818,20 +838,20 @@ const TieringMatrix = ()=>{
                 lineNumber: 385,
                 columnNumber: 7
             }, this),
-            (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                 gutter: 16,
                 style: {
                     marginTop: 16
                 },
                 children: [
-                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                         xs: 24,
                         lg: 12,
-                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             style: {
                                 ...cardStyle
                             },
-                            title: (0, _jsxdevruntime.jsxDEV)("span", {
+                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                                 style: {
                                     fontWeight: 600
                                 },
@@ -841,14 +861,14 @@ const TieringMatrix = ()=>{
                                 lineNumber: 462,
                                 columnNumber: 49
                             }, void 0),
-                            children: (0, _jsxdevruntime.jsxDEV)("div", {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     width: '100%',
                                     height: 260,
                                     position: 'relative'
                                 },
                                 children: [
-                                    (bubbleTip === null || bubbleTip === void 0 ? void 0 : bubbleTip.visible) && (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (bubbleTip === null || bubbleTip === void 0 ? void 0 : bubbleTip.visible) && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             position: 'absolute',
                                             left: bubbleTip.x,
@@ -868,7 +888,7 @@ const TieringMatrix = ()=>{
                                         lineNumber: 465,
                                         columnNumber: 17
                                     }, this),
-                                    (0, _jsxdevruntime.jsxDEV)("svg", {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("svg", {
                                         viewBox: "0 0 420 200",
                                         preserveAspectRatio: "none",
                                         style: {
@@ -876,7 +896,7 @@ const TieringMatrix = ()=>{
                                             height: '100%'
                                         },
                                         children: [
-                                            (0, _jsxdevruntime.jsxDEV)("line", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("line", {
                                                 x1: "40",
                                                 y1: "10",
                                                 x2: "40",
@@ -887,7 +907,7 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 471,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)("line", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("line", {
                                                 x1: "40",
                                                 y1: "170",
                                                 x2: "400",
@@ -903,9 +923,9 @@ const TieringMatrix = ()=>{
                                             }).map((_, i)=>{
                                                 const v = i * 20;
                                                 const y = 170 - v / 100 * 150;
-                                                return (0, _jsxdevruntime.jsxDEV)("g", {
+                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
                                                     children: [
-                                                        (0, _jsxdevruntime.jsxDEV)("line", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("line", {
                                                             x1: "36",
                                                             y1: y,
                                                             x2: "40",
@@ -916,7 +936,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 479,
                                                             columnNumber: 23
                                                         }, this),
-                                                        (0, _jsxdevruntime.jsxDEV)("text", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                             x: "10",
                                                             y: y + 4,
                                                             fontSize: "10",
@@ -939,9 +959,9 @@ const TieringMatrix = ()=>{
                                             }).map((_, i)=>{
                                                 const v = i * 20;
                                                 const x = 40 + v / 100 * 360;
-                                                return (0, _jsxdevruntime.jsxDEV)("g", {
+                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
                                                     children: [
-                                                        (0, _jsxdevruntime.jsxDEV)("line", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("line", {
                                                             x1: x,
                                                             y1: "170",
                                                             x2: x,
@@ -952,7 +972,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 490,
                                                             columnNumber: 23
                                                         }, this),
-                                                        (0, _jsxdevruntime.jsxDEV)("text", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                             x: x,
                                                             y: "188",
                                                             fontSize: "10",
@@ -977,9 +997,9 @@ const TieringMatrix = ()=>{
                                                 const y = 170 - s.avgActive / 100 * 150;
                                                 const r = 6 + s.totalArr / maxSegmentArr * 16;
                                                 const color = lifecycleAccentColor[s.stage];
-                                                const html = (0, _jsxdevruntime.jsxDEV)("div", {
+                                                const html = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                     children: [
-                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 fontWeight: 600,
                                                                 marginBottom: 4
@@ -990,7 +1010,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 505,
                                                             columnNumber: 25
                                                         }, this),
-                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
                                                                 "客户数：",
                                                                 s.count
@@ -1000,7 +1020,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 506,
                                                             columnNumber: 25
                                                         }, this),
-                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
                                                                 "总ARR：¥",
                                                                 (s.totalArr / 10000).toFixed(1),
@@ -1011,7 +1031,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 507,
                                                             columnNumber: 25
                                                         }, this),
-                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
                                                                 "平均健康分：",
                                                                 s.avgHealth
@@ -1021,7 +1041,7 @@ const TieringMatrix = ()=>{
                                                             lineNumber: 508,
                                                             columnNumber: 25
                                                         }, this),
-                                                        (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                             children: [
                                                                 "平均活跃度：",
                                                                 s.avgActive
@@ -1037,7 +1057,7 @@ const TieringMatrix = ()=>{
                                                     lineNumber: 504,
                                                     columnNumber: 23
                                                 }, this);
-                                                return (0, _jsxdevruntime.jsxDEV)("circle", {
+                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("circle", {
                                                     cx: x,
                                                     cy: y,
                                                     r: r,
@@ -1094,10 +1114,10 @@ const TieringMatrix = ()=>{
                                                         lifecycleAccentColor['衰退期']
                                                     ]
                                                 ];
-                                                return (0, _jsxdevruntime.jsxDEV)("g", {
-                                                    children: entries.map(([label, color], i)=>(0, _jsxdevruntime.jsxDEV)("g", {
+                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                    children: entries.map(([label, color], i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
                                                             children: [
-                                                                (0, _jsxdevruntime.jsxDEV)("rect", {
+                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("rect", {
                                                                     x: 44 + i * 90,
                                                                     y: 12,
                                                                     width: 10,
@@ -1110,7 +1130,7 @@ const TieringMatrix = ()=>{
                                                                     lineNumber: 548,
                                                                     columnNumber: 27
                                                                 }, this),
-                                                                (0, _jsxdevruntime.jsxDEV)("text", {
+                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                                     x: 58 + i * 90,
                                                                     y: 21,
                                                                     fontSize: "10",
@@ -1133,9 +1153,9 @@ const TieringMatrix = ()=>{
                                                     columnNumber: 21
                                                 }, this);
                                             })(),
-                                            (0, _jsxdevruntime.jsxDEV)("g", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
                                                 children: [
-                                                    (0, _jsxdevruntime.jsxDEV)("circle", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("circle", {
                                                         cx: "60",
                                                         cy: "150",
                                                         r: "6",
@@ -1147,7 +1167,7 @@ const TieringMatrix = ()=>{
                                                         lineNumber: 557,
                                                         columnNumber: 19
                                                     }, this),
-                                                    (0, _jsxdevruntime.jsxDEV)("circle", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("circle", {
                                                         cx: "90",
                                                         cy: "150",
                                                         r: "10",
@@ -1159,7 +1179,7 @@ const TieringMatrix = ()=>{
                                                         lineNumber: 558,
                                                         columnNumber: 19
                                                     }, this),
-                                                    (0, _jsxdevruntime.jsxDEV)("circle", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("circle", {
                                                         cx: "130",
                                                         cy: "150",
                                                         r: "14",
@@ -1171,7 +1191,7 @@ const TieringMatrix = ()=>{
                                                         lineNumber: 559,
                                                         columnNumber: 19
                                                     }, this),
-                                                    (0, _jsxdevruntime.jsxDEV)("text", {
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                         x: "160",
                                                         y: "154",
                                                         fontSize: "10",
@@ -1188,7 +1208,7 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 556,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)("text", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                 x: "220",
                                                 y: "198",
                                                 textAnchor: "middle",
@@ -1200,7 +1220,7 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 563,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)("text", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                 x: "12",
                                                 y: "14",
                                                 textAnchor: "start",
@@ -1212,7 +1232,7 @@ const TieringMatrix = ()=>{
                                                 lineNumber: 564,
                                                 columnNumber: 17
                                             }, this),
-                                            (0, _jsxdevruntime.jsxDEV)("text", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                 x: "400",
                                                 y: "16",
                                                 textAnchor: "end",
@@ -1246,14 +1266,14 @@ const TieringMatrix = ()=>{
                         lineNumber: 461,
                         columnNumber: 9
                     }, this),
-                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                         xs: 24,
                         lg: 12,
-                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             style: {
                                 ...cardStyle
                             },
-                            title: (0, _jsxdevruntime.jsxDEV)("span", {
+                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                                 style: {
                                     fontWeight: 600
                                 },
@@ -1263,14 +1283,14 @@ const TieringMatrix = ()=>{
                                 lineNumber: 574,
                                 columnNumber: 49
                             }, void 0),
-                            children: (0, _jsxdevruntime.jsxDEV)("div", {
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     width: '100%',
                                     height: 260,
                                     position: 'relative'
                                 },
                                 children: [
-                                    (sankeyTip === null || sankeyTip === void 0 ? void 0 : sankeyTip.visible) && (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (sankeyTip === null || sankeyTip === void 0 ? void 0 : sankeyTip.visible) && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             position: 'absolute',
                                             left: sankeyTip.x,
@@ -1290,7 +1310,7 @@ const TieringMatrix = ()=>{
                                         lineNumber: 577,
                                         columnNumber: 17
                                     }, this),
-                                    (0, _jsxdevruntime.jsxDEV)("svg", {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("svg", {
                                         viewBox: "0 0 420 200",
                                         preserveAspectRatio: "none",
                                         style: {
@@ -1311,6 +1331,7 @@ const TieringMatrix = ()=>{
                                                     positions[`L-${t}`] = 40 + i * 60;
                                                     positions[`R-${t}`] = 40 + i * 60;
                                                 });
+                                                // 使用之前的迁移数据构造流
                                                 const flows = [
                                                     {
                                                         from: '低价值',
@@ -1362,11 +1383,11 @@ const TieringMatrix = ()=>{
                                                     const cx2 = 260;
                                                     return `M ${leftX} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${rightX} ${y2}`;
                                                 }
-                                                return (0, _jsxdevruntime.jsxDEV)("g", {
+                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
                                                     children: [
-                                                        tiers.map((t)=>(0, _jsxdevruntime.jsxDEV)("g", {
+                                                        tiers.map((t)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
                                                                 children: [
-                                                                    (0, _jsxdevruntime.jsxDEV)("rect", {
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("rect", {
                                                                         x: leftX - 28,
                                                                         y: positions[`L-${t}`] - 10,
                                                                         width: 56,
@@ -1379,7 +1400,7 @@ const TieringMatrix = ()=>{
                                                                         lineNumber: 612,
                                                                         columnNumber: 27
                                                                     }, this),
-                                                                    (0, _jsxdevruntime.jsxDEV)("text", {
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                                         x: leftX - 32,
                                                                         y: positions[`L-${t}`] + 4,
                                                                         fontSize: "12",
@@ -1400,9 +1421,9 @@ const TieringMatrix = ()=>{
                                                                 lineNumber: 611,
                                                                 columnNumber: 25
                                                             }, this)),
-                                                        tiers.map((t)=>(0, _jsxdevruntime.jsxDEV)("g", {
+                                                        tiers.map((t)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
                                                                 children: [
-                                                                    (0, _jsxdevruntime.jsxDEV)("rect", {
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("rect", {
                                                                         x: rightX - 28,
                                                                         y: positions[`R-${t}`] - 10,
                                                                         width: 56,
@@ -1415,7 +1436,7 @@ const TieringMatrix = ()=>{
                                                                         lineNumber: 618,
                                                                         columnNumber: 27
                                                                     }, this),
-                                                                    (0, _jsxdevruntime.jsxDEV)("text", {
+                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                                         x: rightX + 32,
                                                                         y: positions[`R-${t}`] + 4,
                                                                         fontSize: "12",
@@ -1436,7 +1457,7 @@ const TieringMatrix = ()=>{
                                                                 lineNumber: 617,
                                                                 columnNumber: 25
                                                             }, this)),
-                                                        flows.map((f, idx)=>(0, _jsxdevruntime.jsxDEV)("path", {
+                                                        flows.map((f, idx)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("path", {
                                                                 d: pathD(positions[`L-${f.from}`], positions[`R-${f.to}`]),
                                                                 stroke: f.color,
                                                                 strokeOpacity: 0.5,
@@ -1472,7 +1493,7 @@ const TieringMatrix = ()=>{
                                                     columnNumber: 21
                                                 }, this);
                                             })(),
-                                            (0, _jsxdevruntime.jsxDEV)("text", {
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                 x: "400",
                                                 y: "16",
                                                 textAnchor: "end",
@@ -1515,10 +1536,10 @@ const TieringMatrix = ()=>{
                                                         '#D3F261'
                                                     ]
                                                 ];
-                                                return (0, _jsxdevruntime.jsxDEV)("g", {
-                                                    children: items.map(([label, color], i)=>(0, _jsxdevruntime.jsxDEV)("g", {
+                                                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
+                                                    children: items.map(([label, color], i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("g", {
                                                             children: [
-                                                                (0, _jsxdevruntime.jsxDEV)("rect", {
+                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("rect", {
                                                                     x: 44 + i % 4 * 88,
                                                                     y: 12 + Math.floor(i / 4) * 18,
                                                                     width: 10,
@@ -1531,7 +1552,7 @@ const TieringMatrix = ()=>{
                                                                     lineNumber: 661,
                                                                     columnNumber: 27
                                                                 }, this),
-                                                                (0, _jsxdevruntime.jsxDEV)("text", {
+                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("text", {
                                                                     x: 58 + i % 4 * 88,
                                                                     y: 21 + Math.floor(i / 4) * 18,
                                                                     fontSize: "10",
@@ -1582,7 +1603,7 @@ const TieringMatrix = ()=>{
                 lineNumber: 459,
                 columnNumber: 7
             }, this),
-            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                 ref: listRef,
                 style: {
                     ...cardStyle,
@@ -1591,7 +1612,7 @@ const TieringMatrix = ()=>{
                     border: listHighlight ? '1px solid #91caff' : cardStyle.border,
                     transition: 'box-shadow 0.3s ease, border-color 0.3s ease'
                 },
-                title: (0, _jsxdevruntime.jsxDEV)("div", {
+                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
@@ -1599,7 +1620,7 @@ const TieringMatrix = ()=>{
                         width: '100%'
                     },
                     children: [
-                        (0, _jsxdevruntime.jsxDEV)("span", {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                             style: {
                                 fontSize: 16,
                                 fontWeight: 600
@@ -1610,7 +1631,7 @@ const TieringMatrix = ()=>{
                             lineNumber: 688,
                             columnNumber: 11
                         }, void 0),
-                        (0, _jsxdevruntime.jsxDEV)(_antd.Input.Search, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input.Search, {
                             allowClear: true,
                             placeholder: "搜索客户/CSM/标签...",
                             style: {
@@ -1629,7 +1650,7 @@ const TieringMatrix = ()=>{
                     lineNumber: 687,
                     columnNumber: 9
                 }, void 0),
-                children: (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
                     rowKey: "id",
                     dataSource: filteredCustomers,
                     columns: columns,
@@ -6184,6 +6205,9 @@ function _export(target, all) {
     });
 }
 __mako_require__.e(exports, {
+    ContinuousServiceContent: function() {
+        return ContinuousServiceContent;
+    },
     DashboardContent: function() {
         return DashboardContent;
     },
@@ -6204,6 +6228,7 @@ var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _react = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
+var _handoverData = __mako_require__("src/mock/handoverData.ts");
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -6266,7 +6291,7 @@ const DashboardContent = ()=>{
                                 value: metrics.totalCustomers,
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 46,
+                                    lineNumber: 47,
                                     columnNumber: 23
                                 }, void 0),
                                 valueStyle: {
@@ -6274,17 +6299,17 @@ const DashboardContent = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 43,
+                                lineNumber: 44,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 42,
+                            lineNumber: 43,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 41,
+                        lineNumber: 42,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -6295,7 +6320,7 @@ const DashboardContent = ()=>{
                                 value: metrics.activeCustomers,
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {}, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 56,
+                                    lineNumber: 57,
                                     columnNumber: 23
                                 }, void 0),
                                 valueStyle: {
@@ -6303,17 +6328,17 @@ const DashboardContent = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 53,
+                                lineNumber: 54,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 52,
+                            lineNumber: 53,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 51,
+                        lineNumber: 52,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -6324,7 +6349,7 @@ const DashboardContent = ()=>{
                                 value: metrics.pendingHandovers,
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {}, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 66,
+                                    lineNumber: 67,
                                     columnNumber: 23
                                 }, void 0),
                                 valueStyle: {
@@ -6332,17 +6357,17 @@ const DashboardContent = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 63,
+                                lineNumber: 64,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 62,
+                            lineNumber: 63,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 61,
+                        lineNumber: 62,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -6354,7 +6379,7 @@ const DashboardContent = ()=>{
                                 suffix: "%",
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.RiseOutlined, {}, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 77,
+                                    lineNumber: 78,
                                     columnNumber: 23
                                 }, void 0),
                                 valueStyle: {
@@ -6362,23 +6387,23 @@ const DashboardContent = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 73,
+                                lineNumber: 74,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 72,
+                            lineNumber: 73,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 71,
+                        lineNumber: 72,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 40,
+                lineNumber: 41,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
@@ -6399,7 +6424,7 @@ const DashboardContent = ()=>{
                                 children: "查看详情"
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 86,
+                                lineNumber: 87,
                                 columnNumber: 38
                             }, void 0),
                             children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -6413,22 +6438,22 @@ const DashboardContent = ()=>{
                                     strokeColor: "#52c41a"
                                 }, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 88,
+                                    lineNumber: 89,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 87,
+                                lineNumber: 88,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 86,
+                            lineNumber: 87,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 85,
+                        lineNumber: 86,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -6440,7 +6465,7 @@ const DashboardContent = ()=>{
                                 children: "查看全部"
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 98,
+                                lineNumber: 99,
                                 columnNumber: 37
                             }, void 0),
                             children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -6459,7 +6484,7 @@ const DashboardContent = ()=>{
                                                 children: activity.customer.charAt(0)
                                             }, void 0, false, {
                                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                                lineNumber: 102,
+                                                lineNumber: 103,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -6467,11 +6492,12 @@ const DashboardContent = ()=>{
                                                     flex: 1
                                                 },
                                                 children: [
+                                                    "11111111",
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                                         children: activity.customer
                                                     }, void 0, false, {
                                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                                        lineNumber: 106,
+                                                        lineNumber: 107,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -6482,13 +6508,13 @@ const DashboardContent = ()=>{
                                                         children: activity.action
                                                     }, void 0, false, {
                                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                                        lineNumber: 107,
+                                                        lineNumber: 108,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                                lineNumber: 105,
+                                                lineNumber: 106,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -6496,74 +6522,65 @@ const DashboardContent = ()=>{
                                                 children: activity.time
                                             }, void 0, false, {
                                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                                lineNumber: 109,
+                                                lineNumber: 110,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, activity.id, true, {
                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                        lineNumber: 101,
+                                        lineNumber: 102,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 99,
+                                lineNumber: 100,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 98,
+                            lineNumber: 99,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 97,
+                        lineNumber: 98,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 84,
+                lineNumber: 85,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/utils/tabContentGenerator.tsx",
-        lineNumber: 39,
+        lineNumber: 40,
         columnNumber: 5
     }, this);
 };
 _c = DashboardContent;
 const HandoverImplementationContent = ()=>{
-    const handoverData = [
-        {
-            key: '1',
-            customer: '阿里巴巴',
-            contact: '张三',
-            phone: '13800138000',
-            status: 'pending',
-            priority: 'high',
-            createTime: '2024-01-15'
-        },
-        {
-            key: '2',
-            customer: '腾讯科技',
-            contact: '李四',
-            phone: '13900139000',
-            status: 'in_progress',
-            priority: 'medium',
-            createTime: '2024-01-14'
-        },
-        {
-            key: '3',
-            customer: '字节跳动',
-            contact: '王五',
-            phone: '13700137000',
-            status: 'completed',
-            priority: 'low',
-            createTime: '2024-01-13'
-        }
-    ];
+    // 使用mockCustomerHandovers数据，转换为表格所需格式
+    const handoverData = _handoverData.mockCustomerHandovers.slice(0, 3).map((item, index)=>{
+        // 将状态映射到表格需要的状态
+        let status = 'pending';
+        if (item.handoverStatus === 'normal') status = 'in_progress';
+        else if (item.expectationAlignment === 'aligned') status = 'completed';
+        // 将风险等级映射到优先级
+        let priority = 'medium';
+        if (item.riskLevel === 'high') priority = 'high';
+        else if (item.riskLevel === 'low') priority = 'low';
+        return {
+            key: item.id,
+            customer: item.customerName,
+            contact: item.stakeholders && item.stakeholders.length > 0 ? item.stakeholders[0].name : '-',
+            phone: item.stakeholders && item.stakeholders.length > 0 ? item.stakeholders[0].contact : '-',
+            status,
+            priority,
+            createTime: new Date(item.createdAt).toLocaleDateString()
+        };
+    });
     const columns = [
         {
             title: '客户名称',
@@ -6605,7 +6622,7 @@ const HandoverImplementationContent = ()=>{
                     children: text
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 181,
+                    lineNumber: 182,
                     columnNumber: 16
                 }, this);
             }
@@ -6635,7 +6652,7 @@ const HandoverImplementationContent = ()=>{
                     children: text
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 195,
+                    lineNumber: 196,
                     columnNumber: 16
                 }, this);
             }
@@ -6657,7 +6674,7 @@ const HandoverImplementationContent = ()=>{
                             children: "查看详情"
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 208,
+                            lineNumber: 209,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
@@ -6666,13 +6683,13 @@ const HandoverImplementationContent = ()=>{
                             children: "开始交接"
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 209,
+                            lineNumber: 210,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 207,
+                    lineNumber: 208,
                     columnNumber: 9
                 }, this)
         }
@@ -6686,31 +6703,31 @@ const HandoverImplementationContent = ()=>{
                         type: "primary",
                         icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 221,
+                            lineNumber: 222,
                             columnNumber: 42
                         }, void 0),
                         children: "新建交接"
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 221,
+                        lineNumber: 222,
                         columnNumber: 13
                     }, void 0),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                         icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DownloadOutlined, {}, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 224,
+                            lineNumber: 225,
                             columnNumber: 27
                         }, void 0),
                         children: "导出数据"
                     }, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 224,
+                        lineNumber: 225,
                         columnNumber: 13
                     }, void 0)
                 ]
             }, void 0, true, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 220,
+                lineNumber: 221,
                 columnNumber: 11
             }, void 0),
             children: [
@@ -6730,25 +6747,25 @@ const HandoverImplementationContent = ()=>{
                                 title: "待交接客户",
                                 children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "客户数量",
-                                    value: 8,
+                                    value: _handoverData.mockCustomerHandovers.length,
                                     prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                        lineNumber: 234,
-                                        columnNumber: 57
+                                        lineNumber: 235,
+                                        columnNumber: 84
                                     }, void 0)
                                 }, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 234,
+                                    lineNumber: 235,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 233,
+                                lineNumber: 234,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 232,
+                            lineNumber: 233,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -6758,27 +6775,27 @@ const HandoverImplementationContent = ()=>{
                                 title: "进行中交接",
                                 children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "客户数量",
-                                    value: 12,
+                                    value: _handoverData.mockCustomerHandovers.filter((item)=>item.handoverStatus === 'normal').length,
                                     prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SyncOutlined, {
                                         spin: true
                                     }, void 0, false, {
                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                        lineNumber: 239,
-                                        columnNumber: 58
+                                        lineNumber: 240,
+                                        columnNumber: 133
                                     }, void 0)
                                 }, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 239,
+                                    lineNumber: 240,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 238,
+                                lineNumber: 239,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 237,
+                            lineNumber: 238,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -6788,25 +6805,25 @@ const HandoverImplementationContent = ()=>{
                                 title: "已完成交接",
                                 children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "客户数量",
-                                    value: 45,
+                                    value: _handoverData.mockCustomerHandovers.filter((item)=>item.expectationAlignment === 'aligned').length,
                                     prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {}, void 0, false, {
                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                        lineNumber: 244,
-                                        columnNumber: 58
+                                        lineNumber: 245,
+                                        columnNumber: 140
                                     }, void 0)
                                 }, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 244,
+                                    lineNumber: 245,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 243,
+                                lineNumber: 244,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 242,
+                            lineNumber: 243,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -6816,31 +6833,31 @@ const HandoverImplementationContent = ()=>{
                                 title: "实施项目",
                                 children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "项目数量",
-                                    value: 15,
+                                    value: _handoverData.mockCustomerHandovers.filter((item)=>item.hasHandoverDocument).length,
                                     prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TrophyOutlined, {}, void 0, false, {
                                         fileName: "src/utils/tabContentGenerator.tsx",
-                                        lineNumber: 249,
-                                        columnNumber: 58
+                                        lineNumber: 250,
+                                        columnNumber: 125
                                     }, void 0)
                                 }, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
-                                    lineNumber: 249,
+                                    lineNumber: 250,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/utils/tabContentGenerator.tsx",
-                                lineNumber: 248,
+                                lineNumber: 249,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/utils/tabContentGenerator.tsx",
-                            lineNumber: 247,
+                            lineNumber: 248,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 231,
+                    lineNumber: 232,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
@@ -6850,22 +6867,305 @@ const HandoverImplementationContent = ()=>{
                     size: "small"
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 255,
+                    lineNumber: 256,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/utils/tabContentGenerator.tsx",
-            lineNumber: 217,
+            lineNumber: 218,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/utils/tabContentGenerator.tsx",
-        lineNumber: 216,
+        lineNumber: 217,
         columnNumber: 5
     }, this);
 };
 _c1 = HandoverImplementationContent;
+const ContinuousServiceContent = ()=>{
+    // 健康度分布数据
+    const healthDistribution = [
+        {
+            level: '健康',
+            count: 85,
+            color: '#52c41a',
+            percentage: 68
+        },
+        {
+            level: '一般',
+            count: 25,
+            color: '#faad14',
+            percentage: 20
+        },
+        {
+            level: '风险',
+            count: 15,
+            color: '#ff4d4f',
+            percentage: 12
+        }
+    ];
+    // 异动情况数据
+    const changeData = [
+        {
+            id: 1,
+            company: '北京科技有限公司',
+            type: '健康',
+            change: '85',
+            time: '2025-01-05'
+        },
+        {
+            id: 2,
+            company: '上海智能科技有限公司',
+            type: '一般',
+            change: '65',
+            time: '2025-01-08'
+        },
+        {
+            id: 3,
+            company: '深圳创新科技',
+            type: '风险',
+            change: '35',
+            time: '2025-01-12'
+        }
+    ];
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+            gutter: [
+                16,
+                16
+            ],
+            children: [
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                    span: 12,
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        title: "健康度分布",
+                        style: {
+                            height: '200px',
+                            minHeight: '200px',
+                            maxHeight: '200px',
+                            overflow: 'hidden'
+                        },
+                        bodyStyle: {
+                            padding: '16px',
+                            height: '144px',
+                            minHeight: '144px',
+                            maxHeight: '144px',
+                            overflow: 'hidden'
+                        },
+                        size: "small",
+                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '12px',
+                                height: '100%'
+                            },
+                            children: healthDistribution.map((item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                            size: 14,
+                                            style: {
+                                                backgroundColor: item.color,
+                                                minWidth: '14px'
+                                            }
+                                        }, void 0, false, {
+                                            fileName: "src/utils/tabContentGenerator.tsx",
+                                            lineNumber: 308,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            style: {
+                                                fontSize: '12px',
+                                                minWidth: '30px'
+                                            },
+                                            children: item.level
+                                        }, void 0, false, {
+                                            fileName: "src/utils/tabContentGenerator.tsx",
+                                            lineNumber: 312,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                flex: 1,
+                                                height: '12px',
+                                                backgroundColor: '#f0f0f0',
+                                                borderRadius: '6px',
+                                                overflow: 'hidden'
+                                            },
+                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                style: {
+                                                    height: '100%',
+                                                    backgroundColor: item.color,
+                                                    width: `${item.percentage}%`,
+                                                    borderRadius: '6px'
+                                                }
+                                            }, void 0, false, {
+                                                fileName: "src/utils/tabContentGenerator.tsx",
+                                                lineNumber: 314,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/utils/tabContentGenerator.tsx",
+                                            lineNumber: 313,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            style: {
+                                                fontSize: '12px',
+                                                fontWeight: '600',
+                                                minWidth: '20px'
+                                            },
+                                            children: item.count
+                                        }, void 0, false, {
+                                            fileName: "src/utils/tabContentGenerator.tsx",
+                                            lineNumber: 323,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, index, true, {
+                                    fileName: "src/utils/tabContentGenerator.tsx",
+                                    lineNumber: 307,
+                                    columnNumber: 17
+                                }, this))
+                        }, void 0, false, {
+                            fileName: "src/utils/tabContentGenerator.tsx",
+                            lineNumber: 305,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "src/utils/tabContentGenerator.tsx",
+                        lineNumber: 288,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "src/utils/tabContentGenerator.tsx",
+                    lineNumber: 287,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                    span: 12,
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        title: "异动情况",
+                        style: {
+                            height: '200px',
+                            minHeight: '200px',
+                            maxHeight: '200px',
+                            overflow: 'hidden'
+                        },
+                        bodyStyle: {
+                            padding: '16px',
+                            height: '144px',
+                            minHeight: '144px',
+                            maxHeight: '144px',
+                            overflow: 'hidden'
+                        },
+                        size: "small",
+                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                height: '100%',
+                                overflowY: 'auto'
+                            },
+                            children: changeData.map((item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '8px',
+                                        marginBottom: '8px',
+                                        padding: '4px 0'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                            size: 14,
+                                            style: {
+                                                backgroundColor: '#1890ff',
+                                                minWidth: '14px'
+                                            },
+                                            children: item.company.charAt(0)
+                                        }, void 0, false, {
+                                            fileName: "src/utils/tabContentGenerator.tsx",
+                                            lineNumber: 352,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                flex: 1,
+                                                overflow: 'hidden'
+                                            },
+                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                style: {
+                                                    fontSize: '11px',
+                                                    fontWeight: '500',
+                                                    whiteSpace: 'nowrap',
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis'
+                                                },
+                                                children: item.company
+                                            }, void 0, false, {
+                                                fileName: "src/utils/tabContentGenerator.tsx",
+                                                lineNumber: 356,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/utils/tabContentGenerator.tsx",
+                                            lineNumber: 355,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                            color: item.type === '健康' ? 'green' : item.type === '一般' ? 'orange' : 'red',
+                                            style: {
+                                                borderRadius: 2,
+                                                fontSize: '10px',
+                                                padding: '0 3px',
+                                                lineHeight: '16px',
+                                                height: '16px',
+                                                margin: 0
+                                            },
+                                            children: item.type
+                                        }, void 0, false, {
+                                            fileName: "src/utils/tabContentGenerator.tsx",
+                                            lineNumber: 360,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, item.id, true, {
+                                    fileName: "src/utils/tabContentGenerator.tsx",
+                                    lineNumber: 351,
+                                    columnNumber: 17
+                                }, this))
+                        }, void 0, false, {
+                            fileName: "src/utils/tabContentGenerator.tsx",
+                            lineNumber: 349,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "src/utils/tabContentGenerator.tsx",
+                        lineNumber: 332,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "src/utils/tabContentGenerator.tsx",
+                    lineNumber: 331,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "src/utils/tabContentGenerator.tsx",
+            lineNumber: 285,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "src/utils/tabContentGenerator.tsx",
+        lineNumber: 284,
+        columnNumber: 5
+    }, this);
+};
+_c2 = ContinuousServiceContent;
 const DefaultContent = ({ tabName })=>{
     return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
@@ -6878,42 +7178,42 @@ const DefaultContent = ({ tabName })=>{
                     children: tabName
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 271,
+                    lineNumber: 388,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("p", {
                     children: "此功能正在开发中，敬请期待..."
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 272,
+                    lineNumber: 389,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                     type: "primary",
                     icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ReloadOutlined, {}, void 0, false, {
                         fileName: "src/utils/tabContentGenerator.tsx",
-                        lineNumber: 273,
+                        lineNumber: 390,
                         columnNumber: 38
                     }, void 0),
                     children: "刷新页面"
                 }, void 0, false, {
                     fileName: "src/utils/tabContentGenerator.tsx",
-                    lineNumber: 273,
+                    lineNumber: 390,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/utils/tabContentGenerator.tsx",
-            lineNumber: 270,
+            lineNumber: 387,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/utils/tabContentGenerator.tsx",
-        lineNumber: 269,
+        lineNumber: 386,
         columnNumber: 5
     }, this);
 };
-_c2 = DefaultContent;
+_c3 = DefaultContent;
 // 路径到内容标题的映射
 const pathToTitleMap = {
     '/dashboard/work': '我的工作看板',
@@ -6981,13 +7281,19 @@ const generateTabContent = (tabName)=>{
         case 'work-dashboard':
             return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(DashboardContent, {}, void 0, false, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 350,
+                lineNumber: 467,
                 columnNumber: 14
             }, this);
         case 'handover-implementation':
             return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(HandoverImplementationContent, {}, void 0, false, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 352,
+                lineNumber: 469,
+                columnNumber: 14
+            }, this);
+        case 'continuous-service':
+            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(ContinuousServiceContent, {}, void 0, false, {
+                fileName: "src/utils/tabContentGenerator.tsx",
+                lineNumber: 471,
                 columnNumber: 14
             }, this);
         default:
@@ -6995,7 +7301,7 @@ const generateTabContent = (tabName)=>{
                 tabName: tabName
             }, void 0, false, {
                 fileName: "src/utils/tabContentGenerator.tsx",
-                lineNumber: 354,
+                lineNumber: 473,
                 columnNumber: 14
             }, this);
     }
@@ -7003,9 +7309,11 @@ const generateTabContent = (tabName)=>{
 var _c;
 var _c1;
 var _c2;
+var _c3;
 $RefreshReg$(_c, "DashboardContent");
 $RefreshReg$(_c1, "HandoverImplementationContent");
-$RefreshReg$(_c2, "DefaultContent");
+$RefreshReg$(_c2, "ContinuousServiceContent");
+$RefreshReg$(_c3, "DefaultContent");
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {

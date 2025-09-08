@@ -45,14 +45,14 @@ export default {
     res.send({
       success: true,
       data: {
-        name: 'Serati Ma',
+        name: '客户成功王',
         avatar:
           'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
         userid: '00000001',
-        email: 'antdesign@alipay.com',
-        signature: '海纳百川，有容乃大',
-        title: '交互专家',
-        group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
+        email: 'wangchenggong@company.com',
+        signature: '客户成功，共创价值',
+        title: '客户成功经理',
+        group: '客户成功部－客户成功管理团队',
         tags: [
           {
             key: '0',

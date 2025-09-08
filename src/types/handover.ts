@@ -39,8 +39,11 @@ export interface CRMSyncData {
 // 客户交接记录
 export interface CustomerHandover {
   id: string;
-  handoverNumber: string; // 交接单编号
+  handoverNumber: string; // 交接单编号 (如 HAND-2023-001)
+  customerId: string; // 客户档案编号 (如 CUST-0001)
   customerName: string;
+  contractId: string; // 关联的合同编号
+  contractNumber: string; // 合同编号显示用
   handoverStatus: HandoverStatus;
   riskLevel: RiskLevel;
   hasHandoverDocument: boolean;
@@ -59,6 +62,10 @@ export interface CustomerHandover {
   expectationDetails?: string;
   corePainPoints?: string;
   successCriteria?: string;
+  shortTermExpectation?: string; // 短期预期
+  longTermExpectation?: string; // 长期预期
+  unacceptableSituations?: string; // 客户不可接受的情况
+  customerSuccessCriteria?: string; // 客户定义的服务成功标准
   onboardingTasks?: OnboardingTask[];
   internalComments?: InternalComment[];
 }
@@ -96,5 +103,9 @@ export interface HandoverFormData {
   expectationDetails?: string;
   corePainPoints?: string;
   successCriteria?: string;
+  shortTermExpectation?: string; // 短期预期
+  longTermExpectation?: string; // 长期预期
+  unacceptableSituations?: string; // 客户不可接受的情况
+  customerSuccessCriteria?: string; // 客户定义的服务成功标准
   onboardingTasks: OnboardingTask[];
 }

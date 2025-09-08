@@ -107,8 +107,16 @@ const TabBarWrapper: React.FC = React.memo(() => {
     if (currentPath.match(/^\/profiles\/handover\/\d+$/)) {
       title = '客户交接详情';
     }
+    // 续约客户详情页标题
+    else if (currentPath.match(/^\/profiles\/renewal\/[\w-]+$/)) {
+      title = '续约客户详情';
+    }
+    // 风险事件详情页标题（需要先匹配，因为路径更具体）
+    else if (currentPath.match(/^\/profiles\/service\/risk-event\/[\w-]+$/)) {
+      title = '风险事件详情';
+    }
     // 持续服务详情页标题
-    if (currentPath.match(/^\/profiles\/service\/\w+$/)) {
+    else if (currentPath.match(/^\/profiles\/service\/[\w-]+$/)) {
       title = '持续服务详情';
     }
     

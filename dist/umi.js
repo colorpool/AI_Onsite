@@ -302564,8 +302564,8 @@ __mako_require__.d(exports, "getRoutes", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
-var _react = _interop_require_default._(__mako_require__("node_modules/react/index.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _react = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/react/index.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -302690,212 +302690,226 @@ async function getRoutes() {
             "id": "17"
         },
         "18": {
-            "path": "/profiles/renewal",
-            "name": "续约管理",
-            "icon": "fileText",
+            "path": "/profiles/service/risk-event/:id",
+            "hideInMenu": true,
+            "name": "风险事件详情",
             "parentId": "10",
             "id": "18"
         },
         "19": {
-            "path": "/profiles/recall",
-            "name": "召回孵化",
-            "icon": "experiment",
+            "path": "/profiles/renewal",
+            "name": "续约管理",
+            "icon": "fileText",
             "parentId": "10",
             "id": "19"
         },
         "20": {
-            "path": "/profiles/churn",
-            "name": "流失归因",
-            "icon": "lineChart",
+            "path": "/profiles/renewal/:id",
+            "hideInMenu": true,
+            "name": "续约客户详情",
             "parentId": "10",
             "id": "20"
         },
         "21": {
+            "path": "/profiles/recall",
+            "name": "召回孵化",
+            "icon": "experiment",
+            "parentId": "10",
+            "id": "21"
+        },
+        "22": {
+            "path": "/profiles/churn",
+            "name": "流失归因",
+            "icon": "lineChart",
+            "parentId": "10",
+            "id": "22"
+        },
+        "23": {
             "path": "/revenue",
             "name": "增收服务推进",
             "icon": "message",
             "parentId": "ant-design-pro-layout",
-            "id": "21"
-        },
-        "22": {
-            "path": "/revenue",
-            "redirect": "/revenue/consultation",
-            "parentId": "21",
-            "id": "22"
-        },
-        "23": {
-            "path": "/revenue/consultation",
-            "name": "咨询应答",
-            "icon": "comment",
-            "parentId": "21",
             "id": "23"
         },
         "24": {
-            "path": "/revenue/upgrade",
-            "name": "定制升舱建议",
-            "icon": "arrowUp",
-            "parentId": "21",
+            "path": "/revenue",
+            "redirect": "/revenue/consultation",
+            "parentId": "23",
             "id": "24"
         },
         "25": {
-            "path": "/revenue/learning",
-            "name": "学习项目推荐",
-            "icon": "book",
-            "parentId": "21",
+            "path": "/revenue/consultation",
+            "name": "咨询应答",
+            "icon": "comment",
+            "parentId": "23",
             "id": "25"
         },
         "26": {
-            "path": "/revenue/purchase",
-            "name": "课程采购活动",
-            "icon": "shoppingCart",
-            "parentId": "21",
+            "path": "/revenue/upgrade",
+            "name": "定制升舱建议",
+            "icon": "arrowUp",
+            "parentId": "23",
             "id": "26"
         },
         "27": {
-            "path": "/revenue/alliance",
-            "name": "战略活动结盟",
-            "icon": "userAdd",
-            "parentId": "21",
+            "path": "/revenue/learning",
+            "name": "学习项目推荐",
+            "icon": "book",
+            "parentId": "23",
             "id": "27"
         },
         "28": {
-            "path": "/revenue/message",
-            "name": "消息推送管理",
-            "icon": "bell",
-            "parentId": "21",
+            "path": "/revenue/purchase",
+            "name": "课程采购活动",
+            "icon": "shoppingCart",
+            "parentId": "23",
             "id": "28"
         },
         "29": {
+            "path": "/revenue/alliance",
+            "name": "战略活动结盟",
+            "icon": "userAdd",
+            "parentId": "23",
+            "id": "29"
+        },
+        "30": {
+            "path": "/revenue/message",
+            "name": "消息推送管理",
+            "icon": "bell",
+            "parentId": "23",
+            "id": "30"
+        },
+        "31": {
             "path": "/resources",
             "name": "共享方案资料包",
             "icon": "shareAlt",
             "parentId": "ant-design-pro-layout",
-            "id": "29"
-        },
-        "30": {
-            "path": "/resources",
-            "redirect": "/resources/deployment",
-            "parentId": "29",
-            "id": "30"
-        },
-        "31": {
-            "path": "/resources/deployment",
-            "name": "实施部署套件",
-            "icon": "setting",
-            "parentId": "29",
             "id": "31"
         },
         "32": {
-            "path": "/resources/support",
-            "name": "年度服务支撑",
-            "icon": "barChart",
-            "parentId": "29",
+            "path": "/resources",
+            "redirect": "/resources/deployment",
+            "parentId": "31",
             "id": "32"
         },
         "33": {
-            "path": "/resources/equipment",
-            "name": "续约升级装备",
-            "icon": "arrowUp",
-            "parentId": "29",
+            "path": "/resources/deployment",
+            "name": "实施部署套件",
+            "icon": "setting",
+            "parentId": "31",
             "id": "33"
         },
         "34": {
-            "path": "/resources/knowledge",
-            "name": "团队能力建设",
-            "icon": "database",
-            "parentId": "29",
+            "path": "/resources/support",
+            "name": "年度服务支撑",
+            "icon": "barChart",
+            "parentId": "31",
             "id": "34"
         },
         "35": {
+            "path": "/resources/equipment",
+            "name": "续约升级装备",
+            "icon": "arrowUp",
+            "parentId": "31",
+            "id": "35"
+        },
+        "36": {
+            "path": "/resources/knowledge",
+            "name": "团队能力建设",
+            "icon": "database",
+            "parentId": "31",
+            "id": "36"
+        },
+        "37": {
             "path": "/ai-tools",
             "name": "AI智能工具箱",
             "icon": "robot",
             "parentId": "ant-design-pro-layout",
-            "id": "35"
-        },
-        "36": {
-            "path": "/ai-tools",
-            "redirect": "/ai-tools/consultant",
-            "parentId": "35",
-            "id": "36"
-        },
-        "37": {
-            "path": "/ai-tools/consultant",
-            "name": "实施顾问分身",
-            "icon": "userSwitch",
-            "parentId": "35",
             "id": "37"
         },
         "38": {
-            "path": "/ai-tools/consultant/new",
-            "hideInMenu": true,
+            "path": "/ai-tools",
+            "redirect": "/ai-tools/consultant",
             "parentId": "37",
             "id": "38"
         },
         "39": {
-            "path": "/ai-tools/consultant/:id/edit",
-            "hideInMenu": true,
+            "path": "/ai-tools/consultant",
+            "name": "实施顾问分身",
+            "icon": "userSwitch",
             "parentId": "37",
             "id": "39"
         },
         "40": {
-            "path": "/ai-tools/consultant/:id/analytics",
+            "path": "/ai-tools/consultant/new",
             "hideInMenu": true,
-            "parentId": "37",
+            "parentId": "39",
             "id": "40"
         },
         "41": {
-            "path": "/ai-tools/simulator",
-            "name": "续费模拟器",
-            "icon": "eye",
-            "parentId": "35",
+            "path": "/ai-tools/consultant/:id/edit",
+            "hideInMenu": true,
+            "parentId": "39",
             "id": "41"
         },
         "42": {
-            "path": "/ai-tools/communication",
-            "name": "干系人沟通话术",
-            "icon": "comment",
-            "parentId": "35",
+            "path": "/ai-tools/consultant/:id/analytics",
+            "hideInMenu": true,
+            "parentId": "39",
             "id": "42"
         },
         "43": {
-            "path": "/ai-tools/travel",
-            "name": "面客差旅行程表",
-            "icon": "car",
-            "parentId": "35",
+            "path": "/ai-tools/simulator",
+            "name": "续费模拟器",
+            "icon": "eye",
+            "parentId": "37",
             "id": "43"
         },
         "44": {
-            "path": "/ai-tools/prediction",
-            "name": "预测水晶球",
-            "icon": "trophy",
-            "parentId": "35",
+            "path": "/ai-tools/communication",
+            "name": "干系人沟通话术",
+            "icon": "comment",
+            "parentId": "37",
             "id": "44"
         },
         "45": {
-            "path": "/ai-tools/avatar",
-            "name": "我的虚拟分身",
-            "icon": "user",
-            "parentId": "35",
+            "path": "/ai-tools/travel",
+            "name": "面客差旅行程表",
+            "icon": "car",
+            "parentId": "37",
             "id": "45"
         },
         "46": {
-            "path": "/ai-tools/tags",
-            "name": "智能标签在干活",
-            "icon": "tags",
-            "parentId": "35",
+            "path": "/ai-tools/prediction",
+            "name": "预测水晶球",
+            "icon": "trophy",
+            "parentId": "37",
             "id": "46"
         },
         "47": {
-            "path": "/",
-            "redirect": "/dashboard/work",
-            "parentId": "ant-design-pro-layout",
+            "path": "/ai-tools/avatar",
+            "name": "我的虚拟分身",
+            "icon": "user",
+            "parentId": "37",
             "id": "47"
         },
         "48": {
+            "path": "/ai-tools/tags",
+            "name": "智能标签在干活",
+            "icon": "tags",
+            "parentId": "37",
+            "id": "48"
+        },
+        "49": {
+            "path": "/",
+            "redirect": "/dashboard/work",
+            "parentId": "ant-design-pro-layout",
+            "id": "49"
+        },
+        "50": {
             "path": "*",
             "layout": false,
-            "id": "48"
+            "id": "50"
         },
         "ant-design-pro-layout": {
             "id": "ant-design-pro-layout",
@@ -302910,56 +302924,58 @@ async function getRoutes() {
     return {
         routes,
         routeComponents: {
-            '1': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '2': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/user/login/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/user/login/index.tsx")))),
-            '3': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '4': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '5': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '6': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '7': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '8': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '9': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '10': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '11': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '12': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/index.tsx")))),
-            '13': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/new/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/new/index.tsx")))),
-            '14': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/[id]/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/[id]/index.tsx")))),
-            '15': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/HistoryHandover.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/HistoryHandover.tsx")))),
-            '16': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/ContinuousService.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/ContinuousService.tsx")))),
-            '17': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/ContinuousServiceDetail.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/ContinuousServiceDetail.tsx")))),
-            '18': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/renewal-management.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/renewal-management.tsx")))),
-            '19': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '20': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '21': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '22': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '23': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '24': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '25': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '26': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '27': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '28': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '29': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '30': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '31': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '32': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '33': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '34': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '35': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '36': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '37': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
-            '38': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
-            '39': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
-            '40': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
-            '41': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '42': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '43': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '44': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '45': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '46': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '47': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '48': _react.default.lazy(()=>__mako_require__.ensure2("src/pages/404.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/404.tsx")))),
-            'ant-design-pro-layout': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/plugin-layout/Layout.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/plugin-layout/Layout.tsx")))),
-            'umi/plugin/openapi': _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/plugin-openapi/openapi.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/plugin-openapi/openapi.tsx"))))
+            '1': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '2': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/user/login/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/user/login/index.tsx")))),
+            '3': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '4': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '5': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '6': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '7': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '8': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '9': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '10': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '11': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '12': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/index.tsx")))),
+            '13': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/new/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/new/index.tsx")))),
+            '14': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/[id]/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/[id]/index.tsx")))),
+            '15': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/HistoryHandover.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/HistoryHandover.tsx")))),
+            '16': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/ContinuousService.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/ContinuousService.tsx")))),
+            '17': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/ContinuousServiceDetail.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/ContinuousServiceDetail.tsx")))),
+            '18': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/RiskEventDetail.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/RiskEventDetail.tsx")))),
+            '19': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/renewal-management.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/renewal-management.tsx")))),
+            '20': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/renewal/[id]/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/renewal/[id]/index.tsx")))),
+            '21': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '22': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '23': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '24': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '25': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '26': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '27': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '28': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '29': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '30': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '31': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '32': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '33': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '34': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '35': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '36': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '37': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '38': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '39': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
+            '40': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
+            '41': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
+            '42': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
+            '43': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '44': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '45': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '46': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '47': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '48': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '49': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '50': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/404.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/404.tsx")))),
+            'ant-design-pro-layout': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/plugin-layout/Layout.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/plugin-layout/Layout.tsx")))),
+            'umi/plugin/openapi': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/plugin-openapi/openapi.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/plugin-openapi/openapi.tsx"))))
         }
     };
 }
@@ -307904,13 +307920,13 @@ __mako_require__.d(exports, "default", {
 });
 var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
-var _index = _interop_require_default._(__mako_require__("src/components/TabBar/index.tsx"));
+var _index = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/TabBar/index.tsx"));
 var _TabContext = __mako_require__("src/contexts/TabContext.tsx");
-var _NotificationBar = _interop_require_default._(__mako_require__("src/components/NotificationBar/index.tsx"));
+var _NotificationBar = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/NotificationBar/index.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -307920,6 +307936,7 @@ self.$RefreshReg$ = (type, id)=>{
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
+// 路由到Tab标题的映射
 const routeToTitleMap = {
     '/dashboard/work': '我的工作看板',
     '/dashboard/layers': '客户分层盘点',
@@ -307954,15 +307971,17 @@ const routeToTitleMap = {
     '/user/register-result': '注册结果',
     '/404': '404'
 };
-const TabBarWrapper = _s(_react.default.memo(_c = _s(()=>{
+const TabBarWrapper = /*#__PURE__*/ _s(_react.default.memo(_c = _s(()=>{
     _s();
     const location = (0, _max.useLocation)();
     const { tabs, activeKey, addTab, removeTab, setActiveTab, updateTab } = (0, _TabContext.useTabManager)();
+    // 监听tab标题更新事件
     (0, _react.useEffect)(()=>{
         const handleTabTitleUpdate = (event)=>{
             const { path, title } = event.detail;
             const existingTab = tabs.find((tab)=>tab.path === path);
-            if (existingTab && existingTab.label !== title) updateTab(existingTab.key, {
+            if (existingTab && existingTab.label !== title) // 更新tab标题
+            updateTab(existingTab.key, {
                 label: title
             });
         };
@@ -307974,11 +307993,13 @@ const TabBarWrapper = _s(_react.default.memo(_c = _s(()=>{
         tabs,
         updateTab
     ]);
+    // 监听tab关闭事件
     (0, _react.useEffect)(()=>{
         const handleTabClose = (event)=>{
             const { path } = event.detail;
             const existingTab = tabs.find((tab)=>tab.path === path);
-            if (existingTab) removeTab(existingTab.key);
+            if (existingTab) // 删除对应的tab
+            removeTab(existingTab.key);
         };
         window.addEventListener('tabClose', handleTabClose);
         return ()=>{
@@ -307988,18 +308009,27 @@ const TabBarWrapper = _s(_react.default.memo(_c = _s(()=>{
         tabs,
         removeTab
     ]);
+    // 根据当前路径自动添加Tab
     (0, _react.useEffect)(()=>{
         const currentPath = location.pathname;
+        // 跳过根路径，不创建首页标签
         if (currentPath === '/') return;
+        // 检查是否是子页面（配置、分析、新建），这些页面不创建新Tab
         const isSubPage = currentPath.includes('/ai-tools/consultant/') && currentPath !== '/ai-tools/consultant';
         if (isSubPage) {
+            // 子页面不创建新Tab，直接导航到主页面Tab
             const mainTab = tabs.find((tab)=>tab.path === '/ai-tools/consultant');
             if (mainTab && activeKey !== mainTab.key) setActiveTab(mainTab.key);
             return;
         }
+        // 处理客户交接详情页与持续服务详情页的动态标题
         let title = routeToTitleMap[currentPath] || '未知页面';
+        // 如果是客户交接详情页，设置为默认标题，等待动态更新
         if (currentPath.match(/^\/profiles\/handover\/\d+$/)) title = '客户交接详情';
-        if (currentPath.match(/^\/profiles\/service\/\w+$/)) title = '持续服务详情';
+        else if (currentPath.match(/^\/profiles\/renewal\/[\w-]+$/)) title = '续约客户详情';
+        else if (currentPath.match(/^\/profiles\/service\/risk-event\/[\w-]+$/)) title = '风险事件详情';
+        else if (currentPath.match(/^\/profiles\/service\/[\w-]+$/)) title = '持续服务详情';
+        // 如果当前路径没有对应的Tab，则添加一个
         const existingTab = tabs.find((tab)=>tab.path === currentPath);
         if (!existingTab) {
             const newTab = {
@@ -308009,7 +308039,8 @@ const TabBarWrapper = _s(_react.default.memo(_c = _s(()=>{
                 closable: true
             };
             addTab(newTab);
-        } else if (activeKey !== existingTab.key) setActiveTab(existingTab.key);
+        } else if (activeKey !== existingTab.key) // 如果Tab已存在且不是当前活跃Tab，设置为活跃Tab
+        setActiveTab(existingTab.key);
     }, [
         location.pathname,
         tabs,
@@ -308017,26 +308048,27 @@ const TabBarWrapper = _s(_react.default.memo(_c = _s(()=>{
         addTab,
         setActiveTab
     ]);
-    if (tabs.length === 0) return (0, _jsxdevruntime.jsxDEV)(_NotificationBar.default, {}, void 0, false, {
+    // 如果没有Tab，只显示NotificationBar
+    if (tabs.length === 0) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_NotificationBar.default, {}, void 0, false, {
         fileName: "src/components/TabBar/TabBarWrapper.tsx",
-        lineNumber: 133,
+        lineNumber: 141,
         columnNumber: 12
     }, this);
-    return (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
         children: [
-            (0, _jsxdevruntime.jsxDEV)(_NotificationBar.default, {}, void 0, false, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_NotificationBar.default, {}, void 0, false, {
                 fileName: "src/components/TabBar/TabBarWrapper.tsx",
-                lineNumber: 138,
+                lineNumber: 146,
                 columnNumber: 7
             }, this),
-            (0, _jsxdevruntime.jsxDEV)(_index.default, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_index.default, {
                 tabs: tabs,
                 activeKey: activeKey,
                 onTabChange: setActiveTab,
                 onTabClose: removeTab
             }, void 0, false, {
                 fileName: "src/components/TabBar/TabBarWrapper.tsx",
-                lineNumber: 139,
+                lineNumber: 147,
                 columnNumber: 7
             }, this)
         ]
@@ -308530,9 +308562,9 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _max = __mako_require__("src/.umi/exports.ts");
 var prevRefreshReg;
 var prevRefreshSig;
@@ -308545,13 +308577,15 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 var _s1 = $RefreshSig$();
 var _s2 = $RefreshSig$();
-const TabContext = (0, _react.createContext)(null);
+const TabContext = /*#__PURE__*/ (0, _react.createContext)(null);
+// 提供一个安全的默认上下文，避免在Provider未挂载时崩溃
 const defaultTabContext = {
     state: {
         tabs: [],
         activeKey: '',
         nextTabId: 1
     },
+    // 默认dispatch为无操作函数，保证在极端情况下不报错
     dispatch: ()=>undefined
 };
 const tabReducer = (state, action)=>{
@@ -308562,11 +308596,14 @@ const tabReducer = (state, action)=>{
                 ...state,
                 activeKey: action.payload.key
             };
+            // 最多只能打开7个tab
             const MAX_TABS = 7;
             let newTabs = [
                 ...state.tabs
             ];
-            if (newTabs.length >= MAX_TABS) newTabs = newTabs.slice(0, -1);
+            if (newTabs.length >= MAX_TABS) // 删除最晚打开的tab（删除最后一个）
+            newTabs = newTabs.slice(0, -1);
+            // 为新Tab添加稳定的内部ID
             const newTabWithId = {
                 ...action.payload,
                 internalId: state.nextTabId
@@ -308587,9 +308624,11 @@ const tabReducer = (state, action)=>{
                 const currentIndex = state.tabs.findIndex((tab)=>tab.key === action.payload);
                 if (filteredTabs.length > 0) {
                     var _filteredTabs_targetIndex, _filteredTabs_;
+                    // 如果关闭的是当前tab，优先切换到左边的tab，如果没有则选择第一个
                     const targetIndex = Math.max(0, currentIndex - 1);
                     newActiveKey = ((_filteredTabs_targetIndex = filteredTabs[targetIndex]) === null || _filteredTabs_targetIndex === void 0 ? void 0 : _filteredTabs_targetIndex.key) || ((_filteredTabs_ = filteredTabs[0]) === null || _filteredTabs_ === void 0 ? void 0 : _filteredTabs_.key) || '';
-                } else newActiveKey = '';
+                } else // 没有其他tab了
+                newActiveKey = '';
             }
             return {
                 ...state,
@@ -308618,7 +308657,7 @@ const TabProvider = ({ children })=>{
         activeKey: '',
         nextTabId: 1
     });
-    return (0, _jsxdevruntime.jsxDEV)(TabContext.Provider, {
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabContext.Provider, {
         value: {
             state,
             dispatch
@@ -308646,13 +308685,16 @@ const useTabManager = ()=>{
             type: 'ADD_TAB',
             payload: tab
         });
+        // 只有当目标路径与当前路径不一致时才进行导航，避免重复入栈
         if (_max.history.location.pathname !== tab.path) _max.history.push(tab.path);
     };
     const removeTab = (key)=>{
         const currentIndex = state.tabs.findIndex((tab)=>tab.key === key);
         const isCurrentTab = state.activeKey === key;
+        // 计算移除Tab后的剩余Tab
         const remainingTabs = state.tabs.filter((tab)=>tab.key !== key);
         if (isCurrentTab) {
+            // 先导航到目标Tab，再移除当前Tab，避免被基于当前路径的自动添加逻辑重新加回
             let targetPath = '/dashboard/work';
             if (remainingTabs.length > 0) {
                 const targetIndex = Math.max(0, currentIndex - 1);
@@ -308660,6 +308702,7 @@ const useTabManager = ()=>{
                 targetPath = targetTab.path;
             }
             if (_max.history.location.pathname !== targetPath) _max.history.push(targetPath);
+            // 在下一轮事件循环中再执行移除，保证路由已切换
             setTimeout(()=>{
                 dispatch({
                     type: 'REMOVE_TAB',
@@ -308668,6 +308711,7 @@ const useTabManager = ()=>{
             }, 0);
             return;
         }
+        // 非当前Tab，直接移除
         dispatch({
             type: 'REMOVE_TAB',
             payload: key
@@ -314264,8 +314308,8 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 }
 
 },
- };var chunksIdToUrlMap= {"src/pages/profiles/service/renewal-management.tsx":"src_pages_profiles_service_renewal-management_tsx-async.js","p__user__login__index":"p__user__login__index-async.js","vendors":"vendors-async.js","p__agents__index":"p__agents__index-async.js","p__404":"p__404-async.js","common":"common-async.js","src/.umi/plugin-openapi/openapi.tsx":"src__umi_plugin-openapi_openapi_tsx-async.js","p__profiles__service__ContinuousServiceDetail":"p__profiles__service__ContinuousServiceDetail-async.js","p__profiles__service__ContinuousService":"p__profiles__service__ContinuousService-async.js","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.js","p__CustomerSuccess__index":"p__CustomerSuccess__index-async.js","p__handover__new__index":"p__handover__new__index-async.js","p__handover__index":"p__handover__index-async.js","p__handover__id__index":"p__handover__id__index-async.js","src/.umi/core/EmptyRoute.tsx":"src__umi_core_EmptyRoute_tsx-async.js","p__handover__HistoryHandover":"p__handover__HistoryHandover-async.js"};
-var cssChunksIdToUrlMap= {"vendors":"vendors-async.css","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.css","src/.umi/umi.ts?hmr":"umi.css"};
+ };var chunksIdToUrlMap= {"p__handover__HistoryHandover":"p__handover__HistoryHandover-async.js","p__agents__index":"p__agents__index-async.js","p__handover__index":"p__handover__index-async.js","p__CustomerSuccess__index":"p__CustomerSuccess__index-async.js","src/.umi/core/EmptyRoute.tsx":"src__umi_core_EmptyRoute_tsx-async.js","p__profiles__service__RiskEventDetail":"p__profiles__service__RiskEventDetail-async.js","vendors":"vendors-async.js","p__404":"p__404-async.js","p__profiles__renewal__id__index":"p__profiles__renewal__id__index-async.js","p__handover__id__index":"p__handover__id__index-async.js","p__profiles__service__ContinuousServiceDetail":"p__profiles__service__ContinuousServiceDetail-async.js","src/pages/profiles/service/renewal-management.tsx":"src_pages_profiles_service_renewal-management_tsx-async.js","src/.umi/plugin-openapi/openapi.tsx":"src__umi_plugin-openapi_openapi_tsx-async.js","p__handover__new__index":"p__handover__new__index-async.js","common":"common-async.js","p__profiles__service__ContinuousService":"p__profiles__service__ContinuousService-async.js","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.js","p__user__login__index":"p__user__login__index-async.js"};
+var cssChunksIdToUrlMap= {"src/.umi/umi.ts?hmr":"umi.css","vendors":"vendors-async.css","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.css"};
 var cssInstalledChunks = { "src/.umi/umi.ts?hmr" : 0 };
 var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId, global) {
 
@@ -314751,7 +314795,7 @@ var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId,
 'use strict';
 // mako/runtime/hmr plugin
 !(function () {
-  requireModule._h = '99224977657056019';
+  requireModule._h = '15182984273382898042';
   requireModule.currentHash = function () {
     return requireModule._h;
   };
@@ -315010,7 +315054,7 @@ var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId,
 
 
 (function(){
-  let map = {"src/.umi/core/EmptyRoute.tsx":["src/.umi/core/EmptyRoute.tsx"],"src/.umi/plugin-layout/Layout.tsx":["vendors","src/.umi/plugin-layout/Layout.tsx"],"src/.umi/plugin-openapi/openapi.tsx":["vendors","src/.umi/plugin-openapi/openapi.tsx"],"src/pages/404.tsx":["p__404"],"src/pages/CustomerSuccess/index.tsx":["common","p__CustomerSuccess__index"],"src/pages/agents/index.tsx":["p__agents__index"],"src/pages/handover/HistoryHandover.tsx":["common","p__handover__HistoryHandover"],"src/pages/handover/[id]/index.tsx":["common","p__handover__id__index"],"src/pages/handover/index.tsx":["common","p__handover__index"],"src/pages/handover/new/index.tsx":["p__handover__new__index"],"src/pages/profiles/service/ContinuousService.tsx":["common","p__profiles__service__ContinuousService"],"src/pages/profiles/service/ContinuousServiceDetail.tsx":["common","p__profiles__service__ContinuousServiceDetail"],"src/pages/profiles/service/renewal-management.tsx":["src/pages/profiles/service/renewal-management.tsx"],"src/pages/user/login/index.tsx":["p__user__login__index"]};
+  let map = {"src/.umi/core/EmptyRoute.tsx":["src/.umi/core/EmptyRoute.tsx"],"src/.umi/plugin-layout/Layout.tsx":["vendors","src/.umi/plugin-layout/Layout.tsx"],"src/.umi/plugin-openapi/openapi.tsx":["vendors","src/.umi/plugin-openapi/openapi.tsx"],"src/pages/404.tsx":["p__404"],"src/pages/CustomerSuccess/index.tsx":["common","p__CustomerSuccess__index"],"src/pages/agents/index.tsx":["p__agents__index"],"src/pages/handover/HistoryHandover.tsx":["common","p__handover__HistoryHandover"],"src/pages/handover/[id]/index.tsx":["common","p__handover__id__index"],"src/pages/handover/index.tsx":["common","p__handover__index"],"src/pages/handover/new/index.tsx":["p__handover__new__index"],"src/pages/profiles/renewal/[id]/index.tsx":["common","p__profiles__renewal__id__index"],"src/pages/profiles/service/ContinuousService.tsx":["common","p__profiles__service__ContinuousService"],"src/pages/profiles/service/ContinuousServiceDetail.tsx":["common","p__profiles__service__ContinuousServiceDetail"],"src/pages/profiles/service/RiskEventDetail.tsx":["common","p__profiles__service__RiskEventDetail"],"src/pages/profiles/service/renewal-management.tsx":["common","p__profiles__renewal__id__index"],"src/pages/user/login/index.tsx":["p__user__login__index"]};
   requireModule.updateEnsure2Map = function(newMapping) {
     map = newMapping;
   };

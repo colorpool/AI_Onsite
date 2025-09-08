@@ -16,6 +16,7 @@ interface StakeholderOrgChartProps {
   onStakeholderUpdate?: (stakeholder: Stakeholder) => void;
   onStakeholderAdd?: (stakeholder: Stakeholder) => void;
   onStakeholderDelete?: (id: string) => void;
+  onStakeholderSelect?: (stakeholder: Stakeholder | null) => void;
   chartHeight?: number;
 }
 
@@ -24,6 +25,7 @@ const StakeholderOrgChart: React.FC<StakeholderOrgChartProps> = ({
   onStakeholderUpdate,
   onStakeholderAdd,
   onStakeholderDelete,
+  onStakeholderSelect,
   chartHeight,
 }) => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -313,7 +315,15 @@ const StakeholderOrgChart: React.FC<StakeholderOrgChartProps> = ({
       title: (
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
           <Avatar icon={<UserOutlined />} size="small" />
-          <div style={{ flex: 1 }}>
+          <div 
+            style={{ flex: 1, cursor: 'pointer' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onStakeholderSelect) {
+                onStakeholderSelect(node);
+              }
+            }}
+          >
             <div style={{ fontWeight: 500, fontSize: '14px' }}>
               {node.name}
               {node.status === 'left' && (
@@ -384,6 +394,7 @@ const StakeholderOrgChart: React.FC<StakeholderOrgChartProps> = ({
   return (
     <Card
       title="客户干系人架构"
+      size="small"
       extra={
         <div style={{ display: 'flex', gap: '8px' }}>
           {isEditMode ? (

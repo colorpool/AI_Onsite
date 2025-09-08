@@ -17,6 +17,7 @@ import {
   SyncOutlined,
 } from '@ant-design/icons';
 import { DashboardMetrics, CustomerProfile } from '@/types/tab';
+import { mockCustomerHandovers } from '../mock/handoverData';
 
 // 仪表板内容
 export const DashboardContent: React.FC = () => {
@@ -102,7 +103,7 @@ export const DashboardContent: React.FC = () => {
                   <Avatar size="small" style={{ marginRight: 8 }}>
                     {activity.customer.charAt(0)}
                   </Avatar>
-                  <div style={{ flex: 1 }}>
+                  <div style={{ flex: 1 }}>11111111
                     <div>{activity.customer}</div>
                     <div style={{ fontSize: 12, color: '#666' }}>{activity.action}</div>
                   </div>
@@ -121,35 +122,35 @@ export const DashboardContent: React.FC = () => {
 
 // 交接实施内容
 export const HandoverImplementationContent: React.FC = () => {
-  const handoverData = [
-    {
-      key: '1',
-      customer: '阿里巴巴',
-      contact: '张三',
-      phone: '13800138000',
-      status: 'pending',
-      priority: 'high',
-      createTime: '2024-01-15',
-    },
-    {
-      key: '2',
-      customer: '腾讯科技',
-      contact: '李四',
-      phone: '13900139000',
-      status: 'in_progress',
-      priority: 'medium',
-      createTime: '2024-01-14',
-    },
-    {
-      key: '3',
-      customer: '字节跳动',
-      contact: '王五',
-      phone: '13700137000',
-      status: 'completed',
-      priority: 'low',
-      createTime: '2024-01-13',
-    },
-  ];
+  
+  // 使用mockCustomerHandovers数据，转换为表格所需格式
+  const handoverData = mockCustomerHandovers.slice(0, 3).map((item, index) => {
+    // 将状态映射到表格需要的状态
+    let status = 'pending';
+    if (item.handoverStatus === 'normal') {
+      status = 'in_progress';
+    } else if (item.expectationAlignment === 'aligned') {
+      status = 'completed';
+    }
+    
+    // 将风险等级映射到优先级
+    let priority = 'medium';
+    if (item.riskLevel === 'high') {
+      priority = 'high';
+    } else if (item.riskLevel === 'low') {
+      priority = 'low';
+    }
+    
+    return {
+      key: item.id,
+      customer: item.customerName,
+      contact: item.stakeholders && item.stakeholders.length > 0 ? item.stakeholders[0].name : '-',
+      phone: item.stakeholders && item.stakeholders.length > 0 ? item.stakeholders[0].contact : '-',
+      status,
+      priority,
+      createTime: new Date(item.createdAt).toLocaleDateString(),
+    };
+  });
 
   const columns = [
     {
@@ -231,22 +232,22 @@ export const HandoverImplementationContent: React.FC = () => {
         <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
           <Col span={6}>
             <Card size="small" title="待交接客户">
-              <Statistic title="客户数量" value={8} prefix={<UserOutlined />} />
+              <Statistic title="客户数量" value={mockCustomerHandovers.length} prefix={<UserOutlined />} />
             </Card>
           </Col>
           <Col span={6}>
             <Card size="small" title="进行中交接">
-              <Statistic title="客户数量" value={12} prefix={<SyncOutlined spin />} />
+              <Statistic title="客户数量" value={mockCustomerHandovers.filter(item => item.handoverStatus === 'normal').length} prefix={<SyncOutlined spin />} />
             </Card>
           </Col>
           <Col span={6}>
             <Card size="small" title="已完成交接">
-              <Statistic title="客户数量" value={45} prefix={<CheckCircleOutlined />} />
+              <Statistic title="客户数量" value={mockCustomerHandovers.filter(item => item.expectationAlignment === 'aligned').length} prefix={<CheckCircleOutlined />} />
             </Card>
           </Col>
           <Col span={6}>
             <Card size="small" title="实施项目">
-              <Statistic title="项目数量" value={15} prefix={<TrophyOutlined />} />
+              <Statistic title="项目数量" value={mockCustomerHandovers.filter(item => item.hasHandoverDocument).length} prefix={<TrophyOutlined />} />
             </Card>
           </Col>
         </Row>
@@ -259,6 +260,122 @@ export const HandoverImplementationContent: React.FC = () => {
           size="small"
         />
       </Card>
+    </div>
+  );
+};
+
+// 持续服务内容
+export const ContinuousServiceContent: React.FC = () => {
+  // 健康度分布数据
+  const healthDistribution = [
+    { level: '健康', count: 85, color: '#52c41a', percentage: 68 },
+    { level: '一般', count: 25, color: '#faad14', percentage: 20 },
+    { level: '风险', count: 15, color: '#ff4d4f', percentage: 12 }
+  ];
+
+  // 异动情况数据
+  const changeData = [
+    { id: 1, company: '北京科技有限公司', type: '健康', change: '85', time: '2025-01-05' },
+    { id: 2, company: '上海智能科技有限公司', type: '一般', change: '65', time: '2025-01-08' },
+    { id: 3, company: '深圳创新科技', type: '风险', change: '35', time: '2025-01-12' }
+  ];
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        {/* 健康度分布 */}
+        <Col span={12}>
+          <Card 
+            title="健康度分布" 
+            style={{ 
+              height: '200px',
+              minHeight: '200px',
+              maxHeight: '200px',
+              overflow: 'hidden'
+            }}
+            bodyStyle={{
+              padding: '16px',
+              height: '144px',
+              minHeight: '144px',
+              maxHeight: '144px',
+              overflow: 'hidden'
+            }}
+            size="small"
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', height: '100%' }}>
+              {healthDistribution.map((item, index) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <Avatar 
+                    size={14} 
+                    style={{ backgroundColor: item.color, minWidth: '14px' }}
+                  />
+                  <span style={{ fontSize: '12px', minWidth: '30px' }}>{item.level}</span>
+                  <div style={{ flex: 1, height: '12px', backgroundColor: '#f0f0f0', borderRadius: '6px', overflow: 'hidden' }}>
+                    <div 
+                      style={{ 
+                        height: '100%', 
+                        backgroundColor: item.color, 
+                        width: `${item.percentage}%`,
+                        borderRadius: '6px'
+                      }}
+                    />
+                  </div>
+                  <span style={{ fontSize: '12px', fontWeight: '600', minWidth: '20px' }}>{item.count}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </Col>
+
+        {/* 异动情况 */}
+        <Col span={12}>
+          <Card 
+            title="异动情况" 
+            style={{ 
+              height: '200px',
+              minHeight: '200px',
+              maxHeight: '200px',
+              overflow: 'hidden'
+            }}
+            bodyStyle={{
+              padding: '16px',
+              height: '144px',
+              minHeight: '144px',
+              maxHeight: '144px',
+              overflow: 'hidden'
+            }}
+            size="small"
+          >
+            <div style={{ height: '100%', overflowY: 'auto' }}>
+              {changeData.map((item) => (
+                <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', padding: '4px 0' }}>
+                  <Avatar size={14} style={{ backgroundColor: '#1890ff', minWidth: '14px' }}>
+                    {item.company.charAt(0)}
+                  </Avatar>
+                  <div style={{ flex: 1, overflow: 'hidden' }}>
+                    <div style={{ fontSize: '11px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {item.company}
+                    </div>
+                  </div>
+                  <Tag 
+                    color={item.type === '健康' ? 'green' : item.type === '一般' ? 'orange' : 'red'}
+                    style={{ 
+                      borderRadius: 2,
+                      fontSize: '10px',
+                      padding: '0 3px',
+                      lineHeight: '16px',
+                      height: '16px',
+                      margin: 0
+                    }}
+                  >
+                    {item.type}
+                  </Tag>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };
@@ -350,6 +467,8 @@ export const generateTabContent = (tabName: string): React.ReactNode => {
       return <DashboardContent />;
     case 'handover-implementation':
       return <HandoverImplementationContent />;
+    case 'continuous-service':
+      return <ContinuousServiceContent />;
     default:
       return <DefaultContent tabName={tabName} />;
   }

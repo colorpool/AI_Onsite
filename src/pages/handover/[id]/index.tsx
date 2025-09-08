@@ -29,6 +29,7 @@ import {
 } from '@ant-design/icons';
 import { useNavigate, useParams, useLocation } from 'umi';
 import { mockCustomerHandovers, mockCRMSyncData, mockStakeholders, mockOnboardingTasks, mockInternalComments } from '../../../mock/handoverData';
+import { getPurchasedProducts } from '../../../mock/continuousServiceData';
 import { CustomerHandover, Stakeholder, OnboardingTask, InternalComment } from '../../../types/handover';
 
 import HandoverDetailHeader from '../../../components/handover/HandoverDetailHeader';
@@ -47,7 +48,7 @@ const tabStyles = {
     padding: '0 24px'
   },
   tab: {
-    padding: '16px 32px',
+    padding: '8px 24px',
     margin: '0',
     border: 'none',
     background: 'transparent',
@@ -109,10 +110,35 @@ const HandoverDetailPage: React.FC = () => {
   const [internalComments, setInternalComments] = useState<InternalComment[]>([]);
   const [newComment, setNewComment] = useState('');
   const [stakeholders, setStakeholders] = useState<Stakeholder[]>([]);
+  const [selectedStakeholder, setSelectedStakeholder] = useState<Stakeholder | null>(null);
   const [analysisData, setAnalysisData] = useState({
     painPoints: '',
     successCriteria: '',
     risks: '',
+    shortTermExpectation: '',
+    longTermExpectation: '',
+    unacceptableSituations: '',
+    customerSuccessCriteria: '',
+  });
+
+  // 风险勾选状态
+  const [riskChecked, setRiskChecked] = useState({
+    leadership: false,
+    unclear_needs: false,
+    high_expectations: false,
+    tight_schedule: false,
+    difficult_contact: false,
+    other_risks: false
+  });
+
+  // 商机勾选状态
+  const [opportunityChecked, setOpportunityChecked] = useState({
+    account_expansion: false,
+    version_upgrade: false,
+    new_modules: false,
+    referrals: false,
+    long_term: false,
+    other_opportunities: false
   });
 
   // 解析 URL 中的默认 tab，并保持与 URL 同步
@@ -146,6 +172,10 @@ const HandoverDetailPage: React.FC = () => {
             painPoints: data.corePainPoints || '客户对数据安全要求较高，需要满足行业合规标准。',
             successCriteria: data.successCriteria || '完成系统部署，用户培训，实现业务流程数字化。',
             risks: data.riskDetails || '客户技术团队经验不足，可能需要额外的技术支持。',
+            shortTermExpectation: data.shortTermExpectation || '',
+            longTermExpectation: data.longTermExpectation || '',
+            unacceptableSituations: data.unacceptableSituations || '',
+            customerSuccessCriteria: data.customerSuccessCriteria || '',
           });
           
           // 动态设置页面标题
@@ -257,7 +287,7 @@ const HandoverDetailPage: React.FC = () => {
   if (loading) {
     return (
       <div style={{ 
-        padding: '24px', 
+        padding: '32px 40px', 
         textAlign: 'center',
         background: '#f5f5f5',
         minHeight: 'calc(100vh - 120px)',
@@ -271,7 +301,7 @@ const HandoverDetailPage: React.FC = () => {
   if (!handoverData) {
     return (
       <div style={{ 
-        padding: '24px', 
+        padding: '32px 40px', 
         textAlign: 'center',
         background: '#f5f5f5',
         minHeight: 'calc(100vh - 120px)',
@@ -316,12 +346,12 @@ const HandoverDetailPage: React.FC = () => {
         </title>
       </Helmet>
       <div style={{
-        padding: '24px',
+        padding: '32px 40px',
         background: '#f5f5f5',
         minHeight: 'calc(100vh - 120px)',
         paddingBottom: '60px' // 为footer留出底部间距
       }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* 新设计的头部组件 */}
           <div style={{ marginBottom: '24px' }}>
             <HandoverDetailHeader
@@ -365,72 +395,96 @@ const HandoverDetailPage: React.FC = () => {
               label: '行动计划',
               children: (
                 <div style={{ padding: '24px' }}>
-                  {/* Onboarding行动计划 */}
-                  <Card 
-                    title="Onboarding行动计划" 
-                    style={{ marginBottom: '16px', borderRadius: '8px' }} 
-                    size="small"
-                    extra={
-                      <Button 
-                        type="primary" 
+                  <Row gutter={16}>
+                    <Col span={12}>
+                      {/* Onboarding行动计划 */}
+                      <Card 
+                        title="Onboarding行动计划" 
+                        style={{ borderRadius: '8px', height: '260px' }} 
                         size="small"
-                        disabled={!onboardingTasks.every(task => task.completed) || !!handoverData?.deliveredAt}
-                        onClick={() => {
-                          const now = new Date().toISOString();
-                          setHandoverData(prev => prev ? { ...prev, deliveredAt: now, handoverStatus: 'completed' as any } : null);
-                          message.success('交付完成确认成功！交接记录已标记为已完成');
-                        }}
+                        extra={
+                          <Button 
+                            type="primary" 
+                            size="small"
+                            disabled={!onboardingTasks.every(task => task.completed) || !!handoverData?.deliveredAt}
+                            onClick={() => {
+                              const now = new Date().toISOString();
+                              setHandoverData(prev => prev ? { ...prev, deliveredAt: now, handoverStatus: 'completed' as any } : null);
+                              message.success('交付完成确认成功！交接记录已标记为已完成');
+                            }}
+                          >
+                            {handoverData?.deliveredAt ? '已交付完成' : '确认交付完成'}
+                          </Button>
+                        }
                       >
-                        {handoverData?.deliveredAt ? '已交付完成' : '确认交付完成'}
-                      </Button>
-                    }
-                  >
-                    <div style={{ padding: '8px 0' }}>
-                      {onboardingTasks.map((task) => (
-                        <div key={task.id} style={{ marginBottom: '12px' }}>
-                          <Checkbox checked={task.completed} onChange={() => handleTaskToggle(task.id)}>
-                            <span style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? '#999' : '#333', fontSize: '14px' }}>
-                              {task.title}
-                            </span>
-                          </Checkbox>
-                          {task.dueDate && (
-                            <Text type="secondary" style={{ fontSize: '12px', marginLeft: '8px' }}>
-                              {task.dueDate}
-                            </Text>
+                        <div style={{ padding: '8px 0', height: '180px', overflowY: 'auto' }}>
+                          {onboardingTasks.map((task) => (
+                            <div key={task.id} style={{ marginBottom: '12px' }}>
+                              <Checkbox checked={task.completed} onChange={() => handleTaskToggle(task.id)}>
+                                <span style={{ textDecoration: task.completed ? 'line-through' : 'none', color: task.completed ? '#999' : '#1890ff', fontSize: '14px', fontWeight: '500' }}>
+                                  {task.title}
+                                </span>
+                              </Checkbox>
+                              {task.dueDate && (
+                                <Text type="secondary" style={{ fontSize: '12px', marginLeft: '8px' }}>
+                                  {task.dueDate}
+                                </Text>
+                              )}
+                            </div>
+                          ))}
+                          
+                          {handoverData?.deliveredAt && (
+                            <div style={{ 
+                              marginTop: '16px', 
+                              padding: '12px', 
+                              backgroundColor: '#f6ffed', 
+                              border: '1px solid #b7eb8f', 
+                              borderRadius: '6px' 
+                            }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <CheckCircleOutlined style={{ color: '#52c41a' }} />
+                                <Text style={{ color: '#52c41a', fontWeight: '500' }}>
+                                  交付完成时间: {new Date(handoverData.deliveredAt).toLocaleString()}
+                                </Text>
+                              </div>
+                            </div>
                           )}
                         </div>
-                      ))}
-                      
-                      {handoverData?.deliveredAt && (
-                        <div style={{ 
-                          marginTop: '16px', 
-                          padding: '12px', 
-                          backgroundColor: '#f6ffed', 
-                          border: '1px solid #b7eb8f', 
-                          borderRadius: '6px' 
-                        }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <CheckCircleOutlined style={{ color: '#52c41a' }} />
-                            <Text style={{ color: '#52c41a', fontWeight: '500' }}>
-                              交付完成时间: {new Date(handoverData.deliveredAt).toLocaleString()}
-                            </Text>
-                          </div>
+                      </Card>
+                    </Col>
+                    <Col span={12}>
+                      {/* 服务历史 */}
+                      <Card 
+                        title="服务历史" 
+                        style={{ borderRadius: '8px', height: '260px' }} 
+                        size="small"
+                      >
+                        <div style={{ height: '180px', overflowY: 'auto', overflowX: 'hidden', paddingTop: '8px' }}>
+                          <Timeline mode="left">
+                            <Timeline.Item label={handoverData.createdAt}><span style={{ color: '#52c41a', fontWeight: '500' }}>创建交接记录</span></Timeline.Item>
+                            {onboardingTasks
+                              .filter(t => t.completed)
+                              .map(t => (
+                                <Timeline.Item key={t.id} color="green"><span style={{ color: '#52c41a', fontWeight: '500' }}>完成任务：{t.title}</span></Timeline.Item>
+                              ))}
+                            <Timeline.Item label={handoverData.updatedAt} color="blue"><span style={{ color: '#1890ff', fontWeight: '500' }}>最近一次更新</span></Timeline.Item>
+                          </Timeline>
                         </div>
-                      )}
-                    </div>
-                  </Card>
+                      </Card>
+                    </Col>
+                  </Row>
 
                   {/* 近期协作动态 */}
-                  <Card title="近期协作动态" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
+                  <Card title={<span style={{ color: '#eb2f96', fontWeight: '600' }}>近期协作动态</span>} style={{ marginTop: '24px', marginBottom: '16px', borderRadius: '8px' }} size="small">
                     <div style={{ maxHeight: '240px', overflowY: 'auto' }}>
                       {internalComments.slice(0, 5).map((comment) => (
-                        <div key={comment.id} style={{ padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
-                            <Avatar icon={<UserOutlined />} size={24} style={{ marginRight: '8px' }} />
-                            <span style={{ fontWeight: 500 }}>{comment.author}</span>
-                            <span style={{ color: '#999', marginLeft: '8px', fontSize: '12px' }}>{comment.createdAt}</span>
+                        <div key={comment.id} style={{ padding: '6px 0', borderBottom: '1px solid #f0f0f0' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3px' }}>
+                            <Avatar icon={<UserOutlined />} size={20} style={{ marginRight: '6px' }} />
+                            <span style={{ fontWeight: 500, fontSize: '13px' }}>{comment.author}</span>
+                            <span style={{ color: '#999', marginLeft: '6px', fontSize: '11px' }}>{comment.createdAt}</span>
                           </div>
-                          <div style={{ fontSize: '14px' }}>{comment.content}</div>
+                          <div style={{ fontSize: '13px', lineHeight: '1.4' }}>{comment.content}</div>
                         </div>
                       ))}
                     </div>
@@ -488,7 +542,7 @@ const HandoverDetailPage: React.FC = () => {
               label: '基础信息',
               children: (
                 <div style={{ padding: '24px' }}>
-                  <Card title="基本信息" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
+                  <Card title={<span style={{ color: '#1890ff', fontWeight: '600' }}>基本信息</span>} size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
                     <Descriptions column={1} size="small">
                       <Descriptions.Item label="客户名称">{handoverData.customerName}</Descriptions.Item>
                       <Descriptions.Item label="交接状态">
@@ -499,7 +553,7 @@ const HandoverDetailPage: React.FC = () => {
                       </Descriptions.Item>
                     </Descriptions>
                   </Card>
-                  <Card title="CRM信息" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
+                  <Card title={<span style={{ color: '#52c41a', fontWeight: '600' }}>CRM信息</span>} size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
                     <Descriptions column={2} size="small">
                       <Descriptions.Item label="合同金额">
                         <Text strong style={{ color: '#1890ff' }}>¥{handoverData.crmData?.contractAmount?.toLocaleString() || '0'}</Text>
@@ -509,13 +563,18 @@ const HandoverDetailPage: React.FC = () => {
                         <Text strong style={{ color: '#52c41a' }}>{handoverData.crmData?.accountCount || '0'} 个</Text>
                       </Descriptions.Item>
                       <Descriptions.Item label="已购产品" span={2}>
-                        {handoverData.crmData?.purchasedProducts?.map((p, i) => (
+                        {getPurchasedProducts(handoverData.customerId).products.map((p, i) => (
                           <Tag key={i} color="blue" style={{ marginBottom: 4 }}>{p}</Tag>
-                        )) || '暂无产品信息'}
+                        ))}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="增值服务" span={2}>
+                        {getPurchasedProducts(handoverData.customerId).services.map((s, i) => (
+                          <Tag key={i} color="orange" style={{ marginBottom: 4 }}>{s}</Tag>
+                        ))}
                       </Descriptions.Item>
                     </Descriptions>
                   </Card>
-                  <Card title="销售来源信息" size="small" style={{ borderRadius: '8px' }}>
+                  <Card title={<span style={{ color: '#722ed1', fontWeight: '600' }}>销售来源信息</span>} size="small" style={{ borderRadius: '8px' }}>
                     <Descriptions column={2} size="small">
                       <Descriptions.Item label="销售类型">
                         <Tag color={handoverData.crmData?.salesSource === 'direct' ? 'blue' : 'green'}>
@@ -543,53 +602,7 @@ const HandoverDetailPage: React.FC = () => {
                 </div>
               )
             },
-            {
-              key: 'expectation-alignment',
-              label: '期望对齐',
-              children: (
-                <div style={{ padding: '24px' }}>
-                  <Card title="期望对齐状态" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                      <div>
-                        <Text type="secondary" style={{ fontSize: '12px' }}>对齐状态</Text>
-                        <div style={{ marginTop: '4px' }}>
-                          <Tag color={handoverData.expectationAlignment === 'aligned' ? 'green' : handoverData.expectationAlignment === 'partially_aligned' ? 'gold' : 'red'} style={{ fontSize: '14px', padding: '4px 12px' }}>
-                            {handoverData.expectationAlignment === 'aligned' ? '已对齐' : handoverData.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'}
-                          </Tag>
-                        </div>
-                      </div>
-                      <div>
-                        <Text type="secondary" style={{ fontSize: '12px' }}>档案完整度</Text>
-                        <div style={{ marginTop: '4px' }}>
-                          <Progress 
-                            percent={handoverData.expectationAlignment === 'aligned' ? 100 : handoverData.expectationAlignment === 'partially_aligned' ? 60 : 30} 
-                            size="small" 
-                            showInfo={false}
-                            strokeColor={handoverData.expectationAlignment === 'aligned' ? '#52c41a' : handoverData.expectationAlignment === 'partially_aligned' ? '#faad14' : '#ff4d4f'}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                  <Card title="核心痛点与期望" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
-                    <TextArea
-                      value={analysisData.painPoints}
-                      onChange={(e) => setAnalysisData(prev => ({ ...prev, painPoints: e.target.value }))}
-                      rows={3}
-                      placeholder="请输入客户的核心痛点和期望..."
-                    />
-                  </Card>
-                  <Card title="成功标准" style={{ marginBottom: '16px', borderRadius: '8px' }} size="small">
-                    <TextArea
-                      value={analysisData.successCriteria}
-                      onChange={(e) => setAnalysisData(prev => ({ ...prev, successCriteria: e.target.value }))}
-                      rows={3}
-                      placeholder="请输入补充的成功标准..."
-                    />
-                  </Card>
-                </div>
-              )
-            },
+
             {
               key: 'stakeholders',
               label: '干系人',
@@ -602,21 +615,66 @@ const HandoverDetailPage: React.FC = () => {
                         onStakeholderUpdate={handleStakeholderUpdate}
                         onStakeholderAdd={handleStakeholderAdd}
                         onStakeholderDelete={handleStakeholderDelete}
+                        onStakeholderSelect={setSelectedStakeholder}
                         chartHeight={ORG_CHART_HEIGHT}
                       />
                     </Col>
                     <Col span={8}>
-                      <Card title="关键联系人" size="small" style={{ borderRadius: '8px' }}>
+                      <Card title={<span style={{ color: '#fa8c16', fontWeight: '600' }}>干系人详情</span>} size="small" style={{ borderRadius: '8px' }}>
                         <div style={{ height: ORG_CHART_HEIGHT, overflow: 'auto' }}>
-                          {handoverData.crmData?.keyContacts && handoverData.crmData.keyContacts.length > 0 ? (
-                            handoverData.crmData.keyContacts.map((contact, index) => (
-                              <div key={index} style={{ marginBottom: '12px', padding: '12px', background: '#f8f9fa', borderRadius: '6px', border: '1px solid #e8e8e8' }}>
-                                <Text>{contact}</Text>
+                          {selectedStakeholder ? (
+                            <div style={{ padding: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                                <Avatar icon={<UserOutlined />} size="large" />
+                                <div>
+                                  <div style={{ fontWeight: 500, fontSize: '16px', marginBottom: '4px' }}>
+                                    {selectedStakeholder.name}
+                                  </div>
+                                  <div style={{ color: '#666', fontSize: '14px' }}>
+                                    {selectedStakeholder.position}
+                                  </div>
+                                </div>
                               </div>
-                            ))
+                              
+                              <Descriptions column={1} size="small" style={{ marginBottom: '16px' }}>
+                                <Descriptions.Item label="重要性">
+                                  <Tag color={selectedStakeholder.role === 'decision_maker' ? 'red' : selectedStakeholder.role === 'influencer' ? 'orange' : 'blue'}>
+                                    {selectedStakeholder.role === 'decision_maker' ? '决策者' : 
+                                     selectedStakeholder.role === 'influencer' ? '影响者' : 
+                                     selectedStakeholder.role === 'user' ? '使用者' : '技术联系人'}
+                                  </Tag>
+                                </Descriptions.Item>
+                                <Descriptions.Item label="联系方式">
+                                  {selectedStakeholder.contact}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="状态">
+                                  <Tag color={selectedStakeholder.status === 'active' ? 'green' : 'red'}>
+                                    {selectedStakeholder.status === 'active' ? '在职' : '已离职'}
+                                  </Tag>
+                                </Descriptions.Item>
+                              </Descriptions>
+                              
+                              {selectedStakeholder.history && selectedStakeholder.history.length > 0 && (
+                                <div>
+                                  <div style={{ fontWeight: 500, marginBottom: '8px', fontSize: '14px' }}>上次沟通记录</div>
+                                  <Timeline>
+                                    {selectedStakeholder.history.map((record, index) => (
+                                      <Timeline.Item key={index}>
+                                        <div style={{ fontSize: '12px' }}>
+                                          <div>{record.startDate}{record.endDate ? ` ~ ${record.endDate}` : ''}</div>
+                                          <div style={{ color: '#666' }}>{record.position}</div>
+                                          {record.note && <div style={{ color: '#999', marginTop: '4px' }}>{record.note}</div>}
+                                        </div>
+                                      </Timeline.Item>
+                                    ))}
+                                  </Timeline>
+                                </div>
+                              )}
+                            </div>
                           ) : (
-                            <div style={{ padding: '20px', textAlign: 'center', color: '#999' }}>
-                              暂无关键联系人信息
+                            <div style={{ padding: '40px 20px', textAlign: 'center', color: '#999' }}>
+                              <UserOutlined style={{ fontSize: '32px', marginBottom: '12px', display: 'block' }} />
+                              <div>点击左侧干系人姓名查看详细信息</div>
                             </div>
                           )}
                         </div>
@@ -631,73 +689,220 @@ const HandoverDetailPage: React.FC = () => {
               label: '风险与商机',
               children: (
                 <div style={{ padding: '24px' }}>
-                  <Card title="风险提示" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                      <div>
-                        <Text type="secondary" style={{ fontSize: '12px' }}>风险等级</Text>
-                        <div style={{ marginTop: '4px' }}>
-                          <Tag color={riskColorMap[handoverData.riskLevel]} style={{ fontSize: '14px', padding: '4px 12px' }}>
-                            {riskTextMap[handoverData.riskLevel]}
-                          </Tag>
-                        </div>
-                      </div>
-                      <div>
-                        <Text type="secondary" style={{ fontSize: '12px' }}>风险评分</Text>
-                        <div style={{ marginTop: '4px' }}>
-                          <Progress 
-                            percent={handoverData.riskLevel === 'high' ? 90 : handoverData.riskLevel === 'medium' ? 60 : 30} 
-                            size="small" 
-                            showInfo={false}
-                            strokeColor={riskColorMap[handoverData.riskLevel]}
+                  <Card 
+                    title={<span style={{ color: '#fa8c16' }}>风险类型 (可多选+补充说明)</span>} 
+                    size="small" 
+                    style={{ marginBottom: '16px', borderRadius: '8px', backgroundColor: '#ffffff' }}
+                  >
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={riskChecked.leadership}
+                        onChange={(e) => setRiskChecked(prev => ({ ...prev, leadership: e.target.checked }))}
+                      >
+                        关键领导力缺失对接
+                      </Checkbox>
+                      {riskChecked.leadership && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                            placeholder="若勾选上项，请说明：反对领导姓名/职位、反对原因、当前协调进展，如：王总（运营总监）担心平台操作复杂，已安排1次demo演示"
+                            rows={3}
                           />
                         </div>
-                      </div>
+                      )}
                     </div>
+                    
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={riskChecked.unclear_needs}
+                        onChange={(e) => setRiskChecked(prev => ({ ...prev, unclear_needs: e.target.checked }))}
+                      >
+                        客户需求场景不明确
+                      </Checkbox>
+                      {riskChecked.unclear_needs && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                             placeholder="若勾选上项，请说明：当前未明确的需求点、客户模糊表述，如：客户提到'要做员工培训'，但未明确培训内容/对象/频次"
+                             rows={3}
+                           />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={riskChecked.high_expectations}
+                        onChange={(e) => setRiskChecked(prev => ({ ...prev, high_expectations: e.target.checked }))}
+                      >
+                        客户对产品功能期待值过高
+                      </Checkbox>
+                      {riskChecked.high_expectations && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                             placeholder="若勾选上项，请说明：客户期待的未实现功能，已沟通的差异点，如：客户期待平台支持'自动生成培训计划'，已说明需要制定开发"
+                             rows={3}
+                           />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={riskChecked.tight_schedule}
+                        onChange={(e) => setRiskChecked(prev => ({ ...prev, tight_schedule: e.target.checked }))}
+                      >
+                        客户实施需求多/周期紧
+                      </Checkbox>
+                      {riskChecked.tight_schedule && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                            placeholder="若勾选上项，请说明：具体实施需求（如定制化配置、数据迁移）、客户要求的完成时间，如：要求1周内完成1000条工数据迁移，已协调技术团队支持"
+                            rows={3}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={riskChecked.difficult_contact}
+                        onChange={(e) => setRiskChecked(prev => ({ ...prev, difficult_contact: e.target.checked }))}
+                      >
+                        对接人性格难接触
+                      </Checkbox>
+                      {riskChecked.difficult_contact && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                            placeholder="若勾选上项，请说明：对接人性格特点（如苛刻、敏感、他控制）、沟通建议，如：李经理（IT）过重细节，建议点对点线后体验"
+                            rows={3}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    
                     <div>
-                      <Text strong style={{ display: 'block', marginBottom: '8px' }}>风险详情</Text>
-                      <TextArea
-                        value={analysisData.risks}
-                        onChange={(e) => setAnalysisData(prev => ({ ...prev, risks: e.target.value }))}
-                        rows={3}
-                        placeholder="请输入风险详情..."
-                      />
+                      <Checkbox 
+                        checked={riskChecked.other_risks}
+                        onChange={(e) => setRiskChecked(prev => ({ ...prev, other_risks: e.target.checked }))}
+                      >
+                        其他风险
+                      </Checkbox>
+                      {riskChecked.other_risks && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px' }}>
+                          <TextArea
+                            placeholder="如：客户近期有人员变动，预算可能调整等，行业解决方案合作意向等"
+                            rows={3}
+                          />
+                        </div>
+                      )}
                     </div>
                   </Card>
-                  <Card title="商机识别" size="small" style={{ marginBottom: '16px', borderRadius: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                      <div>
-                        <Text type="secondary" style={{ fontSize: '12px' }}>商机等级</Text>
-                        <div style={{ marginTop: '4px' }}>
-                          <Tag color="green" style={{ fontSize: '14px', padding: '4px 12px' }}>
-                            高潜力
-                          </Tag>
+                  
+                  <Card 
+                    title={<span style={{ color: '#52c41a' }}>潜在商机 (可多选+补充说明)</span>} 
+                    size="small" 
+                    style={{ borderRadius: '8px', backgroundColor: '#ffffff' }}
+                  >
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={opportunityChecked.account_expansion}
+                        onChange={(e) => setOpportunityChecked(prev => ({ ...prev, account_expansion: e.target.checked }))}
+                      >
+                        账号增购可能
+                      </Checkbox>
+                      {opportunityChecked.account_expansion && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                            placeholder="若勾选上项，请说明：增购数点（如客户扩招、新部门推入）、预计增购数量/时间，如：客户Q3计划招50人，预计需增购50个账号，已同步优化改策"
+                            rows={3}
+                          />
                         </div>
-                      </div>
-                      <div>
-                        <Text type="secondary" style={{ fontSize: '12px' }}>预估价值</Text>
-                        <div style={{ marginTop: '4px' }}>
-                          <Text strong style={{ color: '#52c41a' }}>¥50,000</Text>
-                        </div>
-                      </div>
+                      )}
                     </div>
+                    
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={opportunityChecked.version_upgrade}
+                        onChange={(e) => setOpportunityChecked(prev => ({ ...prev, version_upgrade: e.target.checked }))}
+                      >
+                        版本升级需求
+                      </Checkbox>
+                      {opportunityChecked.version_upgrade && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                            placeholder="若勾选上项，请说明：客户需求的高级功能，当前版本不支持，可升级至专业版"
+                            rows={3}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={opportunityChecked.new_modules}
+                        onChange={(e) => setOpportunityChecked(prev => ({ ...prev, new_modules: e.target.checked }))}
+                      >
+                        新增模块采购需求
+                      </Checkbox>
+                      {opportunityChecked.new_modules && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                             placeholder="若勾选上项，请说明：客户关注的模块、预算范围，如：客户对'直播培训模块'感兴趣，已提供详细介绍，预算在1万以内"
+                             rows={3}
+                           />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={opportunityChecked.referrals}
+                        onChange={(e) => setOpportunityChecked(prev => ({ ...prev, referrals: e.target.checked }))}
+                      >
+                        转介绍可能性
+                      </Checkbox>
+                      {opportunityChecked.referrals && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                             placeholder="若勾选上项，请说明：客户转介绍意愿，潜在推荐对象，如：客户负责人提到'同行XX公司也有培训需求'，已请客户协助对接"
+                             rows={3}
+                           />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div style={{ marginBottom: '16px' }}>
+                      <Checkbox 
+                        checked={opportunityChecked.long_term}
+                        onChange={(e) => setOpportunityChecked(prev => ({ ...prev, long_term: e.target.checked }))}
+                      >
+                        长期合作（续费）意向
+                      </Checkbox>
+                      {opportunityChecked.long_term && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px', marginBottom: '16px' }}>
+                          <TextArea
+                             placeholder="若勾选上项，请说明：客户对当前服务的满意度，续费初步意向，如：客户表示'若合作愉快，明年会继续合作'，需重点关注体验"
+                             rows={3}
+                           />
+                        </div>
+                      )}
+                    </div>
+                    
                     <div>
-                      <Text strong style={{ display: 'block', marginBottom: '8px' }}>商机描述</Text>
-                      <TextArea
-                        rows={3}
-                        placeholder="请输入潜在的商机和扩展机会..."
-                      />
+                      <Checkbox 
+                        checked={opportunityChecked.other_opportunities}
+                        onChange={(e) => setOpportunityChecked(prev => ({ ...prev, other_opportunities: e.target.checked }))}
+                      >
+                        其他商机
+                      </Checkbox>
+                      {opportunityChecked.other_opportunities && (
+                        <div style={{ marginLeft: '24px', marginTop: '8px' }}>
+                          <TextArea
+                            placeholder="如：客户有定制化开发需求，行业解决方案合作意向等"
+                            rows={3}
+                          />
+                        </div>
+                      )}
                     </div>
-                  </Card>
-                  <Card title="服务历史" size="small" style={{ borderRadius: '8px' }}>
-                    <Timeline mode="left">
-                      <Timeline.Item label={handoverData.createdAt}>创建交接记录</Timeline.Item>
-                      {onboardingTasks
-                        .filter(t => t.completed)
-                        .map(t => (
-                          <Timeline.Item key={t.id} color="green">完成任务：{t.title}</Timeline.Item>
-                        ))}
-                      <Timeline.Item label={handoverData.updatedAt} color="blue">最近一次更新</Timeline.Item>
-                    </Timeline>
                   </Card>
                 </div>
               )

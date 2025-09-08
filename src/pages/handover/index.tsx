@@ -18,9 +18,6 @@ import {
 } from 'antd';
 import { 
   SearchOutlined, 
-  ReloadOutlined, 
-  DownloadOutlined, 
-  SettingOutlined,
   PlusOutlined,
   DownOutlined,
   QuestionCircleOutlined,
@@ -255,7 +252,7 @@ const HandoverListPage: React.FC = () => {
     const currentMonth = now.getMonth();
     const toDate = (s: string) => new Date(s.replace(/-/g, '/'));
 
-    const pendingCount = mockCustomerHandovers.filter(item => item.handoverStatus === 'not_handover').length;
+    const pendingCount = mockCustomerHandovers.length;
     const completedThisMonth = mockCustomerHandovers.filter(item => {
       if (item.expectationAlignment !== 'aligned') return false;
       const updated = toDate(item.updatedAt);
@@ -314,7 +311,7 @@ const HandoverListPage: React.FC = () => {
       width: 220,
       sorter: (a: CustomerHandover, b: CustomerHandover) => a.customerName.localeCompare(b.customerName),
       render: (name: string, record: CustomerHandover) => (
-        <a onClick={() => handleViewDetail(record, 'basic-info')}>{name}</a>
+        <a onClick={() => handleViewDetail(record, 'action-plan')}>{name}</a>
       ),
     },
     {
@@ -432,28 +429,6 @@ const HandoverListPage: React.FC = () => {
               <Text type="secondary">确保从销售到服务的丝滑交接与价值对齐</Text>
             </div>
             
-            {/* 右侧：快捷链接 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Tooltip title="历史交接查询">
-                <Button
-                  type="text"
-                  shape="circle"
-                  size="large"
-                  icon={<HistoryOutlined />}
-                  style={{
-                    width: '44px',
-                    height: '44px',
-                    background: '#1890ff15',
-                    border: '1px solid #1890ff30',
-                    color: '#1890ff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                  onClick={() => navigate('/profiles/handover/history')}
-                />
-              </Tooltip>
-            </div>
           </div>
 
         {/* 顶部数据看板 */}
@@ -596,26 +571,13 @@ const HandoverListPage: React.FC = () => {
               style={{ width: 300, borderRadius: '6px' }}
             />
 
-            <Space size="small">
-              <Button 
-                icon={<ReloadOutlined />} 
-                onClick={() => {
-                  // 重置所有搜索、筛选、排序状态
-                  setSearchText('');
-                  setSearchedColumn('');
-                  setSearchParams({
-                    customerName: '',
-                    status: undefined,
-                    riskLevel: undefined
-                  });
-                  setCurrentPage(1);
-                  message.success('已重置所有筛选条件');
-                }}
-                title="重置所有筛选条件"
-              />
-              <Button icon={<DownloadOutlined />} />
-              <Button icon={<SettingOutlined />} />
-            </Space>
+            <Button
+              type="primary"
+              icon={<HistoryOutlined />}
+              onClick={() => navigate('/profiles/handover/history')}
+            >
+              历史交接单
+            </Button>
           </div>
 
           {/* 数据表格 */}

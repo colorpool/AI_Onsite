@@ -80,6 +80,18 @@ body,
   font-size: 14px !important;
   font-weight: 600 !important;
 }
+.ant-pro-layout-content .ant-card[style*="height: 40px"] {
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+}
+.ant-pro-layout-content .ant-card[style*="height: 40px"] .ant-card-body {
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 4px 16px !important;
+  overflow: hidden !important;
+}
 .ant-tabs-tab {
   will-change: transform, opacity;
   backface-visibility: hidden;

@@ -1,0 +1,454 @@
+import React, { useState, useMemo } from 'react';
+import {
+  Card,
+  Input,
+  Select,
+  Space,
+  Button,
+  Tag,
+  Typography,
+  Modal,
+  Descriptions,
+  Timeline,
+  Divider,
+  Row,
+  Col,
+  Badge,
+  Tooltip,
+  Empty,
+  message
+} from 'antd';
+import {
+  SearchOutlined,
+  PlayCircleOutlined,
+  EyeOutlined,
+  FilterOutlined,
+  ClockCircleOutlined,
+  TrophyOutlined,
+  FireOutlined,
+  UserOutlined,
+  FileTextOutlined,
+  TagOutlined
+} from '@ant-design/icons';
+import type { ServicePlaybook, LifecycleStage, PlaybookStatus } from '../types/continuousService';
+
+const { Title, Text, Paragraph } = Typography;
+const { Option } = Select;
+
+interface PlaybookLibraryProps {
+  playbooks: ServicePlaybook[];
+  onLaunchPlaybook: (playbookId: string) => void;
+  loading?: boolean;
+}
+
+interface PlaybookFilter {
+  search?: string;
+  category?: string;
+  applicableStage?: LifecycleStage;
+  status?: PlaybookStatus;
+  scenarioTag?: string;
+}
+
+const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
+  playbooks,
+  onLaunchPlaybook,
+  loading = false
+}) => {
+  const [filter, setFilter] = useState<PlaybookFilter>({});
+  const [selectedPlaybook, setSelectedPlaybook] = useState<ServicePlaybook | null>(null);
+  const [detailModalVisible, setDetailModalVisible] = useState(false);
+
+  // 获取所有分类和场景标签
+  const categories = useMemo(() => {
+    const cats = new Set(playbooks.map(p => p.category));
+    return Array.from(cats);
+  }, [playbooks]);
+
+  const scenarioTags = useMemo(() => {
+    const tags = new Set(playbooks.flatMap(p => p.scenarioTags || []));
+    return Array.from(tags);
+  }, [playbooks]);
+
+  // 过滤剧本
+  const filteredPlaybooks = useMemo(() => {
+    return playbooks.filter(playbook => {
+      if (filter.search && !playbook.name.toLowerCase().includes(filter.search.toLowerCase()) &&
+          !playbook.description.toLowerCase().includes(filter.search.toLowerCase())) {
+        return false;
+      }
+      if (filter.category && playbook.category !== filter.category) {
+        return false;
+      }
+      if (filter.applicableStage && !playbook.applicableStage.includes(filter.applicableStage)) {
+        return false;
+      }
+      if (filter.status && playbook.status !== filter.status) {
+        return false;
+      }
+      if (filter.scenarioTag && !(playbook.scenarioTags || []).includes(filter.scenarioTag)) {
+        return false;
+      }
+      return true;
+    });
+  }, [playbooks, filter]);
+
+  // 处理剧本启动
+  const handleLaunchPlaybook = (playbook: ServicePlaybook) => {
+    if (playbook.status !== '可用') {
+      message.warning('该剧本当前不可用');
+      return;
+    }
+    onLaunchPlaybook(playbook.id);
+  };
+
+  // 显示剧本详情
+  const showPlaybookDetail = (playbook: ServicePlaybook) => {
+    setSelectedPlaybook(playbook);
+    setDetailModalVisible(true);
+  };
+
+  // 获取状态颜色
+  const getStatusColor = (status: PlaybookStatus) => {
+    switch (status) {
+      case '可用': return 'green';
+      case '维护中': return 'orange';
+      case '已停用': return 'red';
+      default: return 'default';
+    }
+  };
+
+  // 获取生命周期阶段颜色
+  const getStageColor = (stage: LifecycleStage) => {
+    switch (stage) {
+      case '成长期': return 'blue';
+      case '成熟期': return 'purple';
+      case '衰退期': return 'orange';
+      default: return 'default';
+    }
+  };
+
+  return (
+    <div>
+      {/* 筛选器 */}
+      <Card style={{ marginBottom: 16 }}>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={12} md={6}>
+            <Input
+              placeholder="搜索剧本名称或描述"
+              prefix={<SearchOutlined />}
+              value={filter.search}
+              onChange={(e) => setFilter({ ...filter, search: e.target.value })}
+              allowClear
+            />
+          </Col>
+          <Col xs={24} sm={12} md={4}>
+            <Select
+              placeholder="选择分类"
+              value={filter.category}
+              onChange={(value) => setFilter({ ...filter, category: value })}
+              allowClear
+              style={{ width: '100%' }}
+            >
+              {categories.map(cat => (
+                <Option key={cat} value={cat}>{cat}</Option>
+              ))}
+            </Select>
+          </Col>
+          <Col xs={24} sm={12} md={4}>
+            <Select
+              placeholder="适用阶段"
+              value={filter.applicableStage}
+              onChange={(value) => setFilter({ ...filter, applicableStage: value })}
+              allowClear
+              style={{ width: '100%' }}
+            >
+              <Option value="成长期">成长期</Option>
+              <Option value="成熟期">成熟期</Option>
+              <Option value="衰退期">衰退期</Option>
+            </Select>
+          </Col>
+          <Col xs={24} sm={12} md={4}>
+            <Select
+              placeholder="状态"
+              value={filter.status}
+              onChange={(value) => setFilter({ ...filter, status: value })}
+              allowClear
+              style={{ width: '100%' }}
+            >
+              <Option value="可用">可用</Option>
+              <Option value="维护中">维护中</Option>
+              <Option value="已停用">已停用</Option>
+            </Select>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Select
+              placeholder="场景标签"
+              value={filter.scenarioTag}
+              onChange={(value) => setFilter({ ...filter, scenarioTag: value })}
+              allowClear
+              style={{ width: '100%' }}
+            >
+              {scenarioTags.map(tag => (
+                <Option key={tag} value={tag}>{tag}</Option>
+              ))}
+            </Select>
+          </Col>
+        </Row>
+      </Card>
+
+      {/* 剧本列表 */}
+      {filteredPlaybooks.length === 0 ? (
+        <Empty description="暂无符合条件的剧本" />
+      ) : (
+        <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))' }}>
+          {filteredPlaybooks.map(playbook => (
+            <Card
+              key={playbook.id}
+              style={{
+                borderRadius: '12px',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+                border: '1px solid #f0f0f0',
+                height: 'fit-content'
+              }}
+              title={
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <PlayCircleOutlined style={{ color: '#1890ff', fontSize: '18px' }} />
+                  <span style={{ fontSize: '16px', fontWeight: '600' }}>{playbook.name}</span>
+                </div>
+              }
+              extra={
+                <Tag color={getStatusColor(playbook.status)} style={{ borderRadius: '6px' }}>
+                  {playbook.status}
+                </Tag>
+              }
+              actions={[
+                <Button
+                  key="detail"
+                  icon={<EyeOutlined />}
+                  onClick={() => showPlaybookDetail(playbook)}
+                  style={{ borderRadius: '8px' }}
+                >
+                  查看详情
+                </Button>,
+                <Button
+                  key="launch"
+                  type="primary"
+                  icon={<PlayCircleOutlined />}
+                  onClick={() => handleLaunchPlaybook(playbook)}
+                  disabled={playbook.status !== '可用'}
+                  style={{ borderRadius: '8px', fontWeight: '500' }}
+                >
+                  启动剧本
+                </Button>
+              ]}
+            >
+              <div style={{ marginBottom: 12 }}>
+                <Text type="secondary">{playbook.description}</Text>
+              </div>
+
+              <div style={{ marginBottom: 12 }}>
+                <Text strong>目标：</Text>
+                <Paragraph ellipsis={{ rows: 2 }} style={{ margin: 0, marginTop: 4 }}>
+                  {playbook.goal}
+                </Paragraph>
+              </div>
+
+              {/* 适用阶段 */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 12 }}>
+                {playbook.applicableStage.map(stage => (
+                  <Tag key={stage} color={getStageColor(stage)} style={{ borderRadius: '6px' }}>
+                    {stage}
+                  </Tag>
+                ))}
+              </div>
+
+              {/* 场景标签 */}
+              {(playbook.scenarioTags || []).length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 12 }}>
+                  {(playbook.scenarioTags || []).slice(0, 3).map(tag => (
+                    <Tag key={tag} style={{ borderRadius: '6px', fontSize: '12px' }}>
+                      {tag}
+                    </Tag>
+                  ))}
+                  {(playbook.scenarioTags || []).length > 3 && (
+                    <Tag style={{ borderRadius: '6px', fontSize: '12px' }}>+{(playbook.scenarioTags || []).length - 3}</Tag>
+                  )}
+                </div>
+              )}
+
+              <Divider style={{ margin: '12px 0' }} />
+
+              {/* 统计信息 */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#666' }}>
+                <Tooltip title="预估耗时">
+                  <span><ClockCircleOutlined /> {playbook.estimatedDuration}h</span>
+                </Tooltip>
+                <Tooltip title="成功率">
+                  <span><TrophyOutlined /> {playbook.successRate}%</span>
+                </Tooltip>
+                <Tooltip title="使用次数">
+                  <span><FireOutlined /> {playbook.usage}</span>
+                </Tooltip>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* 剧本详情模态框 */}
+      <Modal
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <PlayCircleOutlined style={{ color: '#1890ff' }} />
+            <span>{selectedPlaybook?.name}</span>
+            <Tag color={getStatusColor(selectedPlaybook?.status || '可用')}>
+              {selectedPlaybook?.status}
+            </Tag>
+          </div>
+        }
+        open={detailModalVisible}
+        onCancel={() => setDetailModalVisible(false)}
+        width={800}
+        footer={[
+          <Button key="cancel" onClick={() => setDetailModalVisible(false)}>
+            关闭
+          </Button>,
+          <Button
+            key="launch"
+            type="primary"
+            icon={<PlayCircleOutlined />}
+            onClick={() => {
+              if (selectedPlaybook) {
+                handleLaunchPlaybook(selectedPlaybook);
+                setDetailModalVisible(false);
+              }
+            }}
+            disabled={selectedPlaybook?.status !== '可用'}
+          >
+            启动剧本
+          </Button>
+        ]}
+      >
+        {selectedPlaybook && (
+          <div>
+            <Descriptions column={2} style={{ marginBottom: 16 }}>
+              <Descriptions.Item label="分类">{selectedPlaybook.category}</Descriptions.Item>
+              <Descriptions.Item label="预估耗时">{selectedPlaybook.estimatedDuration}小时</Descriptions.Item>
+              <Descriptions.Item label="成功率">{selectedPlaybook.successRate}%</Descriptions.Item>
+              <Descriptions.Item label="使用次数">{selectedPlaybook.usage}次</Descriptions.Item>
+              <Descriptions.Item label="创建人">{selectedPlaybook.createdBy}</Descriptions.Item>
+              <Descriptions.Item label="创建时间">{selectedPlaybook.createdAt}</Descriptions.Item>
+            </Descriptions>
+
+            <Divider orientation="left">剧本目标</Divider>
+            <Paragraph>{selectedPlaybook.goal}</Paragraph>
+
+            <Divider orientation="left">适用阶段</Divider>
+            <div style={{ marginBottom: 16 }}>
+              {selectedPlaybook.applicableStage.map(stage => (
+                <Tag key={stage} color={getStageColor(stage)} style={{ marginBottom: 4 }}>
+                  {stage}
+                </Tag>
+              ))}
+            </div>
+
+            {(selectedPlaybook.scenarioTags || []).length > 0 && (
+              <>
+                <Divider orientation="left">场景标签</Divider>
+                <div style={{ marginBottom: 16 }}>
+                  {(selectedPlaybook.scenarioTags || []).map(tag => (
+                    <Tag key={tag} style={{ marginBottom: 4 }}>{tag}</Tag>
+                  ))}
+                </div>
+              </>
+            )}
+
+            <Divider orientation="left">任务流程</Divider>
+            <Timeline>
+              {selectedPlaybook.tasks.map((task, index) => (
+                <Timeline.Item
+                  key={task.id}
+                  dot={<UserOutlined style={{ fontSize: '16px' }} />}
+                  color={index === 0 ? 'blue' : 'gray'}
+                >
+                  <div>
+                    <Title level={5} style={{ margin: 0 }}>{task.title}</Title>
+                    <Text type="secondary">{task.description}</Text>
+                    <div style={{ marginTop: 8 }}>
+                      <Tag color="blue">阶段: {task.phase}</Tag>
+                      <Tag color="green">耗时: {task.duration}h</Tag>
+                      <Tag color="orange">截止: {task.dueOffset}天</Tag>
+                    </div>
+                    {task.checkpoints.length > 0 && (
+                      <div style={{ marginTop: 8 }}>
+                        <Text strong>检查点：</Text>
+                        <ul style={{ margin: '4px 0', paddingLeft: 20 }}>
+                          {task.checkpoints.map((checkpoint, idx) => (
+                            <li key={idx}>{checkpoint}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </Timeline.Item>
+              ))}
+            </Timeline>
+
+            {selectedPlaybook.successMetrics.length > 0 && (
+              <>
+                <Divider orientation="left">成功指标</Divider>
+                <div>
+                  {selectedPlaybook.successMetrics.map(metric => (
+                    <Card key={metric.id} size="small" style={{ marginBottom: 8 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                          <Text strong>{metric.name}</Text>
+                          <br />
+                          <Text type="secondary">{metric.description}</Text>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <Text strong style={{ fontSize: '16px' }}>
+                            {metric.targetValue}{metric.unit}
+                          </Text>
+                          <br />
+                          <Text type="secondary" style={{ fontSize: '12px' }}>目标值</Text>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {selectedPlaybook.resources.length > 0 && (
+              <>
+                <Divider orientation="left">相关资源</Divider>
+                <div>
+                  {selectedPlaybook.resources.map(resource => (
+                    <Card key={resource.id} size="small" style={{ marginBottom: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <FileTextOutlined />
+                        <div>
+                          <Text strong>{resource.name}</Text>
+                          <br />
+                          <Text type="secondary">{resource.description}</Text>
+                          <div style={{ marginTop: 4 }}>
+                            {resource.tags.map(tag => (
+                              <Tag key={tag} style={{ fontSize: '12px' }}>{tag}</Tag>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </Modal>
+    </div>
+  );
+};
+
+export default PlaybookLibrary;
