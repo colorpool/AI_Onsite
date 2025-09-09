@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { message } from 'antd';
 import { useTabManager } from '../../../contexts/TabContext';
-import CustomerDetailModal from './customer-detail-modal';
+import CustomerDetailDrawer from './customer-detail-modal';
+import CustomerInfoCell from '../../../components/common/CustomerInfoCell';
 import {
   Card,
   Row,
@@ -827,20 +828,20 @@ const RenewalManagement: React.FC = () => {
       key: 'name',
       align: 'center' as const,
       render: (name: string, record: RenewalCustomer) => (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-          <Avatar size="small" style={{ backgroundColor: '#1890ff' }}>
-            {name.charAt(0)}
-          </Avatar>
-          <div>
-            <div style={{ fontWeight: 500, color: '#1890ff', cursor: 'pointer' }}
-                 onClick={() => handleViewCustomerDetail(record)}>
-              {name}
-            </div>
-            <div style={{ fontSize: '12px', color: '#8c8c8c' }}>
-              负责人: {record.csm}
-            </div>
-          </div>
-        </div>
+        <div style={{ position: 'relative' }}>
+           <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                onClick={() => handleViewCustomerDetail(record)}>
+             <CustomerInfoCell
+               customerId={record.id}
+               customerName={name}
+               contractNumber={record.contractNumber}
+               showContract={true}
+             />
+           </div>
+           <div style={{ fontSize: '12px', color: '#8c8c8c', marginTop: '4px' }}>
+             负责人: {record.csm}
+           </div>
+         </div>
       ),
     },
     {
@@ -1279,7 +1280,7 @@ const RenewalManagement: React.FC = () => {
 
       {/* 客户详情弹窗 */}
       {selectedCustomer && (
-        <CustomerDetailModal
+        <CustomerDetailDrawer
           visible={customerDetailVisible}
           customer={selectedCustomer}
           onClose={handleCloseCustomerDetail}

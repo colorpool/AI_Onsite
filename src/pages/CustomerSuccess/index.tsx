@@ -3,6 +3,7 @@ import { useLocation } from '@umijs/max';
 import { generateTabContent } from '@/utils/tabContentGenerator';
 import WorkbenchDashboard from './WorkbenchDashboard';
 import TieringMatrix from './TieringMatrix';
+import CustomerTieringCenter from '@/components/CustomerSuccess/CustomerTieringCenter';
 
 
 
@@ -47,9 +48,9 @@ const CustomerSuccess: React.FC = () => {
   if (location.pathname === '/dashboard/work') {
     return <WorkbenchDashboard />;
   }
-  // 客户分层矩阵
+  // 客户分层中心
   if (location.pathname === '/dashboard/layers') {
-    return <TieringMatrix />;
+    return <CustomerTieringCenter />;
   }
   
   // 根据页面标题生成内容

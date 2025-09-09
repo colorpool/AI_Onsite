@@ -18,7 +18,7 @@ import {
 } from 'antd';
 import { 
   SearchOutlined, 
-  DownloadOutlined, 
+  ShareAltOutlined, 
   ReloadOutlined,
   EyeOutlined,
   FileTextOutlined,
@@ -47,6 +47,7 @@ const HistoryHandover: React.FC = () => {
   const [dateRange, setDateRange] = useState<[string, string] | undefined>();
   const [selectedRecord, setSelectedRecord] = useState<CustomerHandover | null>(null);
   const [detailVisible, setDetailVisible] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   // 本页自带的历史交接 mock（确保有数据可看）
   const mockHistoryHandovers = useMemo<CustomerHandover[]>(() => {
@@ -98,6 +99,23 @@ const HistoryHandover: React.FC = () => {
   const handleViewDetail = (record: CustomerHandover) => {
     setSelectedRecord(record);
     setDetailVisible(true);
+  };
+
+  // 处理分享
+  const handleShare = () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning('请先选择要分享的历史交接单');
+      return;
+    }
+    message.success(`已选择 ${selectedRowKeys.length} 个历史交接单进行分享`);
+  };
+
+  // 多选配置
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (newSelectedRowKeys: React.Key[]) => {
+      setSelectedRowKeys(newSelectedRowKeys);
+    },
   };
 
   // 表格列定义
@@ -260,7 +278,12 @@ const HistoryHandover: React.FC = () => {
               >
                 重置
               </Button>
-              <Button icon={<DownloadOutlined />}>导出</Button>
+              <Button 
+                icon={<ShareAltOutlined />}
+                onClick={handleShare}
+              >
+                分享
+              </Button>
             </div>
           </Col>
         </Row>
@@ -272,6 +295,7 @@ const HistoryHandover: React.FC = () => {
           columns={columns}
           dataSource={filteredData}
           rowKey="id"
+          rowSelection={rowSelection}
           pagination={{
             total: filteredData.length,
             pageSize: 10,

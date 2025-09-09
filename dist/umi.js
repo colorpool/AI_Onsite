@@ -314308,8 +314308,8 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 }
 
 },
- };var chunksIdToUrlMap= {"p__handover__HistoryHandover":"p__handover__HistoryHandover-async.js","p__agents__index":"p__agents__index-async.js","p__handover__index":"p__handover__index-async.js","p__CustomerSuccess__index":"p__CustomerSuccess__index-async.js","src/.umi/core/EmptyRoute.tsx":"src__umi_core_EmptyRoute_tsx-async.js","p__profiles__service__RiskEventDetail":"p__profiles__service__RiskEventDetail-async.js","vendors":"vendors-async.js","p__404":"p__404-async.js","p__profiles__renewal__id__index":"p__profiles__renewal__id__index-async.js","p__handover__id__index":"p__handover__id__index-async.js","p__profiles__service__ContinuousServiceDetail":"p__profiles__service__ContinuousServiceDetail-async.js","src/pages/profiles/service/renewal-management.tsx":"src_pages_profiles_service_renewal-management_tsx-async.js","src/.umi/plugin-openapi/openapi.tsx":"src__umi_plugin-openapi_openapi_tsx-async.js","p__handover__new__index":"p__handover__new__index-async.js","common":"common-async.js","p__profiles__service__ContinuousService":"p__profiles__service__ContinuousService-async.js","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.js","p__user__login__index":"p__user__login__index-async.js"};
-var cssChunksIdToUrlMap= {"src/.umi/umi.ts?hmr":"umi.css","vendors":"vendors-async.css","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.css"};
+ };var chunksIdToUrlMap= {"src/.umi/plugin-openapi/openapi.tsx":"src__umi_plugin-openapi_openapi_tsx-async.js","p__CustomerSuccess__index":"p__CustomerSuccess__index-async.js","p__handover__HistoryHandover":"p__handover__HistoryHandover-async.js","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.js","p__profiles__service__RiskEventDetail":"p__profiles__service__RiskEventDetail-async.js","p__agents__index":"p__agents__index-async.js","p__handover__new__index":"p__handover__new__index-async.js","p__profiles__renewal__id__index":"p__profiles__renewal__id__index-async.js","p__404":"p__404-async.js","p__user__login__index":"p__user__login__index-async.js","vendors":"vendors-async.js","src/pages/profiles/service/renewal-management.tsx":"src_pages_profiles_service_renewal-management_tsx-async.js","p__handover__index":"p__handover__index-async.js","p__handover__id__index":"p__handover__id__index-async.js","src/.umi/core/EmptyRoute.tsx":"src__umi_core_EmptyRoute_tsx-async.js","p__profiles__service__ContinuousService":"p__profiles__service__ContinuousService-async.js","p__profiles__service__ContinuousServiceDetail":"p__profiles__service__ContinuousServiceDetail-async.js","common":"common-async.js"};
+var cssChunksIdToUrlMap= {"src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.css","p__CustomerSuccess__index":"p__CustomerSuccess__index-async.css","vendors":"vendors-async.css","src/.umi/umi.ts?hmr":"umi.css"};
 var cssInstalledChunks = { "src/.umi/umi.ts?hmr" : 0 };
 var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId, global) {
 
@@ -314795,7 +314795,7 @@ var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId,
 'use strict';
 // mako/runtime/hmr plugin
 !(function () {
-  requireModule._h = '15182984273382898042';
+  requireModule._h = '4765051156541515215';
   requireModule.currentHash = function () {
     return requireModule._h;
   };

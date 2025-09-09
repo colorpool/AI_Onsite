@@ -21,7 +21,8 @@ import {
   PlusOutlined,
   DownOutlined,
   QuestionCircleOutlined,
-  HistoryOutlined
+  HistoryOutlined,
+  ShareAltOutlined
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'umi';
 import { mockCustomerHandovers } from '../../mock/handoverData';
@@ -47,6 +48,7 @@ const HandoverListPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const pageSize = 5; // 一页显示5个数据
   
   // 搜索筛选状态
@@ -155,6 +157,26 @@ const HandoverListPage: React.FC = () => {
   // 处理导出
   const handleExport = () => {
     message.success('导出功能开发中...');
+  };
+
+  // 处理分享
+  const handleShare = () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning('请先选择要分享的交接单');
+      return;
+    }
+    message.success(`已选择 ${selectedRowKeys.length} 个交接单进行分享`);
+  };
+
+  // 多选配置
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (newSelectedRowKeys: React.Key[]) => {
+      setSelectedRowKeys(newSelectedRowKeys);
+    },
+    onSelectAll: (selected: boolean, selectedRows: CustomerHandover[], changeRows: CustomerHandover[]) => {
+      console.log(selected, selectedRows, changeRows);
+    },
   };
 
   // 处理查看详情（可指定默认标签页）
@@ -308,7 +330,7 @@ const HandoverListPage: React.FC = () => {
       title: '客户名称',
       dataIndex: 'customerName',
       key: 'customerName',
-      width: 220,
+      width: 200,
       sorter: (a: CustomerHandover, b: CustomerHandover) => a.customerName.localeCompare(b.customerName),
       render: (name: string, record: CustomerHandover) => (
         <a onClick={() => handleViewDetail(record, 'action-plan')}>{name}</a>
@@ -350,7 +372,7 @@ const HandoverListPage: React.FC = () => {
       title: '干系人',
       dataIndex: 'stakeholderCount',
       key: 'stakeholderCount',
-      width: 100,
+      width: 80,
       sorter: (a: CustomerHandover, b: CustomerHandover) => (a.stakeholderCount || 0) - (b.stakeholderCount || 0),
       render: (count: number, record: CustomerHandover) => (
         <Tag color="purple" style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'stakeholders')}>
@@ -571,13 +593,22 @@ const HandoverListPage: React.FC = () => {
               style={{ width: 300, borderRadius: '6px' }}
             />
 
-            <Button
-              type="primary"
-              icon={<HistoryOutlined />}
-              onClick={() => navigate('/profiles/handover/history')}
-            >
-              历史交接单
-            </Button>
+            <Space>
+              <Button
+                type="primary"
+                icon={<ShareAltOutlined />}
+                onClick={handleShare}
+              >
+                分享{selectedRowKeys.length > 0 ? ` (${selectedRowKeys.length})` : ''}
+              </Button>
+              <Button
+                type="primary"
+                icon={<HistoryOutlined />}
+                onClick={() => navigate('/profiles/handover/history')}
+              >
+                历史交接单
+              </Button>
+            </Space>
           </div>
 
           {/* 数据表格 */}
@@ -585,6 +616,7 @@ const HandoverListPage: React.FC = () => {
             columns={columns}
             dataSource={paginatedData}
             rowKey="id"
+            rowSelection={rowSelection}
             pagination={false}
             size="small"
             scroll={{ x: 900 }}

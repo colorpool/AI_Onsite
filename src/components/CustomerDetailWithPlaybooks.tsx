@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Modal,
+  Drawer,
   Descriptions,
   Tag,
   Progress,
@@ -305,7 +305,7 @@ const CustomerDetailWithPlaybooks: React.FC<CustomerDetailWithPlaybooksProps> = 
 
   return (
     <>
-      <Modal
+      <Drawer
         title={
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Avatar size="large" style={{ backgroundColor: '#1890ff' }}>
@@ -321,10 +321,12 @@ const CustomerDetailWithPlaybooks: React.FC<CustomerDetailWithPlaybooksProps> = 
           </div>
         }
         open={visible}
-        onCancel={onClose}
-        width={1200}
-        footer={null}
-        bodyStyle={{ padding: '24px' }}
+        onClose={onClose}
+        width={800}
+        placement="right"
+        styles={{
+          body: { padding: '24px' }
+        }}
       >
         <Tabs activeKey={activeTab} onChange={setActiveTab}>
           {/* 基本信息 */}
@@ -575,7 +577,7 @@ const CustomerDetailWithPlaybooks: React.FC<CustomerDetailWithPlaybooksProps> = 
             )}
           </TabPane>
         </Tabs>
-      </Modal>
+      </Drawer>
 
       {/* 剧本启动器 */}
       {selectedPlaybook && (

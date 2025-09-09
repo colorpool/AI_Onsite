@@ -20,14 +20,14 @@ interface RenewalCustomer {
   nextAction: string;
 }
 
-interface CustomerDetailModalProps {
+interface CustomerDetailDrawerProps {
   visible: boolean;
   customer: RenewalCustomer;
   onClose: () => void;
   onAction: (action: string, customerId: string) => void;
 }
 
-const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
+const CustomerDetailDrawer: React.FC<CustomerDetailDrawerProps> = ({
   visible,
   customer,
   onClose,
@@ -90,4 +90,4 @@ const CustomerDetailModal: React.FC<CustomerDetailModalProps> = ({
   );
 };
 
-export default CustomerDetailModal;
+export default CustomerDetailDrawer;

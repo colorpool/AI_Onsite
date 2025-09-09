@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { Row, Col, Card, Typography, Tooltip, Space, Button, Badge, Dropdown, Table, Avatar, Tag, Input } from 'antd';
-import { SettingOutlined, QuestionCircleOutlined, MoreOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
-
+import { SettingOutlined, QuestionCircleOutlined, MoreOutlined, ArrowUpOutlined, ArrowDownOutlined, ZoomInOutlined, ZoomOutOutlined, UndoOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
@@ -21,117 +20,189 @@ type Customer = {
   f: number; // 频次/活跃度
   serviceScore: number; // 服务互动
   arr: number; // 合同金额 (ARR)
-};
-
-const cardStyle: React.CSSProperties = {
-  borderRadius: 12,
-  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-  border: '1px solid #f0f0f0',
-  background: '#ffffff',
-};
-
-const valueTiers: ValueTier[] = ['高价值', '中价值', '低价值'];
-const lifecycleStages: LifecycleStage[] = ['导入期', '成长期', '成熟期', '衰退期'];
-
-const valueTierScoreHint: Record<ValueTier, string> = {
-  高价值: '评分区间: 80 - 100',
-  中价值: '评分区间: 60 - 79',
-  低价值: '评分区间: 0 - 59',
-};
-
-// 蓝色饱和度梯度（高->低）
-const valueTierRowColor: Record<ValueTier, string> = {
-  高价值: '#2f54eb14',
-  中价值: '#2f54eb0d',
-  低价值: '#2f54eb08',
-};
-
-// 生命周期色调（用于边框/强调色）
-const lifecycleAccentColor: Record<LifecycleStage, string> = {
-  导入期: '#40a9ff',
-  成长期: '#fa8c16',
-  成熟期: '#52c41a',
-  衰退期: '#bfbfbf',
-};
-
-function getCellStyle(valueTier: ValueTier, stage: LifecycleStage, selected: boolean): React.CSSProperties {
-  return {
-    background: valueTierRowColor[valueTier],
-    border: `1px solid ${selected ? lifecycleAccentColor[stage] : '#f0f0f0'}`,
-    borderRadius: 10,
-    padding: 16,
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-    boxShadow: selected ? `0 0 0 3px ${lifecycleAccentColor[stage]}22` : 'none',
+  healthScore: number; // 健康度评分
+  riskEvents: number; // 近90天风险事件数
+  upsellAmount: number; // 近90天增购额
+  tags: string[]; // 标签
+  // 兼容BaseCustomer的额外字段
+  industry?: string;
+  size?: 'small' | 'medium' | 'large' | 'xlarge';
+  region?: string;
+  isChannelCustomer?: boolean;
+  rScore?: number;
+  fScore?: number;
+  mScore?: number;
+  riskLevel?: 'safe' | 'attention' | 'risk';
+  signDate?: string;
+  collaborationEvents?: number;
+  channelType?: 'direct' | 'partner' | 'reseller';
+  isKeyAccount?: boolean;
+  isInRenewalWindow?: boolean;
+  visits90Days?: number;
+  revenue90Days?: number;
+  insights?: Array<{
+    id: string;
+    content: string;
+    date: string;
+    type: string;
+  }>;
+  nextAction?: {
+    content: string;
+    dueDate: string;
+    overdue: boolean;
   };
-}
-
-function generateMockCustomers(): Customer[] {
-  const names = [
-    '阿里巴巴', '腾讯科技', '字节跳动', '美团点评', '滴滴出行', '小米科技', '百度集团', '网易公司',
-    '京东科技', '拼多多', '哔哩哔哩', '快手科技', '携程旅行', '小红书', '华为云', 'OPPO', 'vivo',
-    '海尔智家', '隆基绿能', '比亚迪', '蔚来汽车', '理想汽车', '小鹏汽车', '同程旅行', '去哪儿',
-  ];
-  const csms = ['王一', '李二', '张三', '赵四', '陈五', '孙六', '周七'];
-  const colors = ['#1890ff', '#fa8c16', '#722ed1', '#13c2c2', '#eb2f96', '#52c41a', '#2f54eb'];
-
-  const customers: Customer[] = [];
-  let id = 1;
-  for (const baseName of names) {
-    const repeats = Math.random() > 0.5 ? 2 : 1;
-    for (let i = 0; i < repeats; i++) {
-      const lifecycle = lifecycleStages[Math.floor(Math.random() * lifecycleStages.length)];
-      const valueScore = Math.floor(Math.random() * 61) + 40; // 40-100
-      const valueTier: ValueTier = valueScore >= 80 ? '高价值' : valueScore >= 60 ? '中价值' : '低价值';
-      const rAndM = Math.floor(Math.random() * 61) + 40;
-      const f = Math.floor(Math.random() * 61) + 20;
-      const serviceScore = Math.floor(Math.random() * 61) + 20;
-      const trend: Customer['trend'] = Math.random() > 0.6 ? 'down' : 'up';
-      const arr = Math.round((Math.random() * 400 + 100) * 1000); // 100k - 500k
-      customers.push({
-        id: String(id++),
-        name: `${baseName}${i ? '·子业务' + i : ''}`,
-        logoColor: colors[id % colors.length],
-        csm: csms[id % csms.length],
-        valueScore,
-        trend,
-        lifecycle,
-        valueTier,
-        rAndM,
-        f,
-        serviceScore,
-        arr,
-      });
-    }
-  }
-  return customers;
-}
-
-const stageAbbrev: Record<LifecycleStage, string> = {
-  导入期: '导',
-  成长期: '成',
-  成熟期: '熟',
-  衰退期: '衰',
 };
 
-// 数据源：默认为本地mock，如有可用接口则自动对接
-// 预期接口：GET /api/customer-tiers -> { customers: Customer[] }
-// 字段需包含：valueScore, f, serviceScore, valueTier, lifecycle, arr, csm, name
-// 注意：若接口失败，会回落到mock数据
-//
-// 气泡图与桑基图的数据将自动基于 customers 聚合计算
+export interface ValueLifecycleTabProps {
+  customers: Customer[];
+  onCustomerSelect?: (customer: Customer) => void;
+}
 
-// 初始化为mock数据
-// 实时数据将通过useEffect尝试拉取并覆盖
-let initialMock = generateMockCustomers();
-
-const TieringMatrix: React.FC = () => {
+const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCustomerSelect }) => {
   const [selected, setSelected] = useState<{ valueTier: ValueTier; stage: LifecycleStage } | null>(null);
   const [search, setSearch] = useState('');
-  const [customers, setCustomers] = useState<Customer[]>(initialMock);
   const listRef = useRef<HTMLDivElement | null>(null);
   const [listHighlight, setListHighlight] = useState(false);
   const highlightTimerRef = useRef<number | null>(null);
+  const [bubbleTip, setBubbleTip] = useState<{ visible: boolean; x: number; y: number; html: React.ReactNode } | null>(null);
+  const [sankeyTip, setSankeyTip] = useState<{ visible: boolean; x: number; y: number; text: string } | null>(null);
+  
+  // 坐标轴缩放相关状态
+  const [xAxisRange, setXAxisRange] = useState({ min: 0, max: 100 });
+  const [yAxisRange, setYAxisRange] = useState({ min: 0, max: 100 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+
+  const cardStyle: React.CSSProperties = {
+    borderRadius: 12,
+    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+    border: '1px solid #f0f0f0',
+    background: '#ffffff',
+  };
+
+  const valueTiers: ValueTier[] = ['高价值', '中价值', '低价值'];
+  const lifecycleStages: LifecycleStage[] = ['导入期', '成长期', '成熟期', '衰退期'];
+
+  const valueTierScoreHint: Record<ValueTier, string> = {
+    高价值: '评分区间: 80 - 100',
+    中价值: '评分区间: 60 - 79',
+    低价值: '评分区间: 0 - 59',
+  };
+
+  const valueTierRowColor: Record<ValueTier, string> = {
+    高价值: '#2f54eb14',
+    中价值: '#2f54eb0d',
+    低价值: '#2f54eb08',
+  };
+
+  const lifecycleAccentColor: Record<LifecycleStage, string> = {
+    导入期: '#40a9ff',
+    成长期: '#fa8c16',
+    成熟期: '#52c41a',
+    衰退期: '#bfbfbf',
+  };
+
+  function getCellStyle(valueTier: ValueTier, stage: LifecycleStage, selected: boolean): React.CSSProperties {
+    return {
+      background: valueTierRowColor[valueTier],
+      border: `1px solid ${selected ? lifecycleAccentColor[stage] : '#f0f0f0'}`,
+      borderRadius: 10,
+      padding: 16,
+      cursor: 'pointer',
+      transition: 'all 0.2s',
+      boxShadow: selected ? `0 0 0 3px ${lifecycleAccentColor[stage]}22` : 'none',
+    };
+  }
+
+  // 坐标轴缩放控制函数
+  const handleZoomIn = () => {
+    const xCenter = (xAxisRange.min + xAxisRange.max) / 2;
+    const yCenter = (yAxisRange.min + yAxisRange.max) / 2;
+    const xRange = (xAxisRange.max - xAxisRange.min) * 0.7; // 缩小范围
+    const yRange = (yAxisRange.max - yAxisRange.min) * 0.7;
+    
+    setXAxisRange({
+      min: Math.max(0, xCenter - xRange / 2),
+      max: Math.min(100, xCenter + xRange / 2)
+    });
+    setYAxisRange({
+      min: Math.max(0, yCenter - yRange / 2),
+      max: Math.min(100, yCenter + yRange / 2)
+    });
+  };
+
+  const handleZoomOut = () => {
+    const xCenter = (xAxisRange.min + xAxisRange.max) / 2;
+    const yCenter = (yAxisRange.min + yAxisRange.max) / 2;
+    const xRange = (xAxisRange.max - xAxisRange.min) * 1.4; // 扩大范围
+    const yRange = (yAxisRange.max - yAxisRange.min) * 1.4;
+    
+    setXAxisRange({
+      min: Math.max(0, xCenter - xRange / 2),
+      max: Math.min(100, xCenter + xRange / 2)
+    });
+    setYAxisRange({
+      min: Math.max(0, yCenter - yRange / 2),
+      max: Math.min(100, yCenter + yRange / 2)
+    });
+  };
+
+  const handleResetZoom = () => {
+    setXAxisRange({ min: 0, max: 100 });
+    setYAxisRange({ min: 0, max: 100 });
+    setPanOffset({ x: 0, y: 0 });
+  };
+
+  // 坐标轴拖拽处理函数
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const isZoomed = xAxisRange.min > 0 || xAxisRange.max < 100 || yAxisRange.min > 0 || yAxisRange.max < 100;
+    if (isZoomed) {
+      setIsDragging(true);
+      setDragStart({ x: e.clientX, y: e.clientY });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging) {
+      const deltaX = (e.clientX - dragStart.x) * 0.1; // 调整灵敏度
+      const deltaY = (e.clientY - dragStart.y) * 0.1;
+      
+      const xRange = xAxisRange.max - xAxisRange.min;
+      const yRange = yAxisRange.max - yAxisRange.min;
+      
+      let newXMin = xAxisRange.min - deltaX;
+      let newXMax = xAxisRange.max - deltaX;
+      let newYMin = yAxisRange.min + deltaY; // Y轴方向相反
+      let newYMax = yAxisRange.max + deltaY;
+      
+      // 边界检查
+      if (newXMin < 0) {
+        newXMin = 0;
+        newXMax = xRange;
+      }
+      if (newXMax > 100) {
+        newXMax = 100;
+        newXMin = 100 - xRange;
+      }
+      if (newYMin < 0) {
+        newYMin = 0;
+        newYMax = yRange;
+      }
+      if (newYMax > 100) {
+        newYMax = 100;
+        newYMin = 100 - yRange;
+      }
+      
+      setXAxisRange({ min: newXMin, max: newXMax });
+      setYAxisRange({ min: newYMin, max: newYMax });
+      setDragStart({ x: e.clientX, y: e.clientY });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
   const matrixCounts = useMemo(() => {
     const counts: Record<ValueTier, Record<LifecycleStage, number>> = {
@@ -180,7 +251,7 @@ const TieringMatrix: React.FC = () => {
       const key = `${c.valueTier}-${c.lifecycle}`;
       const it = agg[key];
       it.count += 1;
-      it.avgHealth += c.valueScore;
+      it.avgHealth += c.healthScore;
       it.avgActive += c.f;
       it.totalArr += c.arr;
     }
@@ -198,30 +269,34 @@ const TieringMatrix: React.FC = () => {
     return Math.max(1, ...Object.values(segmentAgg).map((s) => s.totalArr));
   }, [segmentAgg]);
 
-  // 气泡图工具提示
-  const [bubbleTip, setBubbleTip] = useState<{ visible: boolean; x: number; y: number; html: React.ReactNode } | null>(null);
-  // 桑基图工具提示
-  const [sankeyTip, setSankeyTip] = useState<{ visible: boolean; x: number; y: number; text: string } | null>(null);
-
-  // 尝试从接口获取数据
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch('/api/customer-tiers', { method: 'GET' });
-        if (res.ok) {
-          const json = await res.json();
-          if (Array.isArray(json?.customers)) {
-            setCustomers(json.customers as Customer[]);
-            return;
-          }
-        }
-      } catch (e) {
-        // ignore
-      }
-      setCustomers(initialMock);
+  // 生成迁移数据
+  function hashStringToNumber(input: string): number {
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+      hash = (hash << 5) - hash + input.charCodeAt(i);
+      hash |= 0;
     }
-    fetchData();
-  }, []);
+    return Math.abs(hash);
+  }
+
+  const tierMigration = useMemo(() => {
+    const key = selected ? `${selected.valueTier}-${selected.stage}` : 'ALL';
+    const seed = hashStringToNumber(key);
+    const size = filteredCustomers.length || 1;
+    const ratioUp = 0.2 + ((seed % 30) / 100);
+    const ratioDown = 0.1 + ((seed % 15) / 100);
+    const up = Math.round(size * ratioUp);
+    const down = Math.round(size * ratioDown);
+    const same = Math.max(0, size - up - down);
+    const up_l2m = Math.round(up * 0.45);
+    const up_m2h = Math.max(0, up - up_l2m);
+    const down_h2m = Math.round(down * 0.6);
+    const down_m2l = Math.max(0, down - down_h2m);
+    const same_m = Math.round(same * 0.5);
+    const same_l = Math.round((same - same_m) * 0.4);
+    const same_h = Math.max(0, same - same_m - same_l);
+    return { up_l2m, up_m2h, same_l, same_m, same_h, down_h2m, down_m2l };
+  }, [filteredCustomers.length, selected]);
 
   function scrollToListAndHighlight() {
     listRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -231,14 +306,6 @@ const TieringMatrix: React.FC = () => {
     }
     highlightTimerRef.current = window.setTimeout(() => setListHighlight(false), 1600);
   }
-
-  useEffect(() => {
-    return () => {
-      if (highlightTimerRef.current) {
-        window.clearTimeout(highlightTimerRef.current);
-      }
-    };
-  }, []);
 
   const columns = [
     {
@@ -302,10 +369,41 @@ const TieringMatrix: React.FC = () => {
       sorter: (a: Customer, b: Customer) => a.f - b.f,
     },
     {
-      title: '服务互动价值',
+      title: '服务交互值',
       dataIndex: 'serviceScore',
       key: 'serviceScore',
       sorter: (a: Customer, b: Customer) => a.serviceScore - b.serviceScore,
+    },
+    {
+      title: '近90天风险事件数',
+      dataIndex: 'riskEvents',
+      key: 'riskEvents',
+      sorter: (a: Customer, b: Customer) => a.riskEvents - b.riskEvents,
+      render: (v: number) => (
+        <Text style={{ color: v > 0 ? '#ff4d4f' : '#52c41a' }}>{v}</Text>
+      ),
+    },
+    {
+      title: '近90天增购额',
+      dataIndex: 'upsellAmount',
+      key: 'upsellAmount',
+      sorter: (a: Customer, b: Customer) => a.upsellAmount - b.upsellAmount,
+      render: (v: number) => (
+        <Text>{v > 0 ? `¥${(v / 10000).toFixed(1)}万` : '-'}</Text>
+      ),
+    },
+    {
+      title: '标签',
+      dataIndex: 'tags',
+      key: 'tags',
+      render: (tags: string[]) => (
+        <Space wrap>
+          {tags.slice(0, 2).map(tag => (
+            <Tag key={tag}>{tag}</Tag>
+          ))}
+          {tags.length > 2 && <Text type="secondary">+{tags.length - 2}</Text>}
+        </Space>
+      ),
     },
   ];
 
@@ -313,76 +411,10 @@ const TieringMatrix: React.FC = () => {
     ? `客户列表 - ${selected.valueTier} & ${selected.stage} (${filteredCustomers.length})`
     : `客户列表 - 全部客户 (${filteredCustomers.length})`;
 
-  // ---- Charts data helpers ----
-  function hashStringToNumber(input: string): number {
-    let hash = 0;
-    for (let i = 0; i < input.length; i++) {
-      hash = (hash << 5) - hash + input.charCodeAt(i);
-      hash |= 0;
-    }
-    return Math.abs(hash);
-  }
-
-  const healthTrendPoints = useMemo(() => {
-    const key = selected ? `${selected.valueTier}-${selected.stage}` : 'ALL';
-    const base = selected ? 70 : 65;
-    const variance = selected ? 12 : 10;
-    const seed = hashStringToNumber(key);
-    const length = 12; // 近12周
-    const points: number[] = [];
-    for (let i = 0; i < length; i++) {
-      // 简单可重复的伪随机
-      const n = Math.sin((seed % 1000) * (i + 1)) * 0.5 + Math.cos((seed % 777) * (i + 2)) * 0.5;
-      const value = Math.max(40, Math.min(95, base + n * variance + (i - length / 2) * 0.4));
-      points.push(Math.round(value));
-    }
-    return points;
-  }, [selected]);
-
-  type FlowKey = 'up_l2m' | 'up_m2h' | 'same_l' | 'same_m' | 'same_h' | 'down_h2m' | 'down_m2l';
-  const flowColors: Record<FlowKey, string> = {
-    up_l2m: '#5B8FF9',
-    up_m2h: '#5AD8A6',
-    same_l: '#B37FEB',
-    same_m: '#FF9D4D',
-    same_h: '#CDDDFD',
-    down_h2m: '#F4664A',
-    down_m2l: '#D3F261',
-  };
-
-  const tierMigration = useMemo(() => {
-    // 基于选中人群，构造稳定的“上升/持平/下降”分布
-    const key = selected ? `${selected.valueTier}-${selected.stage}` : 'ALL';
-    const seed = hashStringToNumber(key);
-    const size = filteredCustomers.length || 1;
-    const ratioUp = 0.2 + ((seed % 30) / 100); // 20%-50%
-    const ratioDown = 0.1 + ((seed % 15) / 100); // 10%-25%
-    const up = Math.round(size * ratioUp);
-    const down = Math.round(size * ratioDown);
-    const same = Math.max(0, size - up - down);
-    // 拆分路径
-    const up_l2m = Math.round(up * 0.45);
-    const up_m2h = Math.max(0, up - up_l2m);
-    const down_h2m = Math.round(down * 0.6);
-    const down_m2l = Math.max(0, down - down_h2m);
-    const same_m = Math.round(same * 0.5);
-    const same_l = Math.round((same - same_m) * 0.4);
-    const same_h = Math.max(0, same - same_m - same_l);
-    return { up_l2m, up_m2h, same_l, same_m, same_h, down_h2m, down_m2l };
-  }, [filteredCustomers.length, selected]);
-
   return (
-    <div style={{ padding: '32px 40px', background: '#f5f5f5', minHeight: 'calc(100vh - 64px)' }}>
-      {/* 顶部区域 */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-        <div>
-          <Title level={2} style={{ margin: 0, fontWeight: 600, color: '#262626' }}>客户分层矩阵 (2025年Q3)</Title>
-          <Text type="secondary">将客户按“价值等级”与“生命周期”进行矩阵分层，以指导精细化服务策略。</Text>
-        </div>
-        <Button type="link" icon={<SettingOutlined />}>配置评分模型</Button>
-      </div>
-      {/* 矩阵在上 */}
-      <Card style={{ ...cardStyle }} bodyStyle={{ padding: 16 }}>
+    <div>
+      {/* 九宫格分层矩阵 */}
+      <Card style={{ ...cardStyle, marginBottom: 16 }} bodyStyle={{ padding: 16 }}>
         <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center' }}>
           <Text type="secondary">当前筛选：</Text>
           <Text strong style={{ marginLeft: 8 }}>{selectedTitle}</Text>
@@ -456,39 +488,88 @@ const TieringMatrix: React.FC = () => {
       </Card>
 
       {/* 图表区：两图同一行 */}
-      <Row gutter={16} style={{ marginTop: 16 }}>
-        {/* 图表一：分层健康与体量气泡图 */}
+      <Row gutter={16} style={{ marginBottom: 16 }}>
+        {/* 分层健康与价值矩阵气泡图 */}
         <Col xs={24} lg={12}>
-          <Card style={{ ...cardStyle }} title={<span style={{ fontWeight: 600 }}>客户分层健康与价值矩阵</span>}>
-            <div style={{ width: '100%', height: 260, position: 'relative' }}>
+          <Card 
+            style={{ ...cardStyle }} 
+            title={
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontWeight: 600 }}>分层散点/气泡图</span>
+                <Space>
+                  <Button 
+                    type="text" 
+                    size="small" 
+                    icon={<ZoomInOutlined />} 
+                    onClick={handleZoomIn}
+                    disabled={xAxisRange.max - xAxisRange.min <= 10 || yAxisRange.max - yAxisRange.min <= 10}
+                  />
+                  <Button 
+                    type="text" 
+                    size="small" 
+                    icon={<ZoomOutOutlined />} 
+                    onClick={handleZoomOut}
+                    disabled={xAxisRange.min === 0 && xAxisRange.max === 100 && yAxisRange.min === 0 && yAxisRange.max === 100}
+                  />
+                  <Button 
+                    type="text" 
+                    size="small" 
+                    icon={<UndoOutlined />} 
+                    onClick={handleResetZoom}
+                    disabled={xAxisRange.min === 0 && xAxisRange.max === 100 && yAxisRange.min === 0 && yAxisRange.max === 100}
+                  />
+                </Space>
+              </div>
+            }
+          >
+            <div 
+              style={{ 
+                width: '100%', 
+                height: 260, 
+                position: 'relative', 
+                overflow: 'hidden',
+                cursor: (xAxisRange.min > 0 || xAxisRange.max < 100 || yAxisRange.min > 0 || yAxisRange.max < 100) ? (isDragging ? 'grabbing' : 'grab') : 'default'
+              }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+            >
               {bubbleTip?.visible && (
                 <div style={{ position: 'absolute', left: bubbleTip.x, top: bubbleTip.y, background: '#fff', border: '1px solid #f0f0f0', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', borderRadius: 6, padding: '8px 10px', fontSize: 12, pointerEvents: 'none', zIndex: 2 }}>
                   {bubbleTip.html}
                 </div>
               )}
-              <svg viewBox="0 0 420 200" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+              <svg 
+                viewBox="0 0 420 200" 
+                preserveAspectRatio="none" 
+                style={{ 
+                  width: '100%', 
+                  height: '100%'
+                }}
+              >
                 {/* 坐标轴 */}
                 <line x1="40" y1="10" x2="40" y2="170" stroke="#d9d9d9" />
                 <line x1="40" y1="170" x2="400" y2="170" stroke="#d9d9d9" />
-                {/* y轴刻度 0-100 */}
+                {/* y轴刻度 */}
                 {Array.from({ length: 6 }).map((_, i) => {
-                  const v = i * 20;
-                  const y = 170 - (v / 100) * 150;
+                  const v = yAxisRange.min + (i * (yAxisRange.max - yAxisRange.min)) / 5;
+                  const y = 170 - (i / 5) * 150;
                   return (
                     <g key={i}>
                       <line x1="36" y1={y} x2="40" y2={y} stroke="#d9d9d9" />
-                      <text x="10" y={y + 4} fontSize="10" fill="#8c8c8c">{v}</text>
+                      <text x="10" y={y + 4} fontSize="10" fill="#8c8c8c">{Math.round(v)}</text>
                     </g>
                   );
                 })}
-                {/* x轴刻度 0-100 */}
+                {/* x轴刻度 */}
                 {Array.from({ length: 6 }).map((_, i) => {
-                  const v = i * 20;
-                  const x = 40 + (v / 100) * 360;
+                  const v = xAxisRange.min + (i * (xAxisRange.max - xAxisRange.min)) / 5;
+                  const x = 40 + (i / 5) * 360;
                   return (
                     <g key={i}>
                       <line x1={x} y1="170" x2={x} y2="174" stroke="#d9d9d9" />
-                      <text x={x} y="188" fontSize="10" fill="#8c8c8c" textAnchor="middle">{v}</text>
+                      <text x={x} y="188" fontSize="10" fill="#8c8c8c" textAnchor="middle">{Math.round(v)}</text>
                     </g>
                   );
                 })}
@@ -496,8 +577,15 @@ const TieringMatrix: React.FC = () => {
                 {
                   Object.values(segmentAgg).map((s) => {
                     if (s.count === 0) return null;
-                    const x = 40 + (s.avgHealth / 100) * 360;
-                    const y = 170 - (s.avgActive / 100) * 150;
+                    
+                    // 检查气泡是否在当前视图范围内
+                    if (s.avgHealth < xAxisRange.min || s.avgHealth > xAxisRange.max || 
+                        s.avgActive < yAxisRange.min || s.avgActive > yAxisRange.max) {
+                      return null;
+                    }
+                    
+                    const x = 40 + ((s.avgHealth - xAxisRange.min) / (xAxisRange.max - xAxisRange.min)) * 360;
+                    const y = 170 - ((s.avgActive - yAxisRange.min) / (yAxisRange.max - yAxisRange.min)) * 150;
                     const r = 6 + (s.totalArr / maxSegmentArr) * 16;
                     const color = lifecycleAccentColor[s.stage];
                     const html = (
@@ -533,48 +621,20 @@ const TieringMatrix: React.FC = () => {
                     );
                   })
                 }
-                {/* 图例：生命周期颜色 */}
-                {(() => {
-                  const entries: [LifecycleStage, string][] = [
-                    ['导入期', lifecycleAccentColor['导入期']],
-                    ['成长期', lifecycleAccentColor['成长期']],
-                    ['成熟期', lifecycleAccentColor['成熟期']],
-                    ['衰退期', lifecycleAccentColor['衰退期']],
-                  ];
-                  return (
-                    <g>
-                      {entries.map(([label, color], i) => (
-                        <g key={label}>
-                          <rect x={44 + i * 90} y={12} width={10} height={10} fill={color} rx={2} opacity={0.6} />
-                          <text x={58 + i * 90} y={21} fontSize="10" fill="#8c8c8c">{label}</text>
-                        </g>
-                      ))}
-                    </g>
-                  );
-                })()}
-                {/* 图例：气泡大小（示意） */}
-                <g>
-                  <circle cx="60" cy="150" r="6" fill="#8c8c8c" fillOpacity="0.15" stroke="#bfbfbf" />
-                  <circle cx="90" cy="150" r="10" fill="#8c8c8c" fillOpacity="0.15" stroke="#bfbfbf" />
-                  <circle cx="130" cy="150" r="14" fill="#8c8c8c" fillOpacity="0.15" stroke="#bfbfbf" />
-                  <text x="160" y="154" fontSize="10" fill="#8c8c8c">气泡大小表示总ARR</text>
-                </g>
                 {/* 轴标题 */}
-                <text x="220" y="198" textAnchor="middle" fontSize="12" fill="#8c8c8c">客户健康分 (0-100)</text>
-                <text x="12" y="14" textAnchor="start" fontSize="12" fill="#8c8c8c">客户活跃度 (0-100)</text>
-                {/* 角标 */}
-                <text x="400" y="16" textAnchor="end" fontSize="12" fill="#8c8c8c">{selected ? selectedTitle : '全部'}</text>
+                <text x="220" y="198" textAnchor="middle" fontSize="12" fill="#8c8c8c">客户健康度 ({Math.round(xAxisRange.min)}-{Math.round(xAxisRange.max)})</text>
+                <text x="12" y="14" textAnchor="start" fontSize="12" fill="#8c8c8c">价值分 ({Math.round(yAxisRange.min)}-{Math.round(yAxisRange.max)})</text>
               </svg>
             </div>
           </Card>
         </Col>
 
-        {/* 图表二：客户价值流动桑基图 */}
+        {/* 迁移流向图（Sankey） */}
         <Col xs={24} lg={12}>
-          <Card style={{ ...cardStyle }} title={<span style={{ fontWeight: 600 }}>客户价值层级流动 (Q2 vs Q3)</span>}>
+          <Card style={{ ...cardStyle }} title={<span style={{ fontWeight: 600 }}>迁移流向图 (上季→本季)</span>}>
             <div style={{ width: '100%', height: 320, position: 'relative' }}>
               {sankeyTip?.visible && (
-                <div style={{ position: 'absolute', left: sankeyTip.x, top: sankeyTip.y, background: '#fff', border: '1px solid #f0f0f0', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', borderRadius: 6, padding: '8px 10px', fontSize: 12, pointerEvents: 'none', zIndex: 2 }}>
+                <div style={{ position: 'absolute', left: sankeyTip.x, top: sankeyTip.y, background: '#fff', border: '1px solid #d9d9d9', borderRadius: 4, padding: '6px 8px', fontSize: 12, pointerEvents: 'none', zIndex: 10 }}>
                   {sankeyTip.text}
                 </div>
               )}
@@ -602,7 +662,8 @@ const TieringMatrix: React.FC = () => {
                   function pathD(y1: number, y2: number) {
                     const cx1 = 160; const cx2 = 260;
                     return `M ${leftX} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${rightX} ${y2}`;
-                  }
+                  };
+                  
                   return (
                     <g>
                       {/* 节点 */}
@@ -643,41 +704,17 @@ const TieringMatrix: React.FC = () => {
                     </g>
                   );
                 })()}
-                <text x="400" y="16" textAnchor="end" fontSize="12" fill="#8c8c8c">{selected ? selectedTitle : '全部'}</text>
-                {/* 图例：路径颜色说明 */}
-                {(() => {
-                  const items = [
-                    ['低→中', '#5B8FF9'],
-                    ['中→高', '#5AD8A6'],
-                    ['低→低', '#B37FEB'],
-                    ['中→中', '#FF9D4D'],
-                    ['高→高', '#CDDDFD'],
-                    ['高→中', '#F4664A'],
-                    ['中→低', '#D3F261'],
-                  ];
-                  return (
-                    <g>
-                      {items.map(([label, color], i) => (
-                        <g key={String(i)}>
-                          <rect x={44 + (i % 4) * 88} y={12 + Math.floor(i / 4) * 18} width={10} height={10} fill={String(color)} rx={2} opacity={0.6} />
-                          <text x={58 + (i % 4) * 88} y={21 + Math.floor(i / 4) * 18} fontSize="10" fill="#8c8c8c">{String(label)}</text>
-                        </g>
-                      ))}
-                    </g>
-                  );
-                })()}
               </svg>
             </div>
           </Card>
         </Col>
       </Row>
 
-      {/* 客户列表：保留并联动筛选 */}
+      {/* 客户列表 */}
       <Card
         ref={listRef as any}
         style={{
           ...cardStyle,
-          marginTop: 16,
           boxShadow: listHighlight
             ? '0 0 0 3px #1890ff33, 0 6px 20px rgba(0,0,0,0.08)'
             : (cardStyle.boxShadow as string),
@@ -685,31 +722,31 @@ const TieringMatrix: React.FC = () => {
           transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
         }}
         title={
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-          <span style={{ fontSize: 16, fontWeight: 600 }}>{headerTitle}</span>
-          <Input.Search
-            allowClear
-            placeholder="搜索客户/CSM/标签..."
-            style={{ width: 320 }}
-            onSearch={(v) => setSearch(v)}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-      }
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <span style={{ fontSize: 16, fontWeight: 600 }}>{headerTitle}</span>
+            <Input.Search
+              allowClear
+              placeholder="搜索客户/CSM/标签..."
+              style={{ width: 320 }}
+              onSearch={(v) => setSearch(v)}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+        }
       >
         <Table
           rowKey="id"
           dataSource={filteredCustomers}
           columns={columns as any}
           pagination={{ pageSize: 10, showSizeChanger: false }}
+          onRow={(record) => ({
+            onClick: () => onCustomerSelect?.(record),
+            style: { cursor: 'pointer' }
+          })}
         />
       </Card>
-      
-
     </div>
   );
 };
 
-export default TieringMatrix;
-
-
+export default ValueLifecycleTab;

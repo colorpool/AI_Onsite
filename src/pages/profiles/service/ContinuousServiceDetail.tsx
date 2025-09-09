@@ -35,7 +35,7 @@ import {
   TrophyOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons';
-import ContinuousServiceHeader from '@/components/service/ContinuousServiceHeader';
+import ContinuousServiceDetailHeader from '@/components/service/ContinuousServiceDetailHeader';
 import { useParams, useNavigate, useLocation } from 'umi';
 import { mockCustomers } from '@/mock/continuousServiceData';
 import { ServiceRecordType } from '@/types/continuousService';
@@ -111,45 +111,43 @@ const ContinuousServiceDetail: React.FC = () => {
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* 客户头部信息 */}
-        <div style={{ marginBottom: '24px' }}>
-          <ContinuousServiceHeader
-              customerData={{
-                id: customer.id,
-                name: customer.name,
-                healthLevel: customer.healthLevel === '健康' ? 'healthy' : customer.healthLevel === '一般' ? 'normal' : 'risk',
-                customerTier: customer.customerTier || 'medium',
-                arr: customer.arr || customer.currentContract?.amount || 0,
-                renewalDate: customer.nextRenewalDate || '2024-12-31',
-                lastContactDays: (() => {
-                  const lastContact = customer.serviceRecords?.[0]?.timestamp;
-                  if (!lastContact) return 0;
-                  const lastDate = new Date(lastContact);
-                  const today = new Date();
-                  return Math.floor((today.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
-                })(),
-                contractNumber: customer.currentContract?.contractNumber || `CONT-${customer.id}`
-              }}
-              isFavorite={isFavorite}
-              onToggleFavorite={handleToggleFavorite}
-              onBack={() => {
-                // 检查是否从特定页面跳转过来
-                const searchParams = new URLSearchParams(location.search);
-                const from = searchParams.get('from');
-                
-                if (from === 'handover') {
-                  navigate('/handover');
-                } else {
-                  navigate('/profiles/service');
-                }
-              }}
-              onViewContract={() => {
-                message.info('查看合同功能开发中');
-              }}
-              onShare={() => {
-                message.info('分享功能开发中');
-              }}
-            />
-        </div>
+        <ContinuousServiceDetailHeader
+            customerData={{
+              id: customer.id,
+              name: customer.name,
+              healthLevel: customer.healthLevel === '健康' ? 'healthy' : customer.healthLevel === '一般' ? 'normal' : 'risk',
+              customerTier: customer.customerTier || 'medium',
+              arr: customer.arr || customer.currentContract?.amount || 0,
+              renewalDate: customer.nextRenewalDate || '2024-12-31',
+              lastContactDays: (() => {
+                const lastContact = customer.serviceRecords?.[0]?.timestamp;
+                if (!lastContact) return 0;
+                const lastDate = new Date(lastContact);
+                const today = new Date();
+                return Math.floor((today.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+              })(),
+              contractNumber: customer.currentContract?.contractNumber || `CONT-${customer.id}`
+            }}
+            isFavorite={isFavorite}
+            onToggleFavorite={handleToggleFavorite}
+            onBack={() => {
+              // 检查是否从特定页面跳转过来
+              const searchParams = new URLSearchParams(location.search);
+              const from = searchParams.get('from');
+              
+              if (from === 'handover') {
+                navigate('/handover');
+              } else {
+                navigate('/profiles/service');
+              }
+            }}
+            onViewContract={() => {
+              message.info('查看合同功能开发中');
+            }}
+            onShare={() => {
+              message.info('分享功能开发中');
+            }}
+          />
 
         {/* 客户健康度和推荐行动 */}
         <Row gutter={24} style={{ marginBottom: '24px' }}>

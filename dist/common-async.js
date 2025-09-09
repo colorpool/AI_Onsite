@@ -266,7 +266,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
     ];
     return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
                 title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
@@ -340,11 +340,13 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                     columnNumber: 11
                 }, void 0),
                 open: visible,
-                onCancel: onClose,
-                width: 1200,
-                footer: null,
-                bodyStyle: {
-                    padding: '24px'
+                onClose: onClose,
+                width: 800,
+                placement: "right",
+                styles: {
+                    body: {
+                        padding: '24px'
+                    }
                 },
                 children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tabs, {
                     activeKey: activeTab,
@@ -376,7 +378,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                 children: customer.name
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 339,
+                                                                lineNumber: 341,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -384,7 +386,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                 children: customer.industry
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 340,
+                                                                lineNumber: 342,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -392,7 +394,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                 children: customer.scale
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 341,
+                                                                lineNumber: 343,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -400,7 +402,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                 children: customer.csm
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 342,
+                                                                lineNumber: 344,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -411,7 +413,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 343,
+                                                                lineNumber: 345,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -421,12 +423,12 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                     children: customer.lifecycleStage
                                                                 }, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 345,
+                                                                    lineNumber: 347,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 344,
+                                                                lineNumber: 346,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -436,23 +438,23 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                     children: customer.customerTier
                                                                 }, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 348,
+                                                                    lineNumber: 350,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 347,
+                                                                lineNumber: 349,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 338,
+                                                        lineNumber: 340,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 337,
+                                                    lineNumber: 339,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -469,12 +471,12 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                     children: getPlatformDisplayName((0, _continuousServiceData.getPlatformType)(customer.id))
                                                                 }, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 357,
+                                                                    lineNumber: 359,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 356,
+                                                                lineNumber: 358,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -488,17 +490,17 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                             children: product
                                                                         }, index, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 362,
+                                                                            lineNumber: 364,
                                                                             columnNumber: 29
                                                                         }, this))
                                                                 }, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 360,
+                                                                    lineNumber: 362,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 359,
+                                                                lineNumber: 361,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -512,28 +514,28 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                             children: service
                                                                         }, index, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 371,
+                                                                            lineNumber: 373,
                                                                             columnNumber: 29
                                                                         }, this))
                                                                 }, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 369,
+                                                                    lineNumber: 371,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 368,
+                                                                lineNumber: 370,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 355,
+                                                        lineNumber: 357,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 354,
+                                                    lineNumber: 356,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -560,7 +562,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                                 children: percent
                                                                             }, void 0, false, {
                                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                lineNumber: 389,
+                                                                                lineNumber: 391,
                                                                                 columnNumber: 29
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -571,23 +573,23 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                                 children: "健康分"
                                                                             }, void 0, false, {
                                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                lineNumber: 392,
+                                                                                lineNumber: 394,
                                                                                 columnNumber: 29
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                        lineNumber: 388,
+                                                                        lineNumber: 390,
                                                                         columnNumber: 27
                                                                     }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 383,
+                                                                lineNumber: 385,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                            lineNumber: 382,
+                                                            lineNumber: 384,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -599,18 +601,18 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                 children: customer.healthLevel
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 398,
+                                                                lineNumber: 400,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                            lineNumber: 397,
+                                                            lineNumber: 399,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 381,
+                                                    lineNumber: 383,
                                                     columnNumber: 19
                                                 }, this),
                                                 customer.nextRenewalDate && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -625,7 +627,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                 children: (0, _dayjs.default)(customer.nextRenewalDate).format('YYYY-MM-DD')
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 411,
+                                                                lineNumber: 413,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
@@ -635,23 +637,23 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                     children: customer.isRenewalRisk ? '有风险' : '无风险'
                                                                 }, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 415,
+                                                                    lineNumber: 417,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 414,
+                                                                lineNumber: 416,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 410,
+                                                        lineNumber: 412,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 409,
+                                                    lineNumber: 411,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -678,12 +680,12 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                             size: "small",
                                                                             icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                lineNumber: 434,
+                                                                                lineNumber: 436,
                                                                                 columnNumber: 54
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 434,
+                                                                            lineNumber: 436,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -691,7 +693,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                             children: contact.name
                                                                         }, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 435,
+                                                                            lineNumber: 437,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         contact.isPrimary && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
@@ -699,13 +701,13 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                             text: "主要"
                                                                         }, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 436,
+                                                                            lineNumber: 438,
                                                                             columnNumber: 49
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 433,
+                                                                    lineNumber: 435,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -717,7 +719,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                     children: contact.title
                                                                 }, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 438,
+                                                                    lineNumber: 440,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -728,7 +730,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                     children: [
                                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PhoneOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 442,
+                                                                            lineNumber: 444,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         " ",
@@ -736,7 +738,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                         " | ",
                                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 442,
+                                                                            lineNumber: 444,
                                                                             columnNumber: 63
                                                                         }, this),
                                                                         " ",
@@ -744,29 +746,29 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 441,
+                                                                    lineNumber: 443,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, index, true, {
                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                            lineNumber: 426,
+                                                            lineNumber: 428,
                                                             columnNumber: 23
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 424,
+                                                    lineNumber: 426,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                            lineNumber: 335,
+                                            lineNumber: 337,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 334,
+                                        lineNumber: 336,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -789,55 +791,55 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                     case 'UserOutlined':
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 460,
+                                                                            lineNumber: 462,
                                                                             columnNumber: 57
                                                                         }, void 0);
                                                                     case 'ExclamationCircleOutlined':
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 461,
+                                                                            lineNumber: 463,
                                                                             columnNumber: 70
                                                                         }, void 0);
                                                                     case 'RiseOutlined':
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.RiseOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 462,
+                                                                            lineNumber: 464,
                                                                             columnNumber: 57
                                                                         }, void 0);
                                                                     case 'MailOutlined':
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 463,
+                                                                            lineNumber: 465,
                                                                             columnNumber: 57
                                                                         }, void 0);
                                                                     case 'SettingOutlined':
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 464,
+                                                                            lineNumber: 466,
                                                                             columnNumber: 60
                                                                         }, void 0);
                                                                     case 'FileTextOutlined':
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 465,
+                                                                            lineNumber: 467,
                                                                             columnNumber: 61
                                                                         }, void 0);
                                                                     case 'TeamOutlined':
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 466,
+                                                                            lineNumber: 468,
                                                                             columnNumber: 57
                                                                         }, void 0);
                                                                     case 'CheckCircleOutlined':
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 467,
+                                                                            lineNumber: 469,
                                                                             columnNumber: 64
                                                                         }, void 0);
                                                                     default:
                                                                         return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 468,
+                                                                            lineNumber: 470,
                                                                             columnNumber: 45
                                                                         }, void 0);
                                                                 }
@@ -860,7 +862,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                                     children: item.type
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                    lineNumber: 478,
+                                                                                    lineNumber: 480,
                                                                                     columnNumber: 33
                                                                                 }, void 0),
                                                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -871,13 +873,13 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                                     children: item.date
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                    lineNumber: 479,
+                                                                                    lineNumber: 481,
                                                                                     columnNumber: 33
                                                                                 }, void 0)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 476,
+                                                                            lineNumber: 478,
                                                                             columnNumber: 31
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -885,25 +887,25 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                                             children: item.description
                                                                         }, void 0, false, {
                                                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 481,
+                                                                            lineNumber: 483,
                                                                             columnNumber: 31
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 475,
+                                                                    lineNumber: 477,
                                                                     columnNumber: 29
                                                                 }, void 0)
                                                             };
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 455,
+                                                        lineNumber: 457,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 454,
+                                                    lineNumber: 456,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -915,99 +917,99 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PhoneOutlined, {}, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 493,
+                                                                    lineNumber: 495,
                                                                     columnNumber: 31
                                                                 }, void 0),
                                                                 onClick: ()=>onAction('call', customer.id),
                                                                 children: "拨打电话"
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 492,
+                                                                lineNumber: 494,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 499,
+                                                                    lineNumber: 501,
                                                                     columnNumber: 31
                                                                 }, void 0),
                                                                 onClick: ()=>onAction('email', customer.id),
                                                                 children: "发送邮件"
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 498,
+                                                                lineNumber: 500,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 505,
+                                                                    lineNumber: 507,
                                                                     columnNumber: 31
                                                                 }, void 0),
                                                                 onClick: ()=>onAction('schedule', customer.id),
                                                                 children: "安排会议"
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 504,
+                                                                lineNumber: 506,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 511,
+                                                                    lineNumber: 513,
                                                                     columnNumber: 31
                                                                 }, void 0),
                                                                 onClick: ()=>onAction('quote', customer.id),
                                                                 children: "发送报价"
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 510,
+                                                                lineNumber: 512,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {}, void 0, false, {
                                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 517,
+                                                                    lineNumber: 519,
                                                                     columnNumber: 31
                                                                 }, void 0),
                                                                 onClick: ()=>onAction('escalate', customer.id),
                                                                 children: "升级处理"
                                                             }, void 0, false, {
                                                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 516,
+                                                                lineNumber: 518,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 491,
+                                                        lineNumber: 493,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 490,
+                                                    lineNumber: 492,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                            lineNumber: 452,
+                                            lineNumber: 454,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 451,
+                                        lineNumber: 453,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 332,
+                                lineNumber: 334,
                                 columnNumber: 13
                             }, this)
                         }, "overview", false, {
                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 331,
+                            lineNumber: 333,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
@@ -1015,7 +1017,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                 children: [
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.RobotOutlined, {}, void 0, false, {
                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 533,
+                                        lineNumber: 535,
                                         columnNumber: 17
                                     }, void 0),
                                     "剧本推荐",
@@ -1026,13 +1028,13 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                         }
                                     }, void 0, false, {
                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 536,
+                                        lineNumber: 538,
                                         columnNumber: 19
                                     }, void 0)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 532,
+                                lineNumber: 534,
                                 columnNumber: 15
                             }, void 0),
                             children: customerRecommendations.length > 0 ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
@@ -1043,18 +1045,18 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                 size: "small"
                             }, void 0, false, {
                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 543,
+                                lineNumber: 545,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Empty, {
                                 description: "暂无剧本推荐"
                             }, void 0, false, {
                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 551,
+                                lineNumber: 553,
                                 columnNumber: 15
                             }, this)
                         }, "recommendations", false, {
                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 530,
+                            lineNumber: 532,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
@@ -1062,14 +1064,14 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                 children: [
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.HistoryOutlined, {}, void 0, false, {
                                         fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 559,
+                                        lineNumber: 561,
                                         columnNumber: 17
                                     }, void 0),
                                     "执行记录"
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 558,
+                                lineNumber: 560,
                                 columnNumber: 15
                             }, void 0),
                             children: customerExecutions.length > 0 ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
@@ -1080,24 +1082,24 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                                 size: "small"
                             }, void 0, false, {
                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 566,
+                                lineNumber: 568,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Empty, {
                                 description: "暂无执行记录"
                             }, void 0, false, {
                                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 574,
+                                lineNumber: 576,
                                 columnNumber: 15
                             }, this)
                         }, "executions", false, {
                             fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 556,
+                            lineNumber: 558,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                    lineNumber: 329,
+                    lineNumber: 331,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
@@ -1116,7 +1118,7 @@ const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, execu
                 onLaunch: handleLaunchPlaybook
             }, void 0, false, {
                 fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                lineNumber: 582,
+                lineNumber: 584,
                 columnNumber: 9
             }, this)
         ]
@@ -2168,6 +2170,187 @@ _c = PlaybookLauncher;
 var _default = PlaybookLauncher;
 var _c;
 $RefreshReg$(_c, "PlaybookLauncher");
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/components/common/CustomerInfoCell.tsx": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return _default;
+    }
+});
+var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
+var _react = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/react/index.js"));
+var _continuousServiceData = __mako_require__("src/mock/continuousServiceData.ts");
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+// 平台图标组件 - 动态显示平台类型
+const PlatformTag = ({ customerId })=>{
+    const platformType = (0, _continuousServiceData.getPlatformType)(customerId);
+    // 获取平台配置
+    const getPlatformConfig = (platform)=>{
+        const configs = {
+            'dingtalk': {
+                text: '钉钉',
+                color: '#1677ff'
+            },
+            'wechat_work': {
+                text: '企微',
+                color: '#07c160'
+            },
+            'feishu': {
+                text: '飞书',
+                color: '#00d4aa'
+            },
+            'lark': {
+                text: 'Lark',
+                color: '#00d4aa'
+            },
+            'dingtalk_global': {
+                text: 'DingTalk',
+                color: '#1677ff'
+            },
+            'standalone': {
+                text: '独立部署',
+                color: '#722ed1'
+            }
+        };
+        return configs[platform] || {
+            text: '未知平台',
+            color: '#d9d9d9'
+        };
+    };
+    const config = getPlatformConfig(platformType);
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+        style: {
+            display: 'inline-flex',
+            alignItems: 'center',
+            backgroundColor: '#f0f0f0',
+            color: '#666',
+            padding: '2px 6px',
+            borderRadius: '4px',
+            fontSize: '11px',
+            fontWeight: '500',
+            marginRight: '8px'
+        },
+        children: config.text
+    }, void 0, false, {
+        fileName: "src/components/common/CustomerInfoCell.tsx",
+        lineNumber: 31,
+        columnNumber: 5
+    }, this);
+};
+_c = PlatformTag;
+const CustomerInfoCell = ({ customerId, customerName, contractNumber, showContract = true })=>{
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        style: {
+            position: 'relative'
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    display: 'flex',
+                    alignItems: 'center'
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(PlatformTag, {
+                        customerId: customerId
+                    }, void 0, false, {
+                        fileName: "src/components/common/CustomerInfoCell.tsx",
+                        lineNumber: 56,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                        style: {
+                            fontWeight: '500',
+                            color: '#262626'
+                        },
+                        children: customerName
+                    }, void 0, false, {
+                        fileName: "src/components/common/CustomerInfoCell.tsx",
+                        lineNumber: 57,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/common/CustomerInfoCell.tsx",
+                lineNumber: 55,
+                columnNumber: 7
+            }, this),
+            showContract && contractNumber && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    position: 'absolute',
+                    right: 24,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: '#8c8c8c',
+                    fontSize: 12
+                },
+                children: [
+                    "合同编号：",
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                        style: {
+                            fontFamily: 'monospace'
+                        },
+                        children: contractNumber
+                    }, void 0, false, {
+                        fileName: "src/components/common/CustomerInfoCell.tsx",
+                        lineNumber: 71,
+                        columnNumber: 16
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/common/CustomerInfoCell.tsx",
+                lineNumber: 63,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/common/CustomerInfoCell.tsx",
+        lineNumber: 54,
+        columnNumber: 5
+    }, this);
+};
+_c1 = CustomerInfoCell;
+var _default = CustomerInfoCell;
+var _c;
+var _c1;
+$RefreshReg$(_c, "PlatformTag");
+$RefreshReg$(_c1, "CustomerInfoCell");
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {
@@ -4498,7 +4681,7 @@ self.$RefreshReg$ = (type, id)=>{
     _reactrefresh.register(type, module.id + id);
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
-const CustomerDetailModal = ({ visible, customer, onClose, onAction })=>{
+const CustomerDetailDrawer = ({ visible, customer, onClose, onAction })=>{
     const handleLaunchPlaybook = async (playbookId, customerId)=>{
         console.log('启动剧本:', {
             playbookId,
@@ -4561,10 +4744,10 @@ const CustomerDetailModal = ({ visible, customer, onClose, onAction })=>{
         columnNumber: 5
     }, this);
 };
-_c = CustomerDetailModal;
-var _default = CustomerDetailModal;
+_c = CustomerDetailDrawer;
+var _default = CustomerDetailDrawer;
 var _c;
-$RefreshReg$(_c, "CustomerDetailModal");
+$RefreshReg$(_c, "CustomerDetailDrawer");
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {

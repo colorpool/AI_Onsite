@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Space, Tag, Avatar } from 'antd';
+import { Button, Space, Tag } from 'antd';
 import { 
   ArrowLeftOutlined, 
   EditOutlined, 
@@ -13,7 +13,7 @@ import {
 } from '@ant-design/icons';
 import { getPlatformType } from '../../mock/continuousServiceData';
 
-interface ContinuousServiceHeaderProps {
+interface ContinuousServiceDetailHeaderProps {
   customerData: {
     id: string;
     name: string;
@@ -22,11 +22,9 @@ interface ContinuousServiceHeaderProps {
     arr: number;
     renewalDate: string;
     lastContactDays: number;
-
     contractNumber?: string;
   };
   onBack: () => void;
-
   onViewContract: () => void;
   onShare: () => void;
   isFavorite?: boolean;
@@ -71,7 +69,7 @@ const PlatformIcon: React.FC<{ customerId: string }> = ({ customerId }) => {
   );
 };
 
-const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
+const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps> = ({
   customerData,
   onBack,
   onViewContract,
@@ -79,22 +77,22 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
   isFavorite = false,
   onToggleFavorite
 }) => {
-  // 健康状态配置 - 调整为更柔和的配色
+  // 健康状态配置
   const getHealthConfig = (healthLevel: string) => {
     const configs = {
-      'healthy': { color: '#73d13d', text: '健康' },
-      'normal': { color: '#ffc53d', text: '一般' },
-      'risk': { color: '#ff7875', text: '风险' }
+      'healthy': { color: '#52c41a', text: '健康' },
+      'normal': { color: '#faad14', text: '一般' },
+      'risk': { color: '#ff4d4f', text: '风险' }
     };
     return configs[healthLevel as keyof typeof configs] || { color: '#d9d9d9', text: '未知' };
   };
 
-  // 客户定级配置 - 调整为更柔和的配色
+  // 客户定级配置
   const getTierConfig = (tier: string) => {
     const configs = {
-      'strategic': { color: '#9254de', text: '战略客户' },
-      'large': { color: '#40a9ff', text: '大客户' },
-      'medium': { color: '#36cfc9', text: '中型客户' }
+      'strategic': { color: '#722ed1', text: '战略客户' },
+      'large': { color: '#1890ff', text: '大客户' },
+      'medium': { color: '#13c2c2', text: '中型客户' }
     };
     return configs[tier as keyof typeof configs] || { color: '#d9d9d9', text: '普通客户' };
   };
@@ -116,14 +114,14 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
     return `¥${amount.toLocaleString()}`;
   };
 
-  // 获取关系热度配置 - 更柔和的配色
+  // 获取关系热度配置
   const getContactHeatConfig = (days: number) => {
     if (days <= 7) {
-      return { color: '#73d13d', level: '热' };
+      return { color: '#52c41a', level: '热' };
     } else if (days <= 30) {
-      return { color: '#ffc53d', level: '温' };
+      return { color: '#faad14', level: '温' };
     } else {
-      return { color: '#ff7875', level: '冷' };
+      return { color: '#ff4d4f', level: '冷' };
     }
   };
 
@@ -133,7 +131,14 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
   const contactHeat = getContactHeatConfig(customerData.lastContactDays);
 
   return (
-    <div style={{ backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)', position: 'relative' }}>
+    <div style={{ 
+      backgroundColor: '#fff', 
+      borderRadius: '8px', 
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+      border: '1px solid #f0f0f0',
+      position: 'relative',
+      marginBottom: '24px'
+    }}>
       {/* 顶部操作栏 */}
       <div style={{
         display: 'flex',
@@ -185,7 +190,9 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
                   padding: '4px 8px'
                 }}
                 title={isFavorite ? '取消关注' : '添加关注'}
-              />
+              >
+                {isFavorite ? '取消关注' : '关注'}
+              </Button>
             )}
             
             <Button
@@ -222,32 +229,25 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
         display: 'flex',
         alignItems: 'center',
         padding: '16px 24px 20px 24px',
-        gap: '16px',
-        flexWrap: 'wrap'
+        gap: '12px',
+        flexWrap: 'wrap',
+        position: 'relative'
       }}>
-        {/* 健康状态标签 - 统一样式，可点击进入公司详情 */}
+        {/* 健康状态标签 */}
         <Tag
           style={{
             backgroundColor: healthConfig.color,
             color: '#fff',
             border: 'none',
-            borderRadius: '16px',
+            borderRadius: '4px',
             padding: '4px 12px',
             fontSize: '13px',
             fontWeight: '500',
             margin: 0,
-            cursor: 'pointer',
-            transition: 'all 0.2s'
+            cursor: 'pointer'
           }}
           onClick={() => {
-            // 点击健康度标签进入公司详情页面
             window.open(`/profiles/company/${customerData.id}`, '_blank');
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '0.8';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '1';
           }}
         >
           {healthConfig.text}
@@ -259,7 +259,7 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
             backgroundColor: '#f5f5f5',
             color: '#666',
             border: 'none',
-            borderRadius: '16px',
+            borderRadius: '4px',
             padding: '4px 12px',
             fontSize: '13px',
             margin: 0
@@ -268,13 +268,13 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
           {tierConfig.text}
         </Tag>
 
-        {/* ARR 核心商业指标 - 统一样式 */}
+        {/* ARR 核心商业指标 */}
         <Tag
           style={{
             backgroundColor: '#f5f5f5',
             color: '#666',
             border: 'none',
-            borderRadius: '16px',
+            borderRadius: '4px',
             padding: '4px 12px',
             fontSize: '13px',
             margin: 0
@@ -284,13 +284,13 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
           ARR: {formatARR(customerData.arr)}
         </Tag>
 
-        {/* 续约倒计时 - 统一样式 */}
+        {/* 续约倒计时 */}
         <Tag
           style={{
             backgroundColor: '#f5f5f5',
             color: '#666',
             border: 'none',
-            borderRadius: '16px',
+            borderRadius: '4px',
             padding: '4px 12px',
             fontSize: '13px',
             margin: 0
@@ -300,15 +300,15 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
           将于 {customerData.renewalDate} 续约 (剩 {remainingDays} 天)
         </Tag>
 
-        {/* 关系热度指标 - 统一样式 */}
+        {/* 关系热度指标 */}
         <Tag
           style={{
             backgroundColor: contactHeat.color,
             color: '#fff',
             border: 'none',
             borderRadius: '4px',
-            padding: '2px 8px',
-            fontSize: '12px',
+            padding: '4px 12px',
+            fontSize: '13px',
             fontWeight: '500',
             margin: 0
           }}
@@ -316,24 +316,16 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
           <MessageOutlined style={{ marginRight: '4px', fontSize: '10px' }} />
           上次接触: {customerData.lastContactDays}天前
         </Tag>
+
+        {/* 合同编号：状态栏内部右侧垂直居中 */}
+        {customerData.contractNumber && (
+          <div style={{ position: 'absolute', right: 24, top: '50%', transform: 'translateY(-50%)', color: '#8c8c8c', fontSize: 12 }}>
+            合同编号：<span style={{ fontFamily: 'monospace' }}>{customerData.contractNumber}</span>
+          </div>
+        )}
       </div>
-      
-      {/* 合同编号 - 右下角显示，居中对齐 */}
-      {customerData.contractNumber && (
-        <div style={{
-          position: 'absolute',
-          right: '24px',
-          bottom: '16px',
-          fontSize: '12px',
-          color: '#8c8c8c',
-          display: 'flex',
-          alignItems: 'center'
-        }}>
-          合同编号：<span style={{ fontFamily: 'monospace', marginLeft: '4px' }}>{customerData.contractNumber}</span>
-        </div>
-      )}
     </div>
   );
 };
 
-export default ContinuousServiceHeader;
+export default ContinuousServiceDetailHeader;

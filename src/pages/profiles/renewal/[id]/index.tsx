@@ -16,8 +16,6 @@ import {
   Statistic
 } from 'antd';
 import {
-  ArrowLeftOutlined,
-  EditOutlined,
   UserOutlined,
   CalendarOutlined,
   DollarOutlined,
@@ -30,6 +28,8 @@ import { useNavigate, useParams, useLocation } from 'umi';
 import { mockRenewalCustomers } from '../../service/renewal-management';
 import { Customer } from '../../../../types/continuousService';
 import { RenewalCustomer } from '../../service/renewal-management';
+import { getPlatformType } from '../../../../mock/continuousServiceData';
+import RenewalDetailHeader from '../../../../components/renewal/RenewalDetailHeader';
 
 const { Title, Text } = Typography;
 
@@ -74,6 +74,8 @@ const RenewalDetailPage: React.FC = () => {
   const [renewalData, setRenewalData] = useState<RenewalCustomer | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+
+
 
   // 从URL参数获取默认标签页
   useEffect(() => {
@@ -175,7 +177,7 @@ const RenewalDetailPage: React.FC = () => {
             <Descriptions column={2} size="small">
               <Descriptions.Item label="客户名称">{renewalData.customerName}</Descriptions.Item>
               <Descriptions.Item label="客户编号">{renewalData.id}</Descriptions.Item>
-              <Descriptions.Item label="合同到期时间">{renewalData.contractEndDate}</Descriptions.Item>
+              <Descriptions.Item label="合同到期时间">{renewalData.contractExpiryDate}</Descriptions.Item>
               <Descriptions.Item label="续约状态">
                 <Tag color={getRenewalStatusColor(renewalData.renewalStatus)}>
                   {renewalData.renewalStatus}
@@ -259,7 +261,7 @@ const RenewalDetailPage: React.FC = () => {
         <Descriptions column={2} size="small">
           <Descriptions.Item label="当前合同金额">¥{renewalData.arr.toLocaleString()}</Descriptions.Item>
           <Descriptions.Item label="合同开始时间">2023-01-01</Descriptions.Item>
-          <Descriptions.Item label="合同到期时间">{renewalData.contractEndDate}</Descriptions.Item>
+          <Descriptions.Item label="合同到期时间">{renewalData.contractExpiryDate}</Descriptions.Item>
           <Descriptions.Item label="付款方式">年付</Descriptions.Item>
           <Descriptions.Item label="服务等级">标准版</Descriptions.Item>
           <Descriptions.Item label="用户数量">100人</Descriptions.Item>
@@ -351,168 +353,24 @@ const RenewalDetailPage: React.FC = () => {
         padding: '32px 40px'
       }}>
         {/* 页面头部 */}
-        <div style={{ 
-          backgroundColor: '#fff', 
-          borderRadius: '8px', 
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.03)', 
-          position: 'relative',
-          marginBottom: '24px'
-        }}>
-          {/* 顶部操作栏 */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '20px 24px 16px 24px',
-            borderBottom: '1px solid #f0f0f0'
-          }}>
-            {/* 左侧：返回按钮 + 客户名称 */}
-            <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-              <Button
-                type="text"
-                icon={<ArrowLeftOutlined />}
-                onClick={handleBack}
-                style={{
-                  padding: '4px 8px',
-                  height: 'auto',
-                  marginRight: '16px',
-                  color: '#666',
-                  fontSize: '14px'
-                }}
-              >
-                返回
-              </Button>
-              
-              <h1 style={{
-                margin: 0,
-                fontSize: '24px',
-                fontWeight: '600',
-                color: '#262626',
-                lineHeight: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                <AppstoreOutlined style={{ color: '#1890ff', fontSize: '18px' }} />
-                {renewalData.customerName}
-              </h1>
-            </div>
-
-            {/* 右侧：操作按钮 */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <Space size="middle">
-                <Button
-                  type="text"
-                  icon={<EditOutlined />}
-                  style={{
-                    color: '#666',
-                    padding: '4px 8px'
-                  }}
-                  title="编辑"
-                >
-                  编辑
-                </Button>
-                
-                <Button
-                   type="text"
-                   icon={<FileTextOutlined />}
-                   style={{
-                     color: '#666',
-                     padding: '4px 8px'
-                   }}
-                   title="查看合同"
-                 >
-                   查看合同
-                 </Button>
-                
-                <Button
-                   type="text"
-                   icon={<ShareAltOutlined />}
-                   style={{
-                     color: '#666',
-                     padding: '4px 8px'
-                   }}
-                   title="分享"
-                 >
-                   分享
-                 </Button>
-              </Space>
-            </div>
-          </div>
-
-          {/* 核心信息标签栏 */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '16px 24px 20px 24px',
-            gap: '16px',
-            flexWrap: 'wrap'
-          }}>
-            {/* 续约状态标签 */}
-            <Tag
-              style={{
-                backgroundColor: renewalData.status === '流失风险' ? '#ff4d4f' : 
-                                renewalData.status === '意向明确' ? '#52c41a' : 
-                                renewalData.status === '谈判中' ? '#1890ff' : '#faad14',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '16px',
-                padding: '4px 12px',
-                fontSize: '13px',
-                fontWeight: '500',
-                margin: 0
-              }}
-            >
-              <TrophyOutlined style={{ marginRight: '4px', fontSize: '10px' }} />
-              {renewalData.status}
-            </Tag>
-
-            {/* ARR金额标签 */}
-            <Tag
-              style={{
-                backgroundColor: '#f6ffed',
-                color: '#52c41a',
-                border: '1px solid #b7eb8f',
-                borderRadius: '16px',
-                padding: '4px 12px',
-                fontSize: '13px',
-                margin: 0
-              }}
-            >
-              <DollarOutlined style={{ marginRight: '4px', fontSize: '10px' }} />
-              ARR: ¥{(renewalData.arr / 10000).toFixed(1)}万
-            </Tag>
-
-            {/* 到期时间标签 */}
-            <Tag
-              style={{
-                backgroundColor: '#fff2e8',
-                color: '#fa8c16',
-                border: '1px solid #ffbb96',
-                borderRadius: '16px',
-                padding: '4px 12px',
-                fontSize: '13px',
-                margin: 0
-              }}
-            >
-              <CalendarOutlined style={{ marginRight: '4px', fontSize: '10px' }} />
-              到期时间: {renewalData.contractExpiryDate}
-            </Tag>
-          </div>
-          
-          {/* 合同编号 - 右下角显示 */}
-          <div style={{
-            position: 'absolute',
-            bottom: '16px',
-            right: '24px',
-            fontSize: '12px',
-            color: '#8c8c8c',
-            display: 'flex',
-            alignItems: 'center',
-            lineHeight: '1'
-          }}>
-            合同编号：<span style={{ fontFamily: 'monospace', marginLeft: '4px', display: 'inline-flex', alignItems: 'center' }}>CONT-2023-{renewalData.id.slice(-3)}</span>
-          </div>
+        <div style={{ marginBottom: '24px' }}>
+          <RenewalDetailHeader 
+             customerData={{
+               id: renewalData.id,
+               name: renewalData.customerName,
+               contractNumber: `CONT-2023-${renewalData.id.slice(-3)}`,
+               healthScore: renewalData.healthScore,
+               renewalAmount: renewalData.arr,
+               expiryDate: renewalData.contractExpiryDate,
+               status: renewalData.status === '流失风险' ? 'at_risk' : 
+                      renewalData.status === '意向明确' ? 'active' : 
+                      renewalData.status === '谈判中' ? 'negotiating' : 'pending'
+             }}
+             onBack={handleBack}
+             onEdit={() => message.info('编辑功能开发中')}
+             onViewContract={() => message.info('查看合同功能开发中')}
+             onShare={() => message.info('分享功能开发中')}
+           />
         </div>
 
         {/* 标签页内容 */}
@@ -524,6 +382,7 @@ const RenewalDetailPage: React.FC = () => {
             activeKey={activeTab}
             onChange={setActiveTab}
             style={{ margin: 0 }}
+            tabBarStyle={tabStyles.tabBar}
             items={[
               {
                 key: 'overview',

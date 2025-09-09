@@ -1,0 +1,19 @@
+.customTabsWithPadding .ant-tabs-content-holder {
+  padding: 32px;
+}
+
+.customTabsWithPadding .ant-tabs-tab-btn {
+  padding: 16px 24px;
+}
+
+.customTabsWithPadding .ant-tabs-nav {
+  margin-bottom: 24px;
+}
+
+.customTabsWithPadding .ant-tabs-content {
+  background: transparent;
+}
+
+.customTabsWithPadding .ant-tabs-tabpane {
+  padding: 0;
+}
