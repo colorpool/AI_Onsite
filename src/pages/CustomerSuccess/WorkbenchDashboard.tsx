@@ -134,8 +134,9 @@ const generateGreeting = (userName: string = '用户') => {
     ];
   }
   
-  // 随机选择一条鼓励话语
-  const randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
+  // 基于时间和用户名选择固定的鼓励话语
+  const encouragementIndex = (new Date().getDate() + userName.length) % encouragements.length;
+  const randomEncouragement = encouragements[encouragementIndex];
   
   return `${timeGreeting}，${userName}，${randomEncouragement}`;
 };

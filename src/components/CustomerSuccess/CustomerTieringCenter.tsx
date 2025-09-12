@@ -6,6 +6,7 @@ import {
   Space,
   message,
 } from 'antd';
+import { unifiedCustomerData, UnifiedCustomer } from '../../mock/customerData';
 import GlobalFilters from './GlobalFilters';
 import KPISummary from './KPISummary';
 import ValueLifecycleTab from './ValueLifecycleTab';
@@ -116,105 +117,37 @@ const CustomerTieringCenter: React.FC = () => {
   });
   const [customers, setCustomers] = useState<BaseCustomer[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedMatrix, setSelectedMatrix] = useState<{ valueTier: '高价值' | '中价值' | '低价值'; stage: '导入期' | '成长期' | '成熟期' | '衰退期' } | null>(null);
 
-  // 生成模拟数据
-  const generateMockData = (): BaseCustomer[] => {
-    const industries = ['制造业', '金融', '零售', '医疗', '教育', '政府'];
-    const sizes = ['small', 'medium', 'large', 'xlarge'];
-    const lifecycles = ['import', 'growth', 'mature', 'decline'];
-    const regions = ['华北', '华东', '华南', '华中', '西南', '西北', '东北'];
-    const csms = ['张三', '李四', '王五', '赵六', '钱七', '孙八'];
-    const riskLevels = ['safe', 'attention', 'risk'];
-    const channelTypes = ['direct', 'partner', 'reseller'];
-    const tags = [
-      '医院生态', '零售生态', 'ISV合作伙伴', '系统集成商', '代理商',
-      '战略客户', '标杆客户', '创新试点', '数字化转型', '云原生'
-    ];
-
-    const mockCustomers: BaseCustomer[] = [];
-    
-    for (let i = 1; i <= 500; i++) {
-      const industry = industries[Math.floor(Math.random() * industries.length)];
-      const size = sizes[Math.floor(Math.random() * sizes.length)];
-      const lifecycle = lifecycles[Math.floor(Math.random() * lifecycles.length)];
-      const region = regions[Math.floor(Math.random() * regions.length)];
-      const csm = csms[Math.floor(Math.random() * csms.length)];
-      const riskLevel = riskLevels[Math.floor(Math.random() * riskLevels.length)];
-      const channelType = channelTypes[Math.floor(Math.random() * channelTypes.length)];
-      const isChannelCustomer = Math.random() > 0.6;
-      const isKeyAccount = Math.random() > 0.8;
-      const isInRenewalWindow = Math.random() > 0.7;
-      
-      const customerTags: string[] = [];
-      const tagCount = Math.floor(Math.random() * 4) + 1;
-      for (let j = 0; j < tagCount; j++) {
-        const tag = tags[Math.floor(Math.random() * tags.length)];
-        if (!customerTags.includes(tag)) {
-          customerTags.push(tag);
-        }
-      }
-      
-      const arr = Math.floor(Math.random() * 1000000) + 50000;
-      const valueScore = Math.floor(Math.random() * 100) + 1;
-      const healthScore = Math.floor(Math.random() * 100) + 1;
-      const rScore = Math.floor(Math.random() * 100) + 1;
-      const fScore = Math.floor(Math.random() * 100) + 1;
-      const mScore = Math.floor(Math.random() * 100) + 1;
-      
-      const signDate = new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1)
-        .toISOString().split('T')[0];
-      
-      const visits90Days = Math.floor(Math.random() * 20);
-      const revenue90Days = Math.floor(Math.random() * 100000);
-      const collaborationEvents = Math.floor(Math.random() * 30);
-      
-      const insights = [];
-      const insightCount = Math.floor(Math.random() * 5);
-      for (let k = 0; k < insightCount; k++) {
-        insights.push({
-          id: `insight-${i}-${k}`,
-          content: `客户洞察内容 ${k + 1}`,
-          date: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-          type: ['会议', '邮件', '电话', '现场拜访'][Math.floor(Math.random() * 4)],
-        });
-      }
-      
-      const nextAction = Math.random() > 0.5 ? {
-        content: ['跟进续约', '产品演示', '商务谈判', '技术支持'][Math.floor(Math.random() * 4)],
-        dueDate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        overdue: Math.random() > 0.8,
-      } : undefined;
-      
-      mockCustomers.push({
-        id: `customer-${i}`,
-        name: `客户${i}`,
-        industry,
-        size: size as 'small' | 'medium' | 'large' | 'xlarge',
-        csm,
-        region,
-        isChannelCustomer,
-        arr,
-        valueScore,
-        lifecycle: lifecycle as 'import' | 'growth' | 'mature' | 'decline',
-        healthScore,
-        rScore,
-        fScore,
-        mScore,
-        riskLevel: riskLevel as 'safe' | 'attention' | 'risk',
-        signDate,
-        tags: customerTags,
-        collaborationEvents,
-        channelType: channelType as 'direct' | 'partner' | 'reseller',
-        isKeyAccount,
-        isInRenewalWindow,
-        visits90Days,
-        revenue90Days,
-        insights,
-        nextAction,
-      });
-    }
-    
-    return mockCustomers;
+  // 转换统一客户数据为BaseCustomer格式
+  const convertUnifiedToBaseCustomer = (unifiedCustomers: UnifiedCustomer[]): BaseCustomer[] => {
+    return unifiedCustomers.map(customer => ({
+      id: customer.id,
+      name: customer.name,
+      industry: customer.industry,
+      size: customer.size,
+      csm: customer.csm,
+      region: customer.region,
+      isChannelCustomer: customer.isChannelCustomer,
+      arr: customer.arr,
+      valueScore: customer.valueScore,
+      lifecycle: customer.lifecycle,
+      healthScore: customer.healthScore,
+      rScore: customer.rScore,
+      fScore: customer.fScore,
+      mScore: customer.mScore,
+      riskLevel: customer.riskLevel,
+      signDate: customer.signDate,
+      tags: customer.tags,
+      collaborationEvents: customer.collaborationEvents,
+      channelType: customer.channelType,
+      isKeyAccount: customer.isKeyAccount,
+      isInRenewalWindow: customer.isInRenewalWindow,
+      visits90Days: customer.visits90Days,
+      revenue90Days: customer.revenue90Days,
+      insights: customer.insights,
+      nextAction: customer.nextAction,
+    }));
   };
 
   // 根据全局筛选条件过滤客户数据
@@ -282,22 +215,21 @@ const CustomerTieringCenter: React.FC = () => {
     const riskCustomers = filteredCustomers.filter(c => c.riskLevel === 'risk').length;
     const currentARR = filteredCustomers.reduce((sum, c) => sum + c.arr, 0);
     
-    // 模拟环比变化 - 客户数变化应该是整数
-    const generateCustomerChange = () => Math.floor((Math.random() - 0.5) * 20);
-    const generatePercentageChange = () => (Math.random() - 0.5) * 20;
+    // 基于数据特征计算固定的环比变化
     const getChangeType = (change: number): 'increase' | 'decrease' | 'stable' => {
       if (change > 2) return 'increase';
       if (change < -2) return 'decrease';
       return 'stable';
     };
     
-    const totalChange = generateCustomerChange();
-    const highValueChange = generateCustomerChange();
-    const newSignupsChange = generateCustomerChange();
-    const riskChange = generateCustomerChange();
-    const arrChange = generatePercentageChange();
-    const grrChange = generatePercentageChange();
-    const nrrChange = generatePercentageChange();
+    // 基于客户数据计算固定的变化值
+    const totalChange = Math.floor((filteredCustomers.length % 20) - 10); // -10 到 +9
+    const highValueChange = Math.floor((highValueCustomers % 15) - 7); // -7 到 +7
+    const newSignupsChange = Math.floor((newCustomers % 12) - 6); // -6 到 +5
+    const riskChange = Math.floor((riskCustomers % 8) - 4); // -4 到 +3
+    const arrChange = ((currentARR % 100) - 50) / 10; // -5% 到 +4.9%
+    const grrChange = ((totalCustomers % 20) - 10) / 10; // -1% 到 +0.9%
+    const nrrChange = ((highValueCustomers % 30) - 15) / 10; // -1.5% 到 +1.4%
     
     return {
       totalCustomers: { 
@@ -339,7 +271,7 @@ const CustomerTieringCenter: React.FC = () => {
     setLoading(true);
     // 模拟异步加载
     setTimeout(() => {
-      setCustomers(generateMockData());
+      setCustomers(convertUnifiedToBaseCustomer(unifiedCustomerData));
       setLoading(false);
     }, 1000);
   }, []);
@@ -377,21 +309,27 @@ const CustomerTieringCenter: React.FC = () => {
       label: '价值 × 生命周期',
       children: (
         <ValueLifecycleTab
-          customers={filteredCustomers.map(c => ({
-            ...c,
-            logoColor: '#1890ff',
-            trend: 'up' as const,
-            valueTier: c.valueScore >= 80 ? '高价值' : c.valueScore >= 50 ? '中价值' : '低价值' as const,
-            rAndM: c.rScore + c.mScore,
-            f: c.fScore,
-            serviceScore: Math.floor(Math.random() * 100),
-            riskEvents: Math.floor(Math.random() * 10),
-            upsellAmount: Math.floor(Math.random() * 100000),
-            lifecycle: c.lifecycle === 'import' ? '导入期' : 
-                      c.lifecycle === 'growth' ? '成长期' : 
-                      c.lifecycle === 'mature' ? '成熟期' : '衰退期' as const
-          }))}
+          customers={filteredCustomers.map(c => {
+            // 从统一数据源获取对应的完整客户数据
+            const unifiedCustomer = unifiedCustomerData.find(uc => uc.id === c.id);
+            return {
+              ...c,
+              logoColor: '#1890ff',
+              trend: unifiedCustomer?.trend || (c.valueScore > 75 ? 'up' : c.valueScore < 40 ? 'down' : 'flat'),
+              valueTier: c.valueScore >= 80 ? '高价值' : c.valueScore >= 50 ? '中价值' : '低价值' as const,
+              rAndM: c.rScore + c.mScore,
+              f: c.fScore,
+              serviceScore: unifiedCustomer?.serviceScore || Math.round((c.collaborationEvents / 30) * 100),
+              riskEvents: unifiedCustomer?.riskEvents || (c.riskLevel === 'risk' ? 3 : c.riskLevel === 'attention' ? 1 : 0),
+              upsellAmount: unifiedCustomer?.upsellAmount || c.revenue90Days,
+              lifecycle: c.lifecycle === 'import' ? '导入期' : 
+                         c.lifecycle === 'growth' ? '成长期' : 
+                         c.lifecycle === 'mature' ? '成熟期' : '衰退期'
+            };
+          })}
           onCustomerSelect={handleCustomerClick}
+          selectedMatrix={selectedMatrix}
+          onMatrixSelect={setSelectedMatrix}
         />
       ),
     },
@@ -401,15 +339,15 @@ const CustomerTieringCenter: React.FC = () => {
       children: (
         <NewCustomerTieringTab
           customers={filteredCustomers.filter(c => c.signDate).map(c => ({
-            id: c.id || `customer-${Math.random()}`,
+            id: c.id || `customer-${c.id?.slice(-4) || '0000'}`,
             name: c.name || '未知客户',
             logoColor: '#52c41a',
             csm: c.csm || '未分配',
             industry: (c.industry as any) || '其他',
-            customerScale: Math.floor(Math.random() * 1000) + 50,
+            customerScale: Math.floor((c.valueScore * 10) + 50), // 基于价值分计算规模
             unitPrice: Math.floor((c.arr || 0) / 12),
             signDate: c.signDate!,
-            activationRate: Math.floor(Math.random() * 100),
+            activationRate: Math.min(95, Math.max(20, c.healthScore + (c.valueScore % 30))), // 基于健康度和价值分计算激活率
             quadrant: '领先者' as const,
             arr: c.arr || 0,
             tags: c.tags || [],
@@ -439,7 +377,7 @@ const CustomerTieringCenter: React.FC = () => {
             mScore: c.mScore,
             contractAmount: c.arr,
             visits90Days: c.visits90Days,
-            lastVisitDate: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            lastVisitDate: new Date(Date.now() - (c.visits90Days % 30) * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 基于访问次数计算最后访问日期
             lastVisitType: '现场拜访',
             lastVisitor: c.csm,
             valueAdded90Days: c.revenue90Days,
@@ -458,7 +396,7 @@ const CustomerTieringCenter: React.FC = () => {
               { date: '2024-01-15', event: '合同签署', status: 'completed' as const },
               { date: '2024-06-01', event: '中期评估', status: 'pending' as const }
             ],
-            activityTrend: Array.from({ length: 12 }, () => Math.floor(Math.random() * 100)),
+            activityTrend: Array.from({ length: 12 }, (_, i) => Math.floor((c.healthScore + (c.valueScore % 50) + i * 5) % 100)), // 基于健康度和价值分生成趋势
             stakeholders: [
               { name: '张总', role: 'CEO', influence: 'high' as const },
               { name: '李经理', role: 'IT总监', influence: 'medium' as const }

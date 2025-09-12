@@ -253,6 +253,18 @@ ol {
   list-style: none;
 }
 
+// 统一表格标题不换行样式
+.ant-table-thead > tr > th {
+  white-space: nowrap !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+// 确保表格标题在宽屏显示器上不换行
+.ant-table-thead > tr > th .ant-table-column-title {
+  white-space: nowrap !important;
+}
+
 @media (max-width: 768px) {
   .ant-table {
     width: 100%;

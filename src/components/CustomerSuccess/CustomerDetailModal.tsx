@@ -122,7 +122,7 @@ const CustomerDetailDrawer: React.FC<CustomerDetailDrawerProps> = ({ visible, cu
         <Card title="基本信息" size="small" style={{ marginBottom: 16 }}>
           <Descriptions column={1} size="small" labelStyle={{ width: '80px' }}>
             <Descriptions.Item label="客户名称">{customer.name}</Descriptions.Item>
-            <Descriptions.Item label="负责CSM">{customer.csm}</Descriptions.Item>
+            <Descriptions.Item label="客户成功">{customer.csm}</Descriptions.Item>
             <Descriptions.Item label="所属行业">{customer.industry || '-'}</Descriptions.Item>
             <Descriptions.Item label="客户规模">
               {customer.customerScale ? customer.customerScale.toLocaleString() : '-'}

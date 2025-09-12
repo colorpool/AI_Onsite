@@ -322,10 +322,10 @@ const KPISummary: React.FC<KPISummaryProps> = ({ data, loading = false }) => {
                 </Space>
               </div>
               <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#262626' }}>
-                GRR: {loading ? '-' : `${data.retentionRates.grr}%`}
+                GRR: {loading ? '-' : `${data.retentionRates.grr.toFixed(2)}%`}
               </div>
               <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#262626', marginTop: '4px' }}>
-                NRR: {loading ? '-' : `${data.retentionRates.nrr}%`}
+                NRR: {loading ? '-' : `${data.retentionRates.nrr.toFixed(2)}%`}
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -338,7 +338,7 @@ const KPISummary: React.FC<KPISummaryProps> = ({ data, loading = false }) => {
                     color: getChangeColor(data.retentionRates.grrChange > 0 ? 'increase' : data.retentionRates.grrChange < 0 ? 'decrease' : 'stable')
                   }}
                 >
-                  {Math.abs(data.retentionRates.grrChange)}%
+                  {Math.abs(data.retentionRates.grrChange).toFixed(2)}%
                 </Text>
               </div>
               <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -350,7 +350,7 @@ const KPISummary: React.FC<KPISummaryProps> = ({ data, loading = false }) => {
                     color: getChangeColor(data.retentionRates.nrrChange > 0 ? 'increase' : data.retentionRates.nrrChange < 0 ? 'decrease' : 'stable')
                   }}
                 >
-                  {Math.abs(data.retentionRates.nrrChange)}%
+                  {Math.abs(data.retentionRates.nrrChange).toFixed(2)}%
                 </Text>
               </div>
             </div>

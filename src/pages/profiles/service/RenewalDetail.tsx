@@ -113,7 +113,7 @@ const RenewalDetail: React.FC = () => {
           renewalDate: foundCustomer.nextRenewalDate || foundCustomer.serviceExpiryDate || '2024-12-31',
           lastContactDays: Math.floor((new Date().getTime() - new Date(foundCustomer.lastContactDate).getTime()) / (1000 * 60 * 60 * 24)),
           contractNumber: foundCustomer.currentContract?.contractNumber || `CONT-2023-${id.slice(-3)}`,
-          renewalProbability: Math.floor(Math.random() * 40) + 60, // 60-100%
+          renewalProbability: Math.min(95, Math.max(60, foundCustomer.arr / 10000 + (foundCustomer.healthLevel === '健康' ? 20 : foundCustomer.healthLevel === '一般' ? 10 : 0))), // 基于ARR和健康度计算续约概率
            renewalAmount: foundCustomer.currentContract?.amount || 500000,
           keyRisks: [
             '预算紧张',

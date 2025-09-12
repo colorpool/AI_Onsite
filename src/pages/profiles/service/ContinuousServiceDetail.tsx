@@ -15,7 +15,11 @@ import {
   Form,
   Input,
   Select,
-  Tabs
+  Tabs,
+  Table,
+  Tooltip,
+  InputNumber,
+  DatePicker
 } from 'antd';
 import { 
   UserOutlined,
@@ -33,12 +37,16 @@ import {
   RiseOutlined,
   SmileOutlined,
   TrophyOutlined,
-  ExclamationCircleOutlined
+  ExclamationCircleOutlined,
+  EyeOutlined,
+  DownloadOutlined,
+  EditOutlined,
+  DeleteOutlined
 } from '@ant-design/icons';
 import ContinuousServiceDetailHeader from '@/components/service/ContinuousServiceDetailHeader';
 import { useParams, useNavigate, useLocation } from 'umi';
 import { mockCustomers } from '@/mock/continuousServiceData';
-import { ServiceRecordType } from '@/types/continuousService';
+import { ServiceRecordType, ContractAttachment } from '@/types/continuousService';
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -54,6 +62,14 @@ const ContinuousServiceDetail: React.FC = () => {
   const [newRecordModalVisible, setNewRecordModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [isFavorite, setIsFavorite] = useState(false);
+  const [attachmentModalVisible, setAttachmentModalVisible] = useState(false);
+  const [selectedContract, setSelectedContract] = useState<any>(null);
+  const [isContractEditVisible, setIsContractEditVisible] = useState(false);
+  const [contractForm] = Form.useForm();
+  const [isContactEditVisible, setIsContactEditVisible] = useState(false);
+  const [contactForm] = Form.useForm();
+  const [editingContact, setEditingContact] = useState<any>(null);
+  const [contactData, setContactData] = useState<any[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -64,6 +80,11 @@ const ContinuousServiceDetail: React.FC = () => {
         // 检查是否为收藏客户
         const favoriteCustomers = JSON.parse(localStorage.getItem('favoriteCustomers') || '[]');
         setIsFavorite(favoriteCustomers.includes(id));
+        
+        // 初始化联系人数据
+        if (foundCustomer.keyContacts) {
+          setContactData(foundCustomer.keyContacts);
+        }
         
         // 如果URL中包含scrollTo参数，滚动到对应位置
         const searchParams = new URLSearchParams(location.search);
@@ -79,6 +100,81 @@ const ContinuousServiceDetail: React.FC = () => {
       }
     }
   }, [id]);
+
+  // 合同编辑处理函数
+  const handleContractEdit = () => {
+    contractForm.setFieldsValue({
+      amount: customer.currentContract?.amount,
+      endDate: customer.contractEndDate,
+      userVersion: customer.currentContract?.userVersion,
+      ticketVersion: customer.currentContract?.ticketVersion,
+      customerTier: customer.customerTier,
+      tianyuanOrderStatus: customer.currentContract?.tianyuanOrderStatus,
+      serviceCost: customer.currentContract?.serviceCost
+    });
+    setIsContractEditVisible(true);
+  };
+
+  const handleContractSave = async () => {
+    try {
+      const values = await contractForm.validateFields();
+      // 这里应该调用API保存数据
+      message.success('合同信息保存成功');
+      setIsContractEditVisible(false);
+    } catch (error) {
+      console.error('保存失败:', error);
+    }
+  };
+
+  // 联系人编辑处理函数
+  const handleContactEdit = (record: any) => {
+    setEditingContact(record);
+    contactForm.setFieldsValue(record);
+    setIsContactEditVisible(true);
+  };
+
+  const handleContactAdd = () => {
+    setEditingContact(null);
+    contactForm.resetFields();
+    setIsContactEditVisible(true);
+  };
+
+  const handleContactSave = async () => {
+    try {
+      const values = await contactForm.validateFields();
+      if (editingContact) {
+        // 编辑现有联系人
+        const updatedData = contactData.map(item => 
+          item.id === editingContact.id ? { ...item, ...values } : item
+        );
+        setContactData(updatedData);
+        message.success('联系人信息更新成功');
+      } else {
+        // 新增联系人
+        const newContact = {
+          id: Date.now().toString(),
+          ...values
+        };
+        setContactData([...contactData, newContact]);
+        message.success('联系人添加成功');
+      }
+      setIsContactEditVisible(false);
+    } catch (error) {
+      console.error('保存失败:', error);
+    }
+  };
+
+  const handleContactDelete = (record: any) => {
+    Modal.confirm({
+      title: '确认删除',
+      content: '确定要删除这个联系人吗？',
+      onOk: () => {
+        const updatedData = contactData.filter(item => item.id !== record.id);
+        setContactData(updatedData);
+        message.success('联系人删除成功');
+      }
+    });
+  };
 
   const getHealthColor = (level: string) => {
     switch (level) {
@@ -96,6 +192,22 @@ const ContinuousServiceDetail: React.FC = () => {
       : [...favoriteCustomers, id];
     localStorage.setItem('favoriteCustomers', JSON.stringify(newFavorites));
     setIsFavorite(!isFavorite);
+  };
+
+  const handleViewAttachments = (contract: any) => {
+    setSelectedContract(contract);
+    setAttachmentModalVisible(true);
+  };
+
+  const handleDownloadAttachment = (attachment: { url: string; name: string }) => {
+    // 创建一个临时的a标签来下载文件
+    const link = document.createElement('a');
+    link.href = attachment.url;
+    link.download = attachment.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    message.success(`开始下载 ${attachment.name}`);
   };
 
   if (!customer) {
@@ -126,7 +238,8 @@ const ContinuousServiceDetail: React.FC = () => {
                 const today = new Date();
                 return Math.floor((today.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
               })(),
-              contractNumber: customer.currentContract?.contractNumber || `CONT-${customer.id}`
+              contractNumber: customer.currentContract?.contractNumber || `CONT-${customer.id}`,
+              connectionLevel: customer.connectionLevel || 3
             }}
             isFavorite={isFavorite}
             onToggleFavorite={handleToggleFavorite}
@@ -225,30 +338,6 @@ const ContinuousServiceDetail: React.FC = () => {
                   </div>
                 </Col>
               </Row>
-              <Row gutter={24} style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #f0f0f0' }}>
-                <Col xs={24} md={12}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <TrophyOutlined style={{ color: '#faad14', marginRight: '8px' }} />
-                      <Text strong>增购潜力</Text>
-                    </div>
-                    <Tag color="red" style={{ fontSize: '14px', padding: '4px 12px' }}>高</Tag>
-                  </div>
-                  <Text type="secondary" style={{ fontSize: '12px', marginTop: '4px' }}>用户数已达许可的95%</Text>
-                </Col>
-                <Col xs={24} md={12}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <DollarOutlined style={{ color: '#13c2c2', marginRight: '8px' }} />
-                      <Text strong>合同价值</Text>
-                    </div>
-                    <Text style={{ fontSize: '16px', fontWeight: 'bold', color: '#13c2c2' }}>
-                      ¥{customer.currentContract?.amount?.toLocaleString() || '0'}
-                    </Text>
-                  </div>
-                  <Text type="secondary" style={{ fontSize: '12px', marginTop: '4px' }}>年度经常性收入</Text>
-                </Col>
-              </Row>
             </Card>
           </Col>
           
@@ -315,17 +404,19 @@ const ContinuousServiceDetail: React.FC = () => {
             background: '#ffffff',
             minHeight: '420px'
           }}
+          bodyStyle={{ paddingTop: '0px' }}
         >
           <Tabs
             defaultActiveKey="profile"
-            size="large"
+            size="middle"
             type="line"
             style={{ height: '100%' }}
             tabBarStyle={{
               margin: 0,
               backgroundColor: '#fff',
               borderBottom: '1px solid #f0f0f0',
-              padding: '0 24px'
+              padding: '0px 24px 0 24px',
+              minHeight: '48px'
             }}
             items={[
               {
@@ -337,89 +428,303 @@ const ContinuousServiceDetail: React.FC = () => {
                   </div>
                 ),
                 children: (
-                  <div style={{ padding: '8px 0' }}>
-                    <Collapse defaultActiveKey={['contract', 'contacts']} ghost>
-                      <Panel 
-                        header={
+                  <div style={{ padding: '16px 0' }}>
+                    {/* 合同与服务卡片 */}
+                    <Card 
+                      title={
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <div style={{ display: 'flex', alignItems: 'center' }}>
                             <DollarOutlined style={{ color: '#52c41a', marginRight: '8px' }} />
                             <span>合同与服务</span>
                           </div>
-                        } 
-                        key="contract"
-                      >
-                        <div style={{ padding: '8px 0' }}>
-                          <div style={{ marginBottom: '12px' }}>
-                            <Text strong>已购产品/服务：</Text>
-                            <div style={{ marginTop: '8px' }}>
+                          <Button 
+                             type="primary" 
+                             icon={<EditOutlined />} 
+                             onClick={handleContractEdit}
+                             size="small"
+                           >
+                            编辑信息
+                           </Button>
+                        </div>
+                      }
+                      size="small"
+                      style={{ marginBottom: '16px' }}
+                    >
+                      <Row gutter={[24, 16]}>
+                        <Col span={24}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <Text strong style={{ minWidth: 120, display: 'inline-block' }}>已购产品/服务：</Text>
+                            <div style={{ marginLeft: '8px' }}>
                               {customer.purchasedProducts?.map((product: string, index: number) => (
-                                <Tag key={index} color="blue" style={{ marginBottom: '4px' }}>
+                                <Tag key={index} color="blue" style={{ marginRight: '4px' }}>
                                   {product}
                                 </Tag>
                               ))}
                             </div>
                           </div>
-                          <div style={{ marginBottom: '12px' }}>
-                            <Text strong>合同金额 (ARR)：</Text>
-                            <div style={{ color: '#1890ff', fontSize: '16px', fontWeight: '600' }}>
-                              ¥{customer.currentContract?.amount?.toLocaleString() || '0'}
-                            </div>
-                          </div>
-                          <div>
-                            <Text strong>服务到期日：</Text>
-                            <div style={{ color: '#fa8c16' }}>
-                              {customer.contractEndDate}
-                            </div>
-                          </div>
-                        </div>
-                      </Panel>
-
-                      <Panel 
-                        header={
+                        </Col>
+                        
+                        <Col span={8}>
                           <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <TeamOutlined style={{ color: '#722ed1', marginRight: '8px' }} />
+                            <Text strong style={{ minWidth: 120, display: 'inline-block' }}>合同金额 (ARR)：</Text>
+                            <span style={{ color: '#1890ff', fontSize: '16px', fontWeight: '600', marginLeft: '8px' }}>
+                              ¥{customer.currentContract?.amount?.toLocaleString() || '0'}
+                            </span>
+                          </div>
+                        </Col>
+                        <Col span={8}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <Text strong style={{ minWidth: 100, display: 'inline-block' }}>服务到期日：</Text>
+                            <span style={{ color: '#fa8c16', marginLeft: '8px' }}>
+                              {customer.contractEndDate}
+                            </span>
+                          </div>
+                        </Col>
+                        <Col span={8}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <Text strong style={{ minWidth: 80, display: 'inline-block' }}>人数版本：</Text>
+                            <span style={{ color: '#52c41a', marginLeft: '8px' }}>
+                              {customer.currentContract?.userVersion || '暂无'}
+                            </span>
+                          </div>
+                        </Col>
+                        
+                        <Col span={8}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <Text strong style={{ minWidth: 80, display: 'inline-block' }}>提单版本：</Text>
+                            <span style={{ color: '#722ed1', marginLeft: '8px' }}>
+                              {customer.currentContract?.ticketVersion || '暂无'}
+                            </span>
+                          </div>
+                        </Col>
+                        <Col span={8}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <Text strong style={{ minWidth: 80, display: 'inline-block' }}>客户分层：</Text>
+                            <span style={{ marginLeft: '8px' }}>
+                              {(() => {
+                                const segmentConfig: Record<string, { color: string; text: string }> = {
+                                  'strategic': { color: '#f5222d', text: '战略客户' },
+                                  'key': { color: '#1890ff', text: '重点客户' },
+                                  'standard': { color: '#52c41a', text: '普通客户' }
+                                };
+                                const config = segmentConfig[customer.customerTier] || { color: '#8c8c8c', text: '未知' };
+                                return (
+                                  <Tag color={config.color} style={{ fontSize: '12px' }}>
+                                    {config.text}
+                                  </Tag>
+                                );
+                              })()
+                            }
+                            </span>
+                          </div>
+                        </Col>
+                        <Col span={8}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <Text strong style={{ minWidth: 120, display: 'inline-block' }}>天元订单状态：</Text>
+                            <span style={{ marginLeft: '8px' }}>
+                              {(() => {
+                                const statusConfig: Record<string, { color: string; text: string }> = {
+                                  'active': { color: '#52c41a', text: '已生效' },
+                                  'inactive': { color: '#8c8c8c', text: '未生效' },
+                                  'pending': { color: '#fa8c16', text: '待处理' }
+                                };
+                                const config = statusConfig[customer.currentContract?.tianyuanOrderStatus || ''] || { color: '#8c8c8c', text: '未知' };
+                                return (
+                                  <Tag color={config.color} style={{ fontSize: '12px' }}>
+                                    {config.text}
+                                  </Tag>
+                                );
+                              })()
+                            }
+                            </span>
+                          </div>
+                        </Col>
+                      </Row>
+                      
+                      {/* 服务成本投入 - 可展开链接 */}
+                      <div>
+                        <Collapse 
+                          ghost 
+                          size="small"
+                          items={[
+                            {
+                              key: '1',
+                              label: (
+                                <Text strong style={{ color: '#1890ff' }}>
+                                  服务成本投入: ¥{customer.currentContract?.serviceCost?.toLocaleString() || '15,000'} 
+                                </Text>
+                              ),
+                              children: (
+                                <div style={{ background: '#f8f9fa', padding: '12px', borderRadius: '6px', marginTop: '8px' }}>
+                                  {customer.currentContract?.serviceCostDetails ? 
+                                    customer.currentContract.serviceCostDetails.map((detail: string, index: number) => (
+                                      <div key={index} style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
+                                        • {detail}
+                                      </div>
+                                    )) : 
+                                    [
+                                      '客户拜访费用: ¥3,000',
+                                      '礼品采购: ¥5,000', 
+                                      '培训支持: ¥4,000',
+                                      '技术支持: ¥3,000'
+                                    ].map((detail, index) => (
+                                      <div key={index} style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
+                                        • {detail}
+                                      </div>
+                                    ))
+                                  }
+                                </div>
+                              )
+                            }
+                          ]}
+                        />
+                      </div>
+                    </Card>
+                    
+                    {/* 关键联系人卡片 */}
+                    <Card 
+                      title={
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <TeamOutlined style={{ color: '#1890ff', marginRight: '8px' }} />
                             <span>关键联系人</span>
                           </div>
-                        } 
-                        key="contacts"
-                      >
-                        <div style={{ padding: '8px 0' }}>
-                          {customer.keyContacts?.map((contact: any) => (
-                            <div key={contact.id} style={{ 
-                              marginBottom: '16px', 
-                              padding: '12px', 
-                              background: '#f8f9fa', 
-                              borderRadius: '8px',
-                              border: '1px solid #e8e8e8'
-                            }}>
-                              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                                <Avatar 
-                                  icon={<UserOutlined />} 
-                                  style={{ 
-                                    marginRight: '8px',
-                                    backgroundColor: '#d9d9d9'
-                                  }} 
-                                />
-                                <div>
-                                  <Text strong style={{ fontSize: '14px' }}>{contact.name}</Text>
-                                </div>
-                              </div>
-                              <div style={{ marginBottom: '4px' }}>
-                                <Text type="secondary">{contact.title}</Text>
-                              </div>
-                              <div style={{ marginBottom: '4px' }}>
-                                <PhoneOutlined style={{ marginRight: '4px' }} />
-                                <Text copyable={{ text: contact.phone }}>{contact.phone}</Text>
-                              </div>
-                              <div>
-                                <MailOutlined style={{ marginRight: '4px' }} />
-                                <Text copyable={{ text: contact.email }}>{contact.email}</Text>
-                              </div>
-                            </div>
-                          ))}
+                          <Button 
+                            type="primary" 
+                            icon={<PlusOutlined />} 
+                            onClick={handleContactAdd}
+                            size="small"
+                          >
+                            添加联系人
+                          </Button>
                         </div>
-                      </Panel>
-                    </Collapse>
+                      }
+                      size="small"
+                    >
+                      <Table
+                        dataSource={contactData}
+                        pagination={false}
+                        size="small"
+                        rowKey="id"
+                        scroll={{ y: 300 }}
+                        columns={[
+                          {
+                            title: '姓名',
+                            dataIndex: 'name',
+                            key: 'name',
+                            width: 100,
+                            render: (name: string, record: any) => (
+                              <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Avatar size="small" icon={<UserOutlined />} style={{ marginRight: 8 }} />
+                                <div style={{ fontWeight: 500, fontSize: '12px' }}>{name}</div>
+                              </div>
+                            )
+                          },
+                          {
+                            title: '职位',
+                            dataIndex: 'title',
+                            key: 'title',
+                            width: 100,
+                            render: (title: string) => (
+                              <Text style={{ fontSize: '12px' }}>{title}</Text>
+                            )
+                          },
+                          {
+                            title: '干系类型',
+                            dataIndex: 'stakeholderType',
+                            key: 'stakeholderType',
+                            width: 80,
+                            render: (type: string) => {
+                              const typeConfig: Record<string, { color: string; text: string }> = {
+                                'decision_maker': { color: 'red', text: '决策者' },
+                                'supporter': { color: 'green', text: '赞成者' },
+                                'opponent': { color: 'orange', text: '反对者' },
+                                'influencer': { color: 'blue', text: '影响者' },
+                                'user': { color: 'purple', text: '使用者' }
+                              };
+                              const config = typeConfig[type] || { color: 'default', text: type || '未知' };
+                              return <Tag color={config.color} style={{ fontSize: '11px' }}>{config.text}</Tag>;
+                            }
+                          },
+                          {
+                            title: '影响力',
+                            dataIndex: 'influence',
+                            key: 'influence',
+                            width: 60,
+                            render: (influence: string) => {
+                              const influenceConfig: Record<string, { color: string; text: string }> = {
+                                'high': { color: 'red', text: '高' },
+                                'medium': { color: 'orange', text: '中' },
+                                'low': { color: 'green', text: '低' }
+                              };
+                              const config = influenceConfig[influence] || { color: 'default', text: influence || '未知' };
+                              return <Tag color={config.color} style={{ fontSize: '11px' }}>{config.text}</Tag>;
+                            }
+                          },
+                          {
+                            title: '态度',
+                            dataIndex: 'attitude',
+                            key: 'attitude',
+                            width: 60,
+                            render: (attitude: string) => {
+                              const attitudeConfig: Record<string, { color: string; text: string }> = {
+                                'positive': { color: 'green', text: '积极' },
+                                'neutral': { color: 'blue', text: '中性' },
+                                'negative': { color: 'red', text: '消极' }
+                              };
+                              const config = attitudeConfig[attitude] || { color: 'default', text: attitude || '未知' };
+                              return <Tag color={config.color} style={{ fontSize: '11px' }}>{config.text}</Tag>;
+                            }
+                          },
+                          {
+                            title: '电话',
+                            dataIndex: 'phone',
+                            key: 'phone',
+                            width: 110,
+                            render: (phone: string) => (
+                              <div style={{ fontSize: '11px', display: 'flex', alignItems: 'center' }}>
+                                <PhoneOutlined style={{ marginRight: 4, color: '#8c8c8c' }} />
+                                <span>{phone}</span>
+                              </div>
+                            )
+                          },
+                          {
+                            title: '邮箱',
+                            dataIndex: 'email',
+                            key: 'email',
+                            width: 140,
+                            render: (email: string) => (
+                              <div style={{ fontSize: '11px', display: 'flex', alignItems: 'center' }}>
+                                <MailOutlined style={{ marginRight: 4, color: '#8c8c8c' }} />
+                                <span>{email}</span>
+                              </div>
+                            )
+                          },
+                          {
+                            title: '操作',
+                            key: 'action',
+                            width: 80,
+                            render: (_, record: any) => (
+                              <div style={{ display: 'flex', gap: '4px' }}>
+                                <Button 
+                                  type="text" 
+                                  icon={<EditOutlined />} 
+                                  size="small"
+                                  onClick={() => handleContactEdit(record)}
+                                />
+                                <Button 
+                                  type="text" 
+                                  icon={<DeleteOutlined />} 
+                                  size="small"
+                                  danger
+                                  onClick={() => handleContactDelete(record)}
+                                />
+                              </div>
+                            )
+                          }
+                        ]}
+                      />
+                    </Card>
                   </div>
                 )
               },
@@ -471,9 +776,11 @@ const ContinuousServiceDetail: React.FC = () => {
                                     {contract.contractNumber || `合同-${index + 1}`}
                                   </Text>
                                 </div>
-                                <Text type="secondary" style={{ fontSize: '12px' }}>
-                                  {contract.startDate} - {contract.endDate}
-                                </Text>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <Text type="secondary" style={{ fontSize: '12px' }}>
+                                    {contract.startDate} - {contract.endDate}
+                                  </Text>
+                                </div>
                               </div>
                               
                               <div style={{ marginBottom: '12px' }}>
@@ -494,9 +801,21 @@ const ContinuousServiceDetail: React.FC = () => {
                                 </div>
                               </div>
                               
-                              <div>
-                                <Text strong>服务周期：</Text>
-                                <Text> {contract.servicePeriod || '1年'}</Text>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                                <div>
+                                  <Text strong>服务周期：</Text>
+                                  <Text> {contract.servicePeriod || '1年'}</Text>
+                                </div>
+                                {contract.attachments && contract.attachments.length > 0 && (
+                                  <Button
+                                    type="primary"
+                                    size="small"
+                                    icon={<EyeOutlined />}
+                                    onClick={() => handleViewAttachments(contract)}
+                                  >
+                                    查看附件({contract.attachments.length})
+                                  </Button>
+                                )}
                               </div>
                             </div>
                           )
@@ -686,6 +1005,223 @@ const ContinuousServiceDetail: React.FC = () => {
               <Option value="re003">技术问题</Option>
             </Select>
           </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* 附件查看模态框 */}
+      <Modal
+        title={`合同附件 - ${selectedContract?.contractNumber || ''}`}
+        open={attachmentModalVisible}
+        onCancel={() => setAttachmentModalVisible(false)}
+        footer={null}
+        width={800}
+        destroyOnClose
+      >
+        {selectedContract?.attachments && (
+          <Table
+            dataSource={selectedContract.attachments}
+            pagination={false}
+            rowKey="id"
+            columns={[
+              {
+                title: '文件名',
+                dataIndex: 'name',
+                key: 'name',
+                ellipsis: { showTitle: true },
+                width: '40%'
+              },
+              {
+                title: '类型',
+                dataIndex: 'type',
+                key: 'type',
+                width: 80,
+                render: (type: string) => {
+                  const typeConfig: Record<string, { color: string; text: string }> = {
+                    'contract': { color: 'blue', text: '合同' },
+                    'supplement': { color: 'green', text: '补充协议' },
+                    'invoice': { color: 'orange', text: '发票' },
+                    'other': { color: 'default', text: '其他' }
+                  };
+                  const config = typeConfig[type] || { color: 'default', text: '未知' };
+                  return <Tag color={config.color}>{config.text}</Tag>;
+                }
+              },
+              {
+                title: '大小',
+                dataIndex: 'size',
+                key: 'size',
+                width: 80,
+                render: (size: number) => {
+                  const formatSize = (bytes: number) => {
+                    if (bytes === 0) return '0 B';
+                    const k = 1024;
+                    const sizes = ['B', 'KB', 'MB', 'GB'];
+                    const i = Math.floor(Math.log(bytes) / Math.log(k));
+                    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+                  };
+                  return formatSize(size);
+                }
+              },
+              {
+                title: '上传时间',
+                dataIndex: 'uploadDate',
+                key: 'uploadDate',
+                width: 100
+              },
+              {
+                title: '操作',
+                key: 'action',
+                width: 140,
+                render: (_, record: ContractAttachment) => (
+                  <Space size="small" style={{ display: 'flex', flexWrap: 'nowrap' }}>
+                    <Button
+                      type="link"
+                      size="small"
+                      icon={<EyeOutlined />}
+                      onClick={() => window.open(record.url, '_blank')}
+                      style={{ padding: '4px 8px' }}
+                    >
+                      预览
+                    </Button>
+                    <Button
+                      type="link"
+                      size="small"
+                      icon={<DownloadOutlined />}
+                      onClick={() => handleDownloadAttachment({ url: record.url, name: record.name })}
+                      style={{ padding: '4px 8px' }}
+                    >
+                      下载
+                    </Button>
+                  </Space>
+                )
+              }
+            ]}
+          />
+        )}
+      </Modal>
+
+      {/* 合同编辑模态框 */}
+      <Modal
+        title="编辑合同信息"
+        open={isContractEditVisible}
+        onOk={handleContractSave}
+        onCancel={() => setIsContractEditVisible(false)}
+        width={600}
+      >
+        <Form form={contractForm} layout="vertical">
+          <Row gutter={16}>
+             <Col span={12}>
+               <Form.Item label="合同金额 (ARR)" name="amount">
+                 <InputNumber
+                   style={{ width: '100%' }}
+                   formatter={value => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                   parser={value => value!.replace(/¥\s?|(,*)/g, '')}
+                 />
+               </Form.Item>
+             </Col>
+             <Col span={12}>
+               <Form.Item label="服务到期日" name="endDate">
+                 <DatePicker style={{ width: '100%' }} />
+               </Form.Item>
+             </Col>
+           </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="人数版本" name="userVersion">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="提单版本" name="ticketVersion">
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="客户分层" name="customerTier">
+                <Select>
+                  <Select.Option value="strategic">战略客户</Select.Option>
+                  <Select.Option value="key">重点客户</Select.Option>
+                  <Select.Option value="standard">普通客户</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="天元订单状态" name="tianyuanOrderStatus">
+                <Select>
+                  <Select.Option value="active">已生效</Select.Option>
+                  <Select.Option value="inactive">未生效</Select.Option>
+                  <Select.Option value="pending">待处理</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item label="服务成本投入" name="serviceCost">
+             <InputNumber
+               style={{ width: '100%' }}
+               formatter={value => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+               parser={value => value!.replace(/¥\s?|(,*)/g, '')}
+             />
+           </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* 联系人编辑模态框 */}
+      <Modal
+        title={editingContact ? "编辑联系人" : "添加联系人"}
+        open={isContactEditVisible}
+        onOk={handleContactSave}
+        onCancel={() => setIsContactEditVisible(false)}
+        width={500}
+      >
+        <Form form={contactForm} layout="vertical">
+          <Form.Item label="姓名" name="name" rules={[{ required: true, message: '请输入姓名' }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item label="职位" name="title">
+            <Input />
+          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+               <Form.Item label="干系类型" name="type" rules={[{ required: true, message: '请选择干系类型' }]}>
+                 <Select>
+                   <Select.Option value="decision_maker">决策者</Select.Option>
+                   <Select.Option value="influencer">影响者</Select.Option>
+                   <Select.Option value="user">使用者</Select.Option>
+                   <Select.Option value="gatekeeper">把关者</Select.Option>
+                 </Select>
+               </Form.Item>
+             </Col>
+            <Col span={12}>
+              <Form.Item label="影响力" name="influence" rules={[{ required: true, message: '请选择影响力' }]}>
+                <Select>
+                  <Select.Option value="high">高</Select.Option>
+                  <Select.Option value="medium">中</Select.Option>
+                  <Select.Option value="low">低</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item label="态度" name="attitude" rules={[{ required: true, message: '请选择态度' }]}>
+            <Select>
+              <Select.Option value="positive">积极</Select.Option>
+              <Select.Option value="neutral">中性</Select.Option>
+              <Select.Option value="negative">消极</Select.Option>
+            </Select>
+          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="电话" name="phone">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="邮箱" name="email">
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

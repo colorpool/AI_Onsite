@@ -4,6 +4,7 @@ import { generateTabContent } from '@/utils/tabContentGenerator';
 import WorkbenchDashboard from './WorkbenchDashboard';
 import TieringMatrix from './TieringMatrix';
 import CustomerTieringCenter from '@/components/CustomerSuccess/CustomerTieringCenter';
+import RecallIncubationWorkbench from '../../components/CustomerSuccess/RecallIncubationWorkbench';
 
 
 
@@ -51,6 +52,10 @@ const CustomerSuccess: React.FC = () => {
   // 客户分层中心
   if (location.pathname === '/dashboard/layers') {
     return <CustomerTieringCenter />;
+  }
+  
+  if (location.pathname === '/profiles/recall') {
+    return <RecallIncubationWorkbench />;
   }
   
   // 根据页面标题生成内容

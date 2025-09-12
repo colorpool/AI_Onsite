@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useRef } from 'react';
-import { Row, Col, Card, Typography, Tooltip, Space, Button, Badge, Dropdown, Table, Avatar, Tag, Input, Slider, Checkbox, Collapse, Progress, Modal } from 'antd';
-import { SettingOutlined, QuestionCircleOutlined, MoreOutlined, ArrowUpOutlined, ArrowDownOutlined, UserOutlined, FileTextOutlined, EyeOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Row, Col, Card, Typography, Tooltip, Space, Button, Badge, Dropdown, Table, Avatar, Tag, Input, Slider, Checkbox, Collapse, Progress } from 'antd';
+import { SettingOutlined, QuestionCircleOutlined, ArrowUpOutlined, ArrowDownOutlined, UserOutlined, FileTextOutlined, EyeOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 
 const { Title, Text } = Typography;
@@ -54,8 +54,7 @@ const HighValueCustomerTab: React.FC<HighValueCustomerTabProps> = ({ customers, 
   const [selectedEcoTags, setSelectedEcoTags] = useState<string[]>([]);
   const [search, setSearch] = useState('');
   const [expandedRows, setExpandedRows] = useState<string[]>([]);
-  const [insightModalVisible, setInsightModalVisible] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState<HighValueCustomer | null>(null);
+
   const [columnSettings, setColumnSettings] = useState({
     rScore: true,
     fScore: true,
@@ -238,19 +237,14 @@ const HighValueCustomerTab: React.FC<HighValueCustomerTabProps> = ({ customers, 
       width: 200,
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (_, record) => (
-        <Space>
-          <Avatar style={{ backgroundColor: record.logoColor }}>
-            {record.name.charAt(0)}
-          </Avatar>
-          <div>
-            <div>{record.name}</div>
-            <div style={{ fontSize: 11, color: '#8c8c8c' }}>
-              {record.isKeyAccount && <Tag color="gold">KA</Tag>}
-              {record.isChannelCustomer && <Tag color="blue">渠道</Tag>}
-              {record.isInRenewalWindow && <Tag color="orange">续约期</Tag>}
-            </div>
+        <div>
+          <div>{record.name}</div>
+          <div style={{ fontSize: 11, color: '#8c8c8c' }}>
+            {record.isKeyAccount && <Tag color="gold">KA</Tag>}
+            {record.isChannelCustomer && <Tag color="blue">渠道</Tag>}
+            {record.isInRenewalWindow && <Tag color="orange">续约期</Tag>}
           </div>
-        </Space>
+        </div>
       ),
     },
   ];
@@ -395,8 +389,6 @@ const HighValueCustomerTab: React.FC<HighValueCustomerTabProps> = ({ customers, 
             style={{ cursor: 'pointer', color: '#1890ff' }}
             onClick={(e) => {
               e.stopPropagation();
-              setSelectedCustomer(record);
-              setInsightModalVisible(true);
             }}
           >
             {record.insights90Days}
@@ -466,39 +458,12 @@ const HighValueCustomerTab: React.FC<HighValueCustomerTabProps> = ({ customers, 
     });
   }
 
-  // 操作列
-  columns.push({
-    title: '操作',
-    key: 'action',
-    fixed: 'right',
-    width: 120,
-    render: (_, record) => {
-      const menuItems = [
-        { key: 'insight', label: '添加洞察', icon: <PlusOutlined /> },
-        { key: 'task', label: '创建任务', icon: <EditOutlined /> },
-        { key: 'ka', label: record.isKeyAccount ? '取消关键账户' : '标记关键账户', icon: <SettingOutlined /> },
-      ];
-      
-      return (
-        <Dropdown
-          menu={{
-            items: menuItems,
-            onClick: ({ key }) => {
-              console.log(`${key} action for customer ${record.name}`);
-            },
-          }}
-          trigger={['click']}
-        >
-          <Button size="small" icon={<MoreOutlined />} />
-        </Dropdown>
-      );
-    },
-  });
+
 
   return (
     <div>
       {/* R/F/M 筛选器 */}
-      <Card style={{ ...cardStyle, marginBottom: 16 }} bodyStyle={{ padding: 16 }}>
+      <Card style={{ ...cardStyle, marginTop: 16, marginBottom: 16 }} bodyStyle={{ padding: 16 }}>
         <Row gutter={24}>
           <Col span={18}>
             <Row gutter={16}>
@@ -653,7 +618,14 @@ const HighValueCustomerTab: React.FC<HighValueCustomerTabProps> = ({ customers, 
           rowKey="id"
           dataSource={filteredCustomers}
           columns={columns}
-          pagination={{ pageSize: 10, showSizeChanger: true, showQuickJumper: true }}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) => `共 ${total} 条记录，当前显示 ${range[0]}-${range[1]} 条`,
+            pageSizeOptions: ['10', '20', '50', '100'],
+            showLessItems: true,
+          }}
           scroll={{ x: 1400 }}
           expandable={{
             expandedRowKeys: expandedRows,
@@ -672,42 +644,7 @@ const HighValueCustomerTab: React.FC<HighValueCustomerTabProps> = ({ customers, 
         />
       </Card>
 
-      {/* 客户洞察详情弹窗 */}
-      <Modal
-        title={`客户洞察 - ${selectedCustomer?.name}`}
-        open={insightModalVisible}
-        onCancel={() => setInsightModalVisible(false)}
-        footer={[
-          <Button key="close" onClick={() => setInsightModalVisible(false)}>
-            关闭
-          </Button>,
-          <Button key="add" type="primary" icon={<PlusOutlined />}>
-            添加洞察
-          </Button>,
-        ]}
-        width={600}
-      >
-        {selectedCustomer && (
-          <div>
-            <div style={{ marginBottom: 16 }}>
-              <Text strong>近90天洞察摘要：</Text>
-            </div>
-            <div style={{ 
-              background: '#fafafa', 
-              padding: 16, 
-              borderRadius: 8, 
-              marginBottom: 16,
-              minHeight: 100
-            }}>
-              <Text>{selectedCustomer.insightsSummary || '暂无洞察摘要'}</Text>
-            </div>
-            <div>
-              <Text strong>洞察数量：</Text>
-              <Badge count={selectedCustomer.insights90Days} style={{ marginLeft: 8 }} />
-            </div>
-          </div>
-        )}
-      </Modal>
+
     </div>
   );
 };

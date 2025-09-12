@@ -307504,11 +307504,9 @@ const useStyles = (0, _antdstyle.createStyles)(({ token })=>({
     }));
 // 模拟通知数据
 const notifications = [
-    '关于2025年8月产品迭代和对应安排工作的通知',
-    '客户满意度调查结果已更新，请及时查看',
-    '新版本功能上线通知：智能标签系统已优化',
-    '重要提醒：年度续约高峰期即将到来',
-    '系统维护通知：本周日凌晨2-4点进行维护'
+    '智能驻场原型设计更新公告，会议记录请前往钉钉多维表格',
+    '每周一更新到内网服务器，每天更新到外网服务器（需要梯子），每周三、四、五，客成团队早会原型评审',
+    '0911,新内容外网已更新。持续服务模块已经完成version 1.0设计，待客成评审'
 ];
 const NotificationBar = ()=>{
     _s();
@@ -307530,7 +307528,7 @@ const NotificationBar = ()=>{
                 className: styles.bellIcon
             }, void 0, false, {
                 fileName: "src/components/NotificationBar/index.tsx",
-                lineNumber: 72,
+                lineNumber: 70,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -307546,23 +307544,23 @@ const NotificationBar = ()=>{
                             children: message
                         }, index, false, {
                             fileName: "src/components/NotificationBar/index.tsx",
-                            lineNumber: 82,
+                            lineNumber: 80,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "src/components/NotificationBar/index.tsx",
-                    lineNumber: 74,
+                    lineNumber: 72,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/NotificationBar/index.tsx",
-                lineNumber: 73,
+                lineNumber: 71,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/components/NotificationBar/index.tsx",
-        lineNumber: 71,
+        lineNumber: 69,
         columnNumber: 5
     }, this);
 };
@@ -314235,7 +314233,7 @@ self.$RefreshReg$ = (type, id)=>{
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 const getMockCurrentUser = ()=>({
-        name: '管理员',
+        name: '张三',
         avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
         userid: '00000001',
         email: 'admin@example.com',
@@ -314308,8 +314306,8 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 }
 
 },
- };var chunksIdToUrlMap= {"src/.umi/plugin-openapi/openapi.tsx":"src__umi_plugin-openapi_openapi_tsx-async.js","p__CustomerSuccess__index":"p__CustomerSuccess__index-async.js","p__handover__HistoryHandover":"p__handover__HistoryHandover-async.js","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.js","p__profiles__service__RiskEventDetail":"p__profiles__service__RiskEventDetail-async.js","p__agents__index":"p__agents__index-async.js","p__handover__new__index":"p__handover__new__index-async.js","p__profiles__renewal__id__index":"p__profiles__renewal__id__index-async.js","p__404":"p__404-async.js","p__user__login__index":"p__user__login__index-async.js","vendors":"vendors-async.js","src/pages/profiles/service/renewal-management.tsx":"src_pages_profiles_service_renewal-management_tsx-async.js","p__handover__index":"p__handover__index-async.js","p__handover__id__index":"p__handover__id__index-async.js","src/.umi/core/EmptyRoute.tsx":"src__umi_core_EmptyRoute_tsx-async.js","p__profiles__service__ContinuousService":"p__profiles__service__ContinuousService-async.js","p__profiles__service__ContinuousServiceDetail":"p__profiles__service__ContinuousServiceDetail-async.js","common":"common-async.js"};
-var cssChunksIdToUrlMap= {"src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.css","p__CustomerSuccess__index":"p__CustomerSuccess__index-async.css","vendors":"vendors-async.css","src/.umi/umi.ts?hmr":"umi.css"};
+ };var chunksIdToUrlMap= {"common":"common-async.js","p__profiles__renewal__id__index":"p__profiles__renewal__id__index-async.js","p__agents__index":"p__agents__index-async.js","p__handover__HistoryHandover":"p__handover__HistoryHandover-async.js","p__handover__id__index":"p__handover__id__index-async.js","p__profiles__service__ContinuousService":"p__profiles__service__ContinuousService-async.js","p__404":"p__404-async.js","src/.umi/plugin-openapi/openapi.tsx":"src__umi_plugin-openapi_openapi_tsx-async.js","p__handover__index":"p__handover__index-async.js","src/.umi/core/EmptyRoute.tsx":"src__umi_core_EmptyRoute_tsx-async.js","p__user__login__index":"p__user__login__index-async.js","p__profiles__service__ContinuousServiceDetail":"p__profiles__service__ContinuousServiceDetail-async.js","p__CustomerSuccess__index":"p__CustomerSuccess__index-async.js","src/pages/profiles/service/renewal-management.tsx":"src_pages_profiles_service_renewal-management_tsx-async.js","p__handover__new__index":"p__handover__new__index-async.js","p__profiles__service__RiskEventDetail":"p__profiles__service__RiskEventDetail-async.js","vendors":"vendors-async.js","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.js"};
+var cssChunksIdToUrlMap= {"p__CustomerSuccess__index":"p__CustomerSuccess__index-async.css","vendors":"vendors-async.css","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.css","src/.umi/umi.ts?hmr":"umi.css"};
 var cssInstalledChunks = { "src/.umi/umi.ts?hmr" : 0 };
 var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId, global) {
 
@@ -314795,7 +314793,7 @@ var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId,
 'use strict';
 // mako/runtime/hmr plugin
 !(function () {
-  requireModule._h = '4765051156541515215';
+  requireModule._h = '18377922633842934552';
   requireModule.currentHash = function () {
     return requireModule._h;
   };
@@ -315054,7 +315052,7 @@ var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId,
 
 
 (function(){
-  let map = {"src/.umi/core/EmptyRoute.tsx":["src/.umi/core/EmptyRoute.tsx"],"src/.umi/plugin-layout/Layout.tsx":["vendors","src/.umi/plugin-layout/Layout.tsx"],"src/.umi/plugin-openapi/openapi.tsx":["vendors","src/.umi/plugin-openapi/openapi.tsx"],"src/pages/404.tsx":["p__404"],"src/pages/CustomerSuccess/index.tsx":["common","p__CustomerSuccess__index"],"src/pages/agents/index.tsx":["p__agents__index"],"src/pages/handover/HistoryHandover.tsx":["common","p__handover__HistoryHandover"],"src/pages/handover/[id]/index.tsx":["common","p__handover__id__index"],"src/pages/handover/index.tsx":["common","p__handover__index"],"src/pages/handover/new/index.tsx":["p__handover__new__index"],"src/pages/profiles/renewal/[id]/index.tsx":["common","p__profiles__renewal__id__index"],"src/pages/profiles/service/ContinuousService.tsx":["common","p__profiles__service__ContinuousService"],"src/pages/profiles/service/ContinuousServiceDetail.tsx":["common","p__profiles__service__ContinuousServiceDetail"],"src/pages/profiles/service/RiskEventDetail.tsx":["common","p__profiles__service__RiskEventDetail"],"src/pages/profiles/service/renewal-management.tsx":["common","p__profiles__renewal__id__index"],"src/pages/user/login/index.tsx":["p__user__login__index"]};
+  let map = {"src/.umi/core/EmptyRoute.tsx":["src/.umi/core/EmptyRoute.tsx"],"src/.umi/plugin-layout/Layout.tsx":["vendors","src/.umi/plugin-layout/Layout.tsx"],"src/.umi/plugin-openapi/openapi.tsx":["vendors","src/.umi/plugin-openapi/openapi.tsx"],"src/pages/404.tsx":["p__404"],"src/pages/CustomerSuccess/index.tsx":["vendors","common","p__CustomerSuccess__index"],"src/pages/agents/index.tsx":["p__agents__index"],"src/pages/handover/HistoryHandover.tsx":["common","p__handover__HistoryHandover"],"src/pages/handover/[id]/index.tsx":["common","p__handover__id__index"],"src/pages/handover/index.tsx":["common","p__handover__index"],"src/pages/handover/new/index.tsx":["p__handover__new__index"],"src/pages/profiles/renewal/[id]/index.tsx":["common","p__profiles__renewal__id__index"],"src/pages/profiles/service/ContinuousService.tsx":["common","p__profiles__service__ContinuousService"],"src/pages/profiles/service/ContinuousServiceDetail.tsx":["common","p__profiles__service__ContinuousServiceDetail"],"src/pages/profiles/service/RiskEventDetail.tsx":["common","p__profiles__service__RiskEventDetail"],"src/pages/profiles/service/renewal-management.tsx":["common","p__profiles__renewal__id__index"],"src/pages/user/login/index.tsx":["p__user__login__index"]};
   requireModule.updateEnsure2Map = function(newMapping) {
     map = newMapping;
   };

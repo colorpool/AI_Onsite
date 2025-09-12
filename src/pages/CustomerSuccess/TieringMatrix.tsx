@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Row, Col, Card, Typography, Tooltip, Space, Button, Badge, Dropdown, Table, Avatar, Tag, Input } from 'antd';
 import { SettingOutlined, QuestionCircleOutlined, MoreOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { unifiedCustomerData, UnifiedCustomer } from '../../mock/customerData';
 
 
 const { Title, Text } = Typography;
@@ -66,45 +67,42 @@ function getCellStyle(valueTier: ValueTier, stage: LifecycleStage, selected: boo
   };
 }
 
-function generateMockCustomers(): Customer[] {
-  const names = [
-    '阿里巴巴', '腾讯科技', '字节跳动', '美团点评', '滴滴出行', '小米科技', '百度集团', '网易公司',
-    '京东科技', '拼多多', '哔哩哔哩', '快手科技', '携程旅行', '小红书', '华为云', 'OPPO', 'vivo',
-    '海尔智家', '隆基绿能', '比亚迪', '蔚来汽车', '理想汽车', '小鹏汽车', '同程旅行', '去哪儿',
-  ];
-  const csms = ['王一', '李二', '张三', '赵四', '陈五', '孙六', '周七'];
-  const colors = ['#1890ff', '#fa8c16', '#722ed1', '#13c2c2', '#eb2f96', '#52c41a', '#2f54eb'];
+// 转换统一数据源为本地Customer类型
+function convertUnifiedCustomers(): Customer[] {
+  return unifiedCustomerData.map(customer => ({
+    id: customer.id,
+    name: customer.name,
+    logoColor: customer.logoColor || '#1890ff',
+    csm: customer.csm,
+    valueScore: customer.valueScore,
+    trend: customer.trend || 'flat',
+    lifecycle: mapLifecycle(customer.lifecycle),
+    valueTier: customer.valueTier || (customer.valueScore >= 80 ? '高价值' : customer.valueScore >= 60 ? '中价值' : '低价值'),
+    rAndM: customer.rAndM || (customer.rScore + customer.mScore),
+    f: customer.f || customer.fScore,
+    serviceScore: customer.serviceScore || Math.round((customer.collaborationEvents / 30) * 100),
+    arr: customer.arr,
+  }));
+}
 
-  const customers: Customer[] = [];
-  let id = 1;
-  for (const baseName of names) {
-    const repeats = Math.random() > 0.5 ? 2 : 1;
-    for (let i = 0; i < repeats; i++) {
-      const lifecycle = lifecycleStages[Math.floor(Math.random() * lifecycleStages.length)];
-      const valueScore = Math.floor(Math.random() * 61) + 40; // 40-100
-      const valueTier: ValueTier = valueScore >= 80 ? '高价值' : valueScore >= 60 ? '中价值' : '低价值';
-      const rAndM = Math.floor(Math.random() * 61) + 40;
-      const f = Math.floor(Math.random() * 61) + 20;
-      const serviceScore = Math.floor(Math.random() * 61) + 20;
-      const trend: Customer['trend'] = Math.random() > 0.6 ? 'down' : 'up';
-      const arr = Math.round((Math.random() * 400 + 100) * 1000); // 100k - 500k
-      customers.push({
-        id: String(id++),
-        name: `${baseName}${i ? '·子业务' + i : ''}`,
-        logoColor: colors[id % colors.length],
-        csm: csms[id % csms.length],
-        valueScore,
-        trend,
-        lifecycle,
-        valueTier,
-        rAndM,
-        f,
-        serviceScore,
-        arr,
-      });
-    }
-  }
-  return customers;
+// 映射生命周期字段
+function mapLifecycle(lifecycle: string): LifecycleStage {
+  const mapping: Record<string, LifecycleStage> = {
+    'import': '导入期',
+    'growth': '成长期', 
+    'mature': '成熟期',
+    'decline': '衰退期'
+  };
+  return mapping[lifecycle] || '成长期';
+}
+
+// 使用转换后的统一数据源
+const mockCustomers = convertUnifiedCustomers();
+
+// 保留原有的generateMockCustomers函数作为备用（已废弃）
+function generateMockCustomers(): Customer[] {
+  // 此函数已废弃，现在使用统一的客户数据源
+  return mockCustomers;
 }
 
 const stageAbbrev: Record<LifecycleStage, string> = {
@@ -121,9 +119,8 @@ const stageAbbrev: Record<LifecycleStage, string> = {
 //
 // 气泡图与桑基图的数据将自动基于 customers 聚合计算
 
-// 初始化为mock数据
-// 实时数据将通过useEffect尝试拉取并覆盖
-let initialMock = generateMockCustomers();
+// 使用统一的客户数据源
+let initialMock = mockCustomers;
 
 const TieringMatrix: React.FC = () => {
   const [selected, setSelected] = useState<{ valueTier: ValueTier; stage: LifecycleStage } | null>(null);
@@ -445,8 +442,8 @@ const TieringMatrix: React.FC = () => {
                         </Dropdown>
                       </div>
                     </div>
-                    <div style={{ marginTop: 6, fontSize: 24, fontWeight: 700, color: '#2f54eb' }}>{count}</div>
-                    <div style={{ marginTop: 2, fontSize: 12, color: '#8c8c8c' }}>客户数</div>
+                    <div style={{ marginTop: 6, fontSize: 24, fontWeight: 700, color: '#2f54eb', textAlign: 'center' }}>{count}</div>
+                    <div style={{ marginTop: 2, fontSize: 12, color: '#8c8c8c', textAlign: 'center' }}>客户数</div>
                   </div>
                 </Col>
               );
@@ -466,7 +463,7 @@ const TieringMatrix: React.FC = () => {
                   {bubbleTip.html}
                 </div>
               )}
-              <svg viewBox="0 0 420 200" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+              <svg viewBox="0 0 420 200" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
                 {/* 坐标轴 */}
                 <line x1="40" y1="10" x2="40" y2="170" stroke="#d9d9d9" />
                 <line x1="40" y1="170" x2="400" y2="170" stroke="#d9d9d9" />
@@ -563,7 +560,7 @@ const TieringMatrix: React.FC = () => {
                 <text x="220" y="198" textAnchor="middle" fontSize="12" fill="#8c8c8c">客户健康分 (0-100)</text>
                 <text x="12" y="14" textAnchor="start" fontSize="12" fill="#8c8c8c">客户活跃度 (0-100)</text>
                 {/* 角标 */}
-                <text x="400" y="16" textAnchor="end" fontSize="12" fill="#8c8c8c">{selected ? selectedTitle : '全部'}</text>
+                <text x="380" y="16" textAnchor="end" fontSize="12" fill="#8c8c8c">{selected ? selectedTitle : '全部'}</text>
               </svg>
             </div>
           </Card>
@@ -578,14 +575,14 @@ const TieringMatrix: React.FC = () => {
                   {sankeyTip.text}
                 </div>
               )}
-              <svg viewBox="-20 0 460 260" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
+              <svg viewBox="0 0 420 200" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
                 {(() => {
-                  const leftX = 70; const rightX = 350;
+                  const leftX = 60; const rightX = 300;
                   const tiers: ValueTier[] = ['高价值', '中价值', '低价值'];
                   const positions: Record<string, number> = {};
                   tiers.forEach((t, i) => {
-                    positions[`L-${t}`] = 60 + i * 80;
-                    positions[`R-${t}`] = 60 + i * 80;
+                    positions[`L-${t}`] = 40 + i * 50;
+                    positions[`R-${t}`] = 40 + i * 50;
                   });
                   // 使用之前的迁移数据构造流
                   const flows = [
@@ -600,7 +597,7 @@ const TieringMatrix: React.FC = () => {
                   const maxFlow = Math.max(1, ...flows.map(f => f.value));
                   const strokeScale = (v: number) => 2 + (v / maxFlow) * 14;
                   function pathD(y1: number, y2: number) {
-                    const cx1 = 160; const cx2 = 260;
+                    const cx1 = 140; const cx2 = 220;
                     return `M ${leftX} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${rightX} ${y2}`;
                   }
                   return (
@@ -701,7 +698,14 @@ const TieringMatrix: React.FC = () => {
           rowKey="id"
           dataSource={filteredCustomers}
           columns={columns as any}
-          pagination={{ pageSize: 10, showSizeChanger: false }}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) => `共 ${total} 条记录，当前显示 ${range[0]}-${range[1]} 条`,
+            pageSizeOptions: ['10', '20', '50', '100'],
+            showLessItems: true,
+          }}
         />
       </Card>
       

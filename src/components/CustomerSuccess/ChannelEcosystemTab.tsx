@@ -216,7 +216,7 @@ const ChannelEcosystemTab: React.FC<ChannelEcosystemTabProps> = ({
       sorter: (a: Customer, b: Customer) => a.arr - b.arr,
     },
     {
-      title: '负责人CSM',
+      title: '客户成功',
       dataIndex: 'csm',
       key: 'csm',
       width: 120,
@@ -271,10 +271,10 @@ const ChannelEcosystemTab: React.FC<ChannelEcosystemTabProps> = ({
   };
 
   return (
-    <div style={{ padding: '0 24px' }}>
+    <div style={{ padding: '0 24px', marginTop: 16}}>
       {/* 渠道客户风险矩阵 */}
       <Card 
-        title="渠道客户风险矩阵"
+        title={<div style={{ textAlign: 'left' }}>渠道客户风险矩阵</div>}
         style={{ marginBottom: 24 }}
         extra={
           <Space>
@@ -301,17 +301,17 @@ const ChannelEcosystemTab: React.FC<ChannelEcosystemTabProps> = ({
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa' }}>行业\规模</th>
-                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa' }}>小型</th>
-                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa' }}>中型</th>
-                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa' }}>大型</th>
-                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa' }}>超大型</th>
+                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa', textAlign: 'center' }}>行业\规模</th>
+                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa', textAlign: 'center' }}>小型</th>
+                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa', textAlign: 'center' }}>中型</th>
+                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa', textAlign: 'center' }}>大型</th>
+                <th style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa', textAlign: 'center' }}>超大型</th>
               </tr>
             </thead>
             <tbody>
               {['制造业', '金融', '零售', '医疗', '教育', '政府'].map(industry => (
                 <tr key={industry}>
-                  <td style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa', fontWeight: 500 }}>
+                  <td style={{ padding: '8px', border: '1px solid #f0f0f0', background: '#fafafa', fontWeight: 500, textAlign: 'center' }}>
                     {industry}
                   </td>
                   {['小型', '中型', '大型', '超大型'].map(size => {
@@ -359,84 +359,84 @@ const ChannelEcosystemTab: React.FC<ChannelEcosystemTabProps> = ({
       </Card>
 
       {/* 客户生态标签 */}
-      <Card title="客户生态标签">
-        <Row gutter={24}>
-          <Col span={10}>
-            <div style={{ marginBottom: 16 }}>
-              <Space>
-                <Text strong>逻辑关系:</Text>
-                <Radio.Group value={tagLogic} onChange={(e) => setTagLogic(e.target.value)}>
-                  <Radio.Button value="AND">AND</Radio.Button>
-                  <Radio.Button value="OR">OR</Radio.Button>
-                </Radio.Group>
-                {selectedTags.length > 0 && (
-                  <Button size="small" onClick={() => setSelectedTags([])}>
-                    清空选择
-                  </Button>
-                )}
-              </Space>
-            </div>
-            
-            <div style={{ minHeight: 400, maxHeight: 500, overflowY: 'auto' }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {ecosystemTags.map(tag => (
-                  <Tag
-                    key={tag.name}
-                    color={selectedTags.includes(tag.name) ? tag.color : 'default'}
-                    style={{
-                      cursor: 'pointer',
-                      padding: '4px 8px',
-                      fontSize: 13,
-                      border: selectedTags.includes(tag.name) ? `2px solid ${tag.color}` : '1px solid #d9d9d9',
-                    }}
-                    onClick={() => handleTagClick(tag.name)}
-                  >
-                    <Tooltip 
-                      title={
-                        <div>
-                          <div>客户数: {tag.count}</div>
-                          <div>ARR: ¥{(tag.arr / 10000).toFixed(1)}万</div>
-                          <div>近90天事件数: {tag.events}</div>
-                        </div>
-                      }
-                    >
-                      {tag.name} ({tag.count})
-                    </Tooltip>
-                  </Tag>
-                ))}
-              </div>
-            </div>
-          </Col>
-          
-          <Col span={14}>
-            <div style={{ marginBottom: 16 }}>
-              <Space>
-                <Text strong>客户列表 ({filteredCustomers.length})</Text>
-                <Button 
-                  icon={<ExportOutlined />} 
-                  size="small"
-                  onClick={() => onExport?.(filteredCustomers)}
-                >
-                  导出
+      <Card title={<div style={{ textAlign: 'left' }}>客户生态标签</div>}>
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ marginBottom: 16 }}>
+            <Space>
+              <Text strong>逻辑关系:</Text>
+              <Radio.Group value={tagLogic} onChange={(e) => setTagLogic(e.target.value)}>
+                <Radio.Button value="AND">AND</Radio.Button>
+                <Radio.Button value="OR">OR</Radio.Button>
+              </Radio.Group>
+              {selectedTags.length > 0 && (
+                <Button size="small" onClick={() => setSelectedTags([])}>
+                  清空选择
                 </Button>
-              </Space>
+              )}
+            </Space>
+          </div>
+          
+          <div style={{ minHeight: 200, maxHeight: 300, overflowY: 'auto' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {ecosystemTags.map(tag => (
+                <Tag
+                  key={tag.name}
+                  color={selectedTags.includes(tag.name) ? tag.color : 'default'}
+                  style={{
+                    cursor: 'pointer',
+                    padding: '4px 8px',
+                    fontSize: 13,
+                    border: selectedTags.includes(tag.name) ? `2px solid ${tag.color}` : '1px solid #d9d9d9',
+                  }}
+                  onClick={() => handleTagClick(tag.name)}
+                >
+                  <Tooltip 
+                    title={
+                      <div>
+                        <div>客户数: {tag.count}</div>
+                        <div>ARR: ¥{(tag.arr / 10000).toFixed(1)}万</div>
+                        <div>近90天事件数: {tag.events}</div>
+                      </div>
+                    }
+                  >
+                    {tag.name} ({tag.count})
+                  </Tooltip>
+                </Tag>
+              ))}
             </div>
-            
-            <Table
-              columns={columns}
-              dataSource={filteredCustomers}
-              rowKey="id"
-              size="small"
-              scroll={{ x: 800, y: 400 }}
-              pagination={{
-                pageSize: 10,
-                showSizeChanger: true,
-                showQuickJumper: true,
-                showTotal: (total) => `共 ${total} 条`,
-              }}
-            />
-          </Col>
-        </Row>
+          </div>
+        </div>
+        
+        <div style={{ marginTop: 8 }}>
+          <div style={{ marginBottom: 16 }}>
+            <Space>
+              <Text strong>客户列表 ({filteredCustomers.length})</Text>
+              <Button 
+                icon={<ExportOutlined />} 
+                size="small"
+                onClick={() => onExport?.(filteredCustomers)}
+              >
+                导出
+              </Button>
+            </Space>
+          </div>
+          
+          <Table
+            columns={columns}
+            dataSource={filteredCustomers}
+            rowKey="id"
+            size="small"
+            scroll={{ x: 800, y: 400 }}
+            pagination={{
+              pageSize: 10,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: (total, range) => `共 ${total} 条记录，当前显示 ${range[0]}-${range[1]} 条`,
+              pageSizeOptions: ['10', '20', '50', '100'],
+              showLessItems: true,
+            }}
+          />
+        </div>
       </Card>
 
       {/* 侧边抽屉 */}

@@ -826,6 +826,8 @@ const RenewalManagement: React.FC = () => {
       title: '客户名称',
       dataIndex: 'name',
       key: 'name',
+      fixed: 'left' as const,
+      width: 200,
       align: 'center' as const,
       render: (name: string, record: RenewalCustomer) => (
         <div style={{ position: 'relative' }}>
@@ -1169,9 +1171,7 @@ const RenewalManagement: React.FC = () => {
                       { label: '下季度', value: 'next' },
                     ]}
                   />
-                  <Button size="small" icon={<RiseOutlined />} style={{ borderRadius: '6px' }}>
-                    导出报告
-                  </Button>
+
                 </Space>
               }
               bodyStyle={{ padding: '16px' }}

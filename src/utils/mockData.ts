@@ -1,6 +1,6 @@
 // Mock数据提供器
 export const getMockCurrentUser = () => ({
-  name: '管理员',
+  name: '张三',
   avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
   userid: '00000001',
   email: 'admin@example.com',

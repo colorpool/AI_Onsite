@@ -1,6 +1,425 @@
 ((typeof globalThis !== 'undefined' ? globalThis : self)["makoChunk_ant-design-pro"] = (typeof globalThis !== 'undefined' ? globalThis : self)["makoChunk_ant-design-pro"] || []).push([
         ['vendors'],
-{ "node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/components/Icon.js": function (module, exports, __mako_require__){
+{ "node_modules/@react-dnd/asap/dist/AsapQueue.js": function (module, exports, __mako_require__){
+/* eslint-disable no-restricted-globals, @typescript-eslint/ban-ts-comment, @typescript-eslint/no-unused-vars, @typescript-eslint/no-non-null-assertion */ "use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "AsapQueue", {
+    enumerable: true,
+    get: function() {
+        return AsapQueue;
+    }
+});
+var _makeRequestCall = __mako_require__("node_modules/@react-dnd/asap/dist/makeRequestCall.js");
+class AsapQueue {
+    // Use the fastest means possible to execute a task in its own turn, with
+    // priority over other events including IO, animation, reflow, and redraw
+    // events in browsers.
+    //
+    // An exception thrown by a task will permanently interrupt the processing of
+    // subsequent tasks. The higher level `asap` function ensures that if an
+    // exception is thrown by a task, that the task queue will continue flushing as
+    // soon as possible, but if you use `rawAsap` directly, you are responsible to
+    // either ensure that no exceptions are thrown from your task, or to manually
+    // call `rawAsap.requestFlush` if an exception is thrown.
+    enqueueTask(task) {
+        const { queue: q, requestFlush } = this;
+        if (!q.length) {
+            requestFlush();
+            this.flushing = true;
+        }
+        // Equivalent to push, but avoids a function call.
+        q[q.length] = task;
+    }
+    constructor(){
+        this.queue = [];
+        // We queue errors to ensure they are thrown in right order (FIFO).
+        // Array-as-queue is good enough here, since we are just dealing with exceptions.
+        this.pendingErrors = [];
+        // Once a flush has been requested, no further calls to `requestFlush` are
+        // necessary until the next `flush` completes.
+        // @ts-ignore
+        this.flushing = false;
+        // The position of the next task to execute in the task queue. This is
+        // preserved between calls to `flush` so that it can be resumed if
+        // a task throws an exception.
+        this.index = 0;
+        // If a task schedules additional tasks recursively, the task queue can grow
+        // unbounded. To prevent memory exhaustion, the task queue will periodically
+        // truncate already-completed tasks.
+        this.capacity = 1024;
+        // The flush function processes all tasks that have been scheduled with
+        // `rawAsap` unless and until one of those tasks throws an exception.
+        // If a task throws an exception, `flush` ensures that its state will remain
+        // consistent and will resume where it left off when called again.
+        // However, `flush` does not make any arrangements to be called again if an
+        // exception is thrown.
+        this.flush = ()=>{
+            const { queue: q } = this;
+            while(this.index < q.length){
+                const currentIndex = this.index;
+                // Advance the index before calling the task. This ensures that we will
+                // begin flushing on the next task the task throws an error.
+                this.index++;
+                q[currentIndex].call();
+                // Prevent leaking memory for long chains of recursive calls to `asap`.
+                // If we call `asap` within tasks scheduled by `asap`, the queue will
+                // grow, but to avoid an O(n) walk for every task we execute, we don't
+                // shift tasks off the queue after they have been executed.
+                // Instead, we periodically shift 1024 tasks off the queue.
+                if (this.index > this.capacity) {
+                    // Manually shift all values starting at the index back to the
+                    // beginning of the queue.
+                    for(let scan = 0, newLength = q.length - this.index; scan < newLength; scan++)q[scan] = q[scan + this.index];
+                    q.length -= this.index;
+                    this.index = 0;
+                }
+            }
+            q.length = 0;
+            this.index = 0;
+            this.flushing = false;
+        };
+        // In a web browser, exceptions are not fatal. However, to avoid
+        // slowing down the queue of pending tasks, we rethrow the error in a
+        // lower priority turn.
+        this.registerPendingError = (err)=>{
+            this.pendingErrors.push(err);
+            this.requestErrorThrow();
+        };
+        // `requestFlush` requests that the high priority event queue be flushed as
+        // soon as possible.
+        // This is useful to prevent an error thrown in a task from stalling the event
+        // queue if the exception handled by Node.js’s
+        // `process.on("uncaughtException")` or by a domain.
+        // `requestFlush` is implemented using a strategy based on data collected from
+        // every available SauceLabs Selenium web driver worker at time of writing.
+        // https://docs.google.com/spreadsheets/d/1mG-5UYGup5qxGdEMWkhP6BWCz053NUb2E1QoUTU16uA/edit#gid=783724593
+        this.requestFlush = (0, _makeRequestCall.makeRequestCall)(this.flush);
+        this.requestErrorThrow = (0, _makeRequestCall.makeRequestCallFromTimer)(()=>{
+            // Throw first error
+            if (this.pendingErrors.length) throw this.pendingErrors.shift();
+        });
+    }
+} // The message channel technique was discovered by Malte Ubl and was the
+ // original foundation for this library.
+ // http://www.nonblocking.io/2011/06/windownexttick.html
+ // Safari 6.0.5 (at least) intermittently fails to create message ports on a
+ // page's first load. Thankfully, this version of Safari supports
+ // MutationObservers, so we don't need to fall back in that case.
+ // function makeRequestCallFromMessageChannel(callback) {
+ //     var channel = new MessageChannel();
+ //     channel.port1.onmessage = callback;
+ //     return function requestCall() {
+ //         channel.port2.postMessage(0);
+ //     };
+ // }
+ // For reasons explained above, we are also unable to use `setImmediate`
+ // under any circumstances.
+ // Even if we were, there is another bug in Internet Explorer 10.
+ // It is not sufficient to assign `setImmediate` to `requestFlush` because
+ // `setImmediate` must be called *by name* and therefore must be wrapped in a
+ // closure.
+ // Never forget.
+ // function makeRequestCallFromSetImmediate(callback) {
+ //     return function requestCall() {
+ //         setImmediate(callback);
+ //     };
+ // }
+ // Safari 6.0 has a problem where timers will get lost while the user is
+ // scrolling. This problem does not impact ASAP because Safari 6.0 supports
+ // mutation observers, so that implementation is used instead.
+ // However, if we ever elect to use timers in Safari, the prevalent work-around
+ // is to add a scroll event listener that calls for a flush.
+ // `setTimeout` does not call the passed callback if the delay is less than
+ // approximately 7 in web workers in Firefox 8 through 18, and sometimes not
+ // even then.
+ // This is for `asap.js` only.
+ // Its name will be periodically randomized to break any code that depends on
+ // // its existence.
+ // rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer
+ // ASAP was originally a nextTick shim included in Q. This was factored out
+ // into this ASAP package. It was later adapted to RSVP which made further
+ // amendments. These decisions, particularly to marginalize MessageChannel and
+ // to capture the MutationObserver implementation in a closure, were integrated
+ // back into ASAP proper.
+ // https://github.com/tildeio/rsvp.js/blob/cddf7232546a9cf858524b75cde6f9edf72620a7/lib/rsvp/asap.js
+ //# sourceMappingURL=AsapQueue.js.map
+
+},
+"node_modules/@react-dnd/asap/dist/RawTask.js": function (module, exports, __mako_require__){
+// `call`, just like a function.
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "RawTask", {
+    enumerable: true,
+    get: function() {
+        return RawTask;
+    }
+});
+class RawTask {
+    call() {
+        try {
+            this.task && this.task();
+        } catch (error) {
+            this.onError(error);
+        } finally{
+            this.task = null;
+            this.release(this);
+        }
+    }
+    constructor(onError, release){
+        this.onError = onError;
+        this.release = release;
+        this.task = null;
+    }
+} //# sourceMappingURL=RawTask.js.map
+
+},
+"node_modules/@react-dnd/asap/dist/TaskFactory.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "TaskFactory", {
+    enumerable: true,
+    get: function() {
+        return TaskFactory;
+    }
+});
+var _RawTask = __mako_require__("node_modules/@react-dnd/asap/dist/RawTask.js");
+class TaskFactory {
+    create(task) {
+        const tasks = this.freeTasks;
+        const t1 = tasks.length ? tasks.pop() : new _RawTask.RawTask(this.onError, (t)=>tasks[tasks.length] = t);
+        t1.task = task;
+        return t1;
+    }
+    constructor(onError){
+        this.onError = onError;
+        this.freeTasks = [];
+    }
+} //# sourceMappingURL=TaskFactory.js.map
+
+},
+"node_modules/@react-dnd/asap/dist/asap.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "asap", {
+    enumerable: true,
+    get: function() {
+        return asap;
+    }
+});
+var _AsapQueue = __mako_require__("node_modules/@react-dnd/asap/dist/AsapQueue.js");
+var _TaskFactory = __mako_require__("node_modules/@react-dnd/asap/dist/TaskFactory.js");
+const asapQueue = new _AsapQueue.AsapQueue();
+const taskFactory = new _TaskFactory.TaskFactory(asapQueue.registerPendingError);
+function asap(task) {
+    asapQueue.enqueueTask(taskFactory.create(task));
+} //# sourceMappingURL=asap.js.map
+
+},
+"node_modules/@react-dnd/asap/dist/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/@react-dnd/asap/dist/asap.js"), exports);
+_export_star._(__mako_require__("node_modules/@react-dnd/asap/dist/AsapQueue.js"), exports);
+_export_star._(__mako_require__("node_modules/@react-dnd/asap/dist/TaskFactory.js"), exports);
+_export_star._(__mako_require__("node_modules/@react-dnd/asap/dist/types.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/@react-dnd/asap/dist/makeRequestCall.js": function (module, exports, __mako_require__){
+// Safari 6 and 6.1 for desktop, iPad, and iPhone are the only browsers that
+// have WebKitMutationObserver but not un-prefixed MutationObserver.
+// Must use `global` or `self` instead of `window` to work in both frames and web
+// workers. `global` is a provision of Browserify, Mr, Mrs, or Mop.
+/* globals self */ "use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    makeRequestCall: function() {
+        return makeRequestCall;
+    },
+    makeRequestCallFromMutationObserver: function() {
+        return makeRequestCallFromMutationObserver;
+    },
+    makeRequestCallFromTimer: function() {
+        return makeRequestCallFromTimer;
+    }
+});
+const global = __mako_require__("node_modules/node-libs-browser-okam/polyfill/global.js");
+const scope = typeof global !== 'undefined' ? global : self;
+const BrowserMutationObserver = scope.MutationObserver || scope.WebKitMutationObserver;
+function makeRequestCallFromTimer(callback) {
+    return function requestCall() {
+        // We dispatch a timeout with a specified delay of 0 for engines that
+        // can reliably accommodate that request. This will usually be snapped
+        // to a 4 milisecond delay, but once we're flushing, there's no delay
+        // between events.
+        const timeoutHandle = setTimeout(handleTimer, 0);
+        // However, since this timer gets frequently dropped in Firefox
+        // workers, we enlist an interval handle that will try to fire
+        // an event 20 times per second until it succeeds.
+        const intervalHandle = setInterval(handleTimer, 50);
+        function handleTimer() {
+            // Whichever timer succeeds will cancel both timers and
+            // execute the callback.
+            clearTimeout(timeoutHandle);
+            clearInterval(intervalHandle);
+            callback();
+        }
+    };
+}
+function makeRequestCallFromMutationObserver(callback) {
+    let toggle = 1;
+    const observer = new BrowserMutationObserver(callback);
+    const node = document.createTextNode('');
+    observer.observe(node, {
+        characterData: true
+    });
+    return function requestCall() {
+        toggle = -toggle;
+        node.data = toggle;
+    };
+}
+const makeRequestCall = typeof BrowserMutationObserver === 'function' ? // They are implemented in all modern browsers.
+//
+// - Android 4-4.3
+// - Chrome 26-34
+// - Firefox 14-29
+// - Internet Explorer 11
+// - iPad Safari 6-7.1
+// - iPhone Safari 7-7.1
+// - Safari 6-7
+makeRequestCallFromMutationObserver : // 11-12, and in web workers in many engines.
+// Although message channels yield to any queued rendering and IO tasks, they
+// would be better than imposing the 4ms delay of timers.
+// However, they do not work reliably in Internet Explorer or Safari.
+// Internet Explorer 10 is the only browser that has setImmediate but does
+// not have MutationObservers.
+// Although setImmediate yields to the browser's renderer, it would be
+// preferrable to falling back to setTimeout since it does not have
+// the minimum 4ms penalty.
+// Unfortunately there appears to be a bug in Internet Explorer 10 Mobile (and
+// Desktop to a lesser extent) that renders both setImmediate and
+// MessageChannel useless for the purposes of ASAP.
+// https://github.com/kriskowal/q/issues/396
+// Timers are implemented universally.
+// We fall back to timers in workers in most engines, and in foreground
+// contexts in the following browsers.
+// However, note that even this simple case requires nuances to operate in a
+// broad spectrum of browsers.
+//
+// - Firefox 3-13
+// - Internet Explorer 6-9
+// - iPad Safari 4.3
+// - Lynx 2.8.7
+makeRequestCallFromTimer; //# sourceMappingURL=makeRequestCall.js.map
+
+},
+"node_modules/@react-dnd/asap/dist/types.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+ //# sourceMappingURL=types.js.map
+
+},
+"node_modules/@react-dnd/invariant/dist/index.js": function (module, exports, __mako_require__){
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */ "use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "invariant", {
+    enumerable: true,
+    get: function() {
+        return invariant;
+    }
+});
+const process = __mako_require__("node_modules/node-libs-browser-okam/polyfill/process.js");
+function invariant(condition, format, ...args) {
+    if (isProduction()) {
+        if (format === undefined) throw new Error('invariant requires an error message argument');
+    }
+    if (!condition) {
+        let error;
+        if (format === undefined) error = new Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");
+        else {
+            let argIndex = 0;
+            error = new Error(format.replace(/%s/g, function() {
+                return args[argIndex++];
+            }));
+            error.name = 'Invariant Violation';
+        }
+        error.framesToPop = 1 // we don't care about invariant's own frame
+        ;
+        throw error;
+    }
+}
+function isProduction() {
+    return typeof process !== 'undefined' && false;
+} //# sourceMappingURL=index.js.map
+
+},
+"node_modules/@react-dnd/shallowequal/dist/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "shallowEqual", {
+    enumerable: true,
+    get: function() {
+        return shallowEqual;
+    }
+});
+function shallowEqual(objA, objB, compare, compareContext) {
+    let compareResult = compare ? compare.call(compareContext, objA, objB) : void 0;
+    if (compareResult !== void 0) return !!compareResult;
+    if (objA === objB) return true;
+    if (typeof objA !== 'object' || !objA || typeof objB !== 'object' || !objB) return false;
+    const keysA = Object.keys(objA);
+    const keysB = Object.keys(objB);
+    if (keysA.length !== keysB.length) return false;
+    const bHasOwnProperty = Object.prototype.hasOwnProperty.bind(objB);
+    // Test for A's keys different from B.
+    for(let idx = 0; idx < keysA.length; idx++){
+        const key = keysA[idx];
+        if (!bHasOwnProperty(key)) return false;
+        const valueA = objA[key];
+        const valueB = objB[key];
+        compareResult = compare ? compare.call(compareContext, valueA, valueB, key) : void 0;
+        if (compareResult === false || compareResult === void 0 && valueA !== valueB) return false;
+    }
+    return true;
+} //# sourceMappingURL=index.js.map
+
+},
+"node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/components/Icon.js": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
     value: true
@@ -26091,6 +26510,1430 @@ var _Icon = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modu
 var IconProvider = _Context.default.Provider;
 
 },
+"node_modules/dnd-core/dist/actions/dragDrop/beginDrag.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "createBeginDrag", {
+    enumerable: true,
+    get: function() {
+        return createBeginDrag;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _js_utils = __mako_require__("node_modules/dnd-core/dist/utils/js_utils.js");
+var _setClientOffset = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/local/setClientOffset.js");
+var _types = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/types.js");
+const ResetCoordinatesAction = {
+    type: _types.INIT_COORDS,
+    payload: {
+        clientOffset: null,
+        sourceClientOffset: null
+    }
+};
+function createBeginDrag(manager) {
+    return function beginDrag(sourceIds = [], options = {
+        publishSource: true
+    }) {
+        const { publishSource = true, clientOffset, getSourceClientOffset } = options;
+        const monitor = manager.getMonitor();
+        const registry = manager.getRegistry();
+        // Initialize the coordinates using the client offset
+        manager.dispatch((0, _setClientOffset.setClientOffset)(clientOffset));
+        verifyInvariants(sourceIds, monitor, registry);
+        // Get the draggable source
+        const sourceId = getDraggableSource(sourceIds, monitor);
+        if (sourceId == null) {
+            manager.dispatch(ResetCoordinatesAction);
+            return;
+        }
+        // Get the source client offset
+        let sourceClientOffset = null;
+        if (clientOffset) {
+            if (!getSourceClientOffset) throw new Error('getSourceClientOffset must be defined');
+            verifyGetSourceClientOffsetIsFunction(getSourceClientOffset);
+            sourceClientOffset = getSourceClientOffset(sourceId);
+        }
+        // Initialize the full coordinates
+        manager.dispatch((0, _setClientOffset.setClientOffset)(clientOffset, sourceClientOffset));
+        const source = registry.getSource(sourceId);
+        const item = source.beginDrag(monitor, sourceId);
+        // If source.beginDrag returns null, this is an indicator to cancel the drag
+        if (item == null) return undefined;
+        verifyItemIsObject(item);
+        registry.pinSource(sourceId);
+        const itemType = registry.getSourceType(sourceId);
+        return {
+            type: _types.BEGIN_DRAG,
+            payload: {
+                itemType,
+                item,
+                sourceId,
+                clientOffset: clientOffset || null,
+                sourceClientOffset: sourceClientOffset || null,
+                isSourcePublic: !!publishSource
+            }
+        };
+    };
+}
+function verifyInvariants(sourceIds, monitor, registry) {
+    (0, _invariant.invariant)(!monitor.isDragging(), 'Cannot call beginDrag while dragging.');
+    sourceIds.forEach(function(sourceId) {
+        (0, _invariant.invariant)(registry.getSource(sourceId), 'Expected sourceIds to be registered.');
+    });
+}
+function verifyGetSourceClientOffsetIsFunction(getSourceClientOffset) {
+    (0, _invariant.invariant)(typeof getSourceClientOffset === 'function', 'When clientOffset is provided, getSourceClientOffset must be a function.');
+}
+function verifyItemIsObject(item) {
+    (0, _invariant.invariant)((0, _js_utils.isObject)(item), 'Item must be an object.');
+}
+function getDraggableSource(sourceIds, monitor) {
+    let sourceId = null;
+    for(let i = sourceIds.length - 1; i >= 0; i--)if (monitor.canDragSource(sourceIds[i])) {
+        sourceId = sourceIds[i];
+        break;
+    }
+    return sourceId;
+} //# sourceMappingURL=beginDrag.js.map
+
+},
+"node_modules/dnd-core/dist/actions/dragDrop/drop.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "createDrop", {
+    enumerable: true,
+    get: function() {
+        return createDrop;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _js_utils = __mako_require__("node_modules/dnd-core/dist/utils/js_utils.js");
+var _types = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/types.js");
+function _defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+function _objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === 'function') ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+        }));
+        ownKeys.forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+        });
+    }
+    return target;
+}
+function createDrop(manager) {
+    return function drop(options = {}) {
+        const monitor = manager.getMonitor();
+        const registry = manager.getRegistry();
+        verifyInvariants(monitor);
+        const targetIds = getDroppableTargets(monitor);
+        // Multiple actions are dispatched here, which is why this doesn't return an action
+        targetIds.forEach((targetId, index)=>{
+            const dropResult = determineDropResult(targetId, index, registry, monitor);
+            const action = {
+                type: _types.DROP,
+                payload: {
+                    dropResult: _objectSpread({}, options, dropResult)
+                }
+            };
+            manager.dispatch(action);
+        });
+    };
+}
+function verifyInvariants(monitor) {
+    (0, _invariant.invariant)(monitor.isDragging(), 'Cannot call drop while not dragging.');
+    (0, _invariant.invariant)(!monitor.didDrop(), 'Cannot call drop twice during one drag operation.');
+}
+function determineDropResult(targetId, index, registry, monitor) {
+    const target = registry.getTarget(targetId);
+    let dropResult = target ? target.drop(monitor, targetId) : undefined;
+    verifyDropResultType(dropResult);
+    if (typeof dropResult === 'undefined') dropResult = index === 0 ? {} : monitor.getDropResult();
+    return dropResult;
+}
+function verifyDropResultType(dropResult) {
+    (0, _invariant.invariant)(typeof dropResult === 'undefined' || (0, _js_utils.isObject)(dropResult), 'Drop result must either be an object or undefined.');
+}
+function getDroppableTargets(monitor) {
+    const targetIds = monitor.getTargetIds().filter(monitor.canDropOnTarget, monitor);
+    targetIds.reverse();
+    return targetIds;
+} //# sourceMappingURL=drop.js.map
+
+},
+"node_modules/dnd-core/dist/actions/dragDrop/endDrag.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "createEndDrag", {
+    enumerable: true,
+    get: function() {
+        return createEndDrag;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _types = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/types.js");
+function createEndDrag(manager) {
+    return function endDrag() {
+        const monitor = manager.getMonitor();
+        const registry = manager.getRegistry();
+        verifyIsDragging(monitor);
+        const sourceId = monitor.getSourceId();
+        if (sourceId != null) {
+            const source = registry.getSource(sourceId, true);
+            source.endDrag(monitor, sourceId);
+            registry.unpinSource();
+        }
+        return {
+            type: _types.END_DRAG
+        };
+    };
+}
+function verifyIsDragging(monitor) {
+    (0, _invariant.invariant)(monitor.isDragging(), 'Cannot call endDrag while not dragging.');
+} //# sourceMappingURL=endDrag.js.map
+
+},
+"node_modules/dnd-core/dist/actions/dragDrop/hover.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "createHover", {
+    enumerable: true,
+    get: function() {
+        return createHover;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _matchesType = __mako_require__("node_modules/dnd-core/dist/utils/matchesType.js");
+var _types = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/types.js");
+function createHover(manager) {
+    return function hover(targetIdsArg, { clientOffset } = {}) {
+        verifyTargetIdsIsArray(targetIdsArg);
+        const targetIds = targetIdsArg.slice(0);
+        const monitor = manager.getMonitor();
+        const registry = manager.getRegistry();
+        const draggedItemType = monitor.getItemType();
+        removeNonMatchingTargetIds(targetIds, registry, draggedItemType);
+        checkInvariants(targetIds, monitor, registry);
+        hoverAllTargets(targetIds, monitor, registry);
+        return {
+            type: _types.HOVER,
+            payload: {
+                targetIds,
+                clientOffset: clientOffset || null
+            }
+        };
+    };
+}
+function verifyTargetIdsIsArray(targetIdsArg) {
+    (0, _invariant.invariant)(Array.isArray(targetIdsArg), 'Expected targetIds to be an array.');
+}
+function checkInvariants(targetIds, monitor, registry) {
+    (0, _invariant.invariant)(monitor.isDragging(), 'Cannot call hover while not dragging.');
+    (0, _invariant.invariant)(!monitor.didDrop(), 'Cannot call hover after drop.');
+    for(let i = 0; i < targetIds.length; i++){
+        const targetId = targetIds[i];
+        (0, _invariant.invariant)(targetIds.lastIndexOf(targetId) === i, 'Expected targetIds to be unique in the passed array.');
+        const target = registry.getTarget(targetId);
+        (0, _invariant.invariant)(target, 'Expected targetIds to be registered.');
+    }
+}
+function removeNonMatchingTargetIds(targetIds, registry, draggedItemType) {
+    // Remove those targetIds that don't match the targetType.  This
+    // fixes shallow isOver which would only be non-shallow because of
+    // non-matching targets.
+    for(let i = targetIds.length - 1; i >= 0; i--){
+        const targetId = targetIds[i];
+        const targetType = registry.getTargetType(targetId);
+        if (!(0, _matchesType.matchesType)(targetType, draggedItemType)) targetIds.splice(i, 1);
+    }
+}
+function hoverAllTargets(targetIds, monitor, registry) {
+    // Finally call hover on all matching targets.
+    targetIds.forEach(function(targetId) {
+        const target = registry.getTarget(targetId);
+        target.hover(monitor, targetId);
+    });
+} //# sourceMappingURL=hover.js.map
+
+},
+"node_modules/dnd-core/dist/actions/dragDrop/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "createDragDropActions", {
+    enumerable: true,
+    get: function() {
+        return createDragDropActions;
+    }
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+var _beginDrag = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/beginDrag.js");
+var _drop = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/drop.js");
+var _endDrag = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/endDrag.js");
+var _hover = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/hover.js");
+var _publishDragSource = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/publishDragSource.js");
+_export_star._(__mako_require__("node_modules/dnd-core/dist/actions/dragDrop/types.js"), exports);
+function createDragDropActions(manager) {
+    return {
+        beginDrag: (0, _beginDrag.createBeginDrag)(manager),
+        publishDragSource: (0, _publishDragSource.createPublishDragSource)(manager),
+        hover: (0, _hover.createHover)(manager),
+        drop: (0, _drop.createDrop)(manager),
+        endDrag: (0, _endDrag.createEndDrag)(manager)
+    };
+} //# sourceMappingURL=index.js.map
+
+},
+"node_modules/dnd-core/dist/actions/dragDrop/local/setClientOffset.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "setClientOffset", {
+    enumerable: true,
+    get: function() {
+        return setClientOffset;
+    }
+});
+var _types = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/types.js");
+function setClientOffset(clientOffset, sourceClientOffset) {
+    return {
+        type: _types.INIT_COORDS,
+        payload: {
+            sourceClientOffset: sourceClientOffset || null,
+            clientOffset: clientOffset || null
+        }
+    };
+} //# sourceMappingURL=setClientOffset.js.map
+
+},
+"node_modules/dnd-core/dist/actions/dragDrop/publishDragSource.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "createPublishDragSource", {
+    enumerable: true,
+    get: function() {
+        return createPublishDragSource;
+    }
+});
+var _types = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/types.js");
+function createPublishDragSource(manager) {
+    return function publishDragSource() {
+        const monitor = manager.getMonitor();
+        if (monitor.isDragging()) return {
+            type: _types.PUBLISH_DRAG_SOURCE
+        };
+        return;
+    };
+} //# sourceMappingURL=publishDragSource.js.map
+
+},
+"node_modules/dnd-core/dist/actions/dragDrop/types.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    BEGIN_DRAG: function() {
+        return BEGIN_DRAG;
+    },
+    DROP: function() {
+        return DROP;
+    },
+    END_DRAG: function() {
+        return END_DRAG;
+    },
+    HOVER: function() {
+        return HOVER;
+    },
+    INIT_COORDS: function() {
+        return INIT_COORDS;
+    },
+    PUBLISH_DRAG_SOURCE: function() {
+        return PUBLISH_DRAG_SOURCE;
+    }
+});
+const INIT_COORDS = 'dnd-core/INIT_COORDS';
+const BEGIN_DRAG = 'dnd-core/BEGIN_DRAG';
+const PUBLISH_DRAG_SOURCE = 'dnd-core/PUBLISH_DRAG_SOURCE';
+const HOVER = 'dnd-core/HOVER';
+const DROP = 'dnd-core/DROP';
+const END_DRAG = 'dnd-core/END_DRAG'; //# sourceMappingURL=types.js.map
+
+},
+"node_modules/dnd-core/dist/actions/registry.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    ADD_SOURCE: function() {
+        return ADD_SOURCE;
+    },
+    ADD_TARGET: function() {
+        return ADD_TARGET;
+    },
+    REMOVE_SOURCE: function() {
+        return REMOVE_SOURCE;
+    },
+    REMOVE_TARGET: function() {
+        return REMOVE_TARGET;
+    },
+    addSource: function() {
+        return addSource;
+    },
+    addTarget: function() {
+        return addTarget;
+    },
+    removeSource: function() {
+        return removeSource;
+    },
+    removeTarget: function() {
+        return removeTarget;
+    }
+});
+const ADD_SOURCE = 'dnd-core/ADD_SOURCE';
+const ADD_TARGET = 'dnd-core/ADD_TARGET';
+const REMOVE_SOURCE = 'dnd-core/REMOVE_SOURCE';
+const REMOVE_TARGET = 'dnd-core/REMOVE_TARGET';
+function addSource(sourceId) {
+    return {
+        type: ADD_SOURCE,
+        payload: {
+            sourceId
+        }
+    };
+}
+function addTarget(targetId) {
+    return {
+        type: ADD_TARGET,
+        payload: {
+            targetId
+        }
+    };
+}
+function removeSource(sourceId) {
+    return {
+        type: REMOVE_SOURCE,
+        payload: {
+            sourceId
+        }
+    };
+}
+function removeTarget(targetId) {
+    return {
+        type: REMOVE_TARGET,
+        payload: {
+            targetId
+        }
+    };
+} //# sourceMappingURL=registry.js.map
+
+},
+"node_modules/dnd-core/dist/classes/DragDropManagerImpl.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DragDropManagerImpl", {
+    enumerable: true,
+    get: function() {
+        return DragDropManagerImpl;
+    }
+});
+var _index = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/index.js");
+class DragDropManagerImpl {
+    receiveBackend(backend) {
+        this.backend = backend;
+    }
+    getMonitor() {
+        return this.monitor;
+    }
+    getBackend() {
+        return this.backend;
+    }
+    getRegistry() {
+        return this.monitor.registry;
+    }
+    getActions() {
+        /* eslint-disable-next-line @typescript-eslint/no-this-alias */ const manager = this;
+        const { dispatch } = this.store;
+        function bindActionCreator(actionCreator) {
+            return (...args)=>{
+                const action = actionCreator.apply(manager, args);
+                if (typeof action !== 'undefined') dispatch(action);
+            };
+        }
+        const actions = (0, _index.createDragDropActions)(this);
+        return Object.keys(actions).reduce((boundActions, key)=>{
+            const action = actions[key];
+            boundActions[key] = bindActionCreator(action);
+            return boundActions;
+        }, {});
+    }
+    dispatch(action) {
+        this.store.dispatch(action);
+    }
+    constructor(store, monitor){
+        this.isSetUp = false;
+        this.handleRefCountChange = ()=>{
+            const shouldSetUp = this.store.getState().refCount > 0;
+            if (this.backend) {
+                if (shouldSetUp && !this.isSetUp) {
+                    this.backend.setup();
+                    this.isSetUp = true;
+                } else if (!shouldSetUp && this.isSetUp) {
+                    this.backend.teardown();
+                    this.isSetUp = false;
+                }
+            }
+        };
+        this.store = store;
+        this.monitor = monitor;
+        store.subscribe(this.handleRefCountChange);
+    }
+} //# sourceMappingURL=DragDropManagerImpl.js.map
+
+},
+"node_modules/dnd-core/dist/classes/DragDropMonitorImpl.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DragDropMonitorImpl", {
+    enumerable: true,
+    get: function() {
+        return DragDropMonitorImpl;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _coords = __mako_require__("node_modules/dnd-core/dist/utils/coords.js");
+var _dirtiness = __mako_require__("node_modules/dnd-core/dist/utils/dirtiness.js");
+var _matchesType = __mako_require__("node_modules/dnd-core/dist/utils/matchesType.js");
+class DragDropMonitorImpl {
+    subscribeToStateChange(listener, options = {}) {
+        const { handlerIds } = options;
+        (0, _invariant.invariant)(typeof listener === 'function', 'listener must be a function.');
+        (0, _invariant.invariant)(typeof handlerIds === 'undefined' || Array.isArray(handlerIds), 'handlerIds, when specified, must be an array of strings.');
+        let prevStateId = this.store.getState().stateId;
+        const handleChange = ()=>{
+            const state = this.store.getState();
+            const currentStateId = state.stateId;
+            try {
+                const canSkipListener = currentStateId === prevStateId || currentStateId === prevStateId + 1 && !(0, _dirtiness.areDirty)(state.dirtyHandlerIds, handlerIds);
+                if (!canSkipListener) listener();
+            } finally{
+                prevStateId = currentStateId;
+            }
+        };
+        return this.store.subscribe(handleChange);
+    }
+    subscribeToOffsetChange(listener) {
+        (0, _invariant.invariant)(typeof listener === 'function', 'listener must be a function.');
+        let previousState = this.store.getState().dragOffset;
+        const handleChange = ()=>{
+            const nextState = this.store.getState().dragOffset;
+            if (nextState === previousState) return;
+            previousState = nextState;
+            listener();
+        };
+        return this.store.subscribe(handleChange);
+    }
+    canDragSource(sourceId) {
+        if (!sourceId) return false;
+        const source = this.registry.getSource(sourceId);
+        (0, _invariant.invariant)(source, `Expected to find a valid source. sourceId=${sourceId}`);
+        if (this.isDragging()) return false;
+        return source.canDrag(this, sourceId);
+    }
+    canDropOnTarget(targetId) {
+        // undefined on initial render
+        if (!targetId) return false;
+        const target = this.registry.getTarget(targetId);
+        (0, _invariant.invariant)(target, `Expected to find a valid target. targetId=${targetId}`);
+        if (!this.isDragging() || this.didDrop()) return false;
+        const targetType = this.registry.getTargetType(targetId);
+        const draggedItemType = this.getItemType();
+        return (0, _matchesType.matchesType)(targetType, draggedItemType) && target.canDrop(this, targetId);
+    }
+    isDragging() {
+        return Boolean(this.getItemType());
+    }
+    isDraggingSource(sourceId) {
+        // undefined on initial render
+        if (!sourceId) return false;
+        const source = this.registry.getSource(sourceId, true);
+        (0, _invariant.invariant)(source, `Expected to find a valid source. sourceId=${sourceId}`);
+        if (!this.isDragging() || !this.isSourcePublic()) return false;
+        const sourceType = this.registry.getSourceType(sourceId);
+        const draggedItemType = this.getItemType();
+        if (sourceType !== draggedItemType) return false;
+        return source.isDragging(this, sourceId);
+    }
+    isOverTarget(targetId, options = {
+        shallow: false
+    }) {
+        // undefined on initial render
+        if (!targetId) return false;
+        const { shallow } = options;
+        if (!this.isDragging()) return false;
+        const targetType = this.registry.getTargetType(targetId);
+        const draggedItemType = this.getItemType();
+        if (draggedItemType && !(0, _matchesType.matchesType)(targetType, draggedItemType)) return false;
+        const targetIds = this.getTargetIds();
+        if (!targetIds.length) return false;
+        const index = targetIds.indexOf(targetId);
+        if (shallow) return index === targetIds.length - 1;
+        else return index > -1;
+    }
+    getItemType() {
+        return this.store.getState().dragOperation.itemType;
+    }
+    getItem() {
+        return this.store.getState().dragOperation.item;
+    }
+    getSourceId() {
+        return this.store.getState().dragOperation.sourceId;
+    }
+    getTargetIds() {
+        return this.store.getState().dragOperation.targetIds;
+    }
+    getDropResult() {
+        return this.store.getState().dragOperation.dropResult;
+    }
+    didDrop() {
+        return this.store.getState().dragOperation.didDrop;
+    }
+    isSourcePublic() {
+        return Boolean(this.store.getState().dragOperation.isSourcePublic);
+    }
+    getInitialClientOffset() {
+        return this.store.getState().dragOffset.initialClientOffset;
+    }
+    getInitialSourceClientOffset() {
+        return this.store.getState().dragOffset.initialSourceClientOffset;
+    }
+    getClientOffset() {
+        return this.store.getState().dragOffset.clientOffset;
+    }
+    getSourceClientOffset() {
+        return (0, _coords.getSourceClientOffset)(this.store.getState().dragOffset);
+    }
+    getDifferenceFromInitialOffset() {
+        return (0, _coords.getDifferenceFromInitialOffset)(this.store.getState().dragOffset);
+    }
+    constructor(store, registry){
+        this.store = store;
+        this.registry = registry;
+    }
+} //# sourceMappingURL=DragDropMonitorImpl.js.map
+
+},
+"node_modules/dnd-core/dist/classes/HandlerRegistryImpl.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "HandlerRegistryImpl", {
+    enumerable: true,
+    get: function() {
+        return HandlerRegistryImpl;
+    }
+});
+var _asap = __mako_require__("node_modules/@react-dnd/asap/dist/index.js");
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _registry = __mako_require__("node_modules/dnd-core/dist/actions/registry.js");
+var _contracts = __mako_require__("node_modules/dnd-core/dist/contracts.js");
+var _interfaces = __mako_require__("node_modules/dnd-core/dist/interfaces.js");
+var _getNextUniqueId = __mako_require__("node_modules/dnd-core/dist/utils/getNextUniqueId.js");
+function getNextHandlerId(role) {
+    const id = (0, _getNextUniqueId.getNextUniqueId)().toString();
+    switch(role){
+        case _interfaces.HandlerRole.SOURCE:
+            return `S${id}`;
+        case _interfaces.HandlerRole.TARGET:
+            return `T${id}`;
+        default:
+            throw new Error(`Unknown Handler Role: ${role}`);
+    }
+}
+function parseRoleFromHandlerId(handlerId) {
+    switch(handlerId[0]){
+        case 'S':
+            return _interfaces.HandlerRole.SOURCE;
+        case 'T':
+            return _interfaces.HandlerRole.TARGET;
+        default:
+            throw new Error(`Cannot parse handler ID: ${handlerId}`);
+    }
+}
+function mapContainsValue(map, searchValue) {
+    const entries = map.entries();
+    let isDone = false;
+    do {
+        const { done, value: [, value] } = entries.next();
+        if (value === searchValue) return true;
+        isDone = !!done;
+    }while (!isDone)
+    return false;
+}
+class HandlerRegistryImpl {
+    addSource(type, source) {
+        (0, _contracts.validateType)(type);
+        (0, _contracts.validateSourceContract)(source);
+        const sourceId = this.addHandler(_interfaces.HandlerRole.SOURCE, type, source);
+        this.store.dispatch((0, _registry.addSource)(sourceId));
+        return sourceId;
+    }
+    addTarget(type, target) {
+        (0, _contracts.validateType)(type, true);
+        (0, _contracts.validateTargetContract)(target);
+        const targetId = this.addHandler(_interfaces.HandlerRole.TARGET, type, target);
+        this.store.dispatch((0, _registry.addTarget)(targetId));
+        return targetId;
+    }
+    containsHandler(handler) {
+        return mapContainsValue(this.dragSources, handler) || mapContainsValue(this.dropTargets, handler);
+    }
+    getSource(sourceId, includePinned = false) {
+        (0, _invariant.invariant)(this.isSourceId(sourceId), 'Expected a valid source ID.');
+        const isPinned = includePinned && sourceId === this.pinnedSourceId;
+        const source = isPinned ? this.pinnedSource : this.dragSources.get(sourceId);
+        return source;
+    }
+    getTarget(targetId) {
+        (0, _invariant.invariant)(this.isTargetId(targetId), 'Expected a valid target ID.');
+        return this.dropTargets.get(targetId);
+    }
+    getSourceType(sourceId) {
+        (0, _invariant.invariant)(this.isSourceId(sourceId), 'Expected a valid source ID.');
+        return this.types.get(sourceId);
+    }
+    getTargetType(targetId) {
+        (0, _invariant.invariant)(this.isTargetId(targetId), 'Expected a valid target ID.');
+        return this.types.get(targetId);
+    }
+    isSourceId(handlerId) {
+        const role = parseRoleFromHandlerId(handlerId);
+        return role === _interfaces.HandlerRole.SOURCE;
+    }
+    isTargetId(handlerId) {
+        const role = parseRoleFromHandlerId(handlerId);
+        return role === _interfaces.HandlerRole.TARGET;
+    }
+    removeSource(sourceId) {
+        (0, _invariant.invariant)(this.getSource(sourceId), 'Expected an existing source.');
+        this.store.dispatch((0, _registry.removeSource)(sourceId));
+        (0, _asap.asap)(()=>{
+            this.dragSources.delete(sourceId);
+            this.types.delete(sourceId);
+        });
+    }
+    removeTarget(targetId) {
+        (0, _invariant.invariant)(this.getTarget(targetId), 'Expected an existing target.');
+        this.store.dispatch((0, _registry.removeTarget)(targetId));
+        this.dropTargets.delete(targetId);
+        this.types.delete(targetId);
+    }
+    pinSource(sourceId) {
+        const source = this.getSource(sourceId);
+        (0, _invariant.invariant)(source, 'Expected an existing source.');
+        this.pinnedSourceId = sourceId;
+        this.pinnedSource = source;
+    }
+    unpinSource() {
+        (0, _invariant.invariant)(this.pinnedSource, 'No source is pinned at the time.');
+        this.pinnedSourceId = null;
+        this.pinnedSource = null;
+    }
+    addHandler(role, type, handler) {
+        const id = getNextHandlerId(role);
+        this.types.set(id, type);
+        if (role === _interfaces.HandlerRole.SOURCE) this.dragSources.set(id, handler);
+        else if (role === _interfaces.HandlerRole.TARGET) this.dropTargets.set(id, handler);
+        return id;
+    }
+    constructor(store){
+        this.types = new Map();
+        this.dragSources = new Map();
+        this.dropTargets = new Map();
+        this.pinnedSourceId = null;
+        this.pinnedSource = null;
+        this.store = store;
+    }
+} //# sourceMappingURL=HandlerRegistryImpl.js.map
+
+},
+"node_modules/dnd-core/dist/contracts.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    validateSourceContract: function() {
+        return validateSourceContract;
+    },
+    validateTargetContract: function() {
+        return validateTargetContract;
+    },
+    validateType: function() {
+        return validateType;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+function validateSourceContract(source) {
+    (0, _invariant.invariant)(typeof source.canDrag === 'function', 'Expected canDrag to be a function.');
+    (0, _invariant.invariant)(typeof source.beginDrag === 'function', 'Expected beginDrag to be a function.');
+    (0, _invariant.invariant)(typeof source.endDrag === 'function', 'Expected endDrag to be a function.');
+}
+function validateTargetContract(target) {
+    (0, _invariant.invariant)(typeof target.canDrop === 'function', 'Expected canDrop to be a function.');
+    (0, _invariant.invariant)(typeof target.hover === 'function', 'Expected hover to be a function.');
+    (0, _invariant.invariant)(typeof target.drop === 'function', 'Expected beginDrag to be a function.');
+}
+function validateType(type, allowArray) {
+    if (allowArray && Array.isArray(type)) {
+        type.forEach((t)=>validateType(t, false));
+        return;
+    }
+    (0, _invariant.invariant)(typeof type === 'string' || typeof type === 'symbol', allowArray ? 'Type can only be a string, a symbol, or an array of either.' : 'Type can only be a string or a symbol.');
+} //# sourceMappingURL=contracts.js.map
+
+},
+"node_modules/dnd-core/dist/createDragDropManager.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "createDragDropManager", {
+    enumerable: true,
+    get: function() {
+        return createDragDropManager;
+    }
+});
+var _redux = __mako_require__("node_modules/redux/es/redux.js");
+var _DragDropManagerImpl = __mako_require__("node_modules/dnd-core/dist/classes/DragDropManagerImpl.js");
+var _DragDropMonitorImpl = __mako_require__("node_modules/dnd-core/dist/classes/DragDropMonitorImpl.js");
+var _HandlerRegistryImpl = __mako_require__("node_modules/dnd-core/dist/classes/HandlerRegistryImpl.js");
+var _index = __mako_require__("node_modules/dnd-core/dist/reducers/index.js");
+function createDragDropManager(backendFactory, globalContext, backendOptions = {}, debugMode = false) {
+    const store = makeStoreInstance(debugMode);
+    const monitor = new _DragDropMonitorImpl.DragDropMonitorImpl(store, new _HandlerRegistryImpl.HandlerRegistryImpl(store));
+    const manager = new _DragDropManagerImpl.DragDropManagerImpl(store, monitor);
+    const backend = backendFactory(manager, globalContext, backendOptions);
+    manager.receiveBackend(backend);
+    return manager;
+}
+function makeStoreInstance(debugMode) {
+    // TODO: if we ever make a react-native version of this,
+    // we'll need to consider how to pull off dev-tooling
+    const reduxDevTools = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__;
+    return (0, _redux.createStore)(_index.reduce, debugMode && reduxDevTools && reduxDevTools({
+        name: 'dnd-core',
+        instanceId: 'dnd-core'
+    }));
+} //# sourceMappingURL=createDragDropManager.js.map
+
+},
+"node_modules/dnd-core/dist/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/dnd-core/dist/createDragDropManager.js"), exports);
+_export_star._(__mako_require__("node_modules/dnd-core/dist/interfaces.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/dnd-core/dist/interfaces.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "HandlerRole", {
+    enumerable: true,
+    get: function() {
+        return HandlerRole;
+    }
+});
+var HandlerRole;
+(function(HandlerRole) {
+    HandlerRole["SOURCE"] = "SOURCE";
+    HandlerRole["TARGET"] = "TARGET";
+})(HandlerRole || (HandlerRole = {})); //# sourceMappingURL=interfaces.js.map
+
+},
+"node_modules/dnd-core/dist/reducers/dirtyHandlerIds.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "reduce", {
+    enumerable: true,
+    get: function() {
+        return reduce;
+    }
+});
+var _index = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/index.js");
+var _registry = __mako_require__("node_modules/dnd-core/dist/actions/registry.js");
+var _dirtiness = __mako_require__("node_modules/dnd-core/dist/utils/dirtiness.js");
+var _equality = __mako_require__("node_modules/dnd-core/dist/utils/equality.js");
+var _js_utils = __mako_require__("node_modules/dnd-core/dist/utils/js_utils.js");
+function reduce(_state = _dirtiness.NONE, action) {
+    switch(action.type){
+        case _index.HOVER:
+            break;
+        case _registry.ADD_SOURCE:
+        case _registry.ADD_TARGET:
+        case _registry.REMOVE_TARGET:
+        case _registry.REMOVE_SOURCE:
+            return _dirtiness.NONE;
+        case _index.BEGIN_DRAG:
+        case _index.PUBLISH_DRAG_SOURCE:
+        case _index.END_DRAG:
+        case _index.DROP:
+        default:
+            return _dirtiness.ALL;
+    }
+    const { targetIds = [], prevTargetIds = [] } = action.payload;
+    const result = (0, _js_utils.xor)(targetIds, prevTargetIds);
+    const didChange = result.length > 0 || !(0, _equality.areArraysEqual)(targetIds, prevTargetIds);
+    if (!didChange) return _dirtiness.NONE;
+    // Check the target ids at the innermost position. If they are valid, add them
+    // to the result
+    const prevInnermostTargetId = prevTargetIds[prevTargetIds.length - 1];
+    const innermostTargetId = targetIds[targetIds.length - 1];
+    if (prevInnermostTargetId !== innermostTargetId) {
+        if (prevInnermostTargetId) result.push(prevInnermostTargetId);
+        if (innermostTargetId) result.push(innermostTargetId);
+    }
+    return result;
+} //# sourceMappingURL=dirtyHandlerIds.js.map
+
+},
+"node_modules/dnd-core/dist/reducers/dragOffset.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "reduce", {
+    enumerable: true,
+    get: function() {
+        return reduce;
+    }
+});
+var _index = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/index.js");
+var _equality = __mako_require__("node_modules/dnd-core/dist/utils/equality.js");
+function _defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+function _objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === 'function') ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+        }));
+        ownKeys.forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+        });
+    }
+    return target;
+}
+const initialState = {
+    initialSourceClientOffset: null,
+    initialClientOffset: null,
+    clientOffset: null
+};
+function reduce(state = initialState, action) {
+    const { payload } = action;
+    switch(action.type){
+        case _index.INIT_COORDS:
+        case _index.BEGIN_DRAG:
+            return {
+                initialSourceClientOffset: payload.sourceClientOffset,
+                initialClientOffset: payload.clientOffset,
+                clientOffset: payload.clientOffset
+            };
+        case _index.HOVER:
+            if ((0, _equality.areCoordsEqual)(state.clientOffset, payload.clientOffset)) return state;
+            return _objectSpread({}, state, {
+                clientOffset: payload.clientOffset
+            });
+        case _index.END_DRAG:
+        case _index.DROP:
+            return initialState;
+        default:
+            return state;
+    }
+} //# sourceMappingURL=dragOffset.js.map
+
+},
+"node_modules/dnd-core/dist/reducers/dragOperation.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "reduce", {
+    enumerable: true,
+    get: function() {
+        return reduce;
+    }
+});
+var _index = __mako_require__("node_modules/dnd-core/dist/actions/dragDrop/index.js");
+var _registry = __mako_require__("node_modules/dnd-core/dist/actions/registry.js");
+var _js_utils = __mako_require__("node_modules/dnd-core/dist/utils/js_utils.js");
+function _defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+function _objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === 'function') ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+        }));
+        ownKeys.forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+        });
+    }
+    return target;
+}
+const initialState = {
+    itemType: null,
+    item: null,
+    sourceId: null,
+    targetIds: [],
+    dropResult: null,
+    didDrop: false,
+    isSourcePublic: null
+};
+function reduce(state = initialState, action) {
+    const { payload } = action;
+    switch(action.type){
+        case _index.BEGIN_DRAG:
+            return _objectSpread({}, state, {
+                itemType: payload.itemType,
+                item: payload.item,
+                sourceId: payload.sourceId,
+                isSourcePublic: payload.isSourcePublic,
+                dropResult: null,
+                didDrop: false
+            });
+        case _index.PUBLISH_DRAG_SOURCE:
+            return _objectSpread({}, state, {
+                isSourcePublic: true
+            });
+        case _index.HOVER:
+            return _objectSpread({}, state, {
+                targetIds: payload.targetIds
+            });
+        case _registry.REMOVE_TARGET:
+            if (state.targetIds.indexOf(payload.targetId) === -1) return state;
+            return _objectSpread({}, state, {
+                targetIds: (0, _js_utils.without)(state.targetIds, payload.targetId)
+            });
+        case _index.DROP:
+            return _objectSpread({}, state, {
+                dropResult: payload.dropResult,
+                didDrop: true,
+                targetIds: []
+            });
+        case _index.END_DRAG:
+            return _objectSpread({}, state, {
+                itemType: null,
+                item: null,
+                sourceId: null,
+                dropResult: null,
+                didDrop: false,
+                isSourcePublic: null,
+                targetIds: []
+            });
+        default:
+            return state;
+    }
+} //# sourceMappingURL=dragOperation.js.map
+
+},
+"node_modules/dnd-core/dist/reducers/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "reduce", {
+    enumerable: true,
+    get: function() {
+        return reduce;
+    }
+});
+var _js_utils = __mako_require__("node_modules/dnd-core/dist/utils/js_utils.js");
+var _dirtyHandlerIds = __mako_require__("node_modules/dnd-core/dist/reducers/dirtyHandlerIds.js");
+var _dragOffset = __mako_require__("node_modules/dnd-core/dist/reducers/dragOffset.js");
+var _dragOperation = __mako_require__("node_modules/dnd-core/dist/reducers/dragOperation.js");
+var _refCount = __mako_require__("node_modules/dnd-core/dist/reducers/refCount.js");
+var _stateId = __mako_require__("node_modules/dnd-core/dist/reducers/stateId.js");
+function _defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+function _objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === 'function') ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+        }));
+        ownKeys.forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+        });
+    }
+    return target;
+}
+function reduce(state = {}, action) {
+    return {
+        dirtyHandlerIds: (0, _dirtyHandlerIds.reduce)(state.dirtyHandlerIds, {
+            type: action.type,
+            payload: _objectSpread({}, action.payload, {
+                prevTargetIds: (0, _js_utils.get)(state, 'dragOperation.targetIds', [])
+            })
+        }),
+        dragOffset: (0, _dragOffset.reduce)(state.dragOffset, action),
+        refCount: (0, _refCount.reduce)(state.refCount, action),
+        dragOperation: (0, _dragOperation.reduce)(state.dragOperation, action),
+        stateId: (0, _stateId.reduce)(state.stateId)
+    };
+} //# sourceMappingURL=index.js.map
+
+},
+"node_modules/dnd-core/dist/reducers/refCount.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "reduce", {
+    enumerable: true,
+    get: function() {
+        return reduce;
+    }
+});
+var _registry = __mako_require__("node_modules/dnd-core/dist/actions/registry.js");
+function reduce(state = 0, action) {
+    switch(action.type){
+        case _registry.ADD_SOURCE:
+        case _registry.ADD_TARGET:
+            return state + 1;
+        case _registry.REMOVE_SOURCE:
+        case _registry.REMOVE_TARGET:
+            return state - 1;
+        default:
+            return state;
+    }
+} //# sourceMappingURL=refCount.js.map
+
+},
+"node_modules/dnd-core/dist/reducers/stateId.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "reduce", {
+    enumerable: true,
+    get: function() {
+        return reduce;
+    }
+});
+function reduce(state = 0) {
+    return state + 1;
+} //# sourceMappingURL=stateId.js.map
+
+},
+"node_modules/dnd-core/dist/utils/coords.js": function (module, exports, __mako_require__){
+/**
+ * Coordinate addition
+ * @param a The first coordinate
+ * @param b The second coordinate
+ */ "use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    add: function() {
+        return add;
+    },
+    getDifferenceFromInitialOffset: function() {
+        return getDifferenceFromInitialOffset;
+    },
+    getSourceClientOffset: function() {
+        return getSourceClientOffset;
+    },
+    subtract: function() {
+        return subtract;
+    }
+});
+function add(a, b) {
+    return {
+        x: a.x + b.x,
+        y: a.y + b.y
+    };
+}
+function subtract(a, b) {
+    return {
+        x: a.x - b.x,
+        y: a.y - b.y
+    };
+}
+function getSourceClientOffset(state) {
+    const { clientOffset, initialClientOffset, initialSourceClientOffset } = state;
+    if (!clientOffset || !initialClientOffset || !initialSourceClientOffset) return null;
+    return subtract(add(clientOffset, initialSourceClientOffset), initialClientOffset);
+}
+function getDifferenceFromInitialOffset(state) {
+    const { clientOffset, initialClientOffset } = state;
+    if (!clientOffset || !initialClientOffset) return null;
+    return subtract(clientOffset, initialClientOffset);
+} //# sourceMappingURL=coords.js.map
+
+},
+"node_modules/dnd-core/dist/utils/dirtiness.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    ALL: function() {
+        return ALL;
+    },
+    NONE: function() {
+        return NONE;
+    },
+    areDirty: function() {
+        return areDirty;
+    }
+});
+var _js_utils = __mako_require__("node_modules/dnd-core/dist/utils/js_utils.js");
+const NONE = [];
+const ALL = [];
+NONE.__IS_NONE__ = true;
+ALL.__IS_ALL__ = true;
+function areDirty(dirtyIds, handlerIds) {
+    if (dirtyIds === NONE) return false;
+    if (dirtyIds === ALL || typeof handlerIds === 'undefined') return true;
+    const commonIds = (0, _js_utils.intersection)(handlerIds, dirtyIds);
+    return commonIds.length > 0;
+} //# sourceMappingURL=dirtiness.js.map
+
+},
+"node_modules/dnd-core/dist/utils/equality.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    areArraysEqual: function() {
+        return areArraysEqual;
+    },
+    areCoordsEqual: function() {
+        return areCoordsEqual;
+    },
+    strictEquality: function() {
+        return strictEquality;
+    }
+});
+const strictEquality = (a, b)=>a === b;
+function areCoordsEqual(offsetA, offsetB) {
+    if (!offsetA && !offsetB) return true;
+    else if (!offsetA || !offsetB) return false;
+    else return offsetA.x === offsetB.x && offsetA.y === offsetB.y;
+}
+function areArraysEqual(a, b, isEqual = strictEquality) {
+    if (a.length !== b.length) return false;
+    for(let i = 0; i < a.length; ++i){
+        if (!isEqual(a[i], b[i])) return false;
+    }
+    return true;
+} //# sourceMappingURL=equality.js.map
+
+},
+"node_modules/dnd-core/dist/utils/getNextUniqueId.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "getNextUniqueId", {
+    enumerable: true,
+    get: function() {
+        return getNextUniqueId;
+    }
+});
+let nextUniqueId = 0;
+function getNextUniqueId() {
+    return nextUniqueId++;
+} //# sourceMappingURL=getNextUniqueId.js.map
+
+},
+"node_modules/dnd-core/dist/utils/js_utils.js": function (module, exports, __mako_require__){
+// cheap lodash replacements
+/**
+ * drop-in replacement for _.get
+ * @param obj
+ * @param path
+ * @param defaultValue
+ */ "use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    get: function() {
+        return get;
+    },
+    intersection: function() {
+        return intersection;
+    },
+    isObject: function() {
+        return isObject;
+    },
+    isString: function() {
+        return isString;
+    },
+    without: function() {
+        return without;
+    },
+    xor: function() {
+        return xor;
+    }
+});
+function get(obj, path, defaultValue) {
+    return path.split('.').reduce((a, c)=>a && a[c] ? a[c] : defaultValue || null, obj);
+}
+function without(items, item) {
+    return items.filter((i)=>i !== item);
+}
+function isString(input) {
+    return typeof input === 'string';
+}
+function isObject(input) {
+    return typeof input === 'object';
+}
+function xor(itemsA, itemsB) {
+    const map = new Map();
+    const insertItem = (item)=>{
+        map.set(item, map.has(item) ? map.get(item) + 1 : 1);
+    };
+    itemsA.forEach(insertItem);
+    itemsB.forEach(insertItem);
+    const result = [];
+    map.forEach((count, key)=>{
+        if (count === 1) result.push(key);
+    });
+    return result;
+}
+function intersection(itemsA, itemsB) {
+    return itemsA.filter((t)=>itemsB.indexOf(t) > -1);
+} //# sourceMappingURL=js_utils.js.map
+
+},
+"node_modules/dnd-core/dist/utils/matchesType.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "matchesType", {
+    enumerable: true,
+    get: function() {
+        return matchesType;
+    }
+});
+function matchesType(targetType, draggedItemType) {
+    if (draggedItemType === null) return targetType === null;
+    return Array.isArray(targetType) ? targetType.some((t)=>t === draggedItemType) : targetType === draggedItemType;
+} //# sourceMappingURL=matchesType.js.map
+
+},
 "node_modules/node-libs-browser-okam/polyfill/path.js": function (module, exports, __mako_require__){
 module.exports = __mako_require__("node_modules/path-browserify/index.js");
 
@@ -26323,6 +28166,3106 @@ var substr = 'ab'.substr(-1) === 'b' ? function(str, start, len) {
     if (start < 0) start = str.length + start;
     return str.substr(start, len);
 };
+
+},
+"node_modules/react-dnd-html5-backend/dist/BrowserDetector.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    isFirefox: function() {
+        return isFirefox;
+    },
+    isSafari: function() {
+        return isSafari;
+    }
+});
+var _js_utils = __mako_require__("node_modules/react-dnd-html5-backend/dist/utils/js_utils.js");
+const isFirefox = (0, _js_utils.memoize)(()=>/firefox/i.test(navigator.userAgent));
+const isSafari = (0, _js_utils.memoize)(()=>Boolean(window.safari)); //# sourceMappingURL=BrowserDetector.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/EnterLeaveCounter.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "EnterLeaveCounter", {
+    enumerable: true,
+    get: function() {
+        return EnterLeaveCounter;
+    }
+});
+var _js_utils = __mako_require__("node_modules/react-dnd-html5-backend/dist/utils/js_utils.js");
+class EnterLeaveCounter {
+    enter(enteringNode) {
+        const previousLength = this.entered.length;
+        const isNodeEntered = (node)=>this.isNodeInDocument(node) && (!node.contains || node.contains(enteringNode));
+        this.entered = (0, _js_utils.union)(this.entered.filter(isNodeEntered), [
+            enteringNode
+        ]);
+        return previousLength === 0 && this.entered.length > 0;
+    }
+    leave(leavingNode) {
+        const previousLength = this.entered.length;
+        this.entered = (0, _js_utils.without)(this.entered.filter(this.isNodeInDocument), leavingNode);
+        return previousLength > 0 && this.entered.length === 0;
+    }
+    reset() {
+        this.entered = [];
+    }
+    constructor(isNodeInDocument){
+        this.entered = [];
+        this.isNodeInDocument = isNodeInDocument;
+    }
+} //# sourceMappingURL=EnterLeaveCounter.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/HTML5BackendImpl.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "HTML5BackendImpl", {
+    enumerable: true,
+    get: function() {
+        return HTML5BackendImpl;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _EnterLeaveCounter = __mako_require__("node_modules/react-dnd-html5-backend/dist/EnterLeaveCounter.js");
+var _index = __mako_require__("node_modules/react-dnd-html5-backend/dist/NativeDragSources/index.js");
+var _NativeTypes = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-dnd-html5-backend/dist/NativeTypes.js"));
+var _OffsetUtils = __mako_require__("node_modules/react-dnd-html5-backend/dist/OffsetUtils.js");
+var _OptionsReader = __mako_require__("node_modules/react-dnd-html5-backend/dist/OptionsReader.js");
+function _defineProperty(obj, key, value) {
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+function _objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = arguments[i] != null ? arguments[i] : {};
+        var ownKeys = Object.keys(source);
+        if (typeof Object.getOwnPropertySymbols === 'function') ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+        }));
+        ownKeys.forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+        });
+    }
+    return target;
+}
+class HTML5BackendImpl {
+    /**
+	 * Generate profiling statistics for the HTML5Backend.
+	 */ profile() {
+        var ref, ref1;
+        return {
+            sourcePreviewNodes: this.sourcePreviewNodes.size,
+            sourcePreviewNodeOptions: this.sourcePreviewNodeOptions.size,
+            sourceNodeOptions: this.sourceNodeOptions.size,
+            sourceNodes: this.sourceNodes.size,
+            dragStartSourceIds: ((ref = this.dragStartSourceIds) === null || ref === void 0 ? void 0 : ref.length) || 0,
+            dropTargetIds: this.dropTargetIds.length,
+            dragEnterTargetIds: this.dragEnterTargetIds.length,
+            dragOverTargetIds: ((ref1 = this.dragOverTargetIds) === null || ref1 === void 0 ? void 0 : ref1.length) || 0
+        };
+    }
+    // public for test
+    get window() {
+        return this.options.window;
+    }
+    get document() {
+        return this.options.document;
+    }
+    /**
+	 * Get the root element to use for event subscriptions
+	 */ get rootElement() {
+        return this.options.rootElement;
+    }
+    setup() {
+        const root = this.rootElement;
+        if (root === undefined) return;
+        if (root.__isReactDndBackendSetUp) throw new Error('Cannot have two HTML5 backends at the same time.');
+        root.__isReactDndBackendSetUp = true;
+        this.addEventListeners(root);
+    }
+    teardown() {
+        const root = this.rootElement;
+        if (root === undefined) return;
+        root.__isReactDndBackendSetUp = false;
+        this.removeEventListeners(this.rootElement);
+        this.clearCurrentDragSourceNode();
+        if (this.asyncEndDragFrameId) {
+            var ref;
+            (ref = this.window) === null || ref === void 0 || ref.cancelAnimationFrame(this.asyncEndDragFrameId);
+        }
+    }
+    connectDragPreview(sourceId, node, options) {
+        this.sourcePreviewNodeOptions.set(sourceId, options);
+        this.sourcePreviewNodes.set(sourceId, node);
+        return ()=>{
+            this.sourcePreviewNodes.delete(sourceId);
+            this.sourcePreviewNodeOptions.delete(sourceId);
+        };
+    }
+    connectDragSource(sourceId, node, options) {
+        this.sourceNodes.set(sourceId, node);
+        this.sourceNodeOptions.set(sourceId, options);
+        const handleDragStart = (e)=>this.handleDragStart(e, sourceId);
+        const handleSelectStart = (e)=>this.handleSelectStart(e);
+        node.setAttribute('draggable', 'true');
+        node.addEventListener('dragstart', handleDragStart);
+        node.addEventListener('selectstart', handleSelectStart);
+        return ()=>{
+            this.sourceNodes.delete(sourceId);
+            this.sourceNodeOptions.delete(sourceId);
+            node.removeEventListener('dragstart', handleDragStart);
+            node.removeEventListener('selectstart', handleSelectStart);
+            node.setAttribute('draggable', 'false');
+        };
+    }
+    connectDropTarget(targetId, node) {
+        const handleDragEnter = (e)=>this.handleDragEnter(e, targetId);
+        const handleDragOver = (e)=>this.handleDragOver(e, targetId);
+        const handleDrop = (e)=>this.handleDrop(e, targetId);
+        node.addEventListener('dragenter', handleDragEnter);
+        node.addEventListener('dragover', handleDragOver);
+        node.addEventListener('drop', handleDrop);
+        return ()=>{
+            node.removeEventListener('dragenter', handleDragEnter);
+            node.removeEventListener('dragover', handleDragOver);
+            node.removeEventListener('drop', handleDrop);
+        };
+    }
+    addEventListeners(target) {
+        // SSR Fix (https://github.com/react-dnd/react-dnd/pull/813
+        if (!target.addEventListener) return;
+        target.addEventListener('dragstart', this.handleTopDragStart);
+        target.addEventListener('dragstart', this.handleTopDragStartCapture, true);
+        target.addEventListener('dragend', this.handleTopDragEndCapture, true);
+        target.addEventListener('dragenter', this.handleTopDragEnter);
+        target.addEventListener('dragenter', this.handleTopDragEnterCapture, true);
+        target.addEventListener('dragleave', this.handleTopDragLeaveCapture, true);
+        target.addEventListener('dragover', this.handleTopDragOver);
+        target.addEventListener('dragover', this.handleTopDragOverCapture, true);
+        target.addEventListener('drop', this.handleTopDrop);
+        target.addEventListener('drop', this.handleTopDropCapture, true);
+    }
+    removeEventListeners(target) {
+        // SSR Fix (https://github.com/react-dnd/react-dnd/pull/813
+        if (!target.removeEventListener) return;
+        target.removeEventListener('dragstart', this.handleTopDragStart);
+        target.removeEventListener('dragstart', this.handleTopDragStartCapture, true);
+        target.removeEventListener('dragend', this.handleTopDragEndCapture, true);
+        target.removeEventListener('dragenter', this.handleTopDragEnter);
+        target.removeEventListener('dragenter', this.handleTopDragEnterCapture, true);
+        target.removeEventListener('dragleave', this.handleTopDragLeaveCapture, true);
+        target.removeEventListener('dragover', this.handleTopDragOver);
+        target.removeEventListener('dragover', this.handleTopDragOverCapture, true);
+        target.removeEventListener('drop', this.handleTopDrop);
+        target.removeEventListener('drop', this.handleTopDropCapture, true);
+    }
+    getCurrentSourceNodeOptions() {
+        const sourceId = this.monitor.getSourceId();
+        const sourceNodeOptions = this.sourceNodeOptions.get(sourceId);
+        return _objectSpread({
+            dropEffect: this.altKeyPressed ? 'copy' : 'move'
+        }, sourceNodeOptions || {});
+    }
+    getCurrentDropEffect() {
+        if (this.isDraggingNativeItem()) // It makes more sense to default to 'copy' for native resources
+        return 'copy';
+        return this.getCurrentSourceNodeOptions().dropEffect;
+    }
+    getCurrentSourcePreviewNodeOptions() {
+        const sourceId = this.monitor.getSourceId();
+        const sourcePreviewNodeOptions = this.sourcePreviewNodeOptions.get(sourceId);
+        return _objectSpread({
+            anchorX: 0.5,
+            anchorY: 0.5,
+            captureDraggingState: false
+        }, sourcePreviewNodeOptions || {});
+    }
+    isDraggingNativeItem() {
+        const itemType = this.monitor.getItemType();
+        return Object.keys(_NativeTypes).some((key)=>_NativeTypes[key] === itemType);
+    }
+    beginDragNativeItem(type, dataTransfer) {
+        this.clearCurrentDragSourceNode();
+        this.currentNativeSource = (0, _index.createNativeDragSource)(type, dataTransfer);
+        this.currentNativeHandle = this.registry.addSource(type, this.currentNativeSource);
+        this.actions.beginDrag([
+            this.currentNativeHandle
+        ]);
+    }
+    setCurrentDragSourceNode(node) {
+        this.clearCurrentDragSourceNode();
+        this.currentDragSourceNode = node;
+        // A timeout of > 0 is necessary to resolve Firefox issue referenced
+        // See:
+        //   * https://github.com/react-dnd/react-dnd/pull/928
+        //   * https://github.com/react-dnd/react-dnd/issues/869
+        const MOUSE_MOVE_TIMEOUT = 1000;
+        // Receiving a mouse event in the middle of a dragging operation
+        // means it has ended and the drag source node disappeared from DOM,
+        // so the browser didn't dispatch the dragend event.
+        //
+        // We need to wait before we start listening for mousemove events.
+        // This is needed because the drag preview needs to be drawn or else it fires an 'mousemove' event
+        // immediately in some browsers.
+        //
+        // See:
+        //   * https://github.com/react-dnd/react-dnd/pull/928
+        //   * https://github.com/react-dnd/react-dnd/issues/869
+        //
+        this.mouseMoveTimeoutTimer = setTimeout(()=>{
+            var ref;
+            return (ref = this.rootElement) === null || ref === void 0 ? void 0 : ref.addEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
+        }, MOUSE_MOVE_TIMEOUT);
+    }
+    clearCurrentDragSourceNode() {
+        if (this.currentDragSourceNode) {
+            this.currentDragSourceNode = null;
+            if (this.rootElement) {
+                var ref;
+                (ref = this.window) === null || ref === void 0 || ref.clearTimeout(this.mouseMoveTimeoutTimer || undefined);
+                this.rootElement.removeEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
+            }
+            this.mouseMoveTimeoutTimer = null;
+            return true;
+        }
+        return false;
+    }
+    handleDragStart(e, sourceId) {
+        if (e.defaultPrevented) return;
+        if (!this.dragStartSourceIds) this.dragStartSourceIds = [];
+        this.dragStartSourceIds.unshift(sourceId);
+    }
+    handleDragEnter(_e, targetId) {
+        this.dragEnterTargetIds.unshift(targetId);
+    }
+    handleDragOver(_e, targetId) {
+        if (this.dragOverTargetIds === null) this.dragOverTargetIds = [];
+        this.dragOverTargetIds.unshift(targetId);
+    }
+    handleDrop(_e, targetId) {
+        this.dropTargetIds.unshift(targetId);
+    }
+    constructor(manager, globalContext, options){
+        this.sourcePreviewNodes = new Map();
+        this.sourcePreviewNodeOptions = new Map();
+        this.sourceNodes = new Map();
+        this.sourceNodeOptions = new Map();
+        this.dragStartSourceIds = null;
+        this.dropTargetIds = [];
+        this.dragEnterTargetIds = [];
+        this.currentNativeSource = null;
+        this.currentNativeHandle = null;
+        this.currentDragSourceNode = null;
+        this.altKeyPressed = false;
+        this.mouseMoveTimeoutTimer = null;
+        this.asyncEndDragFrameId = null;
+        this.dragOverTargetIds = null;
+        this.lastClientOffset = null;
+        this.hoverRafId = null;
+        this.getSourceClientOffset = (sourceId)=>{
+            const source = this.sourceNodes.get(sourceId);
+            return source && (0, _OffsetUtils.getNodeClientOffset)(source) || null;
+        };
+        this.endDragNativeItem = ()=>{
+            if (!this.isDraggingNativeItem()) return;
+            this.actions.endDrag();
+            if (this.currentNativeHandle) this.registry.removeSource(this.currentNativeHandle);
+            this.currentNativeHandle = null;
+            this.currentNativeSource = null;
+        };
+        this.isNodeInDocument = (node)=>{
+            // Check the node either in the main document or in the current context
+            return Boolean(node && this.document && this.document.body && this.document.body.contains(node));
+        };
+        this.endDragIfSourceWasRemovedFromDOM = ()=>{
+            const node = this.currentDragSourceNode;
+            if (node == null || this.isNodeInDocument(node)) return;
+            if (this.clearCurrentDragSourceNode() && this.monitor.isDragging()) this.actions.endDrag();
+            this.cancelHover();
+        };
+        this.scheduleHover = (dragOverTargetIds)=>{
+            if (this.hoverRafId === null && typeof requestAnimationFrame !== 'undefined') this.hoverRafId = requestAnimationFrame(()=>{
+                if (this.monitor.isDragging()) this.actions.hover(dragOverTargetIds || [], {
+                    clientOffset: this.lastClientOffset
+                });
+                this.hoverRafId = null;
+            });
+        };
+        this.cancelHover = ()=>{
+            if (this.hoverRafId !== null && typeof cancelAnimationFrame !== 'undefined') {
+                cancelAnimationFrame(this.hoverRafId);
+                this.hoverRafId = null;
+            }
+        };
+        this.handleTopDragStartCapture = ()=>{
+            this.clearCurrentDragSourceNode();
+            this.dragStartSourceIds = [];
+        };
+        this.handleTopDragStart = (e)=>{
+            if (e.defaultPrevented) return;
+            const { dragStartSourceIds } = this;
+            this.dragStartSourceIds = null;
+            const clientOffset = (0, _OffsetUtils.getEventClientOffset)(e);
+            // Avoid crashing if we missed a drop event or our previous drag died
+            if (this.monitor.isDragging()) {
+                this.actions.endDrag();
+                this.cancelHover();
+            }
+            // Don't publish the source just yet (see why below)
+            this.actions.beginDrag(dragStartSourceIds || [], {
+                publishSource: false,
+                getSourceClientOffset: this.getSourceClientOffset,
+                clientOffset
+            });
+            const { dataTransfer } = e;
+            const nativeType = (0, _index.matchNativeItemType)(dataTransfer);
+            if (this.monitor.isDragging()) {
+                if (dataTransfer && typeof dataTransfer.setDragImage === 'function') {
+                    // Use custom drag image if user specifies it.
+                    // If child drag source refuses drag but parent agrees,
+                    // use parent's node as drag image. Neither works in IE though.
+                    const sourceId = this.monitor.getSourceId();
+                    const sourceNode = this.sourceNodes.get(sourceId);
+                    const dragPreview = this.sourcePreviewNodes.get(sourceId) || sourceNode;
+                    if (dragPreview) {
+                        const { anchorX, anchorY, offsetX, offsetY } = this.getCurrentSourcePreviewNodeOptions();
+                        const anchorPoint = {
+                            anchorX,
+                            anchorY
+                        };
+                        const offsetPoint = {
+                            offsetX,
+                            offsetY
+                        };
+                        const dragPreviewOffset = (0, _OffsetUtils.getDragPreviewOffset)(sourceNode, dragPreview, clientOffset, anchorPoint, offsetPoint);
+                        dataTransfer.setDragImage(dragPreview, dragPreviewOffset.x, dragPreviewOffset.y);
+                    }
+                }
+                try {
+                    // Firefox won't drag without setting data
+                    dataTransfer === null || dataTransfer === void 0 || dataTransfer.setData('application/json', {});
+                } catch (err) {
+                // IE doesn't support MIME types in setData
+                }
+                // Store drag source node so we can check whether
+                // it is removed from DOM and trigger endDrag manually.
+                this.setCurrentDragSourceNode(e.target);
+                // Now we are ready to publish the drag source.. or are we not?
+                const { captureDraggingState } = this.getCurrentSourcePreviewNodeOptions();
+                if (!captureDraggingState) // Usually we want to publish it in the next tick so that browser
+                // is able to screenshot the current (not yet dragging) state.
+                //
+                // It also neatly avoids a situation where render() returns null
+                // in the same tick for the source element, and browser freaks out.
+                setTimeout(()=>this.actions.publishDragSource(), 0);
+                else // In some cases the user may want to override this behavior, e.g.
+                // to work around IE not supporting custom drag previews.
+                //
+                // When using a custom drag layer, the only way to prevent
+                // the default drag preview from drawing in IE is to screenshot
+                // the dragging state in which the node itself has zero opacity
+                // and height. In this case, though, returning null from render()
+                // will abruptly end the dragging, which is not obvious.
+                //
+                // This is the reason such behavior is strictly opt-in.
+                this.actions.publishDragSource();
+            } else if (nativeType) // A native item (such as URL) dragged from inside the document
+            this.beginDragNativeItem(nativeType);
+            else if (dataTransfer && !dataTransfer.types && (e.target && !e.target.hasAttribute || !e.target.hasAttribute('draggable'))) // Looks like a Safari bug: dataTransfer.types is null, but there was no draggable.
+            // Just let it drag. It's a native type (URL or text) and will be picked up in
+            // dragenter handler.
+            return;
+            else // If by this time no drag source reacted, tell browser not to drag.
+            e.preventDefault();
+        };
+        this.handleTopDragEndCapture = ()=>{
+            if (this.clearCurrentDragSourceNode() && this.monitor.isDragging()) // Firefox can dispatch this event in an infinite loop
+            // if dragend handler does something like showing an alert.
+            // Only proceed if we have not handled it already.
+            this.actions.endDrag();
+            this.cancelHover();
+        };
+        this.handleTopDragEnterCapture = (e)=>{
+            this.dragEnterTargetIds = [];
+            if (this.isDraggingNativeItem()) {
+                var ref;
+                (ref = this.currentNativeSource) === null || ref === void 0 || ref.loadDataTransfer(e.dataTransfer);
+            }
+            const isFirstEnter = this.enterLeaveCounter.enter(e.target);
+            if (!isFirstEnter || this.monitor.isDragging()) return;
+            const { dataTransfer } = e;
+            const nativeType = (0, _index.matchNativeItemType)(dataTransfer);
+            if (nativeType) // A native item (such as file or URL) dragged from outside the document
+            this.beginDragNativeItem(nativeType, dataTransfer);
+        };
+        this.handleTopDragEnter = (e)=>{
+            const { dragEnterTargetIds } = this;
+            this.dragEnterTargetIds = [];
+            if (!this.monitor.isDragging()) // This is probably a native item type we don't understand.
+            return;
+            this.altKeyPressed = e.altKey;
+            // If the target changes position as the result of `dragenter`, `dragover` might still
+            // get dispatched despite target being no longer there. The easy solution is to check
+            // whether there actually is a target before firing `hover`.
+            if (dragEnterTargetIds.length > 0) this.actions.hover(dragEnterTargetIds, {
+                clientOffset: (0, _OffsetUtils.getEventClientOffset)(e)
+            });
+            const canDrop = dragEnterTargetIds.some((targetId)=>this.monitor.canDropOnTarget(targetId));
+            if (canDrop) {
+                // IE requires this to fire dragover events
+                e.preventDefault();
+                if (e.dataTransfer) e.dataTransfer.dropEffect = this.getCurrentDropEffect();
+            }
+        };
+        this.handleTopDragOverCapture = (e)=>{
+            this.dragOverTargetIds = [];
+            if (this.isDraggingNativeItem()) {
+                var ref;
+                (ref = this.currentNativeSource) === null || ref === void 0 || ref.loadDataTransfer(e.dataTransfer);
+            }
+        };
+        this.handleTopDragOver = (e)=>{
+            const { dragOverTargetIds } = this;
+            this.dragOverTargetIds = [];
+            if (!this.monitor.isDragging()) {
+                // This is probably a native item type we don't understand.
+                // Prevent default "drop and blow away the whole document" action.
+                e.preventDefault();
+                if (e.dataTransfer) e.dataTransfer.dropEffect = 'none';
+                return;
+            }
+            this.altKeyPressed = e.altKey;
+            this.lastClientOffset = (0, _OffsetUtils.getEventClientOffset)(e);
+            this.scheduleHover(dragOverTargetIds);
+            const canDrop = (dragOverTargetIds || []).some((targetId)=>this.monitor.canDropOnTarget(targetId));
+            if (canDrop) {
+                // Show user-specified drop effect.
+                e.preventDefault();
+                if (e.dataTransfer) e.dataTransfer.dropEffect = this.getCurrentDropEffect();
+            } else if (this.isDraggingNativeItem()) // Don't show a nice cursor but still prevent default
+            // "drop and blow away the whole document" action.
+            e.preventDefault();
+            else {
+                e.preventDefault();
+                if (e.dataTransfer) e.dataTransfer.dropEffect = 'none';
+            }
+        };
+        this.handleTopDragLeaveCapture = (e)=>{
+            if (this.isDraggingNativeItem()) e.preventDefault();
+            const isLastLeave = this.enterLeaveCounter.leave(e.target);
+            if (!isLastLeave) return;
+            if (this.isDraggingNativeItem()) setTimeout(()=>this.endDragNativeItem(), 0);
+            this.cancelHover();
+        };
+        this.handleTopDropCapture = (e)=>{
+            this.dropTargetIds = [];
+            if (this.isDraggingNativeItem()) {
+                var ref;
+                e.preventDefault();
+                (ref = this.currentNativeSource) === null || ref === void 0 || ref.loadDataTransfer(e.dataTransfer);
+            } else if ((0, _index.matchNativeItemType)(e.dataTransfer)) // Dragging some elements, like <a> and <img> may still behave like a native drag event,
+            // even if the current drag event matches a user-defined type.
+            // Stop the default behavior when we're not expecting a native item to be dropped.
+            e.preventDefault();
+            this.enterLeaveCounter.reset();
+        };
+        this.handleTopDrop = (e)=>{
+            const { dropTargetIds } = this;
+            this.dropTargetIds = [];
+            this.actions.hover(dropTargetIds, {
+                clientOffset: (0, _OffsetUtils.getEventClientOffset)(e)
+            });
+            this.actions.drop({
+                dropEffect: this.getCurrentDropEffect()
+            });
+            if (this.isDraggingNativeItem()) this.endDragNativeItem();
+            else if (this.monitor.isDragging()) this.actions.endDrag();
+            this.cancelHover();
+        };
+        this.handleSelectStart = (e)=>{
+            const target = e.target;
+            // Only IE requires us to explicitly say
+            // we want drag drop operation to start
+            if (typeof target.dragDrop !== 'function') return;
+            // Inputs and textareas should be selectable
+            if (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA' || target.isContentEditable) return;
+            // For other targets, ask IE
+            // to enable drag and drop
+            e.preventDefault();
+            target.dragDrop();
+        };
+        this.options = new _OptionsReader.OptionsReader(globalContext, options);
+        this.actions = manager.getActions();
+        this.monitor = manager.getMonitor();
+        this.registry = manager.getRegistry();
+        this.enterLeaveCounter = new _EnterLeaveCounter.EnterLeaveCounter(this.isNodeInDocument);
+    }
+} //# sourceMappingURL=HTML5BackendImpl.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/MonotonicInterpolant.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "MonotonicInterpolant", {
+    enumerable: true,
+    get: function() {
+        return MonotonicInterpolant;
+    }
+});
+class MonotonicInterpolant {
+    interpolate(x) {
+        const { xs, ys, c1s, c2s, c3s } = this;
+        // The rightmost point in the dataset should give an exact result
+        let i = xs.length - 1;
+        if (x === xs[i]) return ys[i];
+        // Search for the interval x is in, returning the corresponding y if x is one of the original xs
+        let low = 0;
+        let high = c3s.length - 1;
+        let mid;
+        while(low <= high){
+            mid = Math.floor(0.5 * (low + high));
+            const xHere = xs[mid];
+            if (xHere < x) low = mid + 1;
+            else if (xHere > x) high = mid - 1;
+            else return ys[mid];
+        }
+        i = Math.max(0, high);
+        // Interpolate
+        const diff = x - xs[i];
+        const diffSq = diff * diff;
+        return ys[i] + c1s[i] * diff + c2s[i] * diffSq + c3s[i] * diff * diffSq;
+    }
+    constructor(xs, ys){
+        const { length } = xs;
+        // Rearrange xs and ys so that xs is sorted
+        const indexes = [];
+        for(let i = 0; i < length; i++)indexes.push(i);
+        indexes.sort((a, b)=>xs[a] < xs[b] ? -1 : 1);
+        // Get consecutive differences and slopes
+        const dys = [];
+        const dxs = [];
+        const ms = [];
+        let dx;
+        let dy;
+        for(let i1 = 0; i1 < length - 1; i1++){
+            dx = xs[i1 + 1] - xs[i1];
+            dy = ys[i1 + 1] - ys[i1];
+            dxs.push(dx);
+            dys.push(dy);
+            ms.push(dy / dx);
+        }
+        // Get degree-1 coefficients
+        const c1s = [
+            ms[0]
+        ];
+        for(let i2 = 0; i2 < dxs.length - 1; i2++){
+            const m2 = ms[i2];
+            const mNext = ms[i2 + 1];
+            if (m2 * mNext <= 0) c1s.push(0);
+            else {
+                dx = dxs[i2];
+                const dxNext = dxs[i2 + 1];
+                const common = dx + dxNext;
+                c1s.push(3 * common / ((common + dxNext) / m2 + (common + dx) / mNext));
+            }
+        }
+        c1s.push(ms[ms.length - 1]);
+        // Get degree-2 and degree-3 coefficients
+        const c2s = [];
+        const c3s = [];
+        let m;
+        for(let i3 = 0; i3 < c1s.length - 1; i3++){
+            m = ms[i3];
+            const c1 = c1s[i3];
+            const invDx = 1 / dxs[i3];
+            const common = c1 + c1s[i3 + 1] - m - m;
+            c2s.push((m - c1 - common) * invDx);
+            c3s.push(common * invDx * invDx);
+        }
+        this.xs = xs;
+        this.ys = ys;
+        this.c1s = c1s;
+        this.c2s = c2s;
+        this.c3s = c3s;
+    }
+} //# sourceMappingURL=MonotonicInterpolant.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/NativeDragSources/NativeDragSource.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "NativeDragSource", {
+    enumerable: true,
+    get: function() {
+        return NativeDragSource;
+    }
+});
+class NativeDragSource {
+    initializeExposedProperties() {
+        Object.keys(this.config.exposeProperties).forEach((property)=>{
+            Object.defineProperty(this.item, property, {
+                configurable: true,
+                enumerable: true,
+                get () {
+                    // eslint-disable-next-line no-console
+                    console.warn(`Browser doesn't allow reading "${property}" until the drop event.`);
+                    return null;
+                }
+            });
+        });
+    }
+    loadDataTransfer(dataTransfer) {
+        if (dataTransfer) {
+            const newProperties = {};
+            Object.keys(this.config.exposeProperties).forEach((property)=>{
+                const propertyFn = this.config.exposeProperties[property];
+                if (propertyFn != null) newProperties[property] = {
+                    value: propertyFn(dataTransfer, this.config.matchesTypes),
+                    configurable: true,
+                    enumerable: true
+                };
+            });
+            Object.defineProperties(this.item, newProperties);
+        }
+    }
+    canDrag() {
+        return true;
+    }
+    beginDrag() {
+        return this.item;
+    }
+    isDragging(monitor, handle) {
+        return handle === monitor.getSourceId();
+    }
+    endDrag() {
+    // empty
+    }
+    constructor(config){
+        this.config = config;
+        this.item = {};
+        this.initializeExposedProperties();
+    }
+} //# sourceMappingURL=NativeDragSource.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/NativeDragSources/getDataFromDataTransfer.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "getDataFromDataTransfer", {
+    enumerable: true,
+    get: function() {
+        return getDataFromDataTransfer;
+    }
+});
+function getDataFromDataTransfer(dataTransfer, typesToTry, defaultValue) {
+    const result = typesToTry.reduce((resultSoFar, typeToTry)=>resultSoFar || dataTransfer.getData(typeToTry), '');
+    return result != null ? result : defaultValue;
+} //# sourceMappingURL=getDataFromDataTransfer.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/NativeDragSources/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    createNativeDragSource: function() {
+        return createNativeDragSource;
+    },
+    matchNativeItemType: function() {
+        return matchNativeItemType;
+    }
+});
+var _NativeDragSource = __mako_require__("node_modules/react-dnd-html5-backend/dist/NativeDragSources/NativeDragSource.js");
+var _nativeTypesConfig = __mako_require__("node_modules/react-dnd-html5-backend/dist/NativeDragSources/nativeTypesConfig.js");
+function createNativeDragSource(type, dataTransfer) {
+    const config = _nativeTypesConfig.nativeTypesConfig[type];
+    if (!config) throw new Error(`native type ${type} has no configuration`);
+    const result = new _NativeDragSource.NativeDragSource(config);
+    result.loadDataTransfer(dataTransfer);
+    return result;
+}
+function matchNativeItemType(dataTransfer) {
+    if (!dataTransfer) return null;
+    const dataTransferTypes = Array.prototype.slice.call(dataTransfer.types || []);
+    return Object.keys(_nativeTypesConfig.nativeTypesConfig).filter((nativeItemType)=>{
+        const typeConfig = _nativeTypesConfig.nativeTypesConfig[nativeItemType];
+        if (!(typeConfig === null || typeConfig === void 0 ? void 0 : typeConfig.matchesTypes)) return false;
+        return typeConfig.matchesTypes.some((t)=>dataTransferTypes.indexOf(t) > -1);
+    })[0] || null;
+} //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/NativeDragSources/nativeTypesConfig.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "nativeTypesConfig", {
+    enumerable: true,
+    get: function() {
+        return nativeTypesConfig;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _NativeTypes = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-dnd-html5-backend/dist/NativeTypes.js"));
+var _getDataFromDataTransfer = __mako_require__("node_modules/react-dnd-html5-backend/dist/NativeDragSources/getDataFromDataTransfer.js");
+const nativeTypesConfig = {
+    [_NativeTypes.FILE]: {
+        exposeProperties: {
+            files: (dataTransfer)=>Array.prototype.slice.call(dataTransfer.files),
+            items: (dataTransfer)=>dataTransfer.items,
+            dataTransfer: (dataTransfer)=>dataTransfer
+        },
+        matchesTypes: [
+            'Files'
+        ]
+    },
+    [_NativeTypes.HTML]: {
+        exposeProperties: {
+            html: (dataTransfer, matchesTypes)=>(0, _getDataFromDataTransfer.getDataFromDataTransfer)(dataTransfer, matchesTypes, ''),
+            dataTransfer: (dataTransfer)=>dataTransfer
+        },
+        matchesTypes: [
+            'Html',
+            'text/html'
+        ]
+    },
+    [_NativeTypes.URL]: {
+        exposeProperties: {
+            urls: (dataTransfer, matchesTypes)=>(0, _getDataFromDataTransfer.getDataFromDataTransfer)(dataTransfer, matchesTypes, '').split('\n'),
+            dataTransfer: (dataTransfer)=>dataTransfer
+        },
+        matchesTypes: [
+            'Url',
+            'text/uri-list'
+        ]
+    },
+    [_NativeTypes.TEXT]: {
+        exposeProperties: {
+            text: (dataTransfer, matchesTypes)=>(0, _getDataFromDataTransfer.getDataFromDataTransfer)(dataTransfer, matchesTypes, ''),
+            dataTransfer: (dataTransfer)=>dataTransfer
+        },
+        matchesTypes: [
+            'Text',
+            'text/plain'
+        ]
+    }
+}; //# sourceMappingURL=nativeTypesConfig.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/NativeTypes.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    FILE: function() {
+        return FILE;
+    },
+    HTML: function() {
+        return HTML;
+    },
+    TEXT: function() {
+        return TEXT;
+    },
+    URL: function() {
+        return URL;
+    }
+});
+const FILE = '__NATIVE_FILE__';
+const URL = '__NATIVE_URL__';
+const TEXT = '__NATIVE_TEXT__';
+const HTML = '__NATIVE_HTML__'; //# sourceMappingURL=NativeTypes.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/OffsetUtils.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    getDragPreviewOffset: function() {
+        return getDragPreviewOffset;
+    },
+    getEventClientOffset: function() {
+        return getEventClientOffset;
+    },
+    getNodeClientOffset: function() {
+        return getNodeClientOffset;
+    }
+});
+var _BrowserDetector = __mako_require__("node_modules/react-dnd-html5-backend/dist/BrowserDetector.js");
+var _MonotonicInterpolant = __mako_require__("node_modules/react-dnd-html5-backend/dist/MonotonicInterpolant.js");
+const ELEMENT_NODE = 1;
+function getNodeClientOffset(node) {
+    const el = node.nodeType === ELEMENT_NODE ? node : node.parentElement;
+    if (!el) return null;
+    const { top, left } = el.getBoundingClientRect();
+    return {
+        x: left,
+        y: top
+    };
+}
+function getEventClientOffset(e) {
+    return {
+        x: e.clientX,
+        y: e.clientY
+    };
+}
+function isImageNode(node) {
+    var ref;
+    return node.nodeName === 'IMG' && ((0, _BrowserDetector.isFirefox)() || !((ref = document.documentElement) === null || ref === void 0 ? void 0 : ref.contains(node)));
+}
+function getDragPreviewSize(isImage, dragPreview, sourceWidth, sourceHeight) {
+    let dragPreviewWidth = isImage ? dragPreview.width : sourceWidth;
+    let dragPreviewHeight = isImage ? dragPreview.height : sourceHeight;
+    // Work around @2x coordinate discrepancies in browsers
+    if ((0, _BrowserDetector.isSafari)() && isImage) {
+        dragPreviewHeight /= window.devicePixelRatio;
+        dragPreviewWidth /= window.devicePixelRatio;
+    }
+    return {
+        dragPreviewWidth,
+        dragPreviewHeight
+    };
+}
+function getDragPreviewOffset(sourceNode, dragPreview, clientOffset, anchorPoint, offsetPoint) {
+    // The browsers will use the image intrinsic size under different conditions.
+    // Firefox only cares if it's an image, but WebKit also wants it to be detached.
+    const isImage = isImageNode(dragPreview);
+    const dragPreviewNode = isImage ? sourceNode : dragPreview;
+    const dragPreviewNodeOffsetFromClient = getNodeClientOffset(dragPreviewNode);
+    const offsetFromDragPreview = {
+        x: clientOffset.x - dragPreviewNodeOffsetFromClient.x,
+        y: clientOffset.y - dragPreviewNodeOffsetFromClient.y
+    };
+    const { offsetWidth: sourceWidth, offsetHeight: sourceHeight } = sourceNode;
+    const { anchorX, anchorY } = anchorPoint;
+    const { dragPreviewWidth, dragPreviewHeight } = getDragPreviewSize(isImage, dragPreview, sourceWidth, sourceHeight);
+    const calculateYOffset = ()=>{
+        const interpolantY = new _MonotonicInterpolant.MonotonicInterpolant([
+            0,
+            0.5,
+            1
+        ], [
+            // Dock to the top
+            offsetFromDragPreview.y,
+            // Align at the center
+            offsetFromDragPreview.y / sourceHeight * dragPreviewHeight,
+            // Dock to the bottom
+            offsetFromDragPreview.y + dragPreviewHeight - sourceHeight
+        ]);
+        let y = interpolantY.interpolate(anchorY);
+        // Work around Safari 8 positioning bug
+        if ((0, _BrowserDetector.isSafari)() && isImage) // We'll have to wait for @3x to see if this is entirely correct
+        y += (window.devicePixelRatio - 1) * dragPreviewHeight;
+        return y;
+    };
+    const calculateXOffset = ()=>{
+        // Interpolate coordinates depending on anchor point
+        // If you know a simpler way to do this, let me know
+        const interpolantX = new _MonotonicInterpolant.MonotonicInterpolant([
+            0,
+            0.5,
+            1
+        ], [
+            // Dock to the left
+            offsetFromDragPreview.x,
+            // Align at the center
+            offsetFromDragPreview.x / sourceWidth * dragPreviewWidth,
+            // Dock to the right
+            offsetFromDragPreview.x + dragPreviewWidth - sourceWidth
+        ]);
+        return interpolantX.interpolate(anchorX);
+    };
+    // Force offsets if specified in the options.
+    const { offsetX, offsetY } = offsetPoint;
+    const isManualOffsetX = offsetX === 0 || offsetX;
+    const isManualOffsetY = offsetY === 0 || offsetY;
+    return {
+        x: isManualOffsetX ? offsetX : calculateXOffset(),
+        y: isManualOffsetY ? offsetY : calculateYOffset()
+    };
+} //# sourceMappingURL=OffsetUtils.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/OptionsReader.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "OptionsReader", {
+    enumerable: true,
+    get: function() {
+        return OptionsReader;
+    }
+});
+class OptionsReader {
+    get window() {
+        if (this.globalContext) return this.globalContext;
+        else if (typeof window !== 'undefined') return window;
+        return undefined;
+    }
+    get document() {
+        var ref;
+        if ((ref = this.globalContext) === null || ref === void 0 ? void 0 : ref.document) return this.globalContext.document;
+        else if (this.window) return this.window.document;
+        else return undefined;
+    }
+    get rootElement() {
+        var ref;
+        return ((ref = this.optionsArgs) === null || ref === void 0 ? void 0 : ref.rootElement) || this.window;
+    }
+    constructor(globalContext, options){
+        this.ownerDocument = null;
+        this.globalContext = globalContext;
+        this.optionsArgs = options;
+    }
+} //# sourceMappingURL=OptionsReader.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/getEmptyImage.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "getEmptyImage", {
+    enumerable: true,
+    get: function() {
+        return getEmptyImage;
+    }
+});
+let emptyImage;
+function getEmptyImage() {
+    if (!emptyImage) {
+        emptyImage = new Image();
+        emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    }
+    return emptyImage;
+} //# sourceMappingURL=getEmptyImage.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    HTML5Backend: function() {
+        return HTML5Backend;
+    },
+    NativeTypes: function() {
+        return _NativeTypes;
+    },
+    getEmptyImage: function() {
+        return _getEmptyImage.getEmptyImage;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _HTML5BackendImpl = __mako_require__("node_modules/react-dnd-html5-backend/dist/HTML5BackendImpl.js");
+var _NativeTypes = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-dnd-html5-backend/dist/NativeTypes.js"));
+var _getEmptyImage = __mako_require__("node_modules/react-dnd-html5-backend/dist/getEmptyImage.js");
+const HTML5Backend = function createBackend(manager, context, options) {
+    return new _HTML5BackendImpl.HTML5BackendImpl(manager, context, options);
+}; //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd-html5-backend/dist/utils/js_utils.js": function (module, exports, __mako_require__){
+// cheap lodash replacements
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    memoize: function() {
+        return memoize;
+    },
+    union: function() {
+        return union;
+    },
+    without: function() {
+        return without;
+    }
+});
+function memoize(fn) {
+    let result = null;
+    const memoized = ()=>{
+        if (result == null) result = fn();
+        return result;
+    };
+    return memoized;
+}
+function without(items, item) {
+    return items.filter((i)=>i !== item);
+}
+function union(itemsA, itemsB) {
+    const set = new Set();
+    const insertItem = (item)=>set.add(item);
+    itemsA.forEach(insertItem);
+    itemsB.forEach(insertItem);
+    const result = [];
+    set.forEach((key)=>result.push(key));
+    return result;
+} //# sourceMappingURL=js_utils.js.map
+
+},
+"node_modules/react-dnd/dist/core/DndContext.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DndContext", {
+    enumerable: true,
+    get: function() {
+        return DndContext;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+const DndContext = /*#__PURE__*/ (0, _react.createContext)({
+    dragDropManager: undefined
+}); //# sourceMappingURL=DndContext.js.map
+
+},
+"node_modules/react-dnd/dist/core/DndProvider.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DndProvider", {
+    enumerable: true,
+    get: function() {
+        return DndProvider;
+    }
+});
+var _jsxruntime = __mako_require__("node_modules/react/jsx-runtime.js");
+var _dndcore = __mako_require__("node_modules/dnd-core/dist/index.js");
+var _react = __mako_require__("node_modules/react/index.js");
+var _DndContext = __mako_require__("node_modules/react-dnd/dist/core/DndContext.js");
+const global = __mako_require__("node_modules/node-libs-browser-okam/polyfill/global.js");
+function _objectWithoutProperties(source, excluded) {
+    if (source == null) return {};
+    var target = _objectWithoutPropertiesLoose(source, excluded);
+    var key, i;
+    if (Object.getOwnPropertySymbols) {
+        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+        for(i = 0; i < sourceSymbolKeys.length; i++){
+            key = sourceSymbolKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
+let refCount = 0;
+const INSTANCE_SYM = Symbol.for('__REACT_DND_CONTEXT_INSTANCE__');
+var DndProvider = /*#__PURE__*/ (0, _react.memo)(function DndProvider(_param) {
+    var { children } = _param, props = _objectWithoutProperties(_param, [
+        "children"
+    ]);
+    const [manager, isGlobalInstance] = getDndContextValue(props) // memoized from props
+    ;
+    /**
+		 * If the global context was used to store the DND context
+		 * then where theres no more references to it we should
+		 * clean it up to avoid memory leaks
+		 */ (0, _react.useEffect)(()=>{
+        if (isGlobalInstance) {
+            const context = getGlobalContext();
+            ++refCount;
+            return ()=>{
+                if (--refCount === 0) context[INSTANCE_SYM] = null;
+            };
+        }
+        return;
+    }, []);
+    return /*#__PURE__*/ (0, _jsxruntime.jsx)(_DndContext.DndContext.Provider, {
+        value: manager,
+        children: children
+    });
+});
+function getDndContextValue(props) {
+    if ('manager' in props) {
+        const manager = {
+            dragDropManager: props.manager
+        };
+        return [
+            manager,
+            false
+        ];
+    }
+    const manager = createSingletonDndContext(props.backend, props.context, props.options, props.debugMode);
+    const isGlobalInstance = !props.context;
+    return [
+        manager,
+        isGlobalInstance
+    ];
+}
+function createSingletonDndContext(backend, context = getGlobalContext(), options, debugMode) {
+    const ctx = context;
+    if (!ctx[INSTANCE_SYM]) ctx[INSTANCE_SYM] = {
+        dragDropManager: (0, _dndcore.createDragDropManager)(backend, context, options, debugMode)
+    };
+    return ctx[INSTANCE_SYM];
+}
+function getGlobalContext() {
+    return typeof global !== 'undefined' ? global : window;
+} //# sourceMappingURL=DndProvider.js.map
+
+},
+"node_modules/react-dnd/dist/core/DragPreviewImage.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DragPreviewImage", {
+    enumerable: true,
+    get: function() {
+        return DragPreviewImage;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+const DragPreviewImage = /*#__PURE__*/ (0, _react.memo)(function DragPreviewImage({ connect, src }) {
+    (0, _react.useEffect)(()=>{
+        if (typeof Image === 'undefined') return;
+        let connected = false;
+        const img = new Image();
+        img.src = src;
+        img.onload = ()=>{
+            connect(img);
+            connected = true;
+        };
+        return ()=>{
+            if (connected) connect(null);
+        };
+    });
+    return null;
+}); //# sourceMappingURL=DragPreviewImage.js.map
+
+},
+"node_modules/react-dnd/dist/core/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/react-dnd/dist/core/DndContext.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/core/DndProvider.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/core/DragPreviewImage.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/react-dnd/dist/hooks/types.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/hooks/useDrag/index.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/hooks/useDragDropManager.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/hooks/useDragLayer.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/hooks/useDrop/index.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/types.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+ //# sourceMappingURL=types.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useCollectedProps.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useCollectedProps", {
+    enumerable: true,
+    get: function() {
+        return useCollectedProps;
+    }
+});
+var _useMonitorOutput = __mako_require__("node_modules/react-dnd/dist/hooks/useMonitorOutput.js");
+function useCollectedProps(collector, monitor, connector) {
+    return (0, _useMonitorOutput.useMonitorOutput)(monitor, collector || (()=>({})), ()=>connector.reconnect());
+} //# sourceMappingURL=useCollectedProps.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useCollector.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useCollector", {
+    enumerable: true,
+    get: function() {
+        return useCollector;
+    }
+});
+var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
+var _fastdeepequal = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/fast-deep-equal/index.js"));
+var _react = __mako_require__("node_modules/react/index.js");
+var _useIsomorphicLayoutEffect = __mako_require__("node_modules/react-dnd/dist/hooks/useIsomorphicLayoutEffect.js");
+function useCollector(monitor, collect, onUpdate) {
+    const [collected, setCollected] = (0, _react.useState)(()=>collect(monitor));
+    const updateCollected = (0, _react.useCallback)(()=>{
+        const nextValue = collect(monitor);
+        // This needs to be a deep-equality check because some monitor-collected values
+        // include XYCoord objects that may be equivalent, but do not have instance equality.
+        if (!(0, _fastdeepequal.default)(collected, nextValue)) {
+            setCollected(nextValue);
+            if (onUpdate) onUpdate();
+        }
+    }, [
+        collected,
+        monitor,
+        onUpdate
+    ]);
+    // update the collected properties after react renders.
+    // Note that the "Dustbin Stress Test" fails if this is not
+    // done when the component updates
+    (0, _useIsomorphicLayoutEffect.useIsomorphicLayoutEffect)(updateCollected);
+    return [
+        collected,
+        updateCollected
+    ];
+} //# sourceMappingURL=useCollector.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/DragSourceImpl.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DragSourceImpl", {
+    enumerable: true,
+    get: function() {
+        return DragSourceImpl;
+    }
+});
+class DragSourceImpl {
+    beginDrag() {
+        const spec = this.spec;
+        const monitor = this.monitor;
+        let result = null;
+        if (typeof spec.item === 'object') result = spec.item;
+        else if (typeof spec.item === 'function') result = spec.item(monitor);
+        else result = {};
+        return result !== null && result !== void 0 ? result : null;
+    }
+    canDrag() {
+        const spec = this.spec;
+        const monitor = this.monitor;
+        if (typeof spec.canDrag === 'boolean') return spec.canDrag;
+        else if (typeof spec.canDrag === 'function') return spec.canDrag(monitor);
+        else return true;
+    }
+    isDragging(globalMonitor, target) {
+        const spec = this.spec;
+        const monitor = this.monitor;
+        const { isDragging } = spec;
+        return isDragging ? isDragging(monitor) : target === globalMonitor.getSourceId();
+    }
+    endDrag() {
+        const spec = this.spec;
+        const monitor = this.monitor;
+        const connector = this.connector;
+        const { end } = spec;
+        if (end) end(monitor.getItem(), monitor);
+        connector.reconnect();
+    }
+    constructor(spec, monitor, connector){
+        this.spec = spec;
+        this.monitor = monitor;
+        this.connector = connector;
+    }
+} //# sourceMappingURL=DragSourceImpl.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/connectors.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    useConnectDragPreview: function() {
+        return useConnectDragPreview;
+    },
+    useConnectDragSource: function() {
+        return useConnectDragSource;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+function useConnectDragSource(connector) {
+    return (0, _react.useMemo)(()=>connector.hooks.dragSource(), [
+        connector
+    ]);
+}
+function useConnectDragPreview(connector) {
+    return (0, _react.useMemo)(()=>connector.hooks.dragPreview(), [
+        connector
+    ]);
+} //# sourceMappingURL=connectors.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/react-dnd/dist/hooks/useDrag/useDrag.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/useDrag.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDrag", {
+    enumerable: true,
+    get: function() {
+        return useDrag;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _useCollectedProps = __mako_require__("node_modules/react-dnd/dist/hooks/useCollectedProps.js");
+var _useOptionalFactory = __mako_require__("node_modules/react-dnd/dist/hooks/useOptionalFactory.js");
+var _connectors = __mako_require__("node_modules/react-dnd/dist/hooks/useDrag/connectors.js");
+var _useDragSourceConnector = __mako_require__("node_modules/react-dnd/dist/hooks/useDrag/useDragSourceConnector.js");
+var _useDragSourceMonitor = __mako_require__("node_modules/react-dnd/dist/hooks/useDrag/useDragSourceMonitor.js");
+var _useRegisteredDragSource = __mako_require__("node_modules/react-dnd/dist/hooks/useDrag/useRegisteredDragSource.js");
+function useDrag(specArg, deps) {
+    const spec = (0, _useOptionalFactory.useOptionalFactory)(specArg, deps);
+    (0, _invariant.invariant)(!spec.begin, `useDrag::spec.begin was deprecated in v14. Replace spec.begin() with spec.item(). (see more here - https://react-dnd.github.io/react-dnd/docs/api/use-drag)`);
+    const monitor = (0, _useDragSourceMonitor.useDragSourceMonitor)();
+    const connector = (0, _useDragSourceConnector.useDragSourceConnector)(spec.options, spec.previewOptions);
+    (0, _useRegisteredDragSource.useRegisteredDragSource)(spec, monitor, connector);
+    return [
+        (0, _useCollectedProps.useCollectedProps)(spec.collect, monitor, connector),
+        (0, _connectors.useConnectDragSource)(connector),
+        (0, _connectors.useConnectDragPreview)(connector)
+    ];
+} //# sourceMappingURL=useDrag.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/useDragSource.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDragSource", {
+    enumerable: true,
+    get: function() {
+        return useDragSource;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+var _DragSourceImpl = __mako_require__("node_modules/react-dnd/dist/hooks/useDrag/DragSourceImpl.js");
+function useDragSource(spec, monitor, connector) {
+    const handler = (0, _react.useMemo)(()=>new _DragSourceImpl.DragSourceImpl(spec, monitor, connector), [
+        monitor,
+        connector
+    ]);
+    (0, _react.useEffect)(()=>{
+        handler.spec = spec;
+    }, [
+        spec
+    ]);
+    return handler;
+} //# sourceMappingURL=useDragSource.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/useDragSourceConnector.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDragSourceConnector", {
+    enumerable: true,
+    get: function() {
+        return useDragSourceConnector;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+var _index = __mako_require__("node_modules/react-dnd/dist/internals/index.js");
+var _useDragDropManager = __mako_require__("node_modules/react-dnd/dist/hooks/useDragDropManager.js");
+var _useIsomorphicLayoutEffect = __mako_require__("node_modules/react-dnd/dist/hooks/useIsomorphicLayoutEffect.js");
+function useDragSourceConnector(dragSourceOptions, dragPreviewOptions) {
+    const manager = (0, _useDragDropManager.useDragDropManager)();
+    const connector = (0, _react.useMemo)(()=>new _index.SourceConnector(manager.getBackend()), [
+        manager
+    ]);
+    (0, _useIsomorphicLayoutEffect.useIsomorphicLayoutEffect)(()=>{
+        connector.dragSourceOptions = dragSourceOptions || null;
+        connector.reconnect();
+        return ()=>connector.disconnectDragSource();
+    }, [
+        connector,
+        dragSourceOptions
+    ]);
+    (0, _useIsomorphicLayoutEffect.useIsomorphicLayoutEffect)(()=>{
+        connector.dragPreviewOptions = dragPreviewOptions || null;
+        connector.reconnect();
+        return ()=>connector.disconnectDragPreview();
+    }, [
+        connector,
+        dragPreviewOptions
+    ]);
+    return connector;
+} //# sourceMappingURL=useDragSourceConnector.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/useDragSourceMonitor.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDragSourceMonitor", {
+    enumerable: true,
+    get: function() {
+        return useDragSourceMonitor;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+var _index = __mako_require__("node_modules/react-dnd/dist/internals/index.js");
+var _useDragDropManager = __mako_require__("node_modules/react-dnd/dist/hooks/useDragDropManager.js");
+function useDragSourceMonitor() {
+    const manager = (0, _useDragDropManager.useDragDropManager)();
+    return (0, _react.useMemo)(()=>new _index.DragSourceMonitorImpl(manager), [
+        manager
+    ]);
+} //# sourceMappingURL=useDragSourceMonitor.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/useDragType.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDragType", {
+    enumerable: true,
+    get: function() {
+        return useDragType;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _react = __mako_require__("node_modules/react/index.js");
+function useDragType(spec) {
+    return (0, _react.useMemo)(()=>{
+        const result = spec.type;
+        (0, _invariant.invariant)(result != null, 'spec.type must be defined');
+        return result;
+    }, [
+        spec
+    ]);
+} //# sourceMappingURL=useDragType.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrag/useRegisteredDragSource.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useRegisteredDragSource", {
+    enumerable: true,
+    get: function() {
+        return useRegisteredDragSource;
+    }
+});
+var _index = __mako_require__("node_modules/react-dnd/dist/internals/index.js");
+var _useDragDropManager = __mako_require__("node_modules/react-dnd/dist/hooks/useDragDropManager.js");
+var _useIsomorphicLayoutEffect = __mako_require__("node_modules/react-dnd/dist/hooks/useIsomorphicLayoutEffect.js");
+var _useDragSource = __mako_require__("node_modules/react-dnd/dist/hooks/useDrag/useDragSource.js");
+var _useDragType = __mako_require__("node_modules/react-dnd/dist/hooks/useDrag/useDragType.js");
+function useRegisteredDragSource(spec, monitor, connector) {
+    const manager = (0, _useDragDropManager.useDragDropManager)();
+    const handler = (0, _useDragSource.useDragSource)(spec, monitor, connector);
+    const itemType = (0, _useDragType.useDragType)(spec);
+    (0, _useIsomorphicLayoutEffect.useIsomorphicLayoutEffect)(function registerDragSource() {
+        if (itemType != null) {
+            const [handlerId, unregister] = (0, _index.registerSource)(itemType, handler, manager);
+            monitor.receiveHandlerId(handlerId);
+            connector.receiveHandlerId(handlerId);
+            return unregister;
+        }
+        return;
+    }, [
+        manager,
+        monitor,
+        connector,
+        handler,
+        itemType
+    ]);
+} //# sourceMappingURL=useRegisteredDragSource.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDragDropManager.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDragDropManager", {
+    enumerable: true,
+    get: function() {
+        return useDragDropManager;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _react = __mako_require__("node_modules/react/index.js");
+var _index = __mako_require__("node_modules/react-dnd/dist/core/index.js");
+function useDragDropManager() {
+    const { dragDropManager } = (0, _react.useContext)(_index.DndContext);
+    (0, _invariant.invariant)(dragDropManager != null, 'Expected drag drop context');
+    return dragDropManager;
+} //# sourceMappingURL=useDragDropManager.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDragLayer.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDragLayer", {
+    enumerable: true,
+    get: function() {
+        return useDragLayer;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+var _useCollector = __mako_require__("node_modules/react-dnd/dist/hooks/useCollector.js");
+var _useDragDropManager = __mako_require__("node_modules/react-dnd/dist/hooks/useDragDropManager.js");
+function useDragLayer(collect) {
+    const dragDropManager = (0, _useDragDropManager.useDragDropManager)();
+    const monitor = dragDropManager.getMonitor();
+    const [collected, updateCollected] = (0, _useCollector.useCollector)(monitor, collect);
+    (0, _react.useEffect)(()=>monitor.subscribeToOffsetChange(updateCollected));
+    (0, _react.useEffect)(()=>monitor.subscribeToStateChange(updateCollected));
+    return collected;
+} //# sourceMappingURL=useDragLayer.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/DropTargetImpl.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DropTargetImpl", {
+    enumerable: true,
+    get: function() {
+        return DropTargetImpl;
+    }
+});
+class DropTargetImpl {
+    canDrop() {
+        const spec = this.spec;
+        const monitor = this.monitor;
+        return spec.canDrop ? spec.canDrop(monitor.getItem(), monitor) : true;
+    }
+    hover() {
+        const spec = this.spec;
+        const monitor = this.monitor;
+        if (spec.hover) spec.hover(monitor.getItem(), monitor);
+    }
+    drop() {
+        const spec = this.spec;
+        const monitor = this.monitor;
+        if (spec.drop) return spec.drop(monitor.getItem(), monitor);
+        return;
+    }
+    constructor(spec, monitor){
+        this.spec = spec;
+        this.monitor = monitor;
+    }
+} //# sourceMappingURL=DropTargetImpl.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/connectors.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useConnectDropTarget", {
+    enumerable: true,
+    get: function() {
+        return useConnectDropTarget;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+function useConnectDropTarget(connector) {
+    return (0, _react.useMemo)(()=>connector.hooks.dropTarget(), [
+        connector
+    ]);
+} //# sourceMappingURL=connectors.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/react-dnd/dist/hooks/useDrop/useDrop.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/useAccept.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useAccept", {
+    enumerable: true,
+    get: function() {
+        return useAccept;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _react = __mako_require__("node_modules/react/index.js");
+function useAccept(spec) {
+    const { accept } = spec;
+    return (0, _react.useMemo)(()=>{
+        (0, _invariant.invariant)(spec.accept != null, 'accept must be defined');
+        return Array.isArray(accept) ? accept : [
+            accept
+        ];
+    }, [
+        accept
+    ]);
+} //# sourceMappingURL=useAccept.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/useDrop.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDrop", {
+    enumerable: true,
+    get: function() {
+        return useDrop;
+    }
+});
+var _useCollectedProps = __mako_require__("node_modules/react-dnd/dist/hooks/useCollectedProps.js");
+var _useOptionalFactory = __mako_require__("node_modules/react-dnd/dist/hooks/useOptionalFactory.js");
+var _connectors = __mako_require__("node_modules/react-dnd/dist/hooks/useDrop/connectors.js");
+var _useDropTargetConnector = __mako_require__("node_modules/react-dnd/dist/hooks/useDrop/useDropTargetConnector.js");
+var _useDropTargetMonitor = __mako_require__("node_modules/react-dnd/dist/hooks/useDrop/useDropTargetMonitor.js");
+var _useRegisteredDropTarget = __mako_require__("node_modules/react-dnd/dist/hooks/useDrop/useRegisteredDropTarget.js");
+function useDrop(specArg, deps) {
+    const spec = (0, _useOptionalFactory.useOptionalFactory)(specArg, deps);
+    const monitor = (0, _useDropTargetMonitor.useDropTargetMonitor)();
+    const connector = (0, _useDropTargetConnector.useDropTargetConnector)(spec.options);
+    (0, _useRegisteredDropTarget.useRegisteredDropTarget)(spec, monitor, connector);
+    return [
+        (0, _useCollectedProps.useCollectedProps)(spec.collect, monitor, connector),
+        (0, _connectors.useConnectDropTarget)(connector)
+    ];
+} //# sourceMappingURL=useDrop.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/useDropTarget.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDropTarget", {
+    enumerable: true,
+    get: function() {
+        return useDropTarget;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+var _DropTargetImpl = __mako_require__("node_modules/react-dnd/dist/hooks/useDrop/DropTargetImpl.js");
+function useDropTarget(spec, monitor) {
+    const dropTarget = (0, _react.useMemo)(()=>new _DropTargetImpl.DropTargetImpl(spec, monitor), [
+        monitor
+    ]);
+    (0, _react.useEffect)(()=>{
+        dropTarget.spec = spec;
+    }, [
+        spec
+    ]);
+    return dropTarget;
+} //# sourceMappingURL=useDropTarget.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/useDropTargetConnector.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDropTargetConnector", {
+    enumerable: true,
+    get: function() {
+        return useDropTargetConnector;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+var _index = __mako_require__("node_modules/react-dnd/dist/internals/index.js");
+var _useDragDropManager = __mako_require__("node_modules/react-dnd/dist/hooks/useDragDropManager.js");
+var _useIsomorphicLayoutEffect = __mako_require__("node_modules/react-dnd/dist/hooks/useIsomorphicLayoutEffect.js");
+function useDropTargetConnector(options) {
+    const manager = (0, _useDragDropManager.useDragDropManager)();
+    const connector = (0, _react.useMemo)(()=>new _index.TargetConnector(manager.getBackend()), [
+        manager
+    ]);
+    (0, _useIsomorphicLayoutEffect.useIsomorphicLayoutEffect)(()=>{
+        connector.dropTargetOptions = options || null;
+        connector.reconnect();
+        return ()=>connector.disconnectDropTarget();
+    }, [
+        options
+    ]);
+    return connector;
+} //# sourceMappingURL=useDropTargetConnector.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/useDropTargetMonitor.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useDropTargetMonitor", {
+    enumerable: true,
+    get: function() {
+        return useDropTargetMonitor;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+var _index = __mako_require__("node_modules/react-dnd/dist/internals/index.js");
+var _useDragDropManager = __mako_require__("node_modules/react-dnd/dist/hooks/useDragDropManager.js");
+function useDropTargetMonitor() {
+    const manager = (0, _useDragDropManager.useDragDropManager)();
+    return (0, _react.useMemo)(()=>new _index.DropTargetMonitorImpl(manager), [
+        manager
+    ]);
+} //# sourceMappingURL=useDropTargetMonitor.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useDrop/useRegisteredDropTarget.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useRegisteredDropTarget", {
+    enumerable: true,
+    get: function() {
+        return useRegisteredDropTarget;
+    }
+});
+var _index = __mako_require__("node_modules/react-dnd/dist/internals/index.js");
+var _useDragDropManager = __mako_require__("node_modules/react-dnd/dist/hooks/useDragDropManager.js");
+var _useIsomorphicLayoutEffect = __mako_require__("node_modules/react-dnd/dist/hooks/useIsomorphicLayoutEffect.js");
+var _useAccept = __mako_require__("node_modules/react-dnd/dist/hooks/useDrop/useAccept.js");
+var _useDropTarget = __mako_require__("node_modules/react-dnd/dist/hooks/useDrop/useDropTarget.js");
+function useRegisteredDropTarget(spec, monitor, connector) {
+    const manager = (0, _useDragDropManager.useDragDropManager)();
+    const dropTarget = (0, _useDropTarget.useDropTarget)(spec, monitor);
+    const accept = (0, _useAccept.useAccept)(spec);
+    (0, _useIsomorphicLayoutEffect.useIsomorphicLayoutEffect)(function registerDropTarget() {
+        const [handlerId, unregister] = (0, _index.registerTarget)(accept, dropTarget, manager);
+        monitor.receiveHandlerId(handlerId);
+        connector.receiveHandlerId(handlerId);
+        return unregister;
+    }, [
+        manager,
+        monitor,
+        dropTarget,
+        connector,
+        accept.map((a)=>a.toString()).join('|')
+    ]);
+} //# sourceMappingURL=useRegisteredDropTarget.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useIsomorphicLayoutEffect.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useIsomorphicLayoutEffect", {
+    enumerable: true,
+    get: function() {
+        return useIsomorphicLayoutEffect;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? _react.useLayoutEffect : _react.useEffect; //# sourceMappingURL=useIsomorphicLayoutEffect.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useMonitorOutput.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useMonitorOutput", {
+    enumerable: true,
+    get: function() {
+        return useMonitorOutput;
+    }
+});
+var _useCollector = __mako_require__("node_modules/react-dnd/dist/hooks/useCollector.js");
+var _useIsomorphicLayoutEffect = __mako_require__("node_modules/react-dnd/dist/hooks/useIsomorphicLayoutEffect.js");
+function useMonitorOutput(monitor, collect, onCollect) {
+    const [collected, updateCollected] = (0, _useCollector.useCollector)(monitor, collect, onCollect);
+    (0, _useIsomorphicLayoutEffect.useIsomorphicLayoutEffect)(function subscribeToMonitorStateChange() {
+        const handlerId = monitor.getHandlerId();
+        if (handlerId == null) return;
+        return monitor.subscribeToStateChange(updateCollected, {
+            handlerIds: [
+                handlerId
+            ]
+        });
+    }, [
+        monitor,
+        updateCollected
+    ]);
+    return collected;
+} //# sourceMappingURL=useMonitorOutput.js.map
+
+},
+"node_modules/react-dnd/dist/hooks/useOptionalFactory.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "useOptionalFactory", {
+    enumerable: true,
+    get: function() {
+        return useOptionalFactory;
+    }
+});
+var _react = __mako_require__("node_modules/react/index.js");
+function useOptionalFactory(arg, deps) {
+    const memoDeps = [
+        ...deps || []
+    ];
+    if (deps == null && typeof arg !== 'function') memoDeps.push(arg);
+    return (0, _react.useMemo)(()=>{
+        return typeof arg === 'function' ? arg() : arg;
+    }, memoDeps);
+} //# sourceMappingURL=useOptionalFactory.js.map
+
+},
+"node_modules/react-dnd/dist/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/react-dnd/dist/core/index.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/hooks/index.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/types/index.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd/dist/internals/DragSourceMonitorImpl.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DragSourceMonitorImpl", {
+    enumerable: true,
+    get: function() {
+        return DragSourceMonitorImpl;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+let isCallingCanDrag = false;
+let isCallingIsDragging = false;
+class DragSourceMonitorImpl {
+    receiveHandlerId(sourceId) {
+        this.sourceId = sourceId;
+    }
+    getHandlerId() {
+        return this.sourceId;
+    }
+    canDrag() {
+        (0, _invariant.invariant)(!isCallingCanDrag, "You may not call monitor.canDrag() inside your canDrag() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drag-source-monitor");
+        try {
+            isCallingCanDrag = true;
+            return this.internalMonitor.canDragSource(this.sourceId);
+        } finally{
+            isCallingCanDrag = false;
+        }
+    }
+    isDragging() {
+        if (!this.sourceId) return false;
+        (0, _invariant.invariant)(!isCallingIsDragging, "You may not call monitor.isDragging() inside your isDragging() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drag-source-monitor");
+        try {
+            isCallingIsDragging = true;
+            return this.internalMonitor.isDraggingSource(this.sourceId);
+        } finally{
+            isCallingIsDragging = false;
+        }
+    }
+    subscribeToStateChange(listener, options) {
+        return this.internalMonitor.subscribeToStateChange(listener, options);
+    }
+    isDraggingSource(sourceId) {
+        return this.internalMonitor.isDraggingSource(sourceId);
+    }
+    isOverTarget(targetId, options) {
+        return this.internalMonitor.isOverTarget(targetId, options);
+    }
+    getTargetIds() {
+        return this.internalMonitor.getTargetIds();
+    }
+    isSourcePublic() {
+        return this.internalMonitor.isSourcePublic();
+    }
+    getSourceId() {
+        return this.internalMonitor.getSourceId();
+    }
+    subscribeToOffsetChange(listener) {
+        return this.internalMonitor.subscribeToOffsetChange(listener);
+    }
+    canDragSource(sourceId) {
+        return this.internalMonitor.canDragSource(sourceId);
+    }
+    canDropOnTarget(targetId) {
+        return this.internalMonitor.canDropOnTarget(targetId);
+    }
+    getItemType() {
+        return this.internalMonitor.getItemType();
+    }
+    getItem() {
+        return this.internalMonitor.getItem();
+    }
+    getDropResult() {
+        return this.internalMonitor.getDropResult();
+    }
+    didDrop() {
+        return this.internalMonitor.didDrop();
+    }
+    getInitialClientOffset() {
+        return this.internalMonitor.getInitialClientOffset();
+    }
+    getInitialSourceClientOffset() {
+        return this.internalMonitor.getInitialSourceClientOffset();
+    }
+    getSourceClientOffset() {
+        return this.internalMonitor.getSourceClientOffset();
+    }
+    getClientOffset() {
+        return this.internalMonitor.getClientOffset();
+    }
+    getDifferenceFromInitialOffset() {
+        return this.internalMonitor.getDifferenceFromInitialOffset();
+    }
+    constructor(manager){
+        this.sourceId = null;
+        this.internalMonitor = manager.getMonitor();
+    }
+} //# sourceMappingURL=DragSourceMonitorImpl.js.map
+
+},
+"node_modules/react-dnd/dist/internals/DropTargetMonitorImpl.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "DropTargetMonitorImpl", {
+    enumerable: true,
+    get: function() {
+        return DropTargetMonitorImpl;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+let isCallingCanDrop = false;
+class DropTargetMonitorImpl {
+    receiveHandlerId(targetId) {
+        this.targetId = targetId;
+    }
+    getHandlerId() {
+        return this.targetId;
+    }
+    subscribeToStateChange(listener, options) {
+        return this.internalMonitor.subscribeToStateChange(listener, options);
+    }
+    canDrop() {
+        // Cut out early if the target id has not been set. This should prevent errors
+        // where the user has an older version of dnd-core like in
+        // https://github.com/react-dnd/react-dnd/issues/1310
+        if (!this.targetId) return false;
+        (0, _invariant.invariant)(!isCallingCanDrop, "You may not call monitor.canDrop() inside your canDrop() implementation. Read more: http://react-dnd.github.io/react-dnd/docs/api/drop-target-monitor");
+        try {
+            isCallingCanDrop = true;
+            return this.internalMonitor.canDropOnTarget(this.targetId);
+        } finally{
+            isCallingCanDrop = false;
+        }
+    }
+    isOver(options) {
+        if (!this.targetId) return false;
+        return this.internalMonitor.isOverTarget(this.targetId, options);
+    }
+    getItemType() {
+        return this.internalMonitor.getItemType();
+    }
+    getItem() {
+        return this.internalMonitor.getItem();
+    }
+    getDropResult() {
+        return this.internalMonitor.getDropResult();
+    }
+    didDrop() {
+        return this.internalMonitor.didDrop();
+    }
+    getInitialClientOffset() {
+        return this.internalMonitor.getInitialClientOffset();
+    }
+    getInitialSourceClientOffset() {
+        return this.internalMonitor.getInitialSourceClientOffset();
+    }
+    getSourceClientOffset() {
+        return this.internalMonitor.getSourceClientOffset();
+    }
+    getClientOffset() {
+        return this.internalMonitor.getClientOffset();
+    }
+    getDifferenceFromInitialOffset() {
+        return this.internalMonitor.getDifferenceFromInitialOffset();
+    }
+    constructor(manager){
+        this.targetId = null;
+        this.internalMonitor = manager.getMonitor();
+    }
+} //# sourceMappingURL=DropTargetMonitorImpl.js.map
+
+},
+"node_modules/react-dnd/dist/internals/SourceConnector.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "SourceConnector", {
+    enumerable: true,
+    get: function() {
+        return SourceConnector;
+    }
+});
+var _shallowequal = __mako_require__("node_modules/@react-dnd/shallowequal/dist/index.js");
+var _isRef = __mako_require__("node_modules/react-dnd/dist/internals/isRef.js");
+var _wrapConnectorHooks = __mako_require__("node_modules/react-dnd/dist/internals/wrapConnectorHooks.js");
+class SourceConnector {
+    receiveHandlerId(newHandlerId) {
+        if (this.handlerId === newHandlerId) return;
+        this.handlerId = newHandlerId;
+        this.reconnect();
+    }
+    get connectTarget() {
+        return this.dragSource;
+    }
+    get dragSourceOptions() {
+        return this.dragSourceOptionsInternal;
+    }
+    set dragSourceOptions(options) {
+        this.dragSourceOptionsInternal = options;
+    }
+    get dragPreviewOptions() {
+        return this.dragPreviewOptionsInternal;
+    }
+    set dragPreviewOptions(options) {
+        this.dragPreviewOptionsInternal = options;
+    }
+    reconnect() {
+        const didChange = this.reconnectDragSource();
+        this.reconnectDragPreview(didChange);
+    }
+    reconnectDragSource() {
+        const dragSource = this.dragSource;
+        // if nothing has changed then don't resubscribe
+        const didChange = this.didHandlerIdChange() || this.didConnectedDragSourceChange() || this.didDragSourceOptionsChange();
+        if (didChange) this.disconnectDragSource();
+        if (!this.handlerId) return didChange;
+        if (!dragSource) {
+            this.lastConnectedDragSource = dragSource;
+            return didChange;
+        }
+        if (didChange) {
+            this.lastConnectedHandlerId = this.handlerId;
+            this.lastConnectedDragSource = dragSource;
+            this.lastConnectedDragSourceOptions = this.dragSourceOptions;
+            this.dragSourceUnsubscribe = this.backend.connectDragSource(this.handlerId, dragSource, this.dragSourceOptions);
+        }
+        return didChange;
+    }
+    reconnectDragPreview(forceDidChange = false) {
+        const dragPreview = this.dragPreview;
+        // if nothing has changed then don't resubscribe
+        const didChange = forceDidChange || this.didHandlerIdChange() || this.didConnectedDragPreviewChange() || this.didDragPreviewOptionsChange();
+        if (didChange) this.disconnectDragPreview();
+        if (!this.handlerId) return;
+        if (!dragPreview) {
+            this.lastConnectedDragPreview = dragPreview;
+            return;
+        }
+        if (didChange) {
+            this.lastConnectedHandlerId = this.handlerId;
+            this.lastConnectedDragPreview = dragPreview;
+            this.lastConnectedDragPreviewOptions = this.dragPreviewOptions;
+            this.dragPreviewUnsubscribe = this.backend.connectDragPreview(this.handlerId, dragPreview, this.dragPreviewOptions);
+        }
+    }
+    didHandlerIdChange() {
+        return this.lastConnectedHandlerId !== this.handlerId;
+    }
+    didConnectedDragSourceChange() {
+        return this.lastConnectedDragSource !== this.dragSource;
+    }
+    didConnectedDragPreviewChange() {
+        return this.lastConnectedDragPreview !== this.dragPreview;
+    }
+    didDragSourceOptionsChange() {
+        return !(0, _shallowequal.shallowEqual)(this.lastConnectedDragSourceOptions, this.dragSourceOptions);
+    }
+    didDragPreviewOptionsChange() {
+        return !(0, _shallowequal.shallowEqual)(this.lastConnectedDragPreviewOptions, this.dragPreviewOptions);
+    }
+    disconnectDragSource() {
+        if (this.dragSourceUnsubscribe) {
+            this.dragSourceUnsubscribe();
+            this.dragSourceUnsubscribe = undefined;
+        }
+    }
+    disconnectDragPreview() {
+        if (this.dragPreviewUnsubscribe) {
+            this.dragPreviewUnsubscribe();
+            this.dragPreviewUnsubscribe = undefined;
+            this.dragPreviewNode = null;
+            this.dragPreviewRef = null;
+        }
+    }
+    get dragSource() {
+        return this.dragSourceNode || this.dragSourceRef && this.dragSourceRef.current;
+    }
+    get dragPreview() {
+        return this.dragPreviewNode || this.dragPreviewRef && this.dragPreviewRef.current;
+    }
+    clearDragSource() {
+        this.dragSourceNode = null;
+        this.dragSourceRef = null;
+    }
+    clearDragPreview() {
+        this.dragPreviewNode = null;
+        this.dragPreviewRef = null;
+    }
+    constructor(backend){
+        this.hooks = (0, _wrapConnectorHooks.wrapConnectorHooks)({
+            dragSource: (node, options)=>{
+                this.clearDragSource();
+                this.dragSourceOptions = options || null;
+                if ((0, _isRef.isRef)(node)) this.dragSourceRef = node;
+                else this.dragSourceNode = node;
+                this.reconnectDragSource();
+            },
+            dragPreview: (node, options)=>{
+                this.clearDragPreview();
+                this.dragPreviewOptions = options || null;
+                if ((0, _isRef.isRef)(node)) this.dragPreviewRef = node;
+                else this.dragPreviewNode = node;
+                this.reconnectDragPreview();
+            }
+        });
+        this.handlerId = null;
+        // The drop target may either be attached via ref or connect function
+        this.dragSourceRef = null;
+        this.dragSourceOptionsInternal = null;
+        // The drag preview may either be attached via ref or connect function
+        this.dragPreviewRef = null;
+        this.dragPreviewOptionsInternal = null;
+        this.lastConnectedHandlerId = null;
+        this.lastConnectedDragSource = null;
+        this.lastConnectedDragSourceOptions = null;
+        this.lastConnectedDragPreview = null;
+        this.lastConnectedDragPreviewOptions = null;
+        this.backend = backend;
+    }
+} //# sourceMappingURL=SourceConnector.js.map
+
+},
+"node_modules/react-dnd/dist/internals/TargetConnector.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "TargetConnector", {
+    enumerable: true,
+    get: function() {
+        return TargetConnector;
+    }
+});
+var _shallowequal = __mako_require__("node_modules/@react-dnd/shallowequal/dist/index.js");
+var _isRef = __mako_require__("node_modules/react-dnd/dist/internals/isRef.js");
+var _wrapConnectorHooks = __mako_require__("node_modules/react-dnd/dist/internals/wrapConnectorHooks.js");
+class TargetConnector {
+    get connectTarget() {
+        return this.dropTarget;
+    }
+    reconnect() {
+        // if nothing has changed then don't resubscribe
+        const didChange = this.didHandlerIdChange() || this.didDropTargetChange() || this.didOptionsChange();
+        if (didChange) this.disconnectDropTarget();
+        const dropTarget = this.dropTarget;
+        if (!this.handlerId) return;
+        if (!dropTarget) {
+            this.lastConnectedDropTarget = dropTarget;
+            return;
+        }
+        if (didChange) {
+            this.lastConnectedHandlerId = this.handlerId;
+            this.lastConnectedDropTarget = dropTarget;
+            this.lastConnectedDropTargetOptions = this.dropTargetOptions;
+            this.unsubscribeDropTarget = this.backend.connectDropTarget(this.handlerId, dropTarget, this.dropTargetOptions);
+        }
+    }
+    receiveHandlerId(newHandlerId) {
+        if (newHandlerId === this.handlerId) return;
+        this.handlerId = newHandlerId;
+        this.reconnect();
+    }
+    get dropTargetOptions() {
+        return this.dropTargetOptionsInternal;
+    }
+    set dropTargetOptions(options) {
+        this.dropTargetOptionsInternal = options;
+    }
+    didHandlerIdChange() {
+        return this.lastConnectedHandlerId !== this.handlerId;
+    }
+    didDropTargetChange() {
+        return this.lastConnectedDropTarget !== this.dropTarget;
+    }
+    didOptionsChange() {
+        return !(0, _shallowequal.shallowEqual)(this.lastConnectedDropTargetOptions, this.dropTargetOptions);
+    }
+    disconnectDropTarget() {
+        if (this.unsubscribeDropTarget) {
+            this.unsubscribeDropTarget();
+            this.unsubscribeDropTarget = undefined;
+        }
+    }
+    get dropTarget() {
+        return this.dropTargetNode || this.dropTargetRef && this.dropTargetRef.current;
+    }
+    clearDropTarget() {
+        this.dropTargetRef = null;
+        this.dropTargetNode = null;
+    }
+    constructor(backend){
+        this.hooks = (0, _wrapConnectorHooks.wrapConnectorHooks)({
+            dropTarget: (node, options)=>{
+                this.clearDropTarget();
+                this.dropTargetOptions = options;
+                if ((0, _isRef.isRef)(node)) this.dropTargetRef = node;
+                else this.dropTargetNode = node;
+                this.reconnect();
+            }
+        });
+        this.handlerId = null;
+        // The drop target may either be attached via ref or connect function
+        this.dropTargetRef = null;
+        this.dropTargetOptionsInternal = null;
+        this.lastConnectedHandlerId = null;
+        this.lastConnectedDropTarget = null;
+        this.lastConnectedDropTargetOptions = null;
+        this.backend = backend;
+    }
+} //# sourceMappingURL=TargetConnector.js.map
+
+},
+"node_modules/react-dnd/dist/internals/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/react-dnd/dist/internals/DragSourceMonitorImpl.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/internals/DropTargetMonitorImpl.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/internals/registration.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/internals/SourceConnector.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/internals/TargetConnector.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd/dist/internals/isRef.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "isRef", {
+    enumerable: true,
+    get: function() {
+        return isRef;
+    }
+});
+function isRef(obj) {
+    return obj !== null && typeof obj === 'object' && Object.prototype.hasOwnProperty.call(obj, 'current');
+} //# sourceMappingURL=isRef.js.map
+
+},
+"node_modules/react-dnd/dist/internals/registration.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    registerSource: function() {
+        return registerSource;
+    },
+    registerTarget: function() {
+        return registerTarget;
+    }
+});
+function registerTarget(type, target, manager) {
+    const registry = manager.getRegistry();
+    const targetId = registry.addTarget(type, target);
+    return [
+        targetId,
+        ()=>registry.removeTarget(targetId)
+    ];
+}
+function registerSource(type, source, manager) {
+    const registry = manager.getRegistry();
+    const sourceId = registry.addSource(type, source);
+    return [
+        sourceId,
+        ()=>registry.removeSource(sourceId)
+    ];
+} //# sourceMappingURL=registration.js.map
+
+},
+"node_modules/react-dnd/dist/internals/wrapConnectorHooks.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "wrapConnectorHooks", {
+    enumerable: true,
+    get: function() {
+        return wrapConnectorHooks;
+    }
+});
+var _invariant = __mako_require__("node_modules/@react-dnd/invariant/dist/index.js");
+var _react = __mako_require__("node_modules/react/index.js");
+function throwIfCompositeComponentElement(element) {
+    // Custom components can no longer be wrapped directly in React DnD 2.0
+    // so that we don't need to depend on findDOMNode() from react-dom.
+    if (typeof element.type === 'string') return;
+    const displayName = element.type.displayName || element.type.name || 'the component';
+    throw new Error('Only native element nodes can now be passed to React DnD connectors.' + `You can either wrap ${displayName} into a <div>, or turn it into a ` + 'drag source or a drop target itself.');
+}
+function wrapHookToRecognizeElement(hook) {
+    return (elementOrNode = null, options = null)=>{
+        // When passed a node, call the hook straight away.
+        if (!/*#__PURE__*/ (0, _react.isValidElement)(elementOrNode)) {
+            const node = elementOrNode;
+            hook(node, options);
+            // return the node so it can be chained (e.g. when within callback refs
+            // <div ref={node => connectDragSource(connectDropTarget(node))}/>
+            return node;
+        }
+        // If passed a ReactElement, clone it and attach this function as a ref.
+        // This helps us achieve a neat API where user doesn't even know that refs
+        // are being used under the hood.
+        const element = elementOrNode;
+        throwIfCompositeComponentElement(element);
+        // When no options are passed, use the hook directly
+        const ref = options ? (node)=>hook(node, options) : hook;
+        return cloneWithRef(element, ref);
+    };
+}
+function wrapConnectorHooks(hooks) {
+    const wrappedHooks = {};
+    Object.keys(hooks).forEach((key)=>{
+        const hook = hooks[key];
+        // ref objects should be passed straight through without wrapping
+        if (key.endsWith('Ref')) wrappedHooks[key] = hooks[key];
+        else {
+            const wrappedHook = wrapHookToRecognizeElement(hook);
+            wrappedHooks[key] = ()=>wrappedHook;
+        }
+    });
+    return wrappedHooks;
+}
+function setRef(ref, node) {
+    if (typeof ref === 'function') ref(node);
+    else ref.current = node;
+}
+function cloneWithRef(element, newRef) {
+    const previousRef = element.ref;
+    (0, _invariant.invariant)(typeof previousRef !== 'string', "Cannot connect React DnD to an element with an existing string ref. Please convert it to use a callback ref instead, or wrap it into a <span> or <div>. Read more: https://reactjs.org/docs/refs-and-the-dom.html#callback-refs");
+    if (!previousRef) // When there is no ref on the element, use the new ref directly
+    return /*#__PURE__*/ (0, _react.cloneElement)(element, {
+        ref: newRef
+    });
+    else return /*#__PURE__*/ (0, _react.cloneElement)(element, {
+        ref: (node)=>{
+            setRef(previousRef, node);
+            setRef(newRef, node);
+        }
+    });
+} //# sourceMappingURL=wrapConnectorHooks.js.map
+
+},
+"node_modules/react-dnd/dist/types/connectors.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+ //# sourceMappingURL=connectors.js.map
+
+},
+"node_modules/react-dnd/dist/types/index.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+var _export_star = __mako_require__("@swc/helpers/_/_export_star");
+_export_star._(__mako_require__("node_modules/react-dnd/dist/types/connectors.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/types/monitors.js"), exports);
+_export_star._(__mako_require__("node_modules/react-dnd/dist/types/options.js"), exports);
+ //# sourceMappingURL=index.js.map
+
+},
+"node_modules/react-dnd/dist/types/monitors.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+ //# sourceMappingURL=monitors.js.map
+
+},
+"node_modules/react-dnd/dist/types/options.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+ //# sourceMappingURL=options.js.map
+
+},
+"node_modules/redux/es/redux.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    __DO_NOT_USE__ActionTypes: function() {
+        return ActionTypes;
+    },
+    applyMiddleware: function() {
+        return applyMiddleware;
+    },
+    bindActionCreators: function() {
+        return bindActionCreators;
+    },
+    combineReducers: function() {
+        return combineReducers;
+    },
+    compose: function() {
+        return compose;
+    },
+    createStore: function() {
+        return createStore;
+    },
+    legacy_createStore: function() {
+        return legacy_createStore;
+    }
+});
+var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
+var _objectSpread2 = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@babel/runtime/helpers/esm/objectSpread2.js"));
+/**
+ * Adapted from React: https://github.com/facebook/react/blob/master/packages/shared/formatProdErrorMessage.js
+ *
+ * Do not require this module directly! Use normal throw error calls. These messages will be replaced with error codes
+ * during build.
+ * @param {number} code
+ */ function formatProdErrorMessage(code) {
+    return "Minified Redux error #" + code + "; visit https://redux.js.org/Errors?code=" + code + " for the full message or " + 'use the non-minified dev environment for full errors. ';
+}
+// Inlined version of the `symbol-observable` polyfill
+var $$observable = function() {
+    return typeof Symbol === 'function' && Symbol.observable || '@@observable';
+}();
+/**
+ * These are private action types reserved by Redux.
+ * For any unknown actions, you must return the current state.
+ * If the current state is undefined, you must return the initial state.
+ * Do not reference these action types directly in your code.
+ */ var randomString = function randomString() {
+    return Math.random().toString(36).substring(7).split('').join('.');
+};
+var ActionTypes = {
+    INIT: "@@redux/INIT" + randomString(),
+    REPLACE: "@@redux/REPLACE" + randomString(),
+    PROBE_UNKNOWN_ACTION: function PROBE_UNKNOWN_ACTION() {
+        return "@@redux/PROBE_UNKNOWN_ACTION" + randomString();
+    }
+};
+/**
+ * @param {any} obj The object to inspect.
+ * @returns {boolean} True if the argument appears to be a plain object.
+ */ function isPlainObject(obj) {
+    if (typeof obj !== 'object' || obj === null) return false;
+    var proto = obj;
+    while(Object.getPrototypeOf(proto) !== null)proto = Object.getPrototypeOf(proto);
+    return Object.getPrototypeOf(obj) === proto;
+}
+// Inlined / shortened version of `kindOf` from https://github.com/jonschlinkert/kind-of
+function miniKindOf(val) {
+    if (val === void 0) return 'undefined';
+    if (val === null) return 'null';
+    var type = typeof val;
+    switch(type){
+        case 'boolean':
+        case 'string':
+        case 'number':
+        case 'symbol':
+        case 'function':
+            return type;
+    }
+    if (Array.isArray(val)) return 'array';
+    if (isDate(val)) return 'date';
+    if (isError(val)) return 'error';
+    var constructorName = ctorName(val);
+    switch(constructorName){
+        case 'Symbol':
+        case 'Promise':
+        case 'WeakMap':
+        case 'WeakSet':
+        case 'Map':
+        case 'Set':
+            return constructorName;
+    } // other
+    return type.slice(8, -1).toLowerCase().replace(/\s/g, '');
+}
+function ctorName(val) {
+    return typeof val.constructor === 'function' ? val.constructor.name : null;
+}
+function isError(val) {
+    return val instanceof Error || typeof val.message === 'string' && val.constructor && typeof val.constructor.stackTraceLimit === 'number';
+}
+function isDate(val) {
+    if (val instanceof Date) return true;
+    return typeof val.toDateString === 'function' && typeof val.getDate === 'function' && typeof val.setDate === 'function';
+}
+function kindOf(val) {
+    var typeOfVal = typeof val;
+    typeOfVal = miniKindOf(val);
+    return typeOfVal;
+}
+/**
+ * @deprecated
+ *
+ * **We recommend using the `configureStore` method
+ * of the `@reduxjs/toolkit` package**, which replaces `createStore`.
+ *
+ * Redux Toolkit is our recommended approach for writing Redux logic today,
+ * including store setup, reducers, data fetching, and more.
+ *
+ * **For more details, please read this Redux docs page:**
+ * **https://redux.js.org/introduction/why-rtk-is-redux-today**
+ *
+ * `configureStore` from Redux Toolkit is an improved version of `createStore` that
+ * simplifies setup and helps avoid common bugs.
+ *
+ * You should not be using the `redux` core package by itself today, except for learning purposes.
+ * The `createStore` method from the core `redux` package will not be removed, but we encourage
+ * all users to migrate to using Redux Toolkit for all Redux code.
+ *
+ * If you want to use `createStore` without this visual deprecation warning, use
+ * the `legacy_createStore` import instead:
+ *
+ * `import { legacy_createStore as createStore} from 'redux'`
+ *
+ */ function createStore(reducer, preloadedState, enhancer) {
+    var _ref2;
+    if (typeof preloadedState === 'function' && typeof enhancer === 'function' || typeof enhancer === 'function' && typeof arguments[3] === 'function') throw new Error("It looks like you are passing several store enhancers to createStore(). This is not supported. Instead, compose them together to a single function. See https://redux.js.org/tutorials/fundamentals/part-4-store#creating-a-store-with-enhancers for an example.");
+    if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
+        enhancer = preloadedState;
+        preloadedState = undefined;
+    }
+    if (typeof enhancer !== 'undefined') {
+        if (typeof enhancer !== 'function') throw new Error("Expected the enhancer to be a function. Instead, received: '" + kindOf(enhancer) + "'");
+        return enhancer(createStore)(reducer, preloadedState);
+    }
+    if (typeof reducer !== 'function') throw new Error("Expected the root reducer to be a function. Instead, received: '" + kindOf(reducer) + "'");
+    var currentReducer = reducer;
+    var currentState = preloadedState;
+    var currentListeners = [];
+    var nextListeners = currentListeners;
+    var isDispatching = false;
+    /**
+   * This makes a shallow copy of currentListeners so we can use
+   * nextListeners as a temporary list while dispatching.
+   *
+   * This prevents any bugs around consumers calling
+   * subscribe/unsubscribe in the middle of a dispatch.
+   */ function ensureCanMutateNextListeners() {
+        if (nextListeners === currentListeners) nextListeners = currentListeners.slice();
+    }
+    /**
+   * Reads the state tree managed by the store.
+   *
+   * @returns {any} The current state tree of your application.
+   */ function getState() {
+        if (isDispatching) throw new Error("You may not call store.getState() while the reducer is executing. The reducer has already received the state as an argument. Pass it down from the top reducer instead of reading it from the store.");
+        return currentState;
+    }
+    /**
+   * Adds a change listener. It will be called any time an action is dispatched,
+   * and some part of the state tree may potentially have changed. You may then
+   * call `getState()` to read the current state tree inside the callback.
+   *
+   * You may call `dispatch()` from a change listener, with the following
+   * caveats:
+   *
+   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+   * If you subscribe or unsubscribe while the listeners are being invoked, this
+   * will not have any effect on the `dispatch()` that is currently in progress.
+   * However, the next `dispatch()` call, whether nested or not, will use a more
+   * recent snapshot of the subscription list.
+   *
+   * 2. The listener should not expect to see all state changes, as the state
+   * might have been updated multiple times during a nested `dispatch()` before
+   * the listener is called. It is, however, guaranteed that all subscribers
+   * registered before the `dispatch()` started will be called with the latest
+   * state by the time it exits.
+   *
+   * @param {Function} listener A callback to be invoked on every dispatch.
+   * @returns {Function} A function to remove this change listener.
+   */ function subscribe(listener) {
+        if (typeof listener !== 'function') throw new Error("Expected the listener to be a function. Instead, received: '" + kindOf(listener) + "'");
+        if (isDispatching) throw new Error("You may not call store.subscribe() while the reducer is executing. If you would like to be notified after the store has been updated, subscribe from a component and invoke store.getState() in the callback to access the latest state. See https://redux.js.org/api/store#subscribelistener for more details.");
+        var isSubscribed = true;
+        ensureCanMutateNextListeners();
+        nextListeners.push(listener);
+        return function unsubscribe() {
+            if (!isSubscribed) return;
+            if (isDispatching) throw new Error("You may not unsubscribe from a store listener while the reducer is executing. See https://redux.js.org/api/store#subscribelistener for more details.");
+            isSubscribed = false;
+            ensureCanMutateNextListeners();
+            var index = nextListeners.indexOf(listener);
+            nextListeners.splice(index, 1);
+            currentListeners = null;
+        };
+    }
+    /**
+   * Dispatches an action. It is the only way to trigger a state change.
+   *
+   * The `reducer` function, used to create the store, will be called with the
+   * current state tree and the given `action`. Its return value will
+   * be considered the **next** state of the tree, and the change listeners
+   * will be notified.
+   *
+   * The base implementation only supports plain object actions. If you want to
+   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+   * wrap your store creating function into the corresponding middleware. For
+   * example, see the documentation for the `redux-thunk` package. Even the
+   * middleware will eventually dispatch plain object actions using this method.
+   *
+   * @param {Object} action A plain object representing “what changed”. It is
+   * a good idea to keep actions serializable so you can record and replay user
+   * sessions, or use the time travelling `redux-devtools`. An action must have
+   * a `type` property which may not be `undefined`. It is a good idea to use
+   * string constants for action types.
+   *
+   * @returns {Object} For convenience, the same action object you dispatched.
+   *
+   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+   * return something else (for example, a Promise you can await).
+   */ function dispatch(action) {
+        if (!isPlainObject(action)) throw new Error("Actions must be plain objects. Instead, the actual type was: '" + kindOf(action) + "'. You may need to add middleware to your store setup to handle dispatching other values, such as 'redux-thunk' to handle dispatching functions. See https://redux.js.org/tutorials/fundamentals/part-4-store#middleware and https://redux.js.org/tutorials/fundamentals/part-6-async-logic#using-the-redux-thunk-middleware for examples.");
+        if (typeof action.type === 'undefined') throw new Error('Actions may not have an undefined "type" property. You may have misspelled an action type string constant.');
+        if (isDispatching) throw new Error('Reducers may not dispatch actions.');
+        try {
+            isDispatching = true;
+            currentState = currentReducer(currentState, action);
+        } finally{
+            isDispatching = false;
+        }
+        var listeners = currentListeners = nextListeners;
+        for(var i = 0; i < listeners.length; i++){
+            var listener = listeners[i];
+            listener();
+        }
+        return action;
+    }
+    /**
+   * Replaces the reducer currently used by the store to calculate the state.
+   *
+   * You might need this if your app implements code splitting and you want to
+   * load some of the reducers dynamically. You might also need this if you
+   * implement a hot reloading mechanism for Redux.
+   *
+   * @param {Function} nextReducer The reducer for the store to use instead.
+   * @returns {void}
+   */ function replaceReducer(nextReducer) {
+        if (typeof nextReducer !== 'function') throw new Error("Expected the nextReducer to be a function. Instead, received: '" + kindOf(nextReducer));
+        currentReducer = nextReducer; // This action has a similiar effect to ActionTypes.INIT.
+        // Any reducers that existed in both the new and old rootReducer
+        // will receive the previous state. This effectively populates
+        // the new state tree with any relevant data from the old one.
+        dispatch({
+            type: ActionTypes.REPLACE
+        });
+    }
+    /**
+   * Interoperability point for observable/reactive libraries.
+   * @returns {observable} A minimal observable of state changes.
+   * For more information, see the observable proposal:
+   * https://github.com/tc39/proposal-observable
+   */ function observable() {
+        var _ref;
+        var outerSubscribe = subscribe;
+        return _ref = {
+            /**
+       * The minimal observable subscription method.
+       * @param {Object} observer Any object that can be used as an observer.
+       * The observer object should have a `next` method.
+       * @returns {subscription} An object with an `unsubscribe` method that can
+       * be used to unsubscribe the observable from the store, and prevent further
+       * emission of values from the observable.
+       */ subscribe: function subscribe(observer) {
+                if (typeof observer !== 'object' || observer === null) throw new Error("Expected the observer to be an object. Instead, received: '" + kindOf(observer) + "'");
+                function observeState() {
+                    if (observer.next) observer.next(getState());
+                }
+                observeState();
+                var unsubscribe = outerSubscribe(observeState);
+                return {
+                    unsubscribe: unsubscribe
+                };
+            }
+        }, _ref[$$observable] = function() {
+            return this;
+        }, _ref;
+    } // When a store is created, an "INIT" action is dispatched so that every
+    // reducer returns their initial state. This effectively populates
+    // the initial state tree.
+    dispatch({
+        type: ActionTypes.INIT
+    });
+    return _ref2 = {
+        dispatch: dispatch,
+        subscribe: subscribe,
+        getState: getState,
+        replaceReducer: replaceReducer
+    }, _ref2[$$observable] = observable, _ref2;
+}
+/**
+ * Creates a Redux store that holds the state tree.
+ *
+ * **We recommend using `configureStore` from the
+ * `@reduxjs/toolkit` package**, which replaces `createStore`:
+ * **https://redux.js.org/introduction/why-rtk-is-redux-today**
+ *
+ * The only way to change the data in the store is to call `dispatch()` on it.
+ *
+ * There should only be a single store in your app. To specify how different
+ * parts of the state tree respond to actions, you may combine several reducers
+ * into a single reducer function by using `combineReducers`.
+ *
+ * @param {Function} reducer A function that returns the next state tree, given
+ * the current state tree and the action to handle.
+ *
+ * @param {any} [preloadedState] The initial state. You may optionally specify it
+ * to hydrate the state from the server in universal apps, or to restore a
+ * previously serialized user session.
+ * If you use `combineReducers` to produce the root reducer function, this must be
+ * an object with the same shape as `combineReducers` keys.
+ *
+ * @param {Function} [enhancer] The store enhancer. You may optionally specify it
+ * to enhance the store with third-party capabilities such as middleware,
+ * time travel, persistence, etc. The only store enhancer that ships with Redux
+ * is `applyMiddleware()`.
+ *
+ * @returns {Store} A Redux store that lets you read the state, dispatch actions
+ * and subscribe to changes.
+ */ var legacy_createStore = createStore;
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+ */ function warning(message) {
+    /* eslint-disable no-console */ if (typeof console !== 'undefined' && typeof console.error === 'function') console.error(message);
+    /* eslint-enable no-console */ try {
+        // This error was thrown as a convenience so that if you enable
+        // "break on all exceptions" in your console,
+        // it would pause the execution at this line.
+        throw new Error(message);
+    } catch (e) {} // eslint-disable-line no-empty
+}
+function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, unexpectedKeyCache) {
+    var reducerKeys = Object.keys(reducers);
+    var argumentName = action && action.type === ActionTypes.INIT ? 'preloadedState argument passed to createStore' : 'previous state received by the reducer';
+    if (reducerKeys.length === 0) return "Store does not have a valid reducer. Make sure the argument passed to combineReducers is an object whose values are reducers.";
+    if (!isPlainObject(inputState)) return "The " + argumentName + " has unexpected type of \"" + kindOf(inputState) + "\". Expected argument to be an object with the following " + ("keys: \"" + reducerKeys.join('", "') + "\"");
+    var unexpectedKeys = Object.keys(inputState).filter(function(key) {
+        return !reducers.hasOwnProperty(key) && !unexpectedKeyCache[key];
+    });
+    unexpectedKeys.forEach(function(key) {
+        unexpectedKeyCache[key] = true;
+    });
+    if (action && action.type === ActionTypes.REPLACE) return;
+    if (unexpectedKeys.length > 0) return "Unexpected " + (unexpectedKeys.length > 1 ? 'keys' : 'key') + " " + ("\"" + unexpectedKeys.join('", "') + "\" found in " + argumentName + ". ") + "Expected to find one of the known reducer keys instead: " + ("\"" + reducerKeys.join('", "') + "\". Unexpected keys will be ignored.");
+}
+function assertReducerShape(reducers) {
+    Object.keys(reducers).forEach(function(key) {
+        var reducer = reducers[key];
+        var initialState = reducer(undefined, {
+            type: ActionTypes.INIT
+        });
+        if (typeof initialState === 'undefined') throw new Error("The slice reducer for key \"" + key + "\" returned undefined during initialization. " + "If the state passed to the reducer is undefined, you must " + "explicitly return the initial state. The initial state may " + "not be undefined. If you don't want to set a value for this reducer, " + "you can use null instead of undefined.");
+        if (typeof reducer(undefined, {
+            type: ActionTypes.PROBE_UNKNOWN_ACTION()
+        }) === 'undefined') throw new Error("The slice reducer for key \"" + key + "\" returned undefined when probed with a random type. " + ("Don't try to handle '" + ActionTypes.INIT + "' or other actions in \"redux/*\" ") + "namespace. They are considered private. Instead, you must return the " + "current state for any unknown actions, unless it is undefined, " + "in which case you must return the initial state, regardless of the " + "action type. The initial state may not be undefined, but can be null.");
+    });
+}
+/**
+ * Turns an object whose values are different reducer functions, into a single
+ * reducer function. It will call every child reducer, and gather their results
+ * into a single state object, whose keys correspond to the keys of the passed
+ * reducer functions.
+ *
+ * @param {Object} reducers An object whose values correspond to different
+ * reducer functions that need to be combined into one. One handy way to obtain
+ * it is to use ES6 `import * as reducers` syntax. The reducers may never return
+ * undefined for any action. Instead, they should return their initial state
+ * if the state passed to them was undefined, and the current state for any
+ * unrecognized action.
+ *
+ * @returns {Function} A reducer function that invokes every reducer inside the
+ * passed object, and builds a state object with the same shape.
+ */ function combineReducers(reducers) {
+    var reducerKeys = Object.keys(reducers);
+    var finalReducers = {};
+    for(var i = 0; i < reducerKeys.length; i++){
+        var key = reducerKeys[i];
+        if (typeof reducers[key] === 'undefined') warning("No reducer provided for key \"" + key + "\"");
+        if (typeof reducers[key] === 'function') finalReducers[key] = reducers[key];
+    }
+    var finalReducerKeys = Object.keys(finalReducers); // This is used to make sure we don't warn about the same
+    // keys multiple times.
+    var unexpectedKeyCache;
+    unexpectedKeyCache = {};
+    var shapeAssertionError;
+    try {
+        assertReducerShape(finalReducers);
+    } catch (e) {
+        shapeAssertionError = e;
+    }
+    return function combination(state, action) {
+        if (state === void 0) state = {};
+        if (shapeAssertionError) throw shapeAssertionError;
+        var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache);
+        if (warningMessage) warning(warningMessage);
+        var hasChanged = false;
+        var nextState = {};
+        for(var _i = 0; _i < finalReducerKeys.length; _i++){
+            var _key = finalReducerKeys[_i];
+            var reducer = finalReducers[_key];
+            var previousStateForKey = state[_key];
+            var nextStateForKey = reducer(previousStateForKey, action);
+            if (typeof nextStateForKey === 'undefined') {
+                var actionType = action && action.type;
+                throw new Error("When called with an action of type " + (actionType ? "\"" + String(actionType) + "\"" : '(unknown type)') + ", the slice reducer for key \"" + _key + "\" returned undefined. " + "To ignore an action, you must explicitly return the previous state. " + "If you want this reducer to hold no value, you can return null instead of undefined.");
+            }
+            nextState[_key] = nextStateForKey;
+            hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+        }
+        hasChanged = hasChanged || finalReducerKeys.length !== Object.keys(state).length;
+        return hasChanged ? nextState : state;
+    };
+}
+function bindActionCreator(actionCreator, dispatch) {
+    return function() {
+        return dispatch(actionCreator.apply(this, arguments));
+    };
+}
+/**
+ * Turns an object whose values are action creators, into an object with the
+ * same keys, but with every function wrapped into a `dispatch` call so they
+ * may be invoked directly. This is just a convenience method, as you can call
+ * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
+ *
+ * For convenience, you can also pass an action creator as the first argument,
+ * and get a dispatch wrapped function in return.
+ *
+ * @param {Function|Object} actionCreators An object whose values are action
+ * creator functions. One handy way to obtain it is to use ES6 `import * as`
+ * syntax. You may also pass a single function.
+ *
+ * @param {Function} dispatch The `dispatch` function available on your Redux
+ * store.
+ *
+ * @returns {Function|Object} The object mimicking the original object, but with
+ * every action creator wrapped into the `dispatch` call. If you passed a
+ * function as `actionCreators`, the return value will also be a single
+ * function.
+ */ function bindActionCreators(actionCreators, dispatch) {
+    if (typeof actionCreators === 'function') return bindActionCreator(actionCreators, dispatch);
+    if (typeof actionCreators !== 'object' || actionCreators === null) throw new Error("bindActionCreators expected an object or a function, but instead received: '" + kindOf(actionCreators) + "'. " + "Did you write \"import ActionCreators from\" instead of \"import * as ActionCreators from\"?");
+    var boundActionCreators = {};
+    for(var key in actionCreators){
+        var actionCreator = actionCreators[key];
+        if (typeof actionCreator === 'function') boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
+    }
+    return boundActionCreators;
+}
+/**
+ * Composes single-argument functions from right to left. The rightmost
+ * function can take multiple arguments as it provides the signature for
+ * the resulting composite function.
+ *
+ * @param {...Function} funcs The functions to compose.
+ * @returns {Function} A function obtained by composing the argument functions
+ * from right to left. For example, compose(f, g, h) is identical to doing
+ * (...args) => f(g(h(...args))).
+ */ function compose() {
+    for(var _len = arguments.length, funcs = new Array(_len), _key = 0; _key < _len; _key++)funcs[_key] = arguments[_key];
+    if (funcs.length === 0) return function(arg) {
+        return arg;
+    };
+    if (funcs.length === 1) return funcs[0];
+    return funcs.reduce(function(a, b) {
+        return function() {
+            return a(b.apply(void 0, arguments));
+        };
+    });
+}
+/**
+ * Creates a store enhancer that applies middleware to the dispatch method
+ * of the Redux store. This is handy for a variety of tasks, such as expressing
+ * asynchronous actions in a concise manner, or logging every action payload.
+ *
+ * See `redux-thunk` package as an example of the Redux middleware.
+ *
+ * Because middleware is potentially asynchronous, this should be the first
+ * store enhancer in the composition chain.
+ *
+ * Note that each middleware will be given the `dispatch` and `getState` functions
+ * as named arguments.
+ *
+ * @param {...Function} middlewares The middleware chain to be applied.
+ * @returns {Function} A store enhancer applying the middleware.
+ */ function applyMiddleware() {
+    for(var _len = arguments.length, middlewares = new Array(_len), _key = 0; _key < _len; _key++)middlewares[_key] = arguments[_key];
+    return function(createStore) {
+        return function() {
+            var store = createStore.apply(void 0, arguments);
+            var _dispatch = function dispatch() {
+                throw new Error("Dispatching while constructing your middleware is not allowed. Other middleware would not be applied to this dispatch.");
+            };
+            var middlewareAPI = {
+                getState: store.getState,
+                dispatch: function dispatch() {
+                    return _dispatch.apply(void 0, arguments);
+                }
+            };
+            var chain = middlewares.map(function(middleware) {
+                return middleware(middlewareAPI);
+            });
+            _dispatch = compose.apply(void 0, chain)(store.dispatch);
+            return (0, _objectSpread2.default)((0, _objectSpread2.default)({}, store), {}, {
+                dispatch: _dispatch
+            });
+        };
+    };
+}
 
 },
 "node_modules/swagger-ui-dist/absolute-path.js": function (module, exports, __mako_require__){

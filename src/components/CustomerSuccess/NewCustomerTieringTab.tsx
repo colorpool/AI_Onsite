@@ -209,16 +209,11 @@ const NewCustomerTieringTab: React.FC<NewCustomerTieringTabProps> = ({ customers
       width: 200,
       sorter: (a: NewCustomer, b: NewCustomer) => a.name.localeCompare(b.name),
       render: (_: unknown, record: NewCustomer) => (
-        <Space>
-          <Avatar style={{ backgroundColor: record.logoColor }}>
-            {record.name.charAt(0)}
-          </Avatar>
-          <span>{record.name}</span>
-        </Space>
+        <span>{record.name}</span>
       ),
     },
     {
-      title: '负责人CSM',
+      title: '客户成功',
       dataIndex: 'csm',
       key: 'csm',
       width: 120,
@@ -289,7 +284,7 @@ const NewCustomerTieringTab: React.FC<NewCustomerTieringTabProps> = ({ customers
   return (
     <div>
       {/* 控制面板 */}
-      <Card style={{ ...cardStyle, marginBottom: 16 }} bodyStyle={{ padding: 16 }}>
+      <Card style={{ ...cardStyle, marginTop: 16, marginBottom: 16 }} bodyStyle={{ padding: 16 }}>
         <Row gutter={16} align="middle">
           <Col>
             <Space>
@@ -400,9 +395,9 @@ const NewCustomerTieringTab: React.FC<NewCustomerTieringTabProps> = ({ customers
             />
             <line 
               x1={padding} 
-              y1={padding + plotHeight - (priceThreshold / maxPrice) * plotHeight} 
+              y1={padding + plotHeight - (priceThreshold / priceRange.max) * plotHeight} 
               x2={padding + plotWidth} 
-              y2={padding + plotHeight - (priceThreshold / maxPrice) * plotHeight} 
+              y2={padding + plotHeight - (priceThreshold / priceRange.max) * plotHeight} 
               stroke="#1890ff" 
               strokeWidth={2} 
               strokeDasharray="5,5" 
@@ -424,8 +419,8 @@ const NewCustomerTieringTab: React.FC<NewCustomerTieringTabProps> = ({ customers
             
             {/* Y轴刻度 */}
             {Array.from({ length: 6 }).map((_, i) => {
-              const value = (maxPrice / 5) * i;
-              const y = padding + plotHeight - (value / maxPrice) * plotHeight;
+              const value = (priceRange.max / 5) * i;
+              const y = padding + plotHeight - (value / priceRange.max) * plotHeight;
               return (
                 <g key={i}>
                   <line x1={padding - 5} y1={y} x2={padding} y2={y} stroke="#d9d9d9" />
@@ -439,7 +434,7 @@ const NewCustomerTieringTab: React.FC<NewCustomerTieringTabProps> = ({ customers
             {/* 气泡 */}
             {industryBubbles.map((bubble) => {
               const x = padding + (bubble.avgScale / maxScale) * plotWidth;
-              const y = padding + plotHeight - (bubble.avgUnitPrice / maxPrice) * plotHeight;
+              const y = padding + plotHeight - (bubble.avgUnitPrice / priceRange.max) * plotHeight;
               const r = 8 + (bubble.newCustomerCount / maxBubbleCount) * 20;
               const color = industryColors[bubble.industry];
               
@@ -558,7 +553,14 @@ const NewCustomerTieringTab: React.FC<NewCustomerTieringTabProps> = ({ customers
           rowKey="id"
           dataSource={filteredCustomers}
           columns={columns as any}
-          pagination={{ pageSize: 10, showSizeChanger: true, showQuickJumper: true }}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) => `共 ${total} 条记录，当前显示 ${range[0]}-${range[1]} 条`,
+            pageSizeOptions: ['10', '20', '50', '100'],
+            showLessItems: true,
+          }}
           scroll={{ x: 1200 }}
           onRow={(record) => ({
             onClick: () => {

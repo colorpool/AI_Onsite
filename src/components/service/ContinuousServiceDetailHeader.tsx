@@ -23,6 +23,7 @@ interface ContinuousServiceDetailHeaderProps {
     renewalDate: string;
     lastContactDays: number;
     contractNumber?: string;
+    connectionLevel?: number;
   };
   onBack: () => void;
   onViewContract: () => void;
@@ -125,6 +126,23 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
     }
   };
 
+  // 获取建联度配置
+  const getConnectionLevelConfig = (level: number) => {
+    if (level >= 5) {
+      return { bars: 5, color: '#52c41a', text: '极强', tooltip: '建联度极强：与客户核心决策层建立深度信任关系，沟通无障碍' };
+    } else if (level >= 4) {
+      return { bars: 4, color: '#73d13d', text: '强', tooltip: '建联度强：与客户关键决策人保持密切联系，沟通顺畅' };
+    } else if (level >= 3) {
+      return { bars: 3, color: '#faad14', text: '中', tooltip: '建联度中：与客户有一定联系，但需要加强沟通深度' };
+    } else if (level >= 2) {
+      return { bars: 2, color: '#ff7a45', text: '弱', tooltip: '建联度弱：与客户联系较少，需要主动建立更多接触点' };
+    } else if (level >= 1) {
+      return { bars: 1, color: '#ff4d4f', text: '极弱', tooltip: '建联度极弱：与客户几乎无联系，急需建立有效沟通渠道' };
+    } else {
+      return { bars: 0, color: '#d9d9d9', text: '未知', tooltip: '建联度未知：缺乏客户联系信息' };
+    }
+  };
+
   const healthConfig = getHealthConfig(customerData.healthLevel);
   const tierConfig = getTierConfig(customerData.customerTier);
   const remainingDays = calculateRemainingDays(customerData.renewalDate);
@@ -166,15 +184,43 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
           
           <PlatformIcon customerId={customerData.id} />
           
-          <h1 style={{
-            margin: 0,
-            fontSize: '24px',
-            fontWeight: '600',
-            color: '#262626',
-            lineHeight: '32px'
-          }}>
-            {customerData.name}
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <h1 style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: '600',
+              color: '#262626',
+              lineHeight: '32px'
+            }}>
+              {customerData.name}
+            </h1>
+            
+            {/* 建联度图标 */}
+            {customerData.connectionLevel && (() => {
+              const config = getConnectionLevelConfig(customerData.connectionLevel);
+              return (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1px',
+                  cursor: 'pointer'
+                }}>
+                  {[1, 2, 3, 4, 5].map(bar => (
+                    <div
+                      key={bar}
+                      style={{
+                        width: '3px',
+                        height: `${6 + bar * 1.5}px`,
+                        backgroundColor: bar <= config.bars ? config.color : '#f0f0f0',
+                        borderRadius: '1px',
+                        transition: 'all 0.2s ease'
+                      }}
+                    />
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
         </div>
 
         {/* 右侧：操作按钮 */}

@@ -154,10 +154,7 @@ const HandoverListPage: React.FC = () => {
     navigate('/profiles/handover/new');
   };
 
-  // 处理导出
-  const handleExport = () => {
-    message.success('导出功能开发中...');
-  };
+
 
   // 处理分享
   const handleShare = () => {

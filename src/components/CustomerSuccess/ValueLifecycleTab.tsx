@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useRef } from 'react';
-import { Row, Col, Card, Typography, Tooltip, Space, Button, Badge, Dropdown, Table, Avatar, Tag, Input } from 'antd';
+import { Row, Col, Card, Typography, Tooltip, Space, Button, Badge, Dropdown, Table, Avatar, Tag, Input, Checkbox } from 'antd';
 import { SettingOutlined, QuestionCircleOutlined, MoreOutlined, ArrowUpOutlined, ArrowDownOutlined, ZoomInOutlined, ZoomOutOutlined, UndoOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
@@ -56,16 +56,33 @@ type Customer = {
 export interface ValueLifecycleTabProps {
   customers: Customer[];
   onCustomerSelect?: (customer: Customer) => void;
+  selectedMatrix?: { valueTier: ValueTier; stage: LifecycleStage } | null;
+  onMatrixSelect?: (selection: { valueTier: ValueTier; stage: LifecycleStage } | null) => void;
 }
 
-const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCustomerSelect }) => {
+const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCustomerSelect, selectedMatrix, onMatrixSelect }) => {
   const [selected, setSelected] = useState<{ valueTier: ValueTier; stage: LifecycleStage } | null>(null);
   const [search, setSearch] = useState('');
   const listRef = useRef<HTMLDivElement | null>(null);
   const [listHighlight, setListHighlight] = useState(false);
+  const [flowFilter, setFlowFilter] = useState<'all' | 'inflow' | 'outflow'>('all');
   const highlightTimerRef = useRef<number | null>(null);
   const [bubbleTip, setBubbleTip] = useState<{ visible: boolean; x: number; y: number; html: React.ReactNode } | null>(null);
   const [sankeyTip, setSankeyTip] = useState<{ visible: boolean; x: number; y: number; text: string } | null>(null);
+  
+  // 字段显示控制状态
+  const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>({
+    name: true,
+    csm: true,
+    valueScore: true,
+    lifecycle: true,
+    rAndM: true,
+    f: true,
+    serviceScore: true,
+    riskEvents: true,
+    upsellAmount: true,
+    tags: true,
+  });
   
   // 坐标轴缩放相关状态
   const [xAxisRange, setXAxisRange] = useState({ min: 0, max: 100 });
@@ -218,17 +235,20 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
 
   const filteredCustomers = useMemo(() => {
     let list = customers;
-    if (selected) {
-      list = list.filter((c) => c.valueTier === selected.valueTier && c.lifecycle === selected.stage);
+    // 优先使用外部传入的selectedMatrix，如果没有则使用内部的selected
+    const activeSelection = selectedMatrix || selected;
+    if (activeSelection) {
+      list = list.filter((c) => c.valueTier === activeSelection.valueTier && c.lifecycle === activeSelection.stage);
     }
     if (search.trim()) {
       const k = search.trim();
       list = list.filter((c) => c.name.includes(k) || c.csm.includes(k) || c.valueTier.includes(k) || c.lifecycle.includes(k));
     }
     return list;
-  }, [selected, search, customers]);
+  }, [selectedMatrix, selected, search, customers]);
 
-  const selectedTitle = selected ? `${selected.valueTier} · ${selected.stage}` : '全部客户';
+  const activeSelection = selectedMatrix || selected;
+  const selectedTitle = activeSelection ? `${activeSelection.valueTier} · ${activeSelection.stage}` : '全部客户';
 
   // 聚合每个矩阵分群的数据：计数、均值与总ARR
   const segmentAgg = useMemo(() => {
@@ -247,7 +267,13 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
         agg[key] = { key, valueTier: vt, stage: st, count: 0, avgHealth: 0, avgActive: 0, totalArr: 0 };
       }
     }
-    for (const c of customers) {
+    // 使用过滤后的客户数据进行聚合
+    const activeSelection = selectedMatrix || selected;
+    let dataSource = customers;
+    if (activeSelection) {
+      dataSource = customers.filter((c) => c.valueTier === activeSelection.valueTier && c.lifecycle === activeSelection.stage);
+    }
+    for (const c of dataSource) {
       const key = `${c.valueTier}-${c.lifecycle}`;
       const it = agg[key];
       it.count += 1;
@@ -263,7 +289,7 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
       }
     }
     return agg;
-  }, [customers]);
+  }, [selectedMatrix, selected, customers]);
 
   const maxSegmentArr = useMemo(() => {
     return Math.max(1, ...Object.values(segmentAgg).map((s) => s.totalArr));
@@ -307,40 +333,43 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
     highlightTimerRef.current = window.setTimeout(() => setListHighlight(false), 1600);
   }
 
-  const columns = [
+  const allColumns = [
     {
       title: '客户名称',
       dataIndex: 'name',
       key: 'name',
+      fixed: 'left' as const,
+      width: 180,
       sorter: (a: Customer, b: Customer) => a.name.localeCompare(b.name),
       render: (_: unknown, record: Customer) => (
-        <Space>
-          <Avatar style={{ backgroundColor: record.logoColor }}>
-            {record.name.charAt(0)}
-          </Avatar>
-          <span>{record.name}</span>
-        </Space>
+        <span>{record.name}</span>
       ),
     },
     {
-      title: '负责人CSM',
+      title: '客户成功',
       dataIndex: 'csm',
       key: 'csm',
+      width: 120,
+      align: 'center' as const,
       sorter: (a: Customer, b: Customer) => a.csm.localeCompare(b.csm),
     },
     {
       title: '价值总分',
       dataIndex: 'valueScore',
       key: 'valueScore',
+      width: 140,
+      align: 'center' as const,
       sorter: (a: Customer, b: Customer) => a.valueScore - b.valueScore,
       render: (v: number, record: Customer) => (
         <Space>
           <Text strong>{v}分</Text>
           {record.trend === 'up' ? (
-            <ArrowUpOutlined style={{ color: '#52c41a' }} />
+            <ArrowUpOutlined style={{ color: '#ff4d4f' }} />
           ) : record.trend === 'down' ? (
-            <ArrowDownOutlined style={{ color: '#ff4d4f' }} />
-          ) : null}
+            <ArrowDownOutlined style={{ color: '#1890ff' }} />
+          ) : (
+            <span style={{ color: '#8c8c8c', fontSize: '12px' }}>—</span>
+          )}
         </Space>
       ),
     },
@@ -348,6 +377,8 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
       title: '生命周期',
       dataIndex: 'lifecycle',
       key: 'lifecycle',
+      width: 120,
+      align: 'center' as const,
       filters: lifecycleStages.map((s) => ({ text: s, value: s })),
       onFilter: (value: string | number | boolean, record: Customer) => record.lifecycle === value,
       render: (v: LifecycleStage) => (
@@ -360,24 +391,32 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
       title: '财务价值 (R&M)',
       dataIndex: 'rAndM',
       key: 'rAndM',
+      width: 150,
+      align: 'center' as const,
       sorter: (a: Customer, b: Customer) => a.rAndM - b.rAndM,
     },
     {
       title: '活跃度价值 (F)',
       dataIndex: 'f',
       key: 'f',
+      width: 140,
+      align: 'center' as const,
       sorter: (a: Customer, b: Customer) => a.f - b.f,
     },
     {
       title: '服务交互值',
       dataIndex: 'serviceScore',
       key: 'serviceScore',
+      width: 120,
+      align: 'center' as const,
       sorter: (a: Customer, b: Customer) => a.serviceScore - b.serviceScore,
     },
     {
       title: '近90天风险事件数',
       dataIndex: 'riskEvents',
       key: 'riskEvents',
+      width: 160,
+      align: 'center' as const,
       sorter: (a: Customer, b: Customer) => a.riskEvents - b.riskEvents,
       render: (v: number) => (
         <Text style={{ color: v > 0 ? '#ff4d4f' : '#52c41a' }}>{v}</Text>
@@ -387,6 +426,8 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
       title: '近90天增购额',
       dataIndex: 'upsellAmount',
       key: 'upsellAmount',
+      width: 140,
+      align: 'center' as const,
       sorter: (a: Customer, b: Customer) => a.upsellAmount - b.upsellAmount,
       render: (v: number) => (
         <Text>{v > 0 ? `¥${(v / 10000).toFixed(1)}万` : '-'}</Text>
@@ -396,6 +437,8 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
       title: '标签',
       dataIndex: 'tags',
       key: 'tags',
+      width: 200,
+      align: 'center' as const,
       render: (tags: string[]) => (
         <Space wrap>
           {tags.slice(0, 2).map(tag => (
@@ -407,6 +450,27 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
     },
   ];
 
+  // 根据visibleColumns过滤显示的列
+  const columns = allColumns.filter(col => visibleColumns[col.key]);
+
+  // 字段设置菜单项
+  const columnSettingsItems = allColumns.map(col => ({
+    key: col.key,
+    label: (
+      <Checkbox
+        checked={visibleColumns[col.key]}
+        onChange={(e) => {
+          setVisibleColumns(prev => ({
+            ...prev,
+            [col.key]: e.target.checked
+          }));
+        }}
+      >
+        {col.title}
+      </Checkbox>
+    ),
+  }));
+
   const headerTitle = selected
     ? `客户列表 - ${selected.valueTier} & ${selected.stage} (${filteredCustomers.length})`
     : `客户列表 - 全部客户 (${filteredCustomers.length})`;
@@ -414,7 +478,7 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
   return (
     <div>
       {/* 九宫格分层矩阵 */}
-      <Card style={{ ...cardStyle, marginBottom: 16 }} bodyStyle={{ padding: 16 }}>
+      <Card style={{ ...cardStyle, marginTop: 16, marginBottom: 16 }} bodyStyle={{ padding: 16 }}>
         <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center' }}>
           <Text type="secondary">当前筛选：</Text>
           <Text strong style={{ marginLeft: 8 }}>{selectedTitle}</Text>
@@ -442,7 +506,8 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
               </Space>
             </Col>
             {lifecycleStages.map((stage) => {
-              const isSelected = !!selected && selected.valueTier === tier && selected.stage === stage;
+              const activeSelection = selectedMatrix || selected;
+              const isSelected = !!activeSelection && activeSelection.valueTier === tier && activeSelection.stage === stage;
               const count = matrixCounts[tier][stage];
               const menuItems = [
                 { key: 'list', label: '查看客户列表' },
@@ -453,7 +518,11 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
                 <Col key={`${tier}-${stage}`} span={5}>
                   <div
                     style={{ ...getCellStyle(tier, stage, isSelected), position: 'relative' }}
-                    onClick={() => setSelected({ valueTier: tier, stage })}
+                    onClick={() => {
+                      const selection = { valueTier: tier, stage };
+                      setSelected(selection);
+                      onMatrixSelect?.(selection);
+                    }}
                     onMouseEnter={(e) => ((e.currentTarget.style.boxShadow = `0 4px 12px rgba(0,0,0,0.08), 0 0 0 3px ${lifecycleAccentColor[stage]}11`))}
                     onMouseLeave={(e) => ((e.currentTarget.style.boxShadow = isSelected ? `0 0 0 3px ${lifecycleAccentColor[stage]}22` : 'none'))}
                   >
@@ -466,7 +535,9 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
                           menu={{
                             items: menuItems,
                             onClick: ({ key }) => {
-                              setSelected({ valueTier: tier, stage });
+                              const selection = { valueTier: tier, stage };
+                              setSelected(selection);
+                              onMatrixSelect?.(selection);
                               if (key === 'list') {
                                 scrollToListAndHighlight();
                               }
@@ -525,7 +596,7 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
             <div 
               style={{ 
                 width: '100%', 
-                height: 260, 
+                height: 280, 
                 position: 'relative', 
                 overflow: 'hidden',
                 cursor: (xAxisRange.min > 0 || xAxisRange.max < 100 || yAxisRange.min > 0 || yAxisRange.max < 100) ? (isDragging ? 'grabbing' : 'grab') : 'default'
@@ -615,15 +686,19 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
                           setBubbleTip((prev) => prev ? { ...prev, x: e.clientX - rect.left + 12, y: e.clientY - rect.top + 12 } : prev);
                         }}
                         onMouseLeave={() => setBubbleTip(null)}
-                        onClick={() => setSelected({ valueTier: s.valueTier, stage: s.stage })}
+                        onClick={() => {
+                          const selection = { valueTier: s.valueTier, stage: s.stage };
+                          setSelected(selection);
+                          onMatrixSelect?.(selection);
+                        }}
                         style={{ cursor: 'pointer' }}
                       />
                     );
                   })
                 }
                 {/* 轴标题 */}
-                <text x="220" y="198" textAnchor="middle" fontSize="12" fill="#8c8c8c">客户健康度 ({Math.round(xAxisRange.min)}-{Math.round(xAxisRange.max)})</text>
-                <text x="12" y="14" textAnchor="start" fontSize="12" fill="#8c8c8c">价值分 ({Math.round(yAxisRange.min)}-{Math.round(yAxisRange.max)})</text>
+                <text x="220" y="210" textAnchor="middle" fontSize="12" fill="#595959">客户健康度 ({Math.round(xAxisRange.min)}-{Math.round(xAxisRange.max)})</text>
+                <text x="8" y="12" textAnchor="start" fontSize="12" fill="#595959">价值分 ({Math.round(yAxisRange.min)}-{Math.round(yAxisRange.max)})</text>
               </svg>
             </div>
           </Card>
@@ -631,8 +706,35 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
 
         {/* 迁移流向图（Sankey） */}
         <Col xs={24} lg={12}>
-          <Card style={{ ...cardStyle }} title={<span style={{ fontWeight: 600 }}>迁移流向图 (上季→本季)</span>}>
-            <div style={{ width: '100%', height: 320, position: 'relative' }}>
+          <Card style={{ ...cardStyle }} title={
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontWeight: 600 }}>迁移流向图 (上季→本季)</span>
+              <Space size="small">
+                <Button 
+                  size="small" 
+                  type={flowFilter === 'all' ? 'primary' : 'default'}
+                  onClick={() => setFlowFilter('all')}
+                >
+                  全部
+                </Button>
+                <Button 
+                  size="small" 
+                  type={flowFilter === 'inflow' ? 'primary' : 'default'}
+                  onClick={() => setFlowFilter('inflow')}
+                >
+                  流入
+                </Button>
+                <Button 
+                  size="small" 
+                  type={flowFilter === 'outflow' ? 'primary' : 'default'}
+                  onClick={() => setFlowFilter('outflow')}
+                >
+                  流出
+                </Button>
+              </Space>
+            </div>
+          }>
+            <div style={{ width: '100%', height: 280, position: 'relative' }}>
               {sankeyTip?.visible && (
                 <div style={{ position: 'absolute', left: sankeyTip.x, top: sankeyTip.y, background: '#fff', border: '1px solid #d9d9d9', borderRadius: 4, padding: '6px 8px', fontSize: 12, pointerEvents: 'none', zIndex: 10 }}>
                   {sankeyTip.text}
@@ -648,15 +750,23 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
                     positions[`R-${t}`] = 60 + i * 80;
                   });
                   // 使用之前的迁移数据构造流
-                  const flows = [
-                    { from: '低价值', to: '中价值', value: tierMigration.up_l2m, color: '#5B8FF9' },
-                    { from: '中价值', to: '高价值', value: tierMigration.up_m2h, color: '#5AD8A6' },
-                    { from: '低价值', to: '低价值', value: tierMigration.same_l, color: '#B37FEB' },
-                    { from: '中价值', to: '中价值', value: tierMigration.same_m, color: '#FF9D4D' },
-                    { from: '高价值', to: '高价值', value: tierMigration.same_h, color: '#CDDDFD' },
-                    { from: '高价值', to: '中价值', value: tierMigration.down_h2m, color: '#F4664A' },
-                    { from: '中价值', to: '低价值', value: tierMigration.down_m2l, color: '#D3F261' },
+                  const allFlows = [
+                    { from: '低价值', to: '中价值', value: tierMigration.up_l2m, color: '#5B8FF9', type: 'inflow' },
+                    { from: '中价值', to: '高价值', value: tierMigration.up_m2h, color: '#5AD8A6', type: 'inflow' },
+                    { from: '低价值', to: '低价值', value: tierMigration.same_l, color: '#B37FEB', type: 'same' },
+                    { from: '中价值', to: '中价值', value: tierMigration.same_m, color: '#FF9D4D', type: 'same' },
+                    { from: '高价值', to: '高价值', value: tierMigration.same_h, color: '#CDDDFD', type: 'same' },
+                    { from: '高价值', to: '中价值', value: tierMigration.down_h2m, color: '#F4664A', type: 'outflow' },
+                    { from: '中价值', to: '低价值', value: tierMigration.down_m2l, color: '#D3F261', type: 'outflow' },
                   ];
+                  
+                  // 根据过滤条件筛选流向
+                  const flows = allFlows.filter(flow => {
+                    if (flowFilter === 'all') return true;
+                    if (flowFilter === 'inflow') return flow.type === 'inflow';
+                    if (flowFilter === 'outflow') return flow.type === 'outflow';
+                    return true;
+                  });
                   const maxFlow = Math.max(1, ...flows.map(f => f.value));
                   const strokeScale = (v: number) => 2 + (v / maxFlow) * 14;
                   function pathD(y1: number, y2: number) {
@@ -724,13 +834,24 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
         title={
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <span style={{ fontSize: 16, fontWeight: 600 }}>{headerTitle}</span>
-            <Input.Search
-              allowClear
-              placeholder="搜索客户/CSM/标签..."
-              style={{ width: 320 }}
-              onSearch={(v) => setSearch(v)}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <Dropdown
+                menu={{ items: columnSettingsItems }}
+                trigger={['click']}
+                placement="bottomRight"
+              >
+                <Button icon={<SettingOutlined />} type="text">
+                  字段设置
+                </Button>
+              </Dropdown>
+              <Input.Search
+                allowClear
+                placeholder="搜索客户/CSM/标签..."
+                style={{ width: 320 }}
+                onSearch={(v) => setSearch(v)}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
           </div>
         }
       >
@@ -738,7 +859,15 @@ const ValueLifecycleTab: React.FC<ValueLifecycleTabProps> = ({ customers, onCust
           rowKey="id"
           dataSource={filteredCustomers}
           columns={columns as any}
-          pagination={{ pageSize: 10, showSizeChanger: false }}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) => `共 ${total} 条记录，当前显示 ${range[0]}-${range[1]} 条`,
+            pageSizeOptions: ['10', '20', '50', '100'],
+            showLessItems: true,
+          }}
+          scroll={{ x: 1500 }}
           onRow={(record) => ({
             onClick: () => onCustomerSelect?.(record),
             style: { cursor: 'pointer' }

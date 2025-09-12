@@ -54,6 +54,7 @@ const CustomerDetailDrawer: React.FC<CustomerDetailDrawerProps> = ({
       purchasedProducts: ['产品A', '产品B'], // 默认值
       keyContacts: [
         {
+          id: 'contact-1',
           name: '联系人',
           title: '技术负责人',
           phone: '138****8888',

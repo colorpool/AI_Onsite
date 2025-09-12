@@ -49,8 +49,29 @@ export interface Contract {
   salesSource: 'direct' | 'channel'; // 销售来源
   salesPerson?: string; // 销售人员（直营）
   channelPartner?: string; // 渠道合作伙伴（渠道）
+  
+  // 扩展字段
+  userVersion?: string; // 人数版本
+  ticketVersion?: string; // 提单版本
+  ticketTime?: string; // 提单时间
+  tianyuanOrderStatus?: 'active' | 'inactive' | 'pending'; // 天元订单是否生效
+  tianyuanOrderId?: string; // 天元订单号
+  serviceCost?: number; // 服务成本（如送礼等投入）
+  serviceCostDetails?: string[]; // 服务成本明细
+  attachments?: ContractAttachment[]; // 合同附件
+  
   createdAt: string;
   updatedAt: string;
+}
+
+// 合同附件
+export interface ContractAttachment {
+  id: string;
+  name: string;
+  type: 'contract' | 'supplement' | 'invoice' | 'other';
+  url: string;
+  size: number;
+  uploadDate: string;
 }
 
 // 交接单信息
@@ -67,11 +88,18 @@ export interface HandoverRecord {
 
 // 联系人信息
 export interface ContactInfo {
+  id: string;
   name: string;
   title: string;
   phone: string;
   email: string;
   isPrimary: boolean;
+  // 干系表相关字段
+  stakeholderType?: 'decision_maker' | 'supporter' | 'opponent' | 'influencer' | 'user' | 'other'; // 干系人类型
+  influence?: 'high' | 'medium' | 'low'; // 影响力
+  attitude?: 'positive' | 'neutral' | 'negative'; // 态度
+  department?: string; // 部门
+  notes?: string; // 备注
 }
 
 // 客户档案信息（全生命周期）
@@ -93,6 +121,7 @@ export interface Customer {
   // 产品和联系人信息
   purchasedProducts: string[]; // 已购产品/服务
   keyContacts: ContactInfo[]; // 关键联系人
+  connectionLevel?: number; // 建联度 1-5
   
   // 当前合同信息（最新的活跃合同）
   currentContract?: Contract;
@@ -101,10 +130,16 @@ export interface Customer {
   contracts: Contract[]; // 所有合同记录
   handoverRecords: HandoverRecord[]; // 所有交接单记录
   
-  // 续约信息
+  // 续约相关
   nextRenewalDate?: string; // 下次续约日期
   serviceExpiryDate?: string; // 服务到期日期（基于当前合同）
   isRenewalRisk: boolean; // 是否续约风险
+  
+  // 新增字段
+  ticketExpiryDate?: string; // 提单到期时间
+  contractStartDate?: string; // 合同开始时间
+  contractEndDate?: string; // 合同结束时间
+  customerSegment?: string; // 客户分层
   
   // 互动记录
   lastContactDate: string; // 最后接触日期

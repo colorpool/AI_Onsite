@@ -197,6 +197,14 @@ ul,
 ol {
   list-style: none;
 }
+.ant-table-thead > tr > th {
+  white-space: nowrap !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.ant-table-thead > tr > th .ant-table-column-title {
+  white-space: nowrap !important;
+}
 @media (max-width: 768px) {
   .ant-table {
     width: 100%;

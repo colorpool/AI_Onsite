@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Select, DatePicker, Input, Button, Space, Tooltip } from 'antd';
-import { SearchOutlined, SaveOutlined, ExportOutlined, FilterOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
+import { SearchOutlined, ExportOutlined, FilterOutlined, UpOutlined, DownOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 const { RangePicker } = DatePicker;
@@ -178,7 +178,7 @@ const GlobalFilters: React.FC<GlobalFiltersProps> = ({
         {/* CSM负责人 */}
         <Col>
           <Space direction="vertical" size={4}>
-            <span style={{ fontSize: '12px', color: '#8c8c8c' }}>CSM负责人</span>
+            <span style={{ fontSize: '12px', color: '#8c8c8c' }}>客户成功</span>
             <Select
               mode="multiple"
               value={filters.csmOwners}
@@ -255,16 +255,6 @@ const GlobalFilters: React.FC<GlobalFiltersProps> = ({
             {/* 操作按钮 */}
             <Col>
               <Space>
-                <Tooltip title="保存当前筛选条件为视图">
-                  <Button
-                    type="text"
-                    icon={<SaveOutlined />}
-                    onClick={onSaveView}
-                    size="small"
-                  >
-                    保存视图
-                  </Button>
-                </Tooltip>
                 <Tooltip title="导出当前筛选结果">
                   <Button
                     type="text"

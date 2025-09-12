@@ -18,6 +18,7 @@ import {
 } from '@ant-design/icons';
 import { DashboardMetrics, CustomerProfile } from '@/types/tab';
 import { mockCustomerHandovers } from '../mock/handoverData';
+import { generateUnifiedCustomerData } from '../mock/customerData';
 
 // 仪表板内容
 export const DashboardContent: React.FC = () => {
@@ -123,32 +124,35 @@ export const DashboardContent: React.FC = () => {
 // 交接实施内容
 export const HandoverImplementationContent: React.FC = () => {
   
-  // 使用mockCustomerHandovers数据，转换为表格所需格式
-  const handoverData = mockCustomerHandovers.slice(0, 3).map((item, index) => {
-    // 将状态映射到表格需要的状态
+  // 使用统一的客户数据源，确保与客户分层盘点数据一致
+  const unifiedCustomers = generateUnifiedCustomerData();
+  const handoverData = unifiedCustomers.slice(0, 3).map((customer, index) => {
+    // 基于客户数据生成交接状态
+    const statusSeed = customer.name.charCodeAt(0) + customer.id.charCodeAt(customer.id.length - 1);
     let status = 'pending';
-    if (item.handoverStatus === 'normal') {
-      status = 'in_progress';
-    } else if (item.expectationAlignment === 'aligned') {
+    if (statusSeed % 3 === 0) {
       status = 'completed';
+    } else if (statusSeed % 3 === 1) {
+      status = 'in_progress';
     }
     
-    // 将风险等级映射到优先级
+    // 基于客户数据生成优先级
+    const prioritySeed = customer.industry.charCodeAt(0) + customer.arr;
     let priority = 'medium';
-    if (item.riskLevel === 'high') {
+    if (prioritySeed % 3 === 0) {
       priority = 'high';
-    } else if (item.riskLevel === 'low') {
+    } else if (prioritySeed % 3 === 2) {
       priority = 'low';
     }
     
     return {
-      key: item.id,
-      customer: item.customerName,
-      contact: item.stakeholders && item.stakeholders.length > 0 ? item.stakeholders[0].name : '-',
-      phone: item.stakeholders && item.stakeholders.length > 0 ? item.stakeholders[0].contact : '-',
+      key: customer.id,
+      customer: customer.name,
+      contact: customer.csm || '-',
+      phone: `138${String(customer.id.charCodeAt(0) + customer.name.charCodeAt(0)).padStart(4, '0')}${String(Math.abs(customer.arr % 10000)).padStart(4, '0')}`,
       status,
       priority,
-      createTime: new Date(item.createdAt).toLocaleDateString(),
+      createTime: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
     };
   });
 
@@ -338,22 +342,43 @@ export const ContinuousServiceContent: React.FC = () => {
               overflow: 'hidden'
             }}
             bodyStyle={{
-              padding: '16px',
-              height: '144px',
-              minHeight: '144px',
-              maxHeight: '144px',
-              overflow: 'hidden'
+              padding: '12px 16px',
+              height: '148px',
+              minHeight: '148px',
+              maxHeight: '148px',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column'
             }}
             size="small"
           >
-            <div style={{ height: '100%', overflowY: 'auto' }}>
-              {changeData.map((item) => (
-                <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', padding: '4px 0' }}>
-                  <Avatar size={14} style={{ backgroundColor: '#1890ff', minWidth: '14px' }}>
+            <div style={{ 
+              flex: 1, 
+              overflowY: 'auto',
+              minHeight: 0,
+              paddingRight: '4px'
+            }}>
+              {changeData.map((item, index) => (
+                <div key={item.id} style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '8px', 
+                  marginBottom: index === changeData.length - 1 ? '0' : '10px', 
+                  padding: '6px 0',
+                  minHeight: '26px'
+                }}>
+                  <Avatar size={14} style={{ backgroundColor: '#1890ff', minWidth: '14px', flexShrink: 0 }}>
                     {item.company.charAt(0)}
                   </Avatar>
-                  <div style={{ flex: 1, overflow: 'hidden' }}>
-                    <div style={{ fontSize: '11px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <div style={{ flex: 1, overflow: 'hidden', minWidth: 0 }}>
+                    <div style={{ 
+                      fontSize: '11px', 
+                      fontWeight: '500', 
+                      whiteSpace: 'nowrap', 
+                      overflow: 'hidden', 
+                      textOverflow: 'ellipsis',
+                      lineHeight: '14px'
+                    }}>
                       {item.company}
                     </div>
                   </div>
@@ -362,10 +387,11 @@ export const ContinuousServiceContent: React.FC = () => {
                     style={{ 
                       borderRadius: 2,
                       fontSize: '10px',
-                      padding: '0 3px',
+                      padding: '0 4px',
                       lineHeight: '16px',
                       height: '16px',
-                      margin: 0
+                      margin: 0,
+                      flexShrink: 0
                     }}
                   >
                     {item.type}

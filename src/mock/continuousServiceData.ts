@@ -1,6 +1,7 @@
 import {
   Customer,
   Contract,
+  ContractAttachment,
   HandoverRecord,
   ValueBoard,
   QBRMeeting,
@@ -38,6 +39,31 @@ export const mockContracts: Contract[] = [
     accountCount: 50,
     salesSource: 'direct',
     salesPerson: '王销售',
+    userVersion: '50人版',
+    ticketVersion: 'V2.1',
+    ticketTime: '2023-06-15',
+    tianyuanOrderStatus: 'active',
+    tianyuanOrderId: 'TY-2023-001',
+    serviceCost: 15000,
+    serviceCostDetails: ['客户拜访差旅费: 3000元', '节日礼品: 8000元', '培训资料: 2000元', '技术支持: 2000元'],
+    attachments: [
+      {
+        id: 'att_001_001',
+        name: '北京科技有限公司-服务合同.pdf',
+        type: 'contract',
+        url: '/attachments/contracts/CONT-2023-001.pdf',
+        size: 2048576,
+        uploadDate: '2023-05-15'
+      },
+      {
+        id: 'att_001_002',
+        name: '技术服务补充协议.pdf',
+        type: 'supplement',
+        url: '/attachments/supplements/CONT-2023-001-SUP.pdf',
+        size: 1024768,
+        uploadDate: '2023-05-20'
+      }
+    ],
     createdAt: '2023-05-15',
     updatedAt: '2023-06-01'
   },
@@ -56,6 +82,23 @@ export const mockContracts: Contract[] = [
     accountCount: 30,
     salesSource: 'channel',
     channelPartner: '上海渠道合作伙伴有限公司',
+    userVersion: '30人版',
+    ticketVersion: 'V1.8',
+    ticketTime: '2022-09-10',
+    tianyuanOrderStatus: 'inactive',
+    tianyuanOrderId: 'TY-2022-015',
+    serviceCost: 12000,
+    serviceCostDetails: ['渠道返点: 8000元', '客户答谢: 4000元'],
+    attachments: [
+      {
+        id: 'att_002_001',
+        name: '上海智能科技-服务合同.pdf',
+        type: 'contract',
+        url: '/attachments/contracts/CONT-2022-015.pdf',
+        size: 1856432,
+        uploadDate: '2022-08-15'
+      }
+    ],
     createdAt: '2022-08-15',
     updatedAt: '2023-08-31'
   },
@@ -73,6 +116,31 @@ export const mockContracts: Contract[] = [
     accountCount: 40,
     salesSource: 'direct',
     salesPerson: '李销售',
+    userVersion: '40人版',
+    ticketVersion: 'V2.0',
+    ticketTime: '2023-09-08',
+    tianyuanOrderStatus: 'active',
+    tianyuanOrderId: 'TY-2023-045',
+    serviceCost: 18000,
+    serviceCostDetails: ['续约庆祝晚宴: 10000元', '定制培训: 5000元', '技术升级支持: 3000元'],
+    attachments: [
+      {
+        id: 'att_003_001',
+        name: '上海智能科技-续约合同.pdf',
+        type: 'contract',
+        url: '/attachments/contracts/CONT-2023-045.pdf',
+        size: 2234567,
+        uploadDate: '2023-08-10'
+      },
+      {
+        id: 'att_003_002',
+        name: '发票-CONT-2023-045.pdf',
+        type: 'invoice',
+        url: '/attachments/invoices/INV-2023-045.pdf',
+        size: 512345,
+        uploadDate: '2023-09-01'
+      }
+    ],
     createdAt: '2023-08-10',
     updatedAt: '2023-09-01'
   },
@@ -474,98 +542,170 @@ export const mockCustomerHistory: Record<string, CustomerHistoryItem[]> = {
 export const mockContacts: Record<string, ContactInfo[]> = {
   'CUST-0001': [
     {
+      id: 'contact_001_001',
       name: '张总',
       title: 'CEO',
       phone: '138****1001',
       email: 'zhang@bjtech.com',
-      isPrimary: true
+      isPrimary: true,
+      stakeholderType: 'decision_maker',
+      influence: 'high',
+      attitude: 'positive',
+      department: '管理层',
+      notes: '公司最终决策者，对数字化转型非常支持'
     },
     {
+      id: 'contact_001_002',
       name: '李经理',
       title: '技术总监',
       phone: '139****1002',
       email: 'li@bjtech.com',
-      isPrimary: false
+      isPrimary: false,
+      stakeholderType: 'influencer',
+      influence: 'high',
+      attitude: 'positive',
+      department: '技术部',
+      notes: '技术实施的关键推动者，具有很强的技术背景'
     }
   ],
   'CUST-0002': [
     {
+      id: 'contact_002_001',
       name: '王总',
       title: 'CTO',
       phone: '138****2001',
       email: 'wang@shtech.com',
-      isPrimary: true
+      isPrimary: true,
+      stakeholderType: 'decision_maker',
+      influence: 'high',
+      attitude: 'neutral',
+      department: '技术部',
+      notes: '技术决策者，对新技术持谨慎态度，需要充分的技术论证'
     },
     {
+      id: 'contact_002_002',
       name: '赵经理',
       title: '产品总监',
       phone: '139****2002',
       email: 'zhao@shtech.com',
-      isPrimary: false
+      isPrimary: false,
+      stakeholderType: 'user',
+      influence: 'medium',
+      attitude: 'positive',
+      department: '产品部',
+      notes: '产品线负责人，是系统的主要使用者，对功能需求很了解'
     }
   ],
   'CUST-0003': [
     {
+      id: 'contact_003_001',
       name: '刘总',
       title: 'CEO',
       phone: '138****3001',
       email: 'liu@sztech.com',
-      isPrimary: true
+      isPrimary: true,
+      stakeholderType: 'decision_maker',
+      influence: 'high',
+      attitude: 'negative',
+      department: '管理层',
+      notes: '对当前系统效果不满意，存在流失风险，需要重点关注'
     },
     {
+      id: 'contact_003_002',
       name: '陈经理',
       title: '运营总监',
       phone: '139****3002',
       email: 'chen@sztech.com',
-      isPrimary: false
+      isPrimary: false,
+      stakeholderType: 'influencer',
+      influence: 'medium',
+      attitude: 'neutral',
+      department: '运营部',
+      notes: '运营负责人，关注系统对业务效率的提升效果'
     }
   ],
   'CUST-0004': [
     {
+      id: 'contact_004_001',
       name: '钱总',
       title: 'CEO',
       phone: '138****4001',
       email: 'qian@gztech.com',
-      isPrimary: true
+      isPrimary: true,
+      stakeholderType: 'decision_maker',
+      influence: 'high',
+      attitude: 'positive',
+      department: '管理层',
+      notes: '战略客户决策者，对长期合作很有兴趣，是重要的合作伙伴'
     },
     {
+      id: 'contact_004_002',
       name: '孙经理',
       title: '技术总监',
       phone: '139****4002',
       email: 'sun@gztech.com',
-      isPrimary: false
+      isPrimary: false,
+      stakeholderType: 'user',
+      influence: 'high',
+      attitude: 'positive',
+      department: '技术部',
+      notes: '技术实施负责人，对系统集成和定制化需求很专业'
     }
   ],
   'CUST-0005': [
     {
+      id: 'contact_005_001',
       name: '周总',
       title: 'CTO',
       phone: '138****5001',
       email: 'zhou@hztech.com',
-      isPrimary: true
+      isPrimary: true,
+      stakeholderType: 'decision_maker',
+      influence: 'high',
+      attitude: 'positive',
+      department: '技术部',
+      notes: '技术背景深厚的CTO，对产品技术架构很认可'
     },
     {
+      id: 'contact_005_002',
       name: '吴经理',
       title: '产品经理',
       phone: '139****5002',
       email: 'wu@hztech.com',
-      isPrimary: false
+      isPrimary: false,
+      stakeholderType: 'user',
+      influence: 'medium',
+      attitude: 'neutral',
+      department: '产品部',
+      notes: '产品经理，关注用户体验和功能完善度'
     }
   ],
   'CUST-0006': [
     {
+      id: 'contact_006_001',
       name: '郑总',
       title: 'CEO',
       phone: '138****6001',
       email: 'zheng@cdtech.com',
-      isPrimary: true
+      isPrimary: true,
+      stakeholderType: 'decision_maker',
+      influence: 'high',
+      attitude: 'positive',
+      department: '管理层',
+      notes: '重新合作的客户，对我们的服务重新建立了信心'
     },
     {
+      id: 'contact_006_002',
       name: '王经理',
       title: '技术经理',
       phone: '139****6002',
       email: 'wang@cdtech.com',
-      isPrimary: false
+      isPrimary: false,
+      stakeholderType: 'user',
+      influence: 'medium',
+      attitude: 'positive',
+      department: '技术部',
+      notes: '技术实施负责人，对系统稳定性要求很高'
     }
   ]
 };
@@ -649,6 +789,7 @@ export const mockCustomers: Customer[] = [
     customerTier: 'strategic',
     salesPerson: '王销售',
     purchasedProducts: ['直营-极简版'],
+    connectionLevel: 4,
     keyContacts: mockContacts['CUST-0001'],
     currentContract: mockContracts.find(c => c.id === 'contract_001'),
     contracts: mockContracts.filter(c => c.customerId === 'CUST-0001'),
@@ -657,6 +798,11 @@ export const mockCustomers: Customer[] = [
     serviceExpiryDate: '2024-05-31',
     isRenewalRisk: false,
     lastContactDate: '2024-01-15',
+    // 新增字段
+    ticketExpiryDate: '2024-04-30',
+    contractStartDate: '2023-06-01',
+    contractEndDate: '2024-05-31',
+    customerSegment: 'strategic',
     serviceRecords: [
       {
         id: 'sr001',
@@ -699,6 +845,7 @@ export const mockCustomers: Customer[] = [
     customerTier: 'large',
     salesPerson: '李销售',
     purchasedProducts: ['企微版'],
+    connectionLevel: 3,
     keyContacts: mockContacts['CUST-0002'],
     currentContract: mockContracts.find(c => c.id === 'contract_003'),
     contracts: mockContracts.filter(c => c.customerId === 'CUST-0002'),
@@ -707,6 +854,11 @@ export const mockCustomers: Customer[] = [
     serviceExpiryDate: '2024-08-31',
     isRenewalRisk: false,
     lastContactDate: '2024-01-12',
+    // 新增字段
+    ticketExpiryDate: '2024-07-31',
+    contractStartDate: '2023-09-01',
+    contractEndDate: '2024-08-31',
+    customerSegment: 'key',
     serviceRecords: [
       {
         id: 'sr003',
@@ -748,6 +900,7 @@ export const mockCustomers: Customer[] = [
     customerTier: 'medium',
     salesPerson: '张销售',
     lifecycleStage: '衰退期',
+    connectionLevel: 2,
     purchasedProducts: ['飞书版'],
     keyContacts: mockContacts['CUST-0003'],
     currentContract: mockContracts.find(c => c.id === 'contract_005'),
@@ -757,6 +910,11 @@ export const mockCustomers: Customer[] = [
     serviceExpiryDate: '2024-06-30',
     isRenewalRisk: true,
     lastContactDate: '2024-01-08',
+    // 新增字段
+    ticketExpiryDate: '2024-05-30',
+    contractStartDate: '2023-07-01',
+    contractEndDate: '2024-06-30',
+    customerSegment: 'general',
     serviceRecords: [
       {
         id: 'sr005',
@@ -799,6 +957,7 @@ export const mockCustomers: Customer[] = [
     customerTier: 'strategic',
     salesPerson: '陈销售',
     purchasedProducts: ['D-learning'],
+    connectionLevel: 5,
     keyContacts: mockContacts['CUST-0004'],
     currentContract: mockContracts.find(c => c.id === 'contract_006'),
     contracts: mockContracts.filter(c => c.customerId === 'CUST-0004'),
@@ -807,6 +966,11 @@ export const mockCustomers: Customer[] = [
     serviceExpiryDate: '2025-09-30',
     isRenewalRisk: false,
     lastContactDate: '2024-01-20',
+    // 新增字段
+    ticketExpiryDate: '2025-08-30',
+    contractStartDate: '2023-10-01',
+    contractEndDate: '2025-09-30',
+    customerSegment: 'strategic',
     serviceRecords: [
       {
         id: 'sr007',
@@ -849,6 +1013,7 @@ export const mockCustomers: Customer[] = [
     customerTier: 'medium',
     salesPerson: '刘销售',
     purchasedProducts: ['D-learning'],
+    connectionLevel: 3,
     keyContacts: mockContacts['CUST-0005'],
     currentContract: mockContracts.find(c => c.id === 'contract_007'),
     contracts: mockContracts.filter(c => c.customerId === 'CUST-0005'),
@@ -857,6 +1022,11 @@ export const mockCustomers: Customer[] = [
     serviceExpiryDate: '2024-05-31',
     isRenewalRisk: false,
     lastContactDate: '2024-01-18',
+    // 新增字段
+    ticketExpiryDate: '2024-04-30',
+    contractStartDate: '2023-06-01',
+    contractEndDate: '2024-05-31',
+    customerSegment: 'key',
     serviceRecords: [
       {
         id: 'sr009',
@@ -899,6 +1069,7 @@ export const mockCustomers: Customer[] = [
     customerTier: 'small',
     salesPerson: '赵销售',
     purchasedProducts: ['独立版'],
+    connectionLevel: 1,
     keyContacts: mockContacts['CUST-0006'],
     currentContract: mockContracts.find(c => c.id === 'contract_009'),
     contracts: mockContracts.filter(c => c.customerId === 'CUST-0006'),
@@ -907,6 +1078,11 @@ export const mockCustomers: Customer[] = [
     serviceExpiryDate: '2024-12-31',
     isRenewalRisk: true,
     lastContactDate: '2024-01-22',
+    // 新增字段
+    ticketExpiryDate: '2024-11-30',
+    contractStartDate: '2024-01-01',
+    contractEndDate: '2024-12-31',
+    customerSegment: 'general',
     serviceRecords: [
       {
         id: 'sr011',
