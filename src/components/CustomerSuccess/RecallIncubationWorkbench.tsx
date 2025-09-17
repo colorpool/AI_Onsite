@@ -464,16 +464,19 @@ const SwimLane: React.FC<SwimLaneProps> = ({ lane, customers, onCardClick, onMov
         backgroundColor: isOver ? '#e6f7ff' : lane.bgColor,
         borderRadius: '8px',
         padding: '16px',
-        minHeight: '400px',
+        height: '500px', // 固定高度
         border: isOver ? '2px dashed #1890ff' : '1px solid #d9d9d9',
         transition: 'all 0.3s ease',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <div style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center',
-        marginBottom: '12px'
+        marginBottom: '12px',
+        flexShrink: 0, // 防止标题被压缩
       }}>
         <Title level={5} style={{ margin: 0, color: lane.color }}>
           {lane.title}
@@ -481,25 +484,32 @@ const SwimLane: React.FC<SwimLaneProps> = ({ lane, customers, onCardClick, onMov
         <AnimatedCountTag color={lane.color} count={customers.length} />
       </div>
       
-      {visibleCustomers.map(customer => (
-        <CustomerCard
-          key={customer.id}
-          customer={customer}
-          onCardClick={onCardClick}
-          onMoveCustomer={onMoveCustomer}
-        />
-      ))}
-      
-      {hasMore && (
-        <Button 
-          type="link" 
-          size="small" 
-          onClick={onLoadMore}
-          style={{ padding: 0, height: 'auto' }}
-        >
-          <ArrowDownOutlined /> 加载更多 ({customers.length - visibleCount})
-        </Button>
-      )}
+      {/* 可滚动的内容区域 */}
+      <div style={{ 
+        flex: 1, 
+        overflowY: 'auto',
+        paddingRight: '4px', // 为滚动条留出空间
+      }}>
+        {visibleCustomers.map(customer => (
+          <CustomerCard
+            key={customer.id}
+            customer={customer}
+            onCardClick={onCardClick}
+            onMoveCustomer={onMoveCustomer}
+          />
+        ))}
+        
+        {hasMore && (
+          <Button 
+            type="link" 
+            size="small" 
+            onClick={onLoadMore}
+            style={{ padding: 0, height: 'auto', marginTop: '8px' }}
+          >
+            <ArrowDownOutlined /> 加载更多 ({customers.length - visibleCount})
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
@@ -683,26 +693,40 @@ const RecallIncubationWorkbench: React.FC = () => {
             marginBottom: '24px'
           }}
         >
-          <Row gutter={16}>
-            {SMART_RECOMMENDATIONS.map(rec => (
-              <Col span={8} key={rec.id}>
-                <Card 
-                  size="small" 
-                  hoverable
-                  style={{ 
-                    textAlign: 'center',
-                    border: rec.priority === 'high' ? '2px solid #ff4d4f' : '1px solid #d9d9d9'
-                  }}
-                >
-                  <Avatar size={40} style={{ backgroundColor: '#1890ff', marginBottom: '8px' }}>
-                    {rec.customer.charAt(0)}
-                  </Avatar>
-                  <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{rec.customer}</div>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            {SMART_RECOMMENDATIONS.filter(rec => rec.customer !== '阿里巴巴集团').map(rec => (
+              <div 
+                key={rec.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '12px 16px',
+                  border: '1px solid #d9d9d9',
+                  borderRadius: '8px',
+                  backgroundColor: '#fafafa',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  flex: 1
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f0f0f0';
+                  e.currentTarget.style.borderColor = '#1890ff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#fafafa';
+                  e.currentTarget.style.borderColor = '#d9d9d9';
+                }}
+              >
+                <Avatar size={32} style={{ backgroundColor: '#1890ff', marginRight: '12px' }}>
+                  {rec.customer.charAt(0)}
+                </Avatar>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 'bold', fontSize: '14px', marginBottom: '2px' }}>{rec.customer}</div>
                   <Text type="secondary" style={{ fontSize: '12px' }}>{rec.reason}</Text>
-                </Card>
-              </Col>
+                </div>
+              </div>
             ))}
-          </Row>
+          </div>
         </Card>
 
         {/* 筛选和视图切换 */}
@@ -769,9 +793,9 @@ const RecallIncubationWorkbench: React.FC = () => {
           <Col span={24}>
             {viewMode === 'board' ? (
               <div>
-                {/* 第一行：流失客户池 -> 待召回 */}
+                {/* 第一行：流失客户池 -> 待召回 -> 孵化中 */}
                 <Row gutter={16} style={{ marginBottom: 24 }}>
-                  <Col span={11}>
+                  <Col span={7}>
                     <SwimLane
                       lane={SWIM_LANES[0]}
                       customers={customersByStage[SWIM_LANES[0].key] || []}
@@ -781,10 +805,10 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[0].key)}
                     />
                   </Col>
-                  <Col span={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
-                    <ArrowRightOutlined style={{ fontSize: 24, color: '#1890ff' }} />
+                  <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
+                    <ArrowRightOutlined style={{ fontSize: 20, color: '#1890ff' }} />
                   </Col>
-                  <Col span={11}>
+                  <Col span={7}>
                     <SwimLane
                       lane={SWIM_LANES[1]}
                       customers={customersByStage[SWIM_LANES[1].key] || []}
@@ -794,16 +818,10 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[1].key)}
                     />
                   </Col>
-                </Row>
-                
-                {/* 箭头指引 */}
-                <div style={{ textAlign: 'center', marginBottom: 24 }}>
-                  <ArrowDownOutlined style={{ fontSize: 24, color: '#1890ff' }} />
-                </div>
-                
-                {/* 第二行：孵化中 -> 商务谈判 */}
-                <Row gutter={16} style={{ marginBottom: 24 }}>
-                  <Col span={11}>
+                  <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
+                    <ArrowRightOutlined style={{ fontSize: 20, color: '#1890ff' }} />
+                  </Col>
+                  <Col span={7}>
                     <SwimLane
                       lane={SWIM_LANES[2]}
                       customers={customersByStage[SWIM_LANES[2].key] || []}
@@ -813,10 +831,16 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[2].key)}
                     />
                   </Col>
-                  <Col span={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
-                    <ArrowRightOutlined style={{ fontSize: 24, color: '#1890ff' }} />
-                  </Col>
-                  <Col span={11}>
+                </Row>
+                
+                {/* 箭头指引 */}
+                <div style={{ textAlign: 'center', marginBottom: 24 }}>
+                  <ArrowDownOutlined style={{ fontSize: 24, color: '#1890ff' }} />
+                </div>
+                
+                {/* 第二行：商务谈判 -> 已召回 -> 永久流失 */}
+                <Row gutter={16}>
+                  <Col span={7}>
                     <SwimLane
                       lane={SWIM_LANES[3]}
                       customers={customersByStage[SWIM_LANES[3].key] || []}
@@ -826,16 +850,10 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[3].key)}
                     />
                   </Col>
-                </Row>
-                
-                {/* 箭头指引 */}
-                <div style={{ textAlign: 'center', marginBottom: 24 }}>
-                  <ArrowDownOutlined style={{ fontSize: 24, color: '#1890ff' }} />
-                </div>
-                
-                {/* 第三行：已召回 -> 永久流失 */}
-                <Row gutter={16}>
-                  <Col span={11}>
+                  <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
+                    <ArrowRightOutlined style={{ fontSize: 20, color: '#52c41a' }} />
+                  </Col>
+                  <Col span={7}>
                     <SwimLane
                       lane={SWIM_LANES[4]}
                       customers={customersByStage[SWIM_LANES[4].key] || []}
@@ -845,10 +863,10 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[4].key)}
                     />
                   </Col>
-                  <Col span={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
-                    <ArrowRightOutlined style={{ fontSize: 24, color: '#ff4d4f' }} />
+                  <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
+                    <ArrowRightOutlined style={{ fontSize: 20, color: '#ff4d4f' }} />
                   </Col>
-                  <Col span={11}>
+                  <Col span={7}>
                     <SwimLane
                       lane={SWIM_LANES[5]}
                       customers={customersByStage[SWIM_LANES[5].key] || []}

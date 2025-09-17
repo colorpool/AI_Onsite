@@ -6530,9 +6530,9 @@ __mako_require__.d(exports, "default", {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _reactdnd = __mako_require__("node_modules/react-dnd/dist/index.js");
@@ -6552,7 +6552,6 @@ var _s3 = $RefreshSig$();
 const { Title, Text } = _antd.Typography;
 const { Option } = _antd.Select;
 const { TextArea } = _antd.Input;
-// 常量定义
 const SWIM_LANES = [
     {
         key: 'pool',
@@ -6623,12 +6622,10 @@ const CHURN_REASONS = [
         color: '#8c8c8c'
     }
 ];
-// 当前CSM信息
 const CURRENT_CSM = {
     name: '张三',
     id: 'csm001'
 };
-// 智能推荐数据
 const SMART_RECOMMENDATIONS = [
     {
         id: '1',
@@ -6649,7 +6646,6 @@ const SMART_RECOMMENDATIONS = [
         priority: 'medium'
     }
 ];
-// 行动剧本模板
 const PLAYBOOK_TEMPLATES = {
     feature: [
         {
@@ -6714,7 +6710,6 @@ const PLAYBOOK_TEMPLATES = {
         }
     ]
 };
-// 模拟数据 - 只显示张三负责的客户
 const MOCK_CUSTOMERS = [
     {
         id: '1',
@@ -6971,14 +6966,14 @@ const CustomerCard = ({ customer, onCardClick, onMoveCustomer })=>{
             })
     });
     const churnReasonConfig = CHURN_REASONS.find((reason)=>reason.value === customer.churnReason);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         ref: drag,
         style: {
             opacity: isDragging ? 0.5 : 1,
             cursor: 'move',
             marginBottom: '8px'
         },
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+        children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
             size: "small",
             hoverable: true,
             onClick: ()=>onCardClick(customer),
@@ -6986,19 +6981,19 @@ const CustomerCard = ({ customer, onCardClick, onMoveCustomer })=>{
                 borderLeft: `4px solid ${customer.churnReasonColor}`,
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
             },
-            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            children: (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'flex-start'
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             flex: 1
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontWeight: 'bold',
                                     marginBottom: '4px'
@@ -7009,7 +7004,7 @@ const CustomerCard = ({ customer, onCardClick, onMoveCustomer })=>{
                                 lineNumber: 334,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                 color: churnReasonConfig === null || churnReasonConfig === void 0 ? void 0 : churnReasonConfig.color,
                                 children: churnReasonConfig === null || churnReasonConfig === void 0 ? void 0 : churnReasonConfig.label
                             }, void 0, false, {
@@ -7017,14 +7012,14 @@ const CustomerCard = ({ customer, onCardClick, onMoveCustomer })=>{
                                 lineNumber: 335,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '12px',
                                     color: '#666',
                                     marginTop: '4px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         children: [
                                             "ARR: ¥",
                                             customer.preChurnARR.toLocaleString()
@@ -7034,7 +7029,7 @@ const CustomerCard = ({ customer, onCardClick, onMoveCustomer })=>{
                                         lineNumber: 339,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         children: [
                                             "流失: ",
                                             customer.churnedDays,
@@ -7057,9 +7052,9 @@ const CustomerCard = ({ customer, onCardClick, onMoveCustomer })=>{
                         lineNumber: 333,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                         size: "small",
-                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
+                        icon: (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
                             lineNumber: 343,
                             columnNumber: 38
@@ -7099,8 +7094,8 @@ const AnimatedCountTag = ({ color, count })=>{
     (0, _react.useEffect)(()=>{
         if (displayCount !== count) {
             setIsAnimating(true);
-            const duration = 800; // 动画持续时间
-            const steps = 20; // 动画步数
+            const duration = 800;
+            const steps = 20;
             const increment = (count - displayCount) / steps;
             let currentStep = 0;
             const timer = setInterval(()=>{
@@ -7120,7 +7115,6 @@ const AnimatedCountTag = ({ color, count })=>{
         count,
         displayCount
     ]);
-    // 创建动态样式
     const pulseKeyframes = `
     @keyframes pulse-${color.replace('#', '')} {
       0% { 
@@ -7139,7 +7133,6 @@ const AnimatedCountTag = ({ color, count })=>{
   `;
     (0, _react.useEffect)(()=>{
         if (isAnimating) {
-            // 动态插入CSS动画
             const styleElement = document.createElement('style');
             styleElement.textContent = pulseKeyframes;
             document.head.appendChild(styleElement);
@@ -7151,7 +7144,7 @@ const AnimatedCountTag = ({ color, count })=>{
         isAnimating,
         pulseKeyframes
     ]);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+    return (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
         color: color,
         style: {
             animation: isAnimating ? `pulse-${color.replace('#', '')} 0.8s ease-in-out` : 'none',
@@ -7183,26 +7176,29 @@ const SwimLane = ({ lane, customers, onCardClick, onMoveCustomer, visibleCount, 
     });
     const visibleCustomers = customers.slice(0, visibleCount);
     const hasMore = customers.length > visibleCount;
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         ref: drop,
         style: {
             backgroundColor: isOver ? '#e6f7ff' : lane.bgColor,
             borderRadius: '8px',
             padding: '16px',
-            minHeight: '400px',
+            height: '500px',
             border: isOver ? '2px dashed #1890ff' : '1px solid #d9d9d9',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
+            display: 'flex',
+            flexDirection: 'column'
         },
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginBottom: '12px'
+                    marginBottom: '12px',
+                    flexShrink: 0
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                    (0, _jsxdevruntime.jsxDEV)(Title, {
                         level: 5,
                         style: {
                             margin: 0,
@@ -7211,54 +7207,68 @@ const SwimLane = ({ lane, customers, onCardClick, onMoveCustomer, visibleCount, 
                         children: lane.title
                     }, void 0, false, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 478,
+                        lineNumber: 481,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(AnimatedCountTag, {
+                    (0, _jsxdevruntime.jsxDEV)(AnimatedCountTag, {
                         color: lane.color,
                         count: customers.length
                     }, void 0, false, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 481,
+                        lineNumber: 484,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                lineNumber: 472,
+                lineNumber: 474,
                 columnNumber: 7
             }, this),
-            visibleCustomers.map((customer)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(CustomerCard, {
-                    customer: customer,
-                    onCardClick: onCardClick,
-                    onMoveCustomer: onMoveCustomer
-                }, customer.id, false, {
-                    fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 485,
-                    columnNumber: 9
-                }, this)),
-            hasMore && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                type: "link",
-                size: "small",
-                onClick: onLoadMore,
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
-                    padding: 0,
-                    height: 'auto'
+                    flex: 1,
+                    overflowY: 'auto',
+                    paddingRight: '4px'
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {}, void 0, false, {
+                    visibleCustomers.map((customer)=>(0, _jsxdevruntime.jsxDEV)(CustomerCard, {
+                            customer: customer,
+                            onCardClick: onCardClick,
+                            onMoveCustomer: onMoveCustomer
+                        }, customer.id, false, {
+                            fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                            lineNumber: 494,
+                            columnNumber: 11
+                        }, this)),
+                    hasMore && (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        type: "link",
+                        size: "small",
+                        onClick: onLoadMore,
+                        style: {
+                            padding: 0,
+                            height: 'auto',
+                            marginTop: '8px'
+                        },
+                        children: [
+                            (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {}, void 0, false, {
+                                fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                lineNumber: 509,
+                                columnNumber: 13
+                            }, this),
+                            " 加载更多 (",
+                            customers.length - visibleCount,
+                            ")"
+                        ]
+                    }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 500,
+                        lineNumber: 503,
                         columnNumber: 11
-                    }, this),
-                    " 加载更多 (",
-                    customers.length - visibleCount,
-                    ")"
+                    }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                lineNumber: 494,
-                columnNumber: 9
+                lineNumber: 488,
+                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
@@ -7273,7 +7283,6 @@ _s2(SwimLane, "9166pYLrZ/JzF75YDim8ZjfICTM=", false, function() {
     ];
 });
 _c2 = SwimLane;
-// 主组件
 const RecallIncubationWorkbench = ()=>{
     var _PLAYBOOK_TEMPLATES_selectedCustomer_churnReason;
     _s3();
@@ -7285,7 +7294,6 @@ const RecallIncubationWorkbench = ()=>{
     const [searchKeyword, setSearchKeyword] = (0, _react.useState)('');
     const [viewMode, setViewMode] = (0, _react.useState)('board');
     const [visibleCounts, setVisibleCounts] = (0, _react.useState)({});
-    // 只显示当前CSM负责的客户
     const filteredCustomers = customers.filter((customer)=>{
         if (customer.csm !== CURRENT_CSM.name) return false;
         if (filterReason !== 'all' && customer.churnReason !== filterReason) return false;
@@ -7297,19 +7305,16 @@ const RecallIncubationWorkbench = ()=>{
         if (searchKeyword && !customer.name.toLowerCase().includes(searchKeyword.toLowerCase())) return false;
         return true;
     });
-    // 加载更多客户函数
     const loadMoreCustomers = (0, _react.useCallback)((laneKey)=>{
         setVisibleCounts((prev)=>({
                 ...prev,
                 [laneKey]: (prev[laneKey] || 5) + 5
             }));
     }, []);
-    // 点击客户卡片
     const handleCardClick = (0, _react.useCallback)((customer)=>{
         setSelectedCustomer(customer);
         setDrawerVisible(true);
     }, []);
-    // 移动客户到不同阶段
     const handleMoveCustomer = (0, _react.useCallback)((customerId, targetStage)=>{
         setCustomers((prev)=>prev.map((customer)=>customer.id === customerId ? {
                     ...customer,
@@ -7317,19 +7322,18 @@ const RecallIncubationWorkbench = ()=>{
                 } : customer));
         _antd.message.success('客户状态已更新');
     }, []);
-    // 列表视图的列定义
     const listColumns = [
         {
             title: '客户名称',
             dataIndex: 'name',
             key: 'name',
-            render: (text, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+            render: (text, record)=>(0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                     type: "link",
                     onClick: ()=>handleCardClick(record),
                     children: text
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 565,
+                    lineNumber: 575,
                     columnNumber: 9
                 }, this)
         },
@@ -7339,12 +7343,12 @@ const RecallIncubationWorkbench = ()=>{
             key: 'churnReason',
             render: (reason)=>{
                 const config = CHURN_REASONS.find((r)=>r.value === reason);
-                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                return (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     color: config === null || config === void 0 ? void 0 : config.color,
                     children: config === null || config === void 0 ? void 0 : config.label
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 576,
+                    lineNumber: 586,
                     columnNumber: 16
                 }, this);
             }
@@ -7368,18 +7372,17 @@ const RecallIncubationWorkbench = ()=>{
             key: 'stage',
             render: (stage)=>{
                 const lane = SWIM_LANES.find((l)=>l.key === stage);
-                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                return (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                     color: lane === null || lane === void 0 ? void 0 : lane.color,
                     children: lane === null || lane === void 0 ? void 0 : lane.title
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 598,
+                    lineNumber: 608,
                     columnNumber: 16
                 }, this);
             }
         }
     ];
-    // 初始化可见数量
     _react.default.useEffect(()=>{
         const initialCounts = {};
         SWIM_LANES.forEach((lane)=>{
@@ -7387,12 +7390,10 @@ const RecallIncubationWorkbench = ()=>{
         });
         setVisibleCounts(initialCounts);
     }, []);
-    // 按阶段分组客户
     const customersByStage = SWIM_LANES.reduce((acc, lane)=>{
         acc[lane.key] = filteredCustomers.filter((customer)=>customer.stage === lane.key);
         return acc;
     }, {});
-    // 计算个人业绩
     const personalMetrics = _react.default.useMemo(()=>{
         const pendingAmount = filteredCustomers.filter((c)=>[
                 'pool',
@@ -7412,21 +7413,21 @@ const RecallIncubationWorkbench = ()=>{
     }, [
         filteredCustomers
     ]);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_reactdnd.DndProvider, {
+    return (0, _jsxdevruntime.jsxDEV)(_reactdnd.DndProvider, {
         backend: _reactdndhtml5backend.HTML5Backend,
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        children: (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 padding: '32px 40px',
                 backgroundColor: '#f5f5f5',
                 minHeight: '100vh'
             },
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         marginBottom: '24px'
                     },
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                        (0, _jsxdevruntime.jsxDEV)(Title, {
                             level: 2,
                             style: {
                                 margin: 0,
@@ -7436,10 +7437,10 @@ const RecallIncubationWorkbench = ()=>{
                             children: "召回孵化"
                         }, void 0, false, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 640,
+                            lineNumber: 650,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                        (0, _jsxdevruntime.jsxDEV)(Text, {
                             type: "secondary",
                             style: {
                                 fontSize: '14px',
@@ -7448,31 +7449,31 @@ const RecallIncubationWorkbench = ()=>{
                             children: "以数据驱动的流失客户召回与价值重建"
                         }, void 0, false, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 643,
+                            lineNumber: 653,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 639,
+                    lineNumber: 649,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                     title: "我的召回业绩 (本季度)",
                     style: {
                         marginBottom: '24px'
                     },
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                         gutter: 24,
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 span: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         textAlign: 'center'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 fontSize: '24px',
                                                 fontWeight: 'bold',
@@ -7484,38 +7485,38 @@ const RecallIncubationWorkbench = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 654,
+                                            lineNumber: 664,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 color: '#666'
                                             },
                                             children: "待召回总金额"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 657,
+                                            lineNumber: 667,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 653,
+                                    lineNumber: 663,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 652,
+                                lineNumber: 662,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 span: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         textAlign: 'center'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 fontSize: '24px',
                                                 fontWeight: 'bold',
@@ -7527,38 +7528,38 @@ const RecallIncubationWorkbench = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 662,
+                                            lineNumber: 672,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 color: '#666'
                                             },
                                             children: "已召回金额"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 665,
+                                            lineNumber: 675,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 661,
+                                    lineNumber: 671,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 660,
+                                lineNumber: 670,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 span: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         textAlign: 'center'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 fontSize: '24px',
                                                 fontWeight: 'bold',
@@ -7570,147 +7571,169 @@ const RecallIncubationWorkbench = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 670,
+                                            lineNumber: 680,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 color: '#666'
                                             },
                                             children: "召回成功率"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 673,
+                                            lineNumber: 683,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 669,
+                                    lineNumber: 679,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 668,
+                                lineNumber: 678,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 651,
+                        lineNumber: 661,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 647,
+                    lineNumber: 657,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                    title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                    title: (0, _jsxdevruntime.jsxDEV)("span", {
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.BulbOutlined, {
+                            (0, _jsxdevruntime.jsxDEV)(_icons.BulbOutlined, {
                                 style: {
                                     color: '#faad14'
                                 }
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 681,
+                                lineNumber: 691,
                                 columnNumber: 24
                             }, void 0),
                             " 智能推荐 - 今日优先关注"
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 681,
+                        lineNumber: 691,
                         columnNumber: 18
                     }, void 0),
                     style: {
                         marginBottom: '24px'
                     },
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                        gutter: 16,
-                        children: SMART_RECOMMENDATIONS.map((rec)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                span: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                    size: "small",
-                                    hoverable: true,
-                                    style: {
-                                        textAlign: 'center',
-                                        border: rec.priority === 'high' ? '2px solid #ff4d4f' : '1px solid #d9d9d9'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
-                                            size: 40,
-                                            style: {
-                                                backgroundColor: '#1890ff',
-                                                marginBottom: '8px'
-                                            },
-                                            children: rec.customer.charAt(0)
-                                        }, void 0, false, {
-                                            fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 697,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                            style: {
-                                                fontWeight: 'bold',
-                                                marginBottom: '4px'
-                                            },
-                                            children: rec.customer
-                                        }, void 0, false, {
-                                            fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 700,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                            type: "secondary",
-                                            style: {
-                                                fontSize: '12px'
-                                            },
-                                            children: rec.reason
-                                        }, void 0, false, {
-                                            fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 701,
-                                            columnNumber: 19
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 689,
-                                    columnNumber: 17
-                                }, this)
-                            }, rec.id, false, {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            gap: '16px',
+                            alignItems: 'center'
+                        },
+                        children: SMART_RECOMMENDATIONS.filter((rec)=>rec.customer !== '阿里巴巴集团').map((rec)=>(0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '12px 16px',
+                                    border: '1px solid #d9d9d9',
+                                    borderRadius: '8px',
+                                    backgroundColor: '#fafafa',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    flex: 1
+                                },
+                                onMouseEnter: (e)=>{
+                                    e.currentTarget.style.backgroundColor = '#f0f0f0';
+                                    e.currentTarget.style.borderColor = '#1890ff';
+                                },
+                                onMouseLeave: (e)=>{
+                                    e.currentTarget.style.backgroundColor = '#fafafa';
+                                    e.currentTarget.style.borderColor = '#d9d9d9';
+                                },
+                                children: [
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                        size: 32,
+                                        style: {
+                                            backgroundColor: '#1890ff',
+                                            marginRight: '12px'
+                                        },
+                                        children: rec.customer.charAt(0)
+                                    }, void 0, false, {
+                                        fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                        lineNumber: 720,
+                                        columnNumber: 17
+                                    }, this),
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            flex: 1
+                                        },
+                                        children: [
+                                            (0, _jsxdevruntime.jsxDEV)("div", {
+                                                style: {
+                                                    fontWeight: 'bold',
+                                                    fontSize: '14px',
+                                                    marginBottom: '2px'
+                                                },
+                                                children: rec.customer
+                                            }, void 0, false, {
+                                                fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                                lineNumber: 724,
+                                                columnNumber: 19
+                                            }, this),
+                                            (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                type: "secondary",
+                                                style: {
+                                                    fontSize: '12px'
+                                                },
+                                                children: rec.reason
+                                            }, void 0, false, {
+                                                fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                                lineNumber: 725,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                        lineNumber: 723,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, rec.id, true, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 688,
+                                lineNumber: 698,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 686,
+                        lineNumber: 696,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 680,
+                    lineNumber: 690,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                     style: {
                         marginBottom: '24px'
                     },
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                         gutter: 16,
                         align: "middle",
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FilterOutlined, {}, void 0, false, {
+                                        (0, _jsxdevruntime.jsxDEV)(_icons.FilterOutlined, {}, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 713,
+                                            lineNumber: 737,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                             value: filterReason,
                                             onChange: setFilterReason,
                                             style: {
@@ -7718,29 +7741,29 @@ const RecallIncubationWorkbench = ()=>{
                                             },
                                             placeholder: "流失原因",
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                (0, _jsxdevruntime.jsxDEV)(Option, {
                                                     value: "all",
                                                     children: "全部原因"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 720,
+                                                    lineNumber: 744,
                                                     columnNumber: 19
                                                 }, this),
-                                                CHURN_REASONS.map((reason)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                CHURN_REASONS.map((reason)=>(0, _jsxdevruntime.jsxDEV)(Option, {
                                                         value: reason.value,
                                                         children: reason.label
                                                     }, reason.value, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 722,
+                                                        lineNumber: 746,
                                                         columnNumber: 21
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 714,
+                                            lineNumber: 738,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                             value: filterARR,
                                             onChange: setFilterARR,
                                             style: {
@@ -7748,48 +7771,48 @@ const RecallIncubationWorkbench = ()=>{
                                             },
                                             placeholder: "合同金额",
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                (0, _jsxdevruntime.jsxDEV)(Option, {
                                                     value: "all",
                                                     children: "全部金额"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 731,
+                                                    lineNumber: 755,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                (0, _jsxdevruntime.jsxDEV)(Option, {
                                                     value: "high",
                                                     children: "高价值(≥50万)"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 732,
+                                                    lineNumber: 756,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                (0, _jsxdevruntime.jsxDEV)(Option, {
                                                     value: "medium",
                                                     children: "中价值(10-50万)"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 733,
+                                                    lineNumber: 757,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                (0, _jsxdevruntime.jsxDEV)(Option, {
                                                     value: "low",
                                                     children: "低价值(<10万)"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 734,
+                                                    lineNumber: 758,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 725,
+                                            lineNumber: 749,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
-                                            prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SearchOutlined, {}, void 0, false, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                            prefix: (0, _jsxdevruntime.jsxDEV)(_icons.SearchOutlined, {}, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 737,
+                                                lineNumber: 761,
                                                 columnNumber: 27
                                             }, void 0),
                                             placeholder: "搜索客户名称",
@@ -7800,95 +7823,95 @@ const RecallIncubationWorkbench = ()=>{
                                             }
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 736,
+                                            lineNumber: 760,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 712,
+                                    lineNumber: 736,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 711,
+                                lineNumber: 735,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 flex: "auto"
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 745,
+                                lineNumber: 769,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button.Group, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button.Group, {
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                             type: viewMode === 'board' ? 'primary' : 'default',
-                                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.AppstoreOutlined, {}, void 0, false, {
+                                            icon: (0, _jsxdevruntime.jsxDEV)(_icons.AppstoreOutlined, {}, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 750,
+                                                lineNumber: 774,
                                                 columnNumber: 25
                                             }, void 0),
                                             onClick: ()=>setViewMode('board'),
                                             children: "看板视图"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 748,
+                                            lineNumber: 772,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                             type: viewMode === 'list' ? 'primary' : 'default',
-                                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
+                                            icon: (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 757,
+                                                lineNumber: 781,
                                                 columnNumber: 25
                                             }, void 0),
                                             onClick: ()=>setViewMode('list'),
                                             children: "列表视图"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 755,
+                                            lineNumber: 779,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 747,
+                                    lineNumber: 771,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 746,
+                                lineNumber: 770,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 710,
+                        lineNumber: 734,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 709,
+                    lineNumber: 733,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                     gutter: 24,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                         span: 24,
-                        children: viewMode === 'board' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        children: viewMode === 'board' ? (0, _jsxdevruntime.jsxDEV)("div", {
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                                (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                                     gutter: 16,
                                     style: {
                                         marginBottom: 24
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 11,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(SwimLane, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 7,
+                                            children: (0, _jsxdevruntime.jsxDEV)(SwimLane, {
                                                 lane: SWIM_LANES[0],
                                                 customers: customersByStage[SWIM_LANES[0].key] || [],
                                                 onCardClick: handleCardClick,
@@ -7897,40 +7920,40 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[0].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 775,
+                                                lineNumber: 799,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 774,
+                                            lineNumber: 798,
                                             columnNumber: 19
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 2,
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 1,
                                             style: {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 paddingTop: 40
                                             },
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
+                                            children: (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
                                                 style: {
-                                                    fontSize: 24,
+                                                    fontSize: 20,
                                                     color: '#1890ff'
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 785,
+                                                lineNumber: 809,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 784,
+                                            lineNumber: 808,
                                             columnNumber: 19
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 11,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(SwimLane, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 7,
+                                            children: (0, _jsxdevruntime.jsxDEV)(SwimLane, {
                                                 lane: SWIM_LANES[1],
                                                 customers: customersByStage[SWIM_LANES[1].key] || [],
                                                 onCardClick: handleCardClick,
@@ -7939,49 +7962,40 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[1].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 788,
+                                                lineNumber: 812,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 787,
+                                            lineNumber: 811,
                                             columnNumber: 19
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 773,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        textAlign: 'center',
-                                        marginBottom: 24
-                                    },
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
-                                        style: {
-                                            fontSize: 24,
-                                            color: '#1890ff'
-                                        }
-                                    }, void 0, false, {
-                                        fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 801,
-                                        columnNumber: 19
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 800,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                                    gutter: 16,
-                                    style: {
-                                        marginBottom: 24
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 11,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(SwimLane, {
+                                        }, this),
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 1,
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                paddingTop: 40
+                                            },
+                                            children: (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
+                                                style: {
+                                                    fontSize: 20,
+                                                    color: '#1890ff'
+                                                }
+                                            }, void 0, false, {
+                                                fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                                lineNumber: 822,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                            lineNumber: 821,
+                                            columnNumber: 19
+                                        }, this),
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 7,
+                                            children: (0, _jsxdevruntime.jsxDEV)(SwimLane, {
                                                 lane: SWIM_LANES[2],
                                                 customers: customersByStage[SWIM_LANES[2].key] || [],
                                                 onCardClick: handleCardClick,
@@ -7990,40 +8004,46 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[2].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 807,
+                                                lineNumber: 825,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 806,
+                                            lineNumber: 824,
                                             columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 2,
-                                            style: {
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                paddingTop: 40
-                                            },
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
-                                                style: {
-                                                    fontSize: 24,
-                                                    color: '#1890ff'
-                                                }
-                                            }, void 0, false, {
-                                                fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 817,
-                                                columnNumber: 21
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 816,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 11,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(SwimLane, {
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                    lineNumber: 797,
+                                    columnNumber: 17
+                                }, this),
+                                (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        textAlign: 'center',
+                                        marginBottom: 24
+                                    },
+                                    children: (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
+                                        style: {
+                                            fontSize: 24,
+                                            color: '#1890ff'
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                        lineNumber: 838,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                    lineNumber: 837,
+                                    columnNumber: 17
+                                }, this),
+                                (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                                    gutter: 16,
+                                    children: [
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 7,
+                                            children: (0, _jsxdevruntime.jsxDEV)(SwimLane, {
                                                 lane: SWIM_LANES[3],
                                                 customers: customersByStage[SWIM_LANES[3].key] || [],
                                                 onCardClick: handleCardClick,
@@ -8032,46 +8052,40 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[3].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 820,
+                                                lineNumber: 844,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 819,
+                                            lineNumber: 843,
                                             columnNumber: 19
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 805,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        textAlign: 'center',
-                                        marginBottom: 24
-                                    },
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
-                                        style: {
-                                            fontSize: 24,
-                                            color: '#1890ff'
-                                        }
-                                    }, void 0, false, {
-                                        fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 833,
-                                        columnNumber: 19
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 832,
-                                    columnNumber: 17
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                                    gutter: 16,
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 11,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(SwimLane, {
+                                        }, this),
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 1,
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                paddingTop: 40
+                                            },
+                                            children: (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
+                                                style: {
+                                                    fontSize: 20,
+                                                    color: '#52c41a'
+                                                }
+                                            }, void 0, false, {
+                                                fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                                lineNumber: 854,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
+                                            lineNumber: 853,
+                                            columnNumber: 19
+                                        }, this),
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 7,
+                                            children: (0, _jsxdevruntime.jsxDEV)(SwimLane, {
                                                 lane: SWIM_LANES[4],
                                                 customers: customersByStage[SWIM_LANES[4].key] || [],
                                                 onCardClick: handleCardClick,
@@ -8080,40 +8094,40 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[4].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 839,
+                                                lineNumber: 857,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 838,
+                                            lineNumber: 856,
                                             columnNumber: 19
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 2,
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 1,
                                             style: {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
                                                 paddingTop: 40
                                             },
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
+                                            children: (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
                                                 style: {
-                                                    fontSize: 24,
+                                                    fontSize: 20,
                                                     color: '#ff4d4f'
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 849,
+                                                lineNumber: 867,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 848,
+                                            lineNumber: 866,
                                             columnNumber: 19
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 11,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(SwimLane, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 7,
+                                            children: (0, _jsxdevruntime.jsxDEV)(SwimLane, {
                                                 lane: SWIM_LANES[5],
                                                 customers: customersByStage[SWIM_LANES[5].key] || [],
                                                 onCardClick: handleCardClick,
@@ -8122,28 +8136,28 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[5].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 852,
+                                                lineNumber: 870,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 851,
+                                            lineNumber: 869,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 837,
+                                    lineNumber: 842,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 771,
+                            lineNumber: 795,
                             columnNumber: 15
-                        }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        }, this) : (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             title: "客户列表",
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
                                 columns: listColumns,
                                 dataSource: filteredCustomers,
                                 rowKey: "id",
@@ -8152,51 +8166,51 @@ const RecallIncubationWorkbench = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 865,
+                                lineNumber: 883,
                                 columnNumber: 17
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 864,
+                            lineNumber: 882,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 769,
+                        lineNumber: 793,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 767,
+                    lineNumber: 791,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
                     title: selectedCustomer === null || selectedCustomer === void 0 ? void 0 : selectedCustomer.name,
                     placement: "right",
                     width: 600,
                     onClose: ()=>setDrawerVisible(false),
                     open: drawerVisible,
-                    children: selectedCustomer && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: selectedCustomer && (0, _jsxdevruntime.jsxDEV)("div", {
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                 title: "基本信息",
                                 size: "small",
                                 style: {
                                     marginBottom: '16px'
                                 },
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                                     gutter: 16,
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                             span: 12,
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                                        (0, _jsxdevruntime.jsxDEV)("strong", {
                                                             children: "行业:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 892,
+                                                            lineNumber: 910,
                                                             columnNumber: 26
                                                         }, this),
                                                         " ",
@@ -8204,48 +8218,48 @@ const RecallIncubationWorkbench = ()=>{
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 892,
+                                                    lineNumber: 910,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                                        (0, _jsxdevruntime.jsxDEV)("strong", {
                                                             children: "风险等级:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 893,
+                                                            lineNumber: 911,
                                                             columnNumber: 26
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                             color: selectedCustomer.riskLevel === 'high' ? 'red' : selectedCustomer.riskLevel === 'medium' ? 'orange' : 'green',
                                                             children: selectedCustomer.riskLevel === 'high' ? '高风险' : selectedCustomer.riskLevel === 'medium' ? '中风险' : '低风险'
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 894,
+                                                            lineNumber: 912,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 893,
+                                                    lineNumber: 911,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 891,
+                                            lineNumber: 909,
                                             columnNumber: 19
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                             span: 12,
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                                        (0, _jsxdevruntime.jsxDEV)("strong", {
                                                             children: "流失前ARR:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 900,
+                                                            lineNumber: 918,
                                                             columnNumber: 26
                                                         }, this),
                                                         " ¥",
@@ -8253,16 +8267,16 @@ const RecallIncubationWorkbench = ()=>{
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 900,
+                                                    lineNumber: 918,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                                        (0, _jsxdevruntime.jsxDEV)("strong", {
                                                             children: "流失天数:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 901,
+                                                            lineNumber: 919,
                                                             columnNumber: 26
                                                         }, this),
                                                         " ",
@@ -8271,44 +8285,44 @@ const RecallIncubationWorkbench = ()=>{
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 901,
+                                                    lineNumber: 919,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 899,
+                                            lineNumber: 917,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 890,
+                                    lineNumber: 908,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 889,
+                                lineNumber: 907,
                                 columnNumber: 15
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                 title: "联系人",
                                 size: "small",
                                 style: {
                                     marginBottom: '16px'
                                 },
-                                children: selectedCustomer.contacts.map((contact, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: selectedCustomer.contacts.map((contact, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             marginBottom: '8px'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                                    (0, _jsxdevruntime.jsxDEV)("strong", {
                                                         children: contact.name
                                                     }, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 910,
+                                                        lineNumber: 928,
                                                         columnNumber: 26
                                                     }, this),
                                                     " - ",
@@ -8316,26 +8330,26 @@ const RecallIncubationWorkbench = ()=>{
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 910,
+                                                lineNumber: 928,
                                                 columnNumber: 21
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     fontSize: '12px',
                                                     color: '#666'
                                                 },
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PhoneOutlined, {}, void 0, false, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_icons.PhoneOutlined, {}, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 912,
+                                                        lineNumber: 930,
                                                         columnNumber: 23
                                                     }, this),
                                                     " ",
                                                     contact.phone,
                                                     " | ",
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 912,
+                                                        lineNumber: 930,
                                                         columnNumber: 59
                                                     }, this),
                                                     " ",
@@ -8343,34 +8357,34 @@ const RecallIncubationWorkbench = ()=>{
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 911,
+                                                lineNumber: 929,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, index, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 909,
+                                        lineNumber: 927,
                                         columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 907,
+                                lineNumber: 925,
                                 columnNumber: 15
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                 title: "流失分析",
                                 size: "small",
                                 style: {
                                     marginBottom: '16px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                            (0, _jsxdevruntime.jsxDEV)("strong", {
                                                 children: "主要原因:"
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 920,
+                                                lineNumber: 938,
                                                 columnNumber: 22
                                             }, this),
                                             " ",
@@ -8378,16 +8392,16 @@ const RecallIncubationWorkbench = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 920,
+                                        lineNumber: 938,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                            (0, _jsxdevruntime.jsxDEV)("strong", {
                                                 children: "次要原因:"
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 921,
+                                                lineNumber: 939,
                                                 columnNumber: 22
                                             }, this),
                                             " ",
@@ -8395,16 +8409,16 @@ const RecallIncubationWorkbench = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 921,
+                                        lineNumber: 939,
                                         columnNumber: 17
                                     }, this),
-                                    selectedCustomer.churnAnalysis.competitorInfo && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    selectedCustomer.churnAnalysis.competitorInfo && (0, _jsxdevruntime.jsxDEV)("div", {
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                            (0, _jsxdevruntime.jsxDEV)("strong", {
                                                 children: "竞品信息:"
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 923,
+                                                lineNumber: 941,
                                                 columnNumber: 24
                                             }, this),
                                             " ",
@@ -8412,16 +8426,16 @@ const RecallIncubationWorkbench = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 923,
+                                        lineNumber: 941,
                                         columnNumber: 19
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                            (0, _jsxdevruntime.jsxDEV)("strong", {
                                                 children: "客户反馈:"
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 925,
+                                                lineNumber: 943,
                                                 columnNumber: 22
                                             }, this),
                                             " ",
@@ -8429,22 +8443,22 @@ const RecallIncubationWorkbench = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 925,
+                                        lineNumber: 943,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 919,
+                                lineNumber: 937,
                                 columnNumber: 15
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                 title: "召回行动计划",
                                 size: "small",
                                 style: {
                                     marginBottom: '16px'
                                 },
-                                children: selectedCustomer.recallPlan.map((plan)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: selectedCustomer.recallPlan.map((plan)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             display: 'flex',
                                             justifyContent: 'space-between',
@@ -8453,12 +8467,12 @@ const RecallIncubationWorkbench = ()=>{
                                             borderBottom: '1px solid #f0f0f0'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     flex: 1
                                                 },
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             textDecoration: plan.completed ? 'line-through' : 'none',
                                                             color: plan.completed ? '#999' : '#000'
@@ -8466,18 +8480,18 @@ const RecallIncubationWorkbench = ()=>{
                                                         children: plan.task
                                                     }, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 939,
+                                                        lineNumber: 957,
                                                         columnNumber: 23
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             fontSize: '12px',
                                                             color: '#666'
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
                                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                                lineNumber: 946,
+                                                                lineNumber: 964,
                                                                 columnNumber: 25
                                                             }, this),
                                                             " ",
@@ -8485,40 +8499,40 @@ const RecallIncubationWorkbench = ()=>{
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 945,
+                                                        lineNumber: 963,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 938,
+                                                lineNumber: 956,
                                                 columnNumber: 21
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                 color: plan.completed ? 'green' : 'orange',
                                                 children: plan.completed ? '已完成' : '进行中'
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 949,
+                                                lineNumber: 967,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, plan.id, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 931,
+                                        lineNumber: 949,
                                         columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 929,
+                                lineNumber: 947,
                                 columnNumber: 15
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                                 title: "行动剧本 (Playbook)",
                                 size: "small",
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                children: (0, _jsxdevruntime.jsxDEV)("div", {
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 marginBottom: '12px',
                                                 fontWeight: 'bold'
@@ -8530,15 +8544,15 @@ const RecallIncubationWorkbench = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 959,
+                                            lineNumber: 977,
                                             columnNumber: 19
                                         }, this),
-                                        ((_PLAYBOOK_TEMPLATES_selectedCustomer_churnReason = PLAYBOOK_TEMPLATES[selectedCustomer.churnReason]) === null || _PLAYBOOK_TEMPLATES_selectedCustomer_churnReason === void 0 ? void 0 : _PLAYBOOK_TEMPLATES_selectedCustomer_churnReason.map((template)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        ((_PLAYBOOK_TEMPLATES_selectedCustomer_churnReason = PLAYBOOK_TEMPLATES[selectedCustomer.churnReason]) === null || _PLAYBOOK_TEMPLATES_selectedCustomer_churnReason === void 0 ? void 0 : _PLAYBOOK_TEMPLATES_selectedCustomer_churnReason.map((template)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     marginBottom: '8px'
                                                 },
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         type: "link",
                                                         size: "small",
                                                         style: {
@@ -8546,9 +8560,9 @@ const RecallIncubationWorkbench = ()=>{
                                                             height: 'auto'
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
                                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                                lineNumber: 965,
+                                                                lineNumber: 983,
                                                                 columnNumber: 25
                                                             }, this),
                                                             " ",
@@ -8556,10 +8570,10 @@ const RecallIncubationWorkbench = ()=>{
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 964,
+                                                        lineNumber: 982,
                                                         columnNumber: 23
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             fontSize: '12px',
                                                             color: '#666',
@@ -8568,53 +8582,53 @@ const RecallIncubationWorkbench = ()=>{
                                                         children: template.type
                                                     }, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 967,
+                                                        lineNumber: 985,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, template.id, true, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 963,
+                                                lineNumber: 981,
                                                 columnNumber: 21
-                                            }, this))) || /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            }, this))) || (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             children: "暂无相关剧本"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 972,
+                                            lineNumber: 990,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 958,
+                                    lineNumber: 976,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 957,
+                                lineNumber: 975,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 887,
+                        lineNumber: 905,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 879,
+                    lineNumber: 897,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-            lineNumber: 637,
+            lineNumber: 647,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-        lineNumber: 636,
+        lineNumber: 646,
         columnNumber: 5
     }, this);
 };
@@ -10773,9 +10787,9 @@ __mako_require__.e(exports, {
     }
 });
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _reactrefresh = _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _react = _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var _max = __mako_require__("src/.umi/exports.ts");
@@ -10795,7 +10809,6 @@ var _s3 = $RefreshSig$();
 var _s4 = $RefreshSig$();
 const { Title, Text } = _antd.Typography;
 const { TabPane } = _antd.Tabs;
-// 统一的卡片样式 - 参考图片的现代风格
 const cardStyle = {
     borderRadius: '12px',
     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
@@ -10803,7 +10816,6 @@ const cardStyle = {
     background: '#ffffff',
     marginBottom: '16px'
 };
-// 问候语生成函数
 const generateGreeting = (userName = '用户')=>{
     const now = new Date();
     const hour = now.getHours();
@@ -10855,19 +10867,17 @@ const generateGreeting = (userName = '用户')=>{
             '夜深人静，好好休息！'
         ];
     }
-    // 基于时间和用户名选择固定的鼓励话语
     const encouragementIndex = (new Date().getDate() + userName.length) % encouragements.length;
     const randomEncouragement = encouragements[encouragementIndex];
     return `${timeGreeting}，${userName}，${randomEncouragement}`;
 };
-// 顶部区域：个性化欢迎语 + 快捷链接
 const HeaderSection = ({ userName, greeting })=>{
     _s();
     const [quickLinks, setQuickLinks] = (0, _react.useState)([
         {
             id: 1,
             name: 'CRM',
-            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
+            icon: (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                 lineNumber: 147,
                 columnNumber: 33
@@ -10878,7 +10888,7 @@ const HeaderSection = ({ userName, greeting })=>{
         {
             id: 2,
             name: '禅道',
-            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
+            icon: (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                 lineNumber: 148,
                 columnNumber: 32
@@ -10889,7 +10899,7 @@ const HeaderSection = ({ userName, greeting })=>{
         {
             id: 3,
             name: '多维表',
-            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TableOutlined, {}, void 0, false, {
+            icon: (0, _jsxdevruntime.jsxDEV)(_icons.TableOutlined, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                 lineNumber: 149,
                 columnNumber: 33
@@ -10898,7 +10908,7 @@ const HeaderSection = ({ userName, greeting })=>{
             color: '#722ed1'
         }
     ]);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             display: 'flex',
             justifyContent: 'space-between',
@@ -10906,9 +10916,9 @@ const HeaderSection = ({ userName, greeting })=>{
             marginBottom: '24px'
         },
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                    (0, _jsxdevruntime.jsxDEV)(Title, {
                         level: 2,
                         style: {
                             margin: 0,
@@ -10921,7 +10931,7 @@ const HeaderSection = ({ userName, greeting })=>{
                         lineNumber: 161,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                    (0, _jsxdevruntime.jsxDEV)(Text, {
                         type: "secondary",
                         style: {
                             fontSize: '14px',
@@ -10939,16 +10949,16 @@ const HeaderSection = ({ userName, greeting })=>{
                 lineNumber: 160,
                 columnNumber: 13
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px'
                 },
                 children: [
-                    quickLinks.map((link)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                    quickLinks.map((link)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                             title: link.name,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                 type: "text",
                                 shape: "circle",
                                 size: "large",
@@ -10974,13 +10984,13 @@ const HeaderSection = ({ userName, greeting })=>{
                             lineNumber: 172,
                             columnNumber: 11
                         }, this)),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
+                    (0, _jsxdevruntime.jsxDEV)(_antd.Tooltip, {
                         title: "添加快捷链接",
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                             type: "dashed",
                             shape: "circle",
                             size: "large",
-                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                            icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                 lineNumber: 199,
                                 columnNumber: 19
@@ -11016,29 +11026,28 @@ const HeaderSection = ({ userName, greeting })=>{
 };
 _s(HeaderSection, "3L6Rm4AxpmPtCayO7mNhPMHZlHM=");
 _c = HeaderSection;
-// 公司业绩指标横幅
 const CompanyKPIBanner = ()=>{
     _s1();
     const [timePeriod, setTimePeriod] = (0, _react.useState)('年度');
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+    return (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
         style: {
             ...cardStyle,
             marginBottom: '24px'
         },
-        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        title: (0, _jsxdevruntime.jsxDEV)("div", {
             style: {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center'
             },
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center'
                     },
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.BarChartOutlined, {
+                        (0, _jsxdevruntime.jsxDEV)(_icons.BarChartOutlined, {
                             style: {
                                 color: '#1890ff',
                                 marginRight: '8px'
@@ -11048,7 +11057,7 @@ const CompanyKPIBanner = ()=>{
                             lineNumber: 226,
                             columnNumber: 13
                         }, void 0),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                        (0, _jsxdevruntime.jsxDEV)("span", {
                             style: {
                                 fontSize: '16px',
                                 fontWeight: '600'
@@ -11065,14 +11074,14 @@ const CompanyKPIBanner = ()=>{
                     lineNumber: 225,
                     columnNumber: 11
                 }, void 0),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                (0, _jsxdevruntime.jsxDEV)("div", {
                     style: {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '16px'
                     },
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center',
@@ -11082,7 +11091,7 @@ const CompanyKPIBanner = ()=>{
                                 '年度',
                                 '季度',
                                 '月度'
-                            ].map((period)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            ].map((period)=>(0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                     type: timePeriod === period ? 'primary' : 'text',
                                     size: "small",
                                     style: {
@@ -11103,7 +11112,7 @@ const CompanyKPIBanner = ()=>{
                             lineNumber: 231,
                             columnNumber: 13
                         }, void 0),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center',
@@ -11115,14 +11124,14 @@ const CompanyKPIBanner = ()=>{
                                 color: '#666'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)("span", {
                                     children: "2025-01-01"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                     lineNumber: 261,
                                     columnNumber: 15
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
+                                (0, _jsxdevruntime.jsxDEV)(_icons.ArrowRightOutlined, {
                                     style: {
                                         margin: '0 8px',
                                         fontSize: '10px'
@@ -11132,14 +11141,14 @@ const CompanyKPIBanner = ()=>{
                                     lineNumber: 262,
                                     columnNumber: 15
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)("span", {
                                     children: "2025-12-31"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                     lineNumber: 263,
                                     columnNumber: 15
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
+                                (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
                                     style: {
                                         marginLeft: '8px',
                                         fontSize: '12px'
@@ -11167,20 +11176,20 @@ const CompanyKPIBanner = ()=>{
             lineNumber: 224,
             columnNumber: 9
         }, void 0),
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+        children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
             gutter: [
                 24,
                 16
             ],
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 6,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '32px',
                                     fontWeight: '700',
@@ -11193,7 +11202,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 273,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 style: {
                                     fontSize: '14px'
@@ -11204,7 +11213,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 276,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
@@ -11212,7 +11221,7 @@ const CompanyKPIBanner = ()=>{
                                     marginTop: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                    (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px',
@@ -11223,7 +11232,7 @@ const CompanyKPIBanner = ()=>{
                                         lineNumber: 278,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px'
@@ -11251,14 +11260,14 @@ const CompanyKPIBanner = ()=>{
                     lineNumber: 271,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 6,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '32px',
                                     fontWeight: '700',
@@ -11271,7 +11280,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 286,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 style: {
                                     fontSize: '14px'
@@ -11282,7 +11291,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 289,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
@@ -11290,7 +11299,7 @@ const CompanyKPIBanner = ()=>{
                                     marginTop: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                    (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px',
@@ -11301,7 +11310,7 @@ const CompanyKPIBanner = ()=>{
                                         lineNumber: 291,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px'
@@ -11329,14 +11338,14 @@ const CompanyKPIBanner = ()=>{
                     lineNumber: 284,
                     columnNumber: 7
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 6,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '32px',
                                     fontWeight: '700',
@@ -11349,7 +11358,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 299,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 style: {
                                     fontSize: '14px'
@@ -11360,7 +11369,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 302,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
@@ -11368,7 +11377,7 @@ const CompanyKPIBanner = ()=>{
                                     marginTop: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                    (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px',
@@ -11379,7 +11388,7 @@ const CompanyKPIBanner = ()=>{
                                         lineNumber: 304,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             color: '#52c41a',
                                             fontSize: '12px'
@@ -11407,14 +11416,14 @@ const CompanyKPIBanner = ()=>{
                     lineNumber: 297,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 6,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
                             textAlign: 'center'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     fontSize: '32px',
                                     fontWeight: '700',
@@ -11427,7 +11436,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 312,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                 type: "secondary",
                                 style: {
                                     fontSize: '14px'
@@ -11438,7 +11447,7 @@ const CompanyKPIBanner = ()=>{
                                 lineNumber: 315,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
@@ -11446,7 +11455,7 @@ const CompanyKPIBanner = ()=>{
                                     marginTop: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
+                                    (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {
                                         style: {
                                             color: '#ff4d4f',
                                             fontSize: '12px',
@@ -11457,7 +11466,7 @@ const CompanyKPIBanner = ()=>{
                                         lineNumber: 317,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             color: '#ff4d4f',
                                             fontSize: '12px'
@@ -11499,7 +11508,6 @@ const CompanyKPIBanner = ()=>{
 };
 _s1(CompanyKPIBanner, "PuBGlDXNqW4kyfo2r81M60nQ59s=");
 _c1 = CompanyKPIBanner;
-// 左侧行动区组件
 const ActionSection = ()=>{
     _s2();
     const [viewMode, setViewMode] = (0, _react.useState)('list');
@@ -11510,7 +11518,6 @@ const ActionSection = ()=>{
     const [editingContext, setEditingContext] = (0, _react.useState)(null);
     const [form] = _antd.Form.useForm();
     const [hoveredItem, setHoveredItem] = (0, _react.useState)(null);
-    // 智能提醒与任务队列数据
     const intelligentTasks = {
         newImplementation: [
             {
@@ -11608,7 +11615,6 @@ const ActionSection = ()=>{
             }
         ]
     };
-    // 任务类型文本映射函数
     const getTaskTypeText = (type)=>{
         const texts = {
             'business-review': '业务回顾',
@@ -11622,7 +11628,6 @@ const ActionSection = ()=>{
         };
         return texts[type] || '其他';
     };
-    // 我的日程与待办数据（使用状态管理以支持新增/编辑/删除）
     const [scheduleData, setScheduleData] = (0, _react.useState)({
         today: [
             {
@@ -11763,9 +11768,7 @@ const ActionSection = ()=>{
         const completed = Boolean(values.completed);
         setScheduleData((prev)=>{
             if (editingContext && editingContext.id != null) {
-                // 编辑
                 const originalSection = editingContext.section;
-                // 如果切换了分组，需要从原分组删除，添加到新分组
                 const updatedOriginal = prev[originalSection].filter((i)=>i.id !== editingContext.id);
                 const updatedTarget = [
                     ...prev[section].filter((i)=>i.id !== editingContext.id),
@@ -11784,7 +11787,6 @@ const ActionSection = ()=>{
                     [section]: updatedTarget
                 };
             }
-            // 新增
             const newItem = {
                 id: getNextId(),
                 task,
@@ -11808,7 +11810,6 @@ const ActionSection = ()=>{
         setIsScheduleModalOpen(false);
         setEditingContext(null);
     };
-    // 日历视图：悬停与隐藏的本地状态
     const [hoveredCalendarIdx, setHoveredCalendarIdx] = (0, _react.useState)(null);
     const [hiddenCalendarItems, setHiddenCalendarItems] = (0, _react.useState)({});
     const inferSectionByDate = (dateStr)=>{
@@ -11854,14 +11855,12 @@ const ActionSection = ()=>{
             };
         });
     };
-    // 日历事件数据
     const calendarEvents = (()=>{
         const now = new Date();
         const currentYear = now.getFullYear();
         const currentMonth = now.getMonth() + 1;
         const monthStr = currentMonth.toString().padStart(2, '0');
         const events = {
-            // 使用当前月份的日期
             [`${currentYear}-${monthStr}-15`]: [
                 {
                     task: '客户回访 - 阿里巴巴',
@@ -11963,7 +11962,6 @@ const ActionSection = ()=>{
                 }
             ]
         };
-        // 注意：不再生成随机事件，保持稳定
         return events;
     })();
     const getTaskTypeColor = (type)=>{
@@ -11988,33 +11986,25 @@ const ActionSection = ()=>{
         };
         return colors[risk] || '#666';
     };
-    const getPriorityColor = (priority)=>{
-        const colors = {
-            'high': '#ff4d4f',
-            'medium': '#fa8c16',
-            'low': '#52c41a'
-        };
-        return colors[priority] || '#666';
-    };
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+    return (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
         span: 16,
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+        children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
             gutter: [
                 0,
                 16
             ],
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                         style: cardStyle,
-                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        title: (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.BellOutlined, {
+                                (0, _jsxdevruntime.jsxDEV)(_icons.BellOutlined, {
                                     style: {
                                         color: '#1890ff',
                                         marginRight: '8px'
@@ -12024,7 +12014,7 @@ const ActionSection = ()=>{
                                     lineNumber: 626,
                                     columnNumber: 17
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)("span", {
                                     style: {
                                         fontSize: '16px',
                                         fontWeight: '600'
@@ -12044,18 +12034,18 @@ const ActionSection = ()=>{
                         bodyStyle: {
                             padding: '16px'
                         },
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tabs, {
+                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Tabs, {
                             defaultActiveKey: "handover",
                             size: "small",
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
                                     tab: "交接实施",
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                             dataSource: _handoverData.mockCustomerHandovers,
-                                            renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                            renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                     actions: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                             size: "small",
                                                             style: {
                                                                 borderRadius: '6px'
@@ -12071,8 +12061,8 @@ const ActionSection = ()=>{
                                                             columnNumber: 25
                                                         }, void 0)
                                                     ],
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                        avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                        avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                             style: {
                                                                 backgroundColor: '#1890ff'
                                                             },
@@ -12083,11 +12073,11 @@ const ActionSection = ()=>{
                                                             columnNumber: 33
                                                         }, void 0),
                                                         title: item.customerName,
-                                                        description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                        description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                             size: "small",
                                                             wrap: true,
                                                             children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: item.expectationAlignment === 'aligned' ? 'green' : item.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange',
                                                                     children: item.expectationAlignment === 'aligned' ? '已对齐' : item.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'
                                                                 }, void 0, false, {
@@ -12095,7 +12085,7 @@ const ActionSection = ()=>{
                                                                     lineNumber: 647,
                                                                     columnNumber: 29
                                                                 }, void 0),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: item.hasRiskAlert ? 'orange' : 'default',
                                                                     children: [
                                                                         "风险提示: ",
@@ -12106,7 +12096,7 @@ const ActionSection = ()=>{
                                                                     lineNumber: 650,
                                                                     columnNumber: 29
                                                                 }, void 0),
-                                                                typeof item.stakeholderCount === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                typeof item.stakeholderCount === 'number' && (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: "purple",
                                                                     children: [
                                                                         "干系人: ",
@@ -12117,7 +12107,7 @@ const ActionSection = ()=>{
                                                                     lineNumber: 654,
                                                                     columnNumber: 31
                                                                 }, void 0),
-                                                                typeof item.handoverRating === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                typeof item.handoverRating === 'number' && (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                     color: "gold",
                                                                     children: [
                                                                         "评分: ",
@@ -12128,7 +12118,7 @@ const ActionSection = ()=>{
                                                                     lineNumber: 657,
                                                                     columnNumber: 31
                                                                 }, void 0),
-                                                                item.updatedAt && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                item.updatedAt && (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                     type: "secondary",
                                                                     children: [
                                                                         "更新时间: ",
@@ -12160,21 +12150,21 @@ const ActionSection = ()=>{
                                             lineNumber: 634,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
+                                        (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
                                             title: (selectedHandover === null || selectedHandover === void 0 ? void 0 : selectedHandover.customerName) || '客户交接详情',
                                             open: handoverDrawerOpen,
                                             onClose: ()=>setHandoverDrawerOpen(false),
                                             width: 720,
-                                            children: selectedHandover && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            children: selectedHandover && (0, _jsxdevruntime.jsxDEV)("div", {
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         size: "small",
                                                         wrap: true,
                                                         style: {
                                                             marginBottom: 12
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: selectedHandover.expectationAlignment === 'aligned' ? 'green' : selectedHandover.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange',
                                                                 children: selectedHandover.expectationAlignment === 'aligned' ? '已对齐' : selectedHandover.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'
                                                             }, void 0, false, {
@@ -12182,7 +12172,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 677,
                                                                 columnNumber: 25
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: selectedHandover.hasRiskAlert ? 'orange' : 'default',
                                                                 children: [
                                                                     "风险提示: ",
@@ -12193,7 +12183,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 680,
                                                                 columnNumber: 25
                                                             }, this),
-                                                            typeof selectedHandover.handoverRating === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            typeof selectedHandover.handoverRating === 'number' && (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: "gold",
                                                                 children: [
                                                                     "评分: ",
@@ -12204,7 +12194,7 @@ const ActionSection = ()=>{
                                                                 lineNumber: 681,
                                                                 columnNumber: 81
                                                             }, this),
-                                                            typeof selectedHandover.stakeholderCount === 'number' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            typeof selectedHandover.stakeholderCount === 'number' && (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: "purple",
                                                                 children: [
                                                                     "干系人: ",
@@ -12221,12 +12211,12 @@ const ActionSection = ()=>{
                                                         lineNumber: 676,
                                                         columnNumber: 23
                                                     }, this),
-                                                    selectedHandover.crmData && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    selectedHandover.crmData && (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             marginBottom: 16
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                                 level: 5,
                                                                 style: {
                                                                     marginBottom: 8
@@ -12237,13 +12227,13 @@ const ActionSection = ()=>{
                                                                 lineNumber: 687,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                                                                 gutter: 16,
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                                                         span: 12,
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 type: "secondary",
                                                                                 children: "合同金额："
                                                                             }, void 0, false, {
@@ -12251,7 +12241,7 @@ const ActionSection = ()=>{
                                                                                 lineNumber: 689,
                                                                                 columnNumber: 44
                                                                             }, this),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 style: {
                                                                                     marginLeft: 8
                                                                                 },
@@ -12270,10 +12260,10 @@ const ActionSection = ()=>{
                                                                         lineNumber: 689,
                                                                         columnNumber: 29
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                                                         span: 12,
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 type: "secondary",
                                                                                 children: "服务周期："
                                                                             }, void 0, false, {
@@ -12281,7 +12271,7 @@ const ActionSection = ()=>{
                                                                                 lineNumber: 690,
                                                                                 columnNumber: 44
                                                                             }, this),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                 style: {
                                                                                     marginLeft: 8
                                                                                 },
@@ -12303,12 +12293,12 @@ const ActionSection = ()=>{
                                                                 lineNumber: 688,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     marginTop: 8
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: "已购产品："
                                                                     }, void 0, false, {
@@ -12316,12 +12306,12 @@ const ActionSection = ()=>{
                                                                         lineNumber: 693,
                                                                         columnNumber: 29
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                         wrap: true,
                                                                         style: {
                                                                             marginTop: 6
                                                                         },
-                                                                        children: selectedHandover.crmData.purchasedProducts.map((p, i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                        children: selectedHandover.crmData.purchasedProducts.map((p, i)=>(0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                                 color: "blue",
                                                                                 children: p
                                                                             }, i, false, {
@@ -12340,12 +12330,12 @@ const ActionSection = ()=>{
                                                                 lineNumber: 692,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     marginTop: 8
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: "关键联系人："
                                                                     }, void 0, false, {
@@ -12353,15 +12343,15 @@ const ActionSection = ()=>{
                                                                         lineNumber: 699,
                                                                         columnNumber: 29
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                                         style: {
                                                                             marginTop: 6
                                                                         },
-                                                                        children: selectedHandover.crmData.keyContacts.map((c, i)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                        children: selectedHandover.crmData.keyContacts.map((c, i)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                                                 style: {
                                                                                     marginBottom: 4
                                                                                 },
-                                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                children: (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     children: c
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -12390,12 +12380,12 @@ const ActionSection = ()=>{
                                                         lineNumber: 686,
                                                         columnNumber: 25
                                                     }, this),
-                                                    selectedHandover.onboardingTasks && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    selectedHandover.onboardingTasks && (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             marginBottom: 16
                                                         },
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                                 level: 5,
                                                                 style: {
                                                                     marginBottom: 8
@@ -12406,20 +12396,20 @@ const ActionSection = ()=>{
                                                                 lineNumber: 709,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                                 size: "small",
                                                                 dataSource: selectedHandover.onboardingTasks,
-                                                                renderItem: (t)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                                renderItem: (t)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                             children: [
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                                                (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                                                     checked: t.completed
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                                     lineNumber: 716,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     style: {
                                                                                         textDecoration: t.completed ? 'line-through' : 'none'
                                                                                     },
@@ -12429,7 +12419,7 @@ const ActionSection = ()=>{
                                                                                     lineNumber: 717,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
-                                                                                t.dueDate && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                t.dueDate && (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     type: "secondary",
                                                                                     children: [
                                                                                         "截止: ",
@@ -12462,9 +12452,9 @@ const ActionSection = ()=>{
                                                         lineNumber: 708,
                                                         columnNumber: 25
                                                     }, this),
-                                                    selectedHandover.internalComments && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    selectedHandover.internalComments && (0, _jsxdevruntime.jsxDEV)("div", {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                                 level: 5,
                                                                 style: {
                                                                     marginBottom: 8
@@ -12475,18 +12465,18 @@ const ActionSection = ()=>{
                                                                 lineNumber: 728,
                                                                 columnNumber: 27
                                                             }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                                 size: "small",
                                                                 dataSource: selectedHandover.internalComments,
-                                                                renderItem: (c)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                renderItem: (c)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                             children: [
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                                                     style: {
                                                                                         marginBottom: 4
                                                                                     },
                                                                                     children: [
-                                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                             strong: true,
                                                                                             children: c.author
                                                                                         }, void 0, false, {
@@ -12494,7 +12484,7 @@ const ActionSection = ()=>{
                                                                                             lineNumber: 735,
                                                                                             columnNumber: 68
                                                                                         }, void 0),
-                                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                             type: "secondary",
                                                                                             style: {
                                                                                                 marginLeft: 8
@@ -12511,7 +12501,7 @@ const ActionSection = ()=>{
                                                                                     lineNumber: 735,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                                     children: c.content
                                                                                 }, void 0, false, {
                                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
@@ -12557,29 +12547,28 @@ const ActionSection = ()=>{
                                     lineNumber: 633,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                                    tab: "新签实施",
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
-                                        dataSource: intelligentTasks.newImplementation,
-                                        renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                    tab: "待续费",
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                        dataSource: intelligentTasks.pendingRenewal,
+                                        renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                 actions: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                        type: "primary",
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         size: "small",
                                                         style: {
                                                             borderRadius: '6px'
                                                         },
-                                                        children: "开始实施"
+                                                        children: "跟进续费"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 753,
+                                                        lineNumber: 755,
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                    avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                    avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                         style: {
-                                                            backgroundColor: '#1890ff'
+                                                            backgroundColor: '#52c41a'
                                                         },
                                                         children: item.customer.charAt(0)
                                                     }, void 0, false, {
@@ -12588,23 +12577,23 @@ const ActionSection = ()=>{
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
-                                                    description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
-                                                                    "来源销售: ",
-                                                                    item.sales
+                                                                    "合同到期: ",
+                                                                    item.contractEnd
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                 lineNumber: 763,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
-                                                                    "合同金额: ",
+                                                                    "续费金额: ",
                                                                     item.amount
                                                                 ]
                                                             }, void 0, true, {
@@ -12612,23 +12601,16 @@ const ActionSection = ()=>{
                                                                 lineNumber: 764,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                type: "secondary",
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                color: "green",
                                                                 children: [
-                                                                    "交付期限: ",
-                                                                    item.dueDate
+                                                                    "续费概率: ",
+                                                                    item.probability,
+                                                                    "%"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
                                                                 lineNumber: 765,
-                                                                columnNumber: 29
-                                                            }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                color: getPriorityColor(item.priority),
-                                                                children: item.priority === 'high' ? '高优先级' : '中优先级'
-                                                            }, void 0, false, {
-                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 766,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ]
@@ -12644,116 +12626,24 @@ const ActionSection = ()=>{
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 751,
+                                                lineNumber: 753,
                                                 columnNumber: 21
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 748,
-                                        columnNumber: 17
-                                    }, this)
-                                }, "1", false, {
-                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 747,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                                    tab: "待续费",
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
-                                        dataSource: intelligentTasks.pendingRenewal,
-                                        renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
-                                                actions: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                        size: "small",
-                                                        style: {
-                                                            borderRadius: '6px'
-                                                        },
-                                                        children: "跟进续费"
-                                                    }, void 0, false, {
-                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 783,
-                                                        columnNumber: 25
-                                                    }, void 0)
-                                                ],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                    avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
-                                                        style: {
-                                                            backgroundColor: '#52c41a'
-                                                        },
-                                                        children: item.customer.charAt(0)
-                                                    }, void 0, false, {
-                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 787,
-                                                        columnNumber: 33
-                                                    }, void 0),
-                                                    title: item.customer,
-                                                    description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                type: "secondary",
-                                                                children: [
-                                                                    "合同到期: ",
-                                                                    item.contractEnd
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 791,
-                                                                columnNumber: 29
-                                                            }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                type: "secondary",
-                                                                children: [
-                                                                    "续费金额: ",
-                                                                    item.amount
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 792,
-                                                                columnNumber: 29
-                                                            }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                color: "green",
-                                                                children: [
-                                                                    "续费概率: ",
-                                                                    item.probability,
-                                                                    "%"
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 793,
-                                                                columnNumber: 29
-                                                            }, void 0)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 790,
-                                                        columnNumber: 27
-                                                    }, void 0)
-                                                }, void 0, false, {
-                                                    fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 786,
-                                                    columnNumber: 23
-                                                }, void 0)
-                                            }, void 0, false, {
-                                                fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 781,
-                                                columnNumber: 21
-                                            }, void 0)
-                                    }, void 0, false, {
-                                        fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 778,
+                                        lineNumber: 750,
                                         columnNumber: 17
                                     }, this)
                                 }, "2", false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 777,
+                                    lineNumber: 749,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                                    tab: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                    tab: (0, _jsxdevruntime.jsxDEV)("span", {
                                         children: [
                                             "不活跃客户",
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
                                                 count: 3,
                                                 size: "small",
                                                 style: {
@@ -12761,20 +12651,20 @@ const ActionSection = ()=>{
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 806,
+                                                lineNumber: 778,
                                                 columnNumber: 21
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 804,
+                                        lineNumber: 776,
                                         columnNumber: 19
                                     }, void 0),
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                         dataSource: intelligentTasks.inactiveCustomers,
-                                        renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                        renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                 actions: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         size: "small",
                                                         style: {
                                                             borderRadius: '6px'
@@ -12782,25 +12672,25 @@ const ActionSection = ()=>{
                                                         children: "立即联系"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 816,
+                                                        lineNumber: 788,
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                    avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                    avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                         style: {
                                                             backgroundColor: getRiskColor(item.risk)
                                                         },
                                                         children: item.customer.charAt(0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 820,
+                                                        lineNumber: 792,
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
-                                                    description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "最后活跃: ",
@@ -12808,10 +12698,10 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 824,
+                                                                lineNumber: 796,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "健康分: ",
@@ -12819,68 +12709,68 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 825,
+                                                                lineNumber: 797,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: getRiskColor(item.risk),
                                                                 children: item.risk === 'critical' ? '严重风险' : item.risk === 'high' ? '高风险' : '中风险'
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 826,
+                                                                lineNumber: 798,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 823,
+                                                        lineNumber: 795,
                                                         columnNumber: 27
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 819,
+                                                    lineNumber: 791,
                                                     columnNumber: 23
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 814,
+                                                lineNumber: 786,
                                                 columnNumber: 21
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 811,
+                                        lineNumber: 783,
                                         columnNumber: 17
                                     }, this)
                                 }, "3", false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 802,
+                                    lineNumber: 774,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                                    tab: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)(TabPane, {
+                                    tab: (0, _jsxdevruntime.jsxDEV)("span", {
                                         children: [
                                             "高活跃客户",
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FireOutlined, {
+                                            (0, _jsxdevruntime.jsxDEV)(_icons.FireOutlined, {
                                                 style: {
                                                     color: '#fa8c16',
                                                     marginLeft: '4px'
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 841,
+                                                lineNumber: 813,
                                                 columnNumber: 21
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 839,
+                                        lineNumber: 811,
                                         columnNumber: 19
                                     }, void 0),
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                    children: (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                         dataSource: intelligentTasks.activeOpportunities,
-                                        renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                        renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                 actions: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         type: "primary",
                                                         size: "small",
                                                         style: {
@@ -12889,33 +12779,33 @@ const ActionSection = ()=>{
                                                         children: "抓住商机"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 851,
+                                                        lineNumber: 823,
                                                         columnNumber: 25
                                                     }, void 0)
                                                 ],
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                    avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
+                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                    avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
                                                         style: {
                                                             backgroundColor: '#fa8c16'
                                                         },
                                                         children: item.customer.charAt(0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 855,
+                                                        lineNumber: 827,
                                                         columnNumber: 33
                                                     }, void 0),
                                                     title: item.customer,
-                                                    description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                    description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                         children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: item.opportunity
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 859,
+                                                                lineNumber: 831,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                            (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                 type: "secondary",
                                                                 children: [
                                                                     "潜在价值: ",
@@ -12923,41 +12813,41 @@ const ActionSection = ()=>{
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 860,
+                                                                lineNumber: 832,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                 color: "orange",
                                                                 children: item.stage
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 861,
+                                                                lineNumber: 833,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 858,
+                                                        lineNumber: 830,
                                                         columnNumber: 27
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 854,
+                                                    lineNumber: 826,
                                                     columnNumber: 23
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 849,
+                                                lineNumber: 821,
                                                 columnNumber: 21
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 846,
+                                        lineNumber: 818,
                                         columnNumber: 17
                                     }, this)
                                 }, "4", false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 837,
+                                    lineNumber: 809,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -12976,35 +12866,35 @@ const ActionSection = ()=>{
                     lineNumber: 621,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             style: cardStyle,
-                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'space-between'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             display: 'flex',
                                             alignItems: 'center'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
+                                            (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
                                                 style: {
                                                     color: '#52c41a',
                                                     marginRight: '8px'
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 880,
+                                                lineNumber: 852,
                                                 columnNumber: 17
                                             }, void 0),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            (0, _jsxdevruntime.jsxDEV)("span", {
                                                 style: {
                                                     fontSize: '16px',
                                                     fontWeight: '600'
@@ -13012,42 +12902,42 @@ const ActionSection = ()=>{
                                                 children: "我的日程与待办"
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 881,
+                                                lineNumber: 853,
                                                 columnNumber: 19
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 879,
+                                        lineNumber: 851,
                                         columnNumber: 15
                                     }, void 0),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             display: 'flex',
                                             gap: '8px'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                 type: "primary",
                                                 size: "small",
                                                 shape: "circle",
-                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 888,
+                                                    lineNumber: 860,
                                                     columnNumber: 27
                                                 }, void 0),
                                                 onClick: openAddModal
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 884,
+                                                lineNumber: 856,
                                                 columnNumber: 19
                                             }, void 0),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                 type: viewMode === 'list' ? 'primary' : 'text',
                                                 size: "small",
-                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
+                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 894,
+                                                    lineNumber: 866,
                                                     columnNumber: 27
                                                 }, void 0),
                                                 onClick: ()=>setViewMode('list'),
@@ -13056,15 +12946,15 @@ const ActionSection = ()=>{
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 891,
+                                                lineNumber: 863,
                                                 columnNumber: 19
                                             }, void 0),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                 type: viewMode === 'calendar' ? 'primary' : 'text',
                                                 size: "small",
-                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
+                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 901,
+                                                    lineNumber: 873,
                                                     columnNumber: 27
                                                 }, void 0),
                                                 onClick: ()=>setViewMode('calendar'),
@@ -13073,32 +12963,32 @@ const ActionSection = ()=>{
                                                 }
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 898,
+                                                lineNumber: 870,
                                                 columnNumber: 19
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 883,
+                                        lineNumber: 855,
                                         columnNumber: 17
                                     }, void 0)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 878,
+                                lineNumber: 850,
                                 columnNumber: 15
                             }, void 0),
                             bodyStyle: {
                                 padding: '16px'
                             },
-                            children: viewMode === 'list' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                            children: viewMode === 'list' ? (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             marginBottom: '20px'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                 level: 5,
                                                 style: {
                                                     marginBottom: '12px',
@@ -13107,12 +12997,12 @@ const ActionSection = ()=>{
                                                 children: "今天"
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 914,
+                                                lineNumber: 886,
                                                 columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                 dataSource: scheduleData.today,
-                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                         style: {
                                                             padding: '8px 0'
                                                         },
@@ -13122,53 +13012,53 @@ const ActionSection = ()=>{
                                                             }),
                                                         onMouseLeave: ()=>setHoveredItem(null),
                                                         actions: hoveredItem && hoveredItem.section === 'today' && hoveredItem.id === item.id ? [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 size: "small",
                                                                 type: "text",
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 925,
+                                                                    lineNumber: 897,
                                                                     columnNumber: 79
                                                                 }, void 0),
                                                                 onClick: ()=>openEditModal('today', item.id)
                                                             }, "edit", false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 925,
+                                                                lineNumber: 897,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
                                                                 title: "确认删除该日程？",
                                                                 onConfirm: ()=>handleDelete('today', item.id),
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                     size: "small",
                                                                     type: "text",
                                                                     danger: true,
-                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 927,
+                                                                        lineNumber: 899,
                                                                         columnNumber: 77
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 927,
+                                                                    lineNumber: 899,
                                                                     columnNumber: 31
                                                                 }, void 0)
                                                             }, "delete", false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 926,
+                                                                lineNumber: 898,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ] : [],
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                                 checked: item.completed,
                                                                 onChange: (e)=>handleToggleCompleted('today', item.id, e.target.checked)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 934,
+                                                                lineNumber: 906,
                                                                 columnNumber: 35
                                                             }, void 0),
-                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -13176,7 +13066,7 @@ const ActionSection = ()=>{
                                                                     gap: '8px'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: getTaskTypeColor(item.type),
                                                                         style: {
                                                                             background: `${getTaskTypeColor(item.type)}15`,
@@ -13186,10 +13076,10 @@ const ActionSection = ()=>{
                                                                         children: getTaskTypeText(item.type)
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 937,
+                                                                        lineNumber: 909,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                         style: {
                                                                             textDecoration: item.completed ? 'line-through' : 'none',
                                                                             opacity: item.completed ? 0.6 : 1
@@ -13197,26 +13087,26 @@ const ActionSection = ()=>{
                                                                         children: item.task
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 947,
+                                                                        lineNumber: 919,
                                                                         columnNumber: 27
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 936,
+                                                                lineNumber: 908,
                                                                 columnNumber: 25
                                                             }, void 0),
-                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                            description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: item.customer
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 954,
+                                                                        lineNumber: 926,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: [
                                                                             "时间: ",
@@ -13224,42 +13114,42 @@ const ActionSection = ()=>{
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 955,
+                                                                        lineNumber: 927,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 953,
+                                                                lineNumber: 925,
                                                                 columnNumber: 25
                                                             }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 933,
+                                                            lineNumber: 905,
                                                             columnNumber: 21
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 918,
+                                                        lineNumber: 890,
                                                         columnNumber: 19
                                                     }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 915,
+                                                lineNumber: 887,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 913,
+                                        lineNumber: 885,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             marginBottom: '20px'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                 level: 5,
                                                 style: {
                                                     marginBottom: '12px',
@@ -13268,12 +13158,12 @@ const ActionSection = ()=>{
                                                 children: "本周"
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 966,
+                                                lineNumber: 938,
                                                 columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                 dataSource: scheduleData.thisWeek,
-                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                         style: {
                                                             padding: '8px 0'
                                                         },
@@ -13283,53 +13173,53 @@ const ActionSection = ()=>{
                                                             }),
                                                         onMouseLeave: ()=>setHoveredItem(null),
                                                         actions: hoveredItem && hoveredItem.section === 'thisWeek' && hoveredItem.id === item.id ? [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 size: "small",
                                                                 type: "text",
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 977,
+                                                                    lineNumber: 949,
                                                                     columnNumber: 79
                                                                 }, void 0),
                                                                 onClick: ()=>openEditModal('thisWeek', item.id)
                                                             }, "edit", false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 977,
+                                                                lineNumber: 949,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
                                                                 title: "确认删除该日程？",
                                                                 onConfirm: ()=>handleDelete('thisWeek', item.id),
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                     size: "small",
                                                                     type: "text",
                                                                     danger: true,
-                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 979,
+                                                                        lineNumber: 951,
                                                                         columnNumber: 77
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 979,
+                                                                    lineNumber: 951,
                                                                     columnNumber: 31
                                                                 }, void 0)
                                                             }, "delete", false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 978,
+                                                                lineNumber: 950,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ] : [],
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                                 checked: item.completed,
                                                                 onChange: (e)=>handleToggleCompleted('thisWeek', item.id, e.target.checked)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 986,
+                                                                lineNumber: 958,
                                                                 columnNumber: 35
                                                             }, void 0),
-                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -13337,7 +13227,7 @@ const ActionSection = ()=>{
                                                                     gap: '8px'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: getTaskTypeColor(item.type),
                                                                         style: {
                                                                             background: `${getTaskTypeColor(item.type)}15`,
@@ -13347,10 +13237,10 @@ const ActionSection = ()=>{
                                                                         children: getTaskTypeText(item.type)
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 989,
+                                                                        lineNumber: 961,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                         style: {
                                                                             textDecoration: item.completed ? 'line-through' : 'none',
                                                                             opacity: item.completed ? 0.6 : 1
@@ -13358,26 +13248,26 @@ const ActionSection = ()=>{
                                                                         children: item.task
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 999,
+                                                                        lineNumber: 971,
                                                                         columnNumber: 27
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 988,
+                                                                lineNumber: 960,
                                                                 columnNumber: 25
                                                             }, void 0),
-                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                            description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: item.customer
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1006,
+                                                                        lineNumber: 978,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: [
                                                                             "时间: ",
@@ -13385,39 +13275,39 @@ const ActionSection = ()=>{
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1007,
+                                                                        lineNumber: 979,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1005,
+                                                                lineNumber: 977,
                                                                 columnNumber: 25
                                                             }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 985,
+                                                            lineNumber: 957,
                                                             columnNumber: 21
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 970,
+                                                        lineNumber: 942,
                                                         columnNumber: 19
                                                     }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 967,
+                                                lineNumber: 939,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 965,
+                                        lineNumber: 937,
                                         columnNumber: 17
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
+                                            (0, _jsxdevruntime.jsxDEV)(Title, {
                                                 level: 5,
                                                 style: {
                                                     marginBottom: '12px',
@@ -13426,12 +13316,12 @@ const ActionSection = ()=>{
                                                 children: "未来"
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1018,
+                                                lineNumber: 990,
                                                 columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                 dataSource: scheduleData.future,
-                                                renderItem: (item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                renderItem: (item)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                         style: {
                                                             padding: '8px 0'
                                                         },
@@ -13441,53 +13331,53 @@ const ActionSection = ()=>{
                                                             }),
                                                         onMouseLeave: ()=>setHoveredItem(null),
                                                         actions: hoveredItem && hoveredItem.section === 'future' && hoveredItem.id === item.id ? [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 size: "small",
                                                                 type: "text",
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 1029,
+                                                                    lineNumber: 1001,
                                                                     columnNumber: 83
                                                                 }, void 0),
                                                                 onClick: ()=>openEditModal('future', item.id)
                                                             }, "edit", false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1029,
+                                                                lineNumber: 1001,
                                                                 columnNumber: 33
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
                                                                 title: "确认删除该日程？",
                                                                 onConfirm: ()=>handleDelete('future', item.id),
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                     size: "small",
                                                                     type: "text",
                                                                     danger: true,
-                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1031,
+                                                                        lineNumber: 1003,
                                                                         columnNumber: 81
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 1031,
+                                                                    lineNumber: 1003,
                                                                     columnNumber: 35
                                                                 }, void 0)
                                                             }, "delete", false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1030,
+                                                                lineNumber: 1002,
                                                                 columnNumber: 33
                                                             }, void 0)
                                                         ] : [],
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                                                 checked: item.completed,
                                                                 onChange: (e)=>handleToggleCompleted('future', item.id, e.target.checked)
                                                             }, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1038,
+                                                                lineNumber: 1010,
                                                                 columnNumber: 35
                                                             }, void 0),
-                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -13495,7 +13385,7 @@ const ActionSection = ()=>{
                                                                     gap: '8px'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: getTaskTypeColor(item.type),
                                                                         style: {
                                                                             background: `${getTaskTypeColor(item.type)}15`,
@@ -13505,10 +13395,10 @@ const ActionSection = ()=>{
                                                                         children: getTaskTypeText(item.type)
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1041,
+                                                                        lineNumber: 1013,
                                                                         columnNumber: 31
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                         style: {
                                                                             textDecoration: item.completed ? 'line-through' : 'none',
                                                                             opacity: item.completed ? 0.6 : 1
@@ -13516,26 +13406,26 @@ const ActionSection = ()=>{
                                                                         children: item.task
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1051,
+                                                                        lineNumber: 1023,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1040,
+                                                                lineNumber: 1012,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                            description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: item.customer
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1058,
+                                                                        lineNumber: 1030,
                                                                         columnNumber: 31
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: [
                                                                             "时间: ",
@@ -13543,43 +13433,43 @@ const ActionSection = ()=>{
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1059,
+                                                                        lineNumber: 1031,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1057,
+                                                                lineNumber: 1029,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1037,
+                                                            lineNumber: 1009,
                                                             columnNumber: 25
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1022,
+                                                        lineNumber: 994,
                                                         columnNumber: 23
                                                     }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1019,
+                                                lineNumber: 991,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1017,
+                                        lineNumber: 989,
                                         columnNumber: 13
                                     }, this)
                                 ]
-                            }, void 0, true) : /* 日历视图 */ /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            }, void 0, true) : (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     padding: '8px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Calendar, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Calendar, {
                                         fullscreen: false,
                                         style: {
                                             border: 'none'
@@ -13592,7 +13482,7 @@ const ActionSection = ()=>{
                                             const dateStr = value.format('YYYY-MM-DD');
                                             const events = calendarEvents[dateStr] || [];
                                             if (events.length === 0) return null;
-                                            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            return (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     display: 'flex',
                                                     gap: '2px',
@@ -13601,7 +13491,7 @@ const ActionSection = ()=>{
                                                     justifyContent: 'center'
                                                 },
                                                 children: [
-                                                    events.slice(0, 3).map((event, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    events.slice(0, 3).map((event, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 width: '6px',
                                                                 height: '6px',
@@ -13612,10 +13502,10 @@ const ActionSection = ()=>{
                                                             }
                                                         }, index, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1095,
+                                                            lineNumber: 1067,
                                                             columnNumber: 27
                                                         }, void 0)),
-                                                    events.length > 3 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    events.length > 3 && (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             width: '6px',
                                                             height: '6px',
@@ -13631,22 +13521,22 @@ const ActionSection = ()=>{
                                                         children: "+"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1108,
+                                                        lineNumber: 1080,
                                                         columnNumber: 27
                                                     }, void 0)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1087,
+                                                lineNumber: 1059,
                                                 columnNumber: 23
                                             }, void 0);
                                         }
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1071,
+                                        lineNumber: 1043,
                                         columnNumber: 17
                                     }, this),
-                                    selectedDate && calendarEvents[selectedDate] && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    selectedDate && calendarEvents[selectedDate] && (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             marginTop: '16px',
                                             padding: '12px',
@@ -13655,7 +13545,7 @@ const ActionSection = ()=>{
                                             border: '1px solid #e9ecef'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     display: 'flex',
                                                     alignItems: 'center',
@@ -13663,7 +13553,7 @@ const ActionSection = ()=>{
                                                     marginBottom: '12px'
                                                 },
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                         style: {
                                                             fontWeight: '600',
                                                             color: '#262626'
@@ -13674,10 +13564,10 @@ const ActionSection = ()=>{
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1143,
+                                                        lineNumber: 1115,
                                                         columnNumber: 23
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                         type: "text",
                                                         size: "small",
                                                         onClick: ()=>setSelectedDate(''),
@@ -13688,69 +13578,69 @@ const ActionSection = ()=>{
                                                         children: "✕"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1146,
+                                                        lineNumber: 1118,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1137,
+                                                lineNumber: 1109,
                                                 columnNumber: 21
                                             }, this),
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List, {
+                                            (0, _jsxdevruntime.jsxDEV)(_antd.List, {
                                                 size: "small",
                                                 dataSource: (calendarEvents[selectedDate] || []).filter((_, idx)=>!(hiddenCalendarItems[selectedDate] || []).includes(idx)),
-                                                renderItem: (item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
+                                                renderItem: (item, index)=>(0, _jsxdevruntime.jsxDEV)(_antd.List.Item, {
                                                         style: {
                                                             padding: '8px 0'
                                                         },
                                                         onMouseEnter: ()=>setHoveredCalendarIdx(index),
                                                         onMouseLeave: ()=>setHoveredCalendarIdx(null),
                                                         actions: hoveredCalendarIdx === index ? [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                 size: "small",
                                                                 type: "text",
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                                icon: (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 1166,
+                                                                    lineNumber: 1138,
                                                                     columnNumber: 79
                                                                 }, void 0),
                                                                 onClick: ()=>openEditFromCalendar(selectedDate, item)
                                                             }, "edit", false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1166,
+                                                                lineNumber: 1138,
                                                                 columnNumber: 29
                                                             }, void 0),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
+                                                            (0, _jsxdevruntime.jsxDEV)(_antd.Popconfirm, {
                                                                 title: "确认删除该日程？",
                                                                 onConfirm: ()=>deleteFromCalendarView(selectedDate, index),
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                                children: (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                                                     size: "small",
                                                                     type: "text",
                                                                     danger: true,
-                                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
+                                                                    icon: (0, _jsxdevruntime.jsxDEV)(_icons.DeleteOutlined, {}, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1168,
+                                                                        lineNumber: 1140,
                                                                         columnNumber: 77
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                    lineNumber: 1168,
+                                                                    lineNumber: 1140,
                                                                     columnNumber: 31
                                                                 }, void 0)
                                                             }, "delete", false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1167,
+                                                                lineNumber: 1139,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                         ] : [],
-                                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
-                                                            avatar: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {}, void 0, false, {
+                                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.List.Item.Meta, {
+                                                            avatar: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {}, void 0, false, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1175,
+                                                                lineNumber: 1147,
                                                                 columnNumber: 31
                                                             }, void 0),
-                                                            title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                            title: (0, _jsxdevruntime.jsxDEV)("div", {
                                                                 style: {
                                                                     display: 'flex',
                                                                     alignItems: 'center',
@@ -13758,7 +13648,7 @@ const ActionSection = ()=>{
                                                                     gap: '8px'
                                                                 },
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                                                         color: getTaskTypeColor(item.type),
                                                                         style: {
                                                                             background: `${getTaskTypeColor(item.type)}15`,
@@ -13768,33 +13658,33 @@ const ActionSection = ()=>{
                                                                         children: getTaskTypeText(item.type)
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1178,
+                                                                        lineNumber: 1150,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                                    (0, _jsxdevruntime.jsxDEV)("span", {
                                                                         children: item.task
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1188,
+                                                                        lineNumber: 1160,
                                                                         columnNumber: 27
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1177,
+                                                                lineNumber: 1149,
                                                                 columnNumber: 25
                                                             }, void 0),
-                                                            description: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                                            description: (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: item.customer
                                                                     }, void 0, false, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1193,
+                                                                        lineNumber: 1165,
                                                                         columnNumber: 27
                                                                     }, void 0),
-                                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                                                         type: "secondary",
                                                                         children: [
                                                                             "时间: ",
@@ -13802,48 +13692,48 @@ const ActionSection = ()=>{
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                        lineNumber: 1194,
+                                                                        lineNumber: 1166,
                                                                         columnNumber: 33
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                                lineNumber: 1192,
+                                                                lineNumber: 1164,
                                                                 columnNumber: 25
                                                             }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1174,
+                                                            lineNumber: 1146,
                                                             columnNumber: 21
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1159,
+                                                        lineNumber: 1131,
                                                         columnNumber: 19
                                                     }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1155,
+                                                lineNumber: 1127,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1130,
+                                        lineNumber: 1102,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 1070,
+                                lineNumber: 1042,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 875,
+                            lineNumber: 847,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                        (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
                             title: editingContext && editingContext.id != null ? '编辑日程' : '新增日程',
                             open: isScheduleModalOpen,
                             onOk: handleModalOk,
@@ -13851,7 +13741,7 @@ const ActionSection = ()=>{
                             okText: "保存",
                             cancelText: "取消",
                             destroyOnClose: true,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                            children: (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
                                 form: form,
                                 layout: "vertical",
                                 initialValues: {
@@ -13859,7 +13749,7 @@ const ActionSection = ()=>{
                                     completed: false
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "section",
                                         label: "分组",
                                         rules: [
@@ -13868,7 +13758,7 @@ const ActionSection = ()=>{
                                                 message: '请选择分组'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                             options: [
                                                 {
                                                     label: '今天',
@@ -13885,15 +13775,15 @@ const ActionSection = ()=>{
                                             ]
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1217,
+                                            lineNumber: 1189,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1216,
+                                        lineNumber: 1188,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "task",
                                         label: "事项",
                                         rules: [
@@ -13902,19 +13792,19 @@ const ActionSection = ()=>{
                                                 message: '请输入事项'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                             placeholder: "例如：客户回访 - 阿里巴巴"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1226,
+                                            lineNumber: 1198,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1225,
+                                        lineNumber: 1197,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "customer",
                                         label: "客户",
                                         rules: [
@@ -13923,19 +13813,19 @@ const ActionSection = ()=>{
                                                 message: '请输入客户名称'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                             placeholder: "例如：阿里巴巴集团"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1229,
+                                            lineNumber: 1201,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1228,
+                                        lineNumber: 1200,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "time",
                                         label: "时间",
                                         rules: [
@@ -13944,19 +13834,19 @@ const ActionSection = ()=>{
                                                 message: '请输入时间'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                             placeholder: "例如：14:00 或 周三 15:00"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1232,
+                                            lineNumber: 1204,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1231,
+                                        lineNumber: 1203,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "type",
                                         label: "类型",
                                         rules: [
@@ -13965,7 +13855,7 @@ const ActionSection = ()=>{
                                                 message: '请选择类型'
                                             }
                                         ],
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                             options: [
                                                 {
                                                     label: getTaskTypeText('business-review'),
@@ -14002,44 +13892,44 @@ const ActionSection = ()=>{
                                             ]
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1235,
+                                            lineNumber: 1207,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1234,
+                                        lineNumber: 1206,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
                                         name: "completed",
                                         valuePropName: "checked",
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                        children: (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
                                             children: "标记为已完成"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1249,
+                                            lineNumber: 1221,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1248,
+                                        lineNumber: 1220,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 1215,
+                                lineNumber: 1187,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 1206,
+                            lineNumber: 1178,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 874,
+                    lineNumber: 846,
                     columnNumber: 9
                 }, this)
             ]
@@ -14060,11 +13950,9 @@ _s2(ActionSection, "N02Sg+cOMmk2DKhJhMPSbGeUpsc=", false, function() {
     ];
 });
 _c2 = ActionSection;
-// 右侧洞察区组件
 const InsightSection = ()=>{
     _s3();
     const [dataPeriod, setDataPeriod] = (0, _react.useState)('年度');
-    // 行业分析数据
     const industryData = [
         {
             industry: '互联网科技',
@@ -14092,7 +13980,6 @@ const InsightSection = ()=>{
             percentage: 11.7
         }
     ];
-    // 业务数据矩阵
     const businessMatrixData = [
         {
             type: '直营',
@@ -14109,42 +13996,42 @@ const InsightSection = ()=>{
             healthScore: 65.2
         }
     ];
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+    return (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
         span: 8,
-        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+        children: (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
             gutter: [
                 0,
                 16
             ],
             children: [
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                         style: cardStyle,
-                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        title: (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'space-between'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         display: 'flex',
                                         alignItems: 'center'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.BarChartOutlined, {
+                                        (0, _jsxdevruntime.jsxDEV)(_icons.BarChartOutlined, {
                                             style: {
                                                 color: '#1890ff',
                                                 marginRight: '8px'
                                             }
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1288,
+                                            lineNumber: 1260,
                                             columnNumber: 19
                                         }, void 0),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        (0, _jsxdevruntime.jsxDEV)("span", {
                                             style: {
                                                 fontSize: '16px',
                                                 fontWeight: '600'
@@ -14152,16 +14039,16 @@ const InsightSection = ()=>{
                                             children: "我的业务数据"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1289,
+                                            lineNumber: 1261,
                                             columnNumber: 19
                                         }, void 0)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1287,
+                                    lineNumber: 1259,
                                     columnNumber: 15
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         display: 'flex',
                                         alignItems: 'center',
@@ -14171,7 +14058,7 @@ const InsightSection = ()=>{
                                         '年度',
                                         '季度',
                                         '月度'
-                                    ].map((period)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                    ].map((period)=>(0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                             type: dataPeriod === period ? 'primary' : 'text',
                                             size: "small",
                                             style: {
@@ -14184,33 +14071,33 @@ const InsightSection = ()=>{
                                             children: period
                                         }, period, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1293,
+                                            lineNumber: 1265,
                                             columnNumber: 21
                                         }, void 0))
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1291,
+                                    lineNumber: 1263,
                                     columnNumber: 17
                                 }, void 0)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 1286,
+                            lineNumber: 1258,
                             columnNumber: 15
                         }, void 0),
                         bodyStyle: {
                             padding: '16px'
                         },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                            (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                                 gutter: [
                                     16,
                                     16
                                 ],
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                         span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 textAlign: 'center',
                                                 display: 'flex',
@@ -14218,7 +14105,7 @@ const InsightSection = ()=>{
                                                 justifyContent: 'center'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         fontSize: '28px',
                                                         fontWeight: '700',
@@ -14228,10 +14115,10 @@ const InsightSection = ()=>{
                                                     children: "128"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1316,
+                                                    lineNumber: 1288,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     type: "secondary",
                                                     style: {
                                                         fontSize: '12px'
@@ -14239,10 +14126,10 @@ const InsightSection = ()=>{
                                                     children: "我的总客户数"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1319,
+                                                    lineNumber: 1291,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
@@ -14250,7 +14137,7 @@ const InsightSection = ()=>{
                                                         marginTop: '4px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px',
@@ -14258,10 +14145,10 @@ const InsightSection = ()=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1321,
+                                                            lineNumber: 1293,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px'
@@ -14269,29 +14156,29 @@ const InsightSection = ()=>{
                                                             children: "+5"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1322,
+                                                            lineNumber: 1294,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1320,
+                                                    lineNumber: 1292,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1315,
+                                            lineNumber: 1287,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1314,
+                                        lineNumber: 1286,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                         span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 textAlign: 'center',
                                                 display: 'flex',
@@ -14299,7 +14186,7 @@ const InsightSection = ()=>{
                                                 justifyContent: 'center'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         fontSize: '28px',
                                                         fontWeight: '700',
@@ -14309,10 +14196,10 @@ const InsightSection = ()=>{
                                                     children: "89"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1329,
+                                                    lineNumber: 1301,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     type: "secondary",
                                                     style: {
                                                         fontSize: '12px'
@@ -14320,10 +14207,10 @@ const InsightSection = ()=>{
                                                     children: "活跃客户数"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1332,
+                                                    lineNumber: 1304,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
@@ -14331,7 +14218,7 @@ const InsightSection = ()=>{
                                                         marginTop: '4px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px',
@@ -14339,10 +14226,10 @@ const InsightSection = ()=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1334,
+                                                            lineNumber: 1306,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px'
@@ -14350,29 +14237,29 @@ const InsightSection = ()=>{
                                                             children: "+12"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1335,
+                                                            lineNumber: 1307,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1333,
+                                                    lineNumber: 1305,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1328,
+                                            lineNumber: 1300,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1327,
+                                        lineNumber: 1299,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                    (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                         span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 textAlign: 'center',
                                                 display: 'flex',
@@ -14380,7 +14267,7 @@ const InsightSection = ()=>{
                                                 justifyContent: 'center'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         fontSize: '28px',
                                                         fontWeight: '700',
@@ -14390,10 +14277,10 @@ const InsightSection = ()=>{
                                                     children: "85.2"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1342,
+                                                    lineNumber: 1314,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                                     type: "secondary",
                                                     style: {
                                                         fontSize: '12px'
@@ -14401,10 +14288,10 @@ const InsightSection = ()=>{
                                                     children: "客户健康分均值"
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1345,
+                                                    lineNumber: 1317,
                                                     columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
@@ -14412,7 +14299,7 @@ const InsightSection = ()=>{
                                                         marginTop: '4px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
+                                                        (0, _jsxdevruntime.jsxDEV)(_icons.ArrowUpOutlined, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px',
@@ -14420,10 +14307,10 @@ const InsightSection = ()=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1347,
+                                                            lineNumber: 1319,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             style: {
                                                                 color: '#52c41a',
                                                                 fontSize: '10px'
@@ -14431,38 +14318,38 @@ const InsightSection = ()=>{
                                                             children: "+2.3"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1348,
+                                                            lineNumber: 1320,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1346,
+                                                    lineNumber: 1318,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1341,
+                                            lineNumber: 1313,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1340,
+                                        lineNumber: 1312,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 1313,
+                                lineNumber: 1285,
                                 columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            (0, _jsxdevruntime.jsxDEV)("div", {
                                 style: {
                                     marginTop: '20px'
                                 },
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    (0, _jsxdevruntime.jsxDEV)(Text, {
                                         style: {
                                             fontSize: '14px',
                                             fontWeight: '600',
@@ -14473,10 +14360,10 @@ const InsightSection = ()=>{
                                         children: "客户分布矩阵"
                                     }, void 0, false, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1356,
+                                        lineNumber: 1328,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                         style: {
                                             border: '1px solid #f0f0f0',
                                             borderRadius: '8px',
@@ -14484,7 +14371,7 @@ const InsightSection = ()=>{
                                             background: '#fff'
                                         },
                                         children: [
-                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     display: 'grid',
                                                     gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
@@ -14492,7 +14379,7 @@ const InsightSection = ()=>{
                                                     borderBottom: '1px solid #f0f0f0'
                                                 },
                                                 children: [
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -14503,10 +14390,10 @@ const InsightSection = ()=>{
                                                         children: "类型"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1372,
+                                                        lineNumber: 1344,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -14517,10 +14404,10 @@ const InsightSection = ()=>{
                                                         children: "总客户数"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1375,
+                                                        lineNumber: 1347,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -14531,10 +14418,10 @@ const InsightSection = ()=>{
                                                         children: "活跃客户"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1378,
+                                                        lineNumber: 1350,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -14545,10 +14432,10 @@ const InsightSection = ()=>{
                                                         children: "不活跃客户"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1381,
+                                                        lineNumber: 1353,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             padding: '12px 8px',
                                                             fontSize: '12px',
@@ -14559,23 +14446,23 @@ const InsightSection = ()=>{
                                                         children: "健康分"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1384,
+                                                        lineNumber: 1356,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1366,
+                                                lineNumber: 1338,
                                                 columnNumber: 17
                                             }, this),
-                                            businessMatrixData.map((row, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            businessMatrixData.map((row, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'grid',
                                                         gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
                                                         borderBottom: index < businessMatrixData.length - 1 ? '1px solid #f0f0f0' : 'none'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -14586,10 +14473,10 @@ const InsightSection = ()=>{
                                                             children: row.type
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1396,
+                                                            lineNumber: 1368,
                                                             columnNumber: 15
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -14600,10 +14487,10 @@ const InsightSection = ()=>{
                                                             children: row.total
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1405,
+                                                            lineNumber: 1377,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -14614,10 +14501,10 @@ const InsightSection = ()=>{
                                                             children: row.active
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1414,
+                                                            lineNumber: 1386,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -14628,10 +14515,10 @@ const InsightSection = ()=>{
                                                             children: row.inactive
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1423,
+                                                            lineNumber: 1395,
                                                             columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 padding: '12px 8px',
                                                                 fontSize: '12px',
@@ -14642,59 +14529,59 @@ const InsightSection = ()=>{
                                                             children: row.healthScore
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1432,
+                                                            lineNumber: 1404,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, index, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1391,
+                                                    lineNumber: 1363,
                                                     columnNumber: 19
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                        lineNumber: 1359,
+                                        lineNumber: 1331,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                lineNumber: 1355,
+                                lineNumber: 1327,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 1283,
+                        lineNumber: 1255,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 1282,
+                    lineNumber: 1254,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                     span: 24,
-                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                    children: (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                         style: cardStyle,
-                        title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        title: (0, _jsxdevruntime.jsxDEV)("div", {
                             style: {
                                 display: 'flex',
                                 alignItems: 'center'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PieChartOutlined, {
+                                (0, _jsxdevruntime.jsxDEV)(_icons.PieChartOutlined, {
                                     style: {
                                         color: '#fa8c16',
                                         marginRight: '8px'
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1454,
+                                    lineNumber: 1426,
                                     columnNumber: 17
                                 }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                (0, _jsxdevruntime.jsxDEV)("span", {
                                     style: {
                                         fontSize: '16px',
                                         fontWeight: '600'
@@ -14702,21 +14589,21 @@ const InsightSection = ()=>{
                                     children: "我的客户行业分析"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1455,
+                                    lineNumber: 1427,
                                     columnNumber: 17
                                 }, void 0)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 1453,
+                            lineNumber: 1425,
                             columnNumber: 15
                         }, void 0),
                         bodyStyle: {
                             padding: '16px'
                         },
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        children: (0, _jsxdevruntime.jsxDEV)("div", {
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                (0, _jsxdevruntime.jsxDEV)(Text, {
                                     type: "secondary",
                                     style: {
                                         fontSize: '12px',
@@ -14726,23 +14613,23 @@ const InsightSection = ()=>{
                                     children: "客户数量 TOP 5 行业分布"
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1461,
+                                    lineNumber: 1433,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         display: 'flex',
                                         flexDirection: 'column',
                                         gap: '12px'
                                     },
-                                    children: industryData.map((item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    children: industryData.map((item, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 gap: '12px'
                                             },
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         width: '60px',
                                                         fontSize: '12px',
@@ -14753,10 +14640,10 @@ const InsightSection = ()=>{
                                                     children: item.industry
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1469,
+                                                    lineNumber: 1441,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         flex: 1,
                                                         height: '20px',
@@ -14765,7 +14652,7 @@ const InsightSection = ()=>{
                                                         position: 'relative',
                                                         overflow: 'hidden'
                                                     },
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                         style: {
                                                             height: '100%',
                                                             width: `${item.percentage * 3}%`,
@@ -14787,15 +14674,15 @@ const InsightSection = ()=>{
                                                         }
                                                     }, void 0, false, {
                                                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                        lineNumber: 1487,
+                                                        lineNumber: 1459,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1479,
+                                                    lineNumber: 1451,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         width: '40px',
                                                         fontSize: '12px',
@@ -14807,26 +14694,26 @@ const InsightSection = ()=>{
                                                     children: item.count
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1496,
+                                                    lineNumber: 1468,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, index, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1468,
+                                            lineNumber: 1440,
                                             columnNumber: 19
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1466,
+                                    lineNumber: 1438,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         marginTop: '20px'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                             style: {
                                                 fontSize: '14px',
                                                 fontWeight: '600',
@@ -14837,10 +14724,10 @@ const InsightSection = ()=>{
                                             children: "行业分布饼图"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1512,
+                                            lineNumber: 1484,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'flex',
                                                 justifyContent: 'center',
@@ -14850,7 +14737,7 @@ const InsightSection = ()=>{
                                                 borderRadius: '8px',
                                                 border: '1px solid #f0f0f0'
                                             },
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                 style: {
                                                     width: '80px',
                                                     height: '80px',
@@ -14864,7 +14751,7 @@ const InsightSection = ()=>{
                     )`,
                                                     position: 'relative'
                                                 },
-                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                children: (0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         position: 'absolute',
                                                         top: '50%',
@@ -14878,34 +14765,34 @@ const InsightSection = ()=>{
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1537,
+                                                    lineNumber: 1509,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                lineNumber: 1524,
+                                                lineNumber: 1496,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1515,
+                                            lineNumber: 1487,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                             style: {
                                                 display: 'grid',
                                                 gridTemplateColumns: '1fr 1fr',
                                                 gap: '8px',
                                                 marginTop: '12px'
                                             },
-                                            children: industryData.map((item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            children: industryData.map((item, index)=>(0, _jsxdevruntime.jsxDEV)("div", {
                                                     style: {
                                                         display: 'flex',
                                                         alignItems: 'center',
                                                         gap: '6px'
                                                     },
                                                     children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                        (0, _jsxdevruntime.jsxDEV)("div", {
                                                             style: {
                                                                 width: '12px',
                                                                 height: '12px',
@@ -14920,10 +14807,10 @@ const InsightSection = ()=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1560,
+                                                            lineNumber: 1532,
                                                             columnNumber: 23
                                                         }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                                             style: {
                                                                 fontSize: '11px',
                                                                 color: '#666'
@@ -14936,27 +14823,27 @@ const InsightSection = ()=>{
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                            lineNumber: 1566,
+                                                            lineNumber: 1538,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, index, true, {
                                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                                    lineNumber: 1559,
+                                                    lineNumber: 1531,
                                                     columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1552,
+                                            lineNumber: 1524,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1511,
+                                    lineNumber: 1483,
                                     columnNumber: 15
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         marginTop: '12px',
                                         padding: '8px 0',
@@ -14966,7 +14853,7 @@ const InsightSection = ()=>{
                                         alignItems: 'center'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             style: {
                                                 fontSize: '11px'
@@ -14978,10 +14865,10 @@ const InsightSection = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1582,
+                                            lineNumber: 1554,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             style: {
                                                 fontSize: '11px'
@@ -14989,40 +14876,40 @@ const InsightSection = ()=>{
                                             children: "总计: 128 家客户"
                                         }, void 0, false, {
                                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                            lineNumber: 1585,
+                                            lineNumber: 1557,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                                    lineNumber: 1574,
+                                    lineNumber: 1546,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                            lineNumber: 1460,
+                            lineNumber: 1432,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 1450,
+                        lineNumber: 1422,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                    lineNumber: 1449,
+                    lineNumber: 1421,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-            lineNumber: 1280,
+            lineNumber: 1252,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-        lineNumber: 1279,
+        lineNumber: 1251,
         columnNumber: 7
     }, this);
 };
@@ -15034,49 +14921,49 @@ const WorkbenchDashboard = ()=>{
     const { initialState } = (0, _max.useModel)('@@initialState');
     const userName = (initialState === null || initialState === void 0 ? void 0 : (_initialState_currentUser = initialState.currentUser) === null || _initialState_currentUser === void 0 ? void 0 : _initialState_currentUser.name) || 'Serati Ma';
     const greeting = generateGreeting(userName);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+    return (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
             padding: '32px 40px',
             background: '#f5f5f5',
             minHeight: 'calc(100vh - 64px)'
         },
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(HeaderSection, {
+            (0, _jsxdevruntime.jsxDEV)(HeaderSection, {
                 userName: userName,
                 greeting: greeting
             }, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 1610,
+                lineNumber: 1582,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(CompanyKPIBanner, {}, void 0, false, {
+            (0, _jsxdevruntime.jsxDEV)(CompanyKPIBanner, {}, void 0, false, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 1613,
+                lineNumber: 1585,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+            (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
                 gutter: 24,
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(ActionSection, {}, void 0, false, {
+                    (0, _jsxdevruntime.jsxDEV)(ActionSection, {}, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 1618,
+                        lineNumber: 1590,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(InsightSection, {}, void 0, false, {
+                    (0, _jsxdevruntime.jsxDEV)(InsightSection, {}, void 0, false, {
                         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                        lineNumber: 1621,
+                        lineNumber: 1593,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-                lineNumber: 1616,
+                lineNumber: 1588,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/pages/CustomerSuccess/WorkbenchDashboard.tsx",
-        lineNumber: 1604,
+        lineNumber: 1576,
         columnNumber: 5
     }, this);
 };

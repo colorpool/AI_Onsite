@@ -744,35 +744,7 @@ const ActionSection: React.FC = () => {
                   )}
                 </Drawer>
               </TabPane>
-              <TabPane tab="新签实施" key="1">
-                <List
-                  dataSource={intelligentTasks.newImplementation}
-                  renderItem={(item) => (
-                    <List.Item
-                      actions={[
-                        <Button type="primary" size="small" style={{ borderRadius: '6px' }}>
-                          开始实施
-                        </Button>
-                      ]}
-                    >
-                      <List.Item.Meta
-                        avatar={<Avatar style={{ backgroundColor: '#1890ff' }}>{item.customer.charAt(0)}</Avatar>}
-                        title={item.customer}
-                        description={
-                          <Space>
-                            <Text type="secondary">来源销售: {item.sales}</Text>
-                            <Text type="secondary">合同金额: {item.amount}</Text>
-                            <Text type="secondary">交付期限: {item.dueDate}</Text>
-                            <Tag color={getPriorityColor(item.priority)}>
-                              {item.priority === 'high' ? '高优先级' : '中优先级'}
-                            </Tag>
-                          </Space>
-                        }
-                      />
-                    </List.Item>
-                  )}
-                />
-              </TabPane>
+
               
               <TabPane tab="待续费" key="2">
                 <List
