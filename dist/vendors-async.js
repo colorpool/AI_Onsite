@@ -3004,34 +3004,6 @@ RefIcon.displayName = 'BulbFilled';
 var _default = RefIcon;
 
 },
-"node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/BulbOutlined.js": function (module, exports, __mako_require__){
-"use strict";
-__mako_require__.d(exports, "__esModule", {
-    value: true
-});
-__mako_require__.d(exports, "default", {
-    enumerable: true,
-    get: function() {
-        return _default;
-    }
-});
-var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
-var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _objectSpread2 = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@babel/runtime/helpers/esm/objectSpread2.js"));
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
-var _BulbOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@ant-design/icons-svg/es/asn/BulbOutlined.js"));
-var _AntdIcon = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/components/AntdIcon.js"));
-var BulbOutlined = function BulbOutlined(props, ref) {
-    return /*#__PURE__*/ _react.createElement(_AntdIcon.default, (0, _objectSpread2.default)((0, _objectSpread2.default)({}, props), {}, {
-        ref: ref,
-        icon: _BulbOutlined.default
-    }));
-};
-var RefIcon = /*#__PURE__*/ _react.forwardRef(BulbOutlined);
-RefIcon.displayName = 'BulbOutlined';
-var _default = RefIcon;
-
-},
 "node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/BulbTwoTone.js": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
@@ -16248,34 +16220,6 @@ RefIcon.displayName = 'ProfileFilled';
 var _default = RefIcon;
 
 },
-"node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/ProfileOutlined.js": function (module, exports, __mako_require__){
-"use strict";
-__mako_require__.d(exports, "__esModule", {
-    value: true
-});
-__mako_require__.d(exports, "default", {
-    enumerable: true,
-    get: function() {
-        return _default;
-    }
-});
-var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
-var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _objectSpread2 = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@babel/runtime/helpers/esm/objectSpread2.js"));
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
-var _ProfileOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@ant-design/icons-svg/es/asn/ProfileOutlined.js"));
-var _AntdIcon = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/components/AntdIcon.js"));
-var ProfileOutlined = function ProfileOutlined(props, ref) {
-    return /*#__PURE__*/ _react.createElement(_AntdIcon.default, (0, _objectSpread2.default)((0, _objectSpread2.default)({}, props), {}, {
-        ref: ref,
-        icon: _ProfileOutlined.default
-    }));
-};
-var RefIcon = /*#__PURE__*/ _react.forwardRef(ProfileOutlined);
-RefIcon.displayName = 'ProfileOutlined';
-var _default = RefIcon;
-
-},
 "node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/ProfileTwoTone.js": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
@@ -17757,34 +17701,6 @@ var RocketFilled = function RocketFilled(props, ref) {
 };
 var RefIcon = /*#__PURE__*/ _react.forwardRef(RocketFilled);
 RefIcon.displayName = 'RocketFilled';
-var _default = RefIcon;
-
-},
-"node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/RocketOutlined.js": function (module, exports, __mako_require__){
-"use strict";
-__mako_require__.d(exports, "__esModule", {
-    value: true
-});
-__mako_require__.d(exports, "default", {
-    enumerable: true,
-    get: function() {
-        return _default;
-    }
-});
-var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
-var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _objectSpread2 = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@babel/runtime/helpers/esm/objectSpread2.js"));
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
-var _RocketOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@ant-design/icons-svg/es/asn/RocketOutlined.js"));
-var _AntdIcon = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/components/AntdIcon.js"));
-var RocketOutlined = function RocketOutlined(props, ref) {
-    return /*#__PURE__*/ _react.createElement(_AntdIcon.default, (0, _objectSpread2.default)((0, _objectSpread2.default)({}, props), {}, {
-        ref: ref,
-        icon: _RocketOutlined.default
-    }));
-};
-var RefIcon = /*#__PURE__*/ _react.forwardRef(RocketOutlined);
-RefIcon.displayName = 'RocketOutlined';
 var _default = RefIcon;
 
 },

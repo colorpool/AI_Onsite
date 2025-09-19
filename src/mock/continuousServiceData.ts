@@ -775,6 +775,7 @@ export const getPurchasedProducts = (customerId: string) => {
   };
 };
 
+// 持续服务阶段客户数据 - 使用独立的客户ID范围 (CUST-0001 ~ CUST-0006)
 export const mockCustomers: Customer[] = [
   {
     id: 'CUST-0001',
@@ -785,7 +786,7 @@ export const mockCustomers: Customer[] = [
     arr: 500000,
     healthScore: 85,
     healthLevel: '健康',
-    lifecycleStage: '成长期',
+    lifecycleStage: '成熟期',
     customerTier: 'strategic',
     salesPerson: '王销售',
     purchasedProducts: ['直营-极简版'],
@@ -953,7 +954,7 @@ export const mockCustomers: Customer[] = [
     arr: 1200000,
     healthScore: 92,
     healthLevel: '健康',
-    lifecycleStage: '成长期',
+    lifecycleStage: '成熟期',
     customerTier: 'strategic',
     salesPerson: '陈销售',
     purchasedProducts: ['D-learning'],
@@ -1009,7 +1010,7 @@ export const mockCustomers: Customer[] = [
     arr: 450000,
     healthScore: 58,
     healthLevel: '一般',
-    lifecycleStage: '成熟期',
+    lifecycleStage: '成长期',
     customerTier: 'medium',
     salesPerson: '刘销售',
     purchasedProducts: ['D-learning'],
@@ -1065,7 +1066,7 @@ export const mockCustomers: Customer[] = [
     arr: 200000,
     healthScore: 38,
     healthLevel: '风险',
-    lifecycleStage: '衰退期',
+    lifecycleStage: '成长期',
     customerTier: 'small',
     salesPerson: '赵销售',
     purchasedProducts: ['独立版'],

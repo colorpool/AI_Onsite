@@ -483,6 +483,10 @@ export const generateTabContent = (tabName: string): React.ReactNode => {
     '预测水晶球': 'prediction-crystal',
     '我的虚拟分身': 'virtual-avatar',
     '智能标签在干活': 'smart-tags',
+    '运营看板': 'teaching-ai-dashboard',
+    '用户互动管理': 'user-interaction-management',
+    '学习社区运营': 'community-operation',
+    '用户增长策略': 'user-growth-strategy',
   };
 
   // 如果传入的是中文label，转换为英文key，否则直接使用

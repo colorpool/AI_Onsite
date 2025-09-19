@@ -34,6 +34,10 @@ const routeToBreadcrumbMap: Record<string, { title: string; breadcrumb: string[]
     title: '创建新分身',
     breadcrumb: ['AI智能工具箱', '实施顾问分身', '创建新分身'],
   },
+  '/profiles/customer-profile': {
+    title: '客户档案',
+    breadcrumb: ['动态客户档案', '客户档案'],
+  },
   // 动态路由的映射会在组件中处理
 };
 

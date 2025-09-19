@@ -334,18 +334,25 @@ const HandoverListPage: React.FC = () => {
       ),
     },
     {
-      title: '交接单',
-      dataIndex: 'hasHandoverDocument',
-      key: 'hasHandoverDocument',
-      width: 80,
-      sorter: (a: CustomerHandover, b: CustomerHandover) => Number(a.hasHandoverDocument) - Number(b.hasHandoverDocument),
-      render: (hasDocument: boolean, record: CustomerHandover) => (
-        hasDocument ? (
-          <Tag color="blue" style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'action-plan')}>有</Tag>
-        ) : (
-          <Tag>无</Tag>
-        )
-      ),
+      title: '交接状态',
+      dataIndex: 'handoverStatus',
+      key: 'handoverStatus',
+      width: 120,
+      sorter: (a: CustomerHandover, b: CustomerHandover) => a.handoverStatus.localeCompare(b.handoverStatus),
+      render: (status: string, record: CustomerHandover) => {
+        const statusMap = {
+          pending_handover: { text: '待交接', color: 'orange' },
+          handover_in_progress: { text: '交接中', color: 'blue' },
+          pending_implementation: { text: '待实施', color: 'purple' },
+          implementation_in_progress: { text: '实施中', color: 'green' }
+        };
+        const config = statusMap[status as keyof typeof statusMap] || { text: status, color: 'default' };
+        return (
+          <Tag color={config.color} style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'action-plan')}>
+            {config.text}
+          </Tag>
+        );
+      },
     },
     {
       title: '风险提示',

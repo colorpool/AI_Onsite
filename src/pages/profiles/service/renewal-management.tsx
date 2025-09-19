@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { useTabManager } from '../../../contexts/TabContext';
 import CustomerDetailDrawer from './customer-detail-modal';
 import CustomerInfoCell from '../../../components/common/CustomerInfoCell';
+import { RenewalCustomer as RenewalCustomerData, renewalCustomers } from '../../../mock/renewalData';
 import {
   Card,
   Row,
@@ -274,359 +275,7 @@ interface RenewalPlaybook {
   applicableFor: RenewalStatus[];
 }
 
-// 续约客户数据
-export const mockRenewalCustomers: RenewalCustomer[] = [
-  {
-    key: '1',
-    id: 'CUST-0001',
-    name: '北京科技有限公司',
-    customerName: '北京科技有限公司',
-    industry: '信息技术',
-    scale: '中型企业',
-    csm: '张伟',
-    owner: '张伟',
-    arr: 500000,
-    contractValue: '500000',
-    healthScore: 85,
-    healthLevel: '健康',
-    lifecycleStage: 'growth',
-    customerTier: 'strategic',
-    salesPerson: '王销售',
-    purchasedProducts: ['直营-极简版'],
-    contractNumber: 'CONT-2023-001',
-    contractExpiryDate: '2024-05-31',
-    renewalDate: '2024-05-31',
-    renewalAmount: 500000,
-    renewalStatus: '意向明确',
-    daysToExpiry: 90,
-    status: '意向明确',
-    riskReason: '',
-    lastContactDate: '2024-01-15',
-    lastInteraction: '2024-01-15',
-    nextAction: '续约方案设计',
-    healthTrend: [75, 78, 80, 82, 83, 84, 85, 85], // 上升趋势
-    keyTask: {
-      id: 'task-001',
-      title: '续约方案设计',
-      status: 'pending',
-      assignee: '张伟',
-      dueDate: '2024-04-01',
-      priority: 'medium'
-    },
-    isFavorite: true,
-    favorite: true,
-    platform: '直营-极简版',
-    severity: 'low',
-    createdAt: '2023-06-20',
-    updatedAt: '2024-01-15'
-  },
-  {
-    key: '2',
-    id: 'CUST-0002',
-    name: '上海商贸集团',
-    customerName: '上海商贸集团',
-    industry: '批发零售',
-    scale: '大型企业',
-    csm: '王芳',
-    owner: '王芳',
-    arr: 800000,
-    contractValue: '800000',
-    healthScore: 92,
-    healthLevel: '健康',
-    lifecycleStage: 'growth',
-    customerTier: 'strategic',
-    salesPerson: '李销售',
-    purchasedProducts: ['直营-专业版'],
-    contractNumber: 'CONT-2023-002',
-    contractExpiryDate: '2024-06-30',
-    renewalDate: '2024-06-30',
-    renewalAmount: 800000,
-    renewalStatus: '意向明确',
-    daysToExpiry: 120,
-    status: '意向明确',
-    opportunityPoint: '用量超限，频繁访问高级功能',
-    lastContactDate: '2024-01-20',
-    lastInteraction: '2024-01-20',
-    nextAction: '增购方案设计',
-    healthTrend: [85, 87, 88, 89, 90, 91, 92, 92], // 上升趋势
-    keyTask: {
-      id: 'task-002',
-      title: '增购方案设计',
-      status: 'in_progress',
-      assignee: '王芳',
-      dueDate: '2024-05-15',
-      priority: 'medium'
-    },
-    isFavorite: true,
-    favorite: true,
-    platform: '直营-专业版',
-    severity: 'medium',
-    createdAt: '2023-07-10',
-    updatedAt: '2024-01-20'
-  },
-  {
-    key: '3',
-    id: 'CUST-0003',
-    name: '深圳制造企业',
-    customerName: '深圳制造企业',
-    industry: '制造业',
-    scale: '中型企业',
-    csm: '李强',
-    owner: '李强',
-    arr: 300000,
-    contractValue: '300000',
-    healthScore: 78,
-    healthLevel: '一般',
-    lifecycleStage: 'mature',
-    customerTier: 'large',
-    salesPerson: '赵销售',
-    purchasedProducts: ['渠道-标准版'],
-    contractNumber: 'CONT-2023-003',
-    contractExpiryDate: '2024-04-30',
-    renewalDate: '2024-04-30',
-    renewalAmount: 300000,
-    renewalStatus: '谈判中',
-    daysToExpiry: 60,
-    status: '谈判中',
-    lastContactDate: '2024-01-25',
-    lastInteraction: '2024-01-25',
-    nextAction: '报价单跟进',
-    healthTrend: [82, 80, 79, 78, 77, 76, 78, 78], // 轻微波动
-    keyTask: {
-      id: 'task-003',
-      title: '报价单跟进',
-      status: 'pending',
-      assignee: '李强',
-      dueDate: '2024-03-30',
-      priority: 'medium'
-    },
-    isFavorite: false,
-    favorite: false,
-    platform: '渠道-标准版',
-    severity: 'medium',
-    createdAt: '2023-08-15',
-    updatedAt: '2024-01-25'
-  },
-  {
-    key: '4',
-    id: 'CUST-0004',
-    name: '广州服务公司',
-    customerName: '广州服务公司',
-    industry: '商业服务',
-    scale: '中型企业',
-    csm: '赵敏',
-    owner: '赵敏',
-    arr: 600000,
-    contractValue: '600000',
-    healthScore: 88,
-    healthLevel: '健康',
-    lifecycleStage: 'mature',
-    customerTier: 'large',
-    salesPerson: '孙销售',
-    purchasedProducts: ['直营-旗舰版'],
-    contractNumber: 'CONT-2023-004',
-    contractExpiryDate: '2024-03-31',
-    renewalDate: '2024-03-31',
-    renewalAmount: 600000,
-    renewalStatus: '已续约',
-    daysToExpiry: 30,
-    status: '已续约',
-    lastContactDate: '2024-01-10',
-    lastInteraction: '2024-01-10',
-    nextAction: '续约后服务',
-    healthTrend: [85, 86, 87, 88, 88, 87, 88, 88], // 稳定趋势
-    keyTask: {
-      id: 'task-004',
-      title: '续约后服务',
-      status: 'completed',
-      assignee: '赵敏',
-      dueDate: '2024-02-15',
-      priority: 'low'
-    },
-    isFavorite: false,
-    favorite: false,
-    platform: '直营-旗舰版',
-    severity: 'low',
-    createdAt: '2023-09-20',
-    updatedAt: '2024-01-10'
-  },
-  {
-    key: '5',
-    id: 'CUST-0005',
-    name: '杭州物流企业',
-    customerName: '杭州物流企业',
-    industry: '物流运输',
-    scale: '小型企业',
-    csm: '刘洋',
-    owner: '刘洋',
-    arr: 400000,
-    contractValue: '400000',
-    healthScore: 35,
-    healthLevel: '风险',
-    lifecycleStage: 'decline',
-    customerTier: 'medium',
-    salesPerson: '周销售',
-    purchasedProducts: ['渠道-基础版'],
-    contractNumber: 'CONT-2023-005',
-    contractExpiryDate: '2024-03-31',
-    renewalDate: '2024-03-31',
-    renewalAmount: 400000,
-    renewalStatus: '流失风险',
-    daysToExpiry: 30,
-    status: '流失风险',
-    riskReason: '高优工单过多，客户满意度低',
-    lastContactDate: '2024-01-05',
-    lastInteraction: '2024-01-05',
-    nextAction: '问题紧急处理',
-    healthTrend: [65, 58, 52, 48, 42, 38, 36, 35], // 急剧下降
-    keyTask: {
-      id: 'task-005',
-      title: '问题紧急处理',
-      status: 'in_progress',
-      assignee: '刘洋',
-      dueDate: '2024-02-29',
-      priority: 'high'
-    },
-    isFavorite: false,
-    favorite: false,
-    platform: '渠道-基础版',
-    severity: 'high',
-    createdAt: '2023-10-25',
-     updatedAt: '2024-01-05'
-   },
-   {
-     key: '6',
-     id: 'CUST-0006',
-     name: '成都软件开发公司',
-     customerName: '成都软件开发公司',
-     industry: '软件开发',
-     scale: '小型企业',
-     csm: '王芳',
-     owner: '王芳',
-     arr: 200000,
-     contractValue: '200000',
-     healthScore: 38,
-     healthLevel: '风险',
-     lifecycleStage: 'decline',
-     customerTier: 'small',
-     salesPerson: '赵销售',
-     purchasedProducts: ['独立版'],
-     contractNumber: 'CONT-2024-010',
-     contractExpiryDate: '2024-12-31',
-     renewalDate: '2024-12-31',
-     renewalAmount: 200000,
-     renewalStatus: '流失风险',
-     daysToExpiry: 300,
-     status: '流失风险',
-     riskReason: '使用频率低，客户满意度下降',
-     lastContactDate: '2024-01-22',
-     lastInteraction: '2024-01-22',
-     nextAction: '客户拜访沟通',
-     healthTrend: [55, 50, 45, 42, 40, 38, 38, 38], // 下降趋势
-     keyTask: {
-       id: 'task_006',
-       title: '客户拜访沟通',
-       status: 'pending',
-       assignee: '王芳',
-       dueDate: '2024-02-15',
-       priority: 'high'
-     },
-     isFavorite: false,
-     favorite: false,
-     platform: '独立版',
-     severity: 'high',
-     createdAt: '2021-09-20',
-     updatedAt: '2024-01-22'
-   },
-   {
-     key: '7',
-     id: 'CUST-0007',
-     name: '武汉教育科技',
-     customerName: '武汉教育科技',
-     industry: '教育培训',
-     scale: '中型企业',
-     csm: '陈明',
-     owner: '陈明',
-     arr: 350000,
-     contractValue: '350000',
-     healthScore: 72,
-     healthLevel: '一般',
-     lifecycleStage: 'growth',
-     customerTier: 'medium',
-     salesPerson: '吴销售',
-     purchasedProducts: ['教育版'],
-     contractNumber: 'CONT-2023-007',
-     contractExpiryDate: '2024-07-15',
-     renewalDate: '2024-07-15',
-     renewalAmount: 350000,
-     renewalStatus: '谈判中',
-     daysToExpiry: 150,
-     status: '谈判中',
-     riskReason: '',
-     lastContactDate: '2024-01-18',
-     lastInteraction: '2024-01-18',
-     nextAction: '续约条件确认',
-     healthTrend: [68, 70, 71, 72, 73, 72, 72, 72], // 稳定趋势
-     keyTask: {
-       id: 'task_007',
-       title: '续约条件确认',
-       status: 'in_progress',
-       assignee: '陈明',
-       dueDate: '2024-06-01',
-       priority: 'medium'
-     },
-     isFavorite: true,
-     favorite: true,
-     platform: '教育版',
-     severity: 'medium',
-     createdAt: '2023-07-15',
-     updatedAt: '2024-01-18'
-   },
-   {
-     key: '8',
-     id: 'CUST-0008',
-     name: '西安金融服务',
-     customerName: '西安金融服务',
-     industry: '金融服务',
-     scale: '大型企业',
-     csm: '李娜',
-     owner: '李娜',
-     arr: 950000,
-     contractValue: '950000',
-     healthScore: 95,
-     healthLevel: '健康',
-     lifecycleStage: 'mature',
-     customerTier: 'strategic',
-     salesPerson: '郑销售',
-     purchasedProducts: ['金融版'],
-     contractNumber: 'CONT-2023-008',
-     contractExpiryDate: '2024-08-31',
-     renewalDate: '2024-08-31',
-     renewalAmount: 1200000,
-     renewalStatus: '意向明确',
-     daysToExpiry: 180,
-     status: '意向明确',
-     opportunityPoint: '业务快速增长，需要扩容升级',
-     lastContactDate: '2024-01-28',
-     lastInteraction: '2024-01-28',
-     nextAction: '增购方案制定',
-     healthTrend: [90, 91, 92, 93, 94, 95, 95, 95], // 上升趋势
-     keyTask: {
-       id: 'task_008',
-       title: '增购方案制定',
-       status: 'pending',
-       assignee: '李娜',
-       dueDate: '2024-07-01',
-       priority: 'high'
-     },
-     isFavorite: true,
-     favorite: true,
-     platform: '金融版',
-     severity: 'low',
-     createdAt: '2023-08-31',
-     updatedAt: '2024-01-28'
-   }
- ];
+// 续约活动数据
 
 // 续约动态数据
 const mockRenewalActivities: RenewalActivity[] = [
@@ -711,6 +360,74 @@ const mockPlaybooks: RenewalPlaybook[] = [
   }
 ];
 
+// 数据适配器：将renewalData.ts中的数据转换为页面需要的格式
+const adaptRenewalData = (data: RenewalCustomerData[]): RenewalCustomer[] => {
+  return data.map((customer, index) => ({
+    key: (index + 1).toString(),
+    id: customer.id,
+    name: customer.name,
+    customerName: customer.name,
+    industry: customer.industry,
+    scale: customer.size === 'small' ? '小型企业' : 
+           customer.size === 'medium' ? '中型企业' : 
+           customer.size === 'large' ? '大型企业' : '超大型企业',
+    csm: customer.csm,
+    owner: customer.csm,
+    arr: customer.arr,
+    contractValue: customer.currentContractValue.toString(),
+    healthScore: customer.healthScore,
+    healthLevel: customer.healthLevel,
+    lifecycleStage: customer.lifecycleStage === '成熟期' ? 'mature' : 'decline',
+    customerTier: customer.tier === 'S' ? 'strategic' : 
+                  customer.tier === 'A' ? 'large' : 
+                  customer.tier === 'B' ? 'medium' : 'small',
+    salesPerson: '销售人员',
+    purchasedProducts: ['产品服务'],
+    contractNumber: `CONT-${customer.id}`,
+    contractExpiryDate: customer.contractEndDate,
+    renewalDate: customer.contractEndDate,
+    renewalAmount: customer.proposedRenewalValue,
+    renewalStatus: customer.renewalStage === '未开始' ? '意向明确' :
+                   customer.renewalStage === '沟通中' ? '谈判中' :
+                   customer.renewalStage === '方案制定' ? '意向明确' :
+                   customer.renewalStage === '商务谈判' ? '谈判中' :
+                   customer.renewalStage === '合同签署' ? '已续约' :
+                   customer.renewalStage === '已完成' ? '已续约' :
+                   customer.renewalStage === '已流失' ? '流失风险' : '谈判中',
+    daysToExpiry: customer.daysToExpiry,
+    status: customer.renewalStage === '未开始' ? '意向明确' :
+            customer.renewalStage === '沟通中' ? '谈判中' :
+            customer.renewalStage === '方案制定' ? '意向明确' :
+            customer.renewalStage === '商务谈判' ? '谈判中' :
+            customer.renewalStage === '合同签署' ? '已续约' :
+            customer.renewalStage === '已完成' ? '已续约' :
+            customer.renewalStage === '已流失' ? '流失风险' : '谈判中',
+    riskReason: customer.riskFactors.join(', '),
+    opportunityPoint: customer.opportunities.join(', '),
+    lastContactDate: customer.lastContactDate,
+    lastInteraction: customer.lastContactDate,
+    nextAction: customer.nextActionDate,
+    healthTrend: [customer.healthScore - 10, customer.healthScore - 5, customer.healthScore, customer.healthScore + 2, customer.healthScore + 1, customer.healthScore, customer.healthScore, customer.healthScore],
+    keyTask: {
+      id: `task-${customer.id}`,
+      title: customer.renewalNotes.substring(0, 20) + '...',
+      status: 'pending',
+      assignee: customer.csm,
+      dueDate: customer.nextActionDate,
+      priority: customer.daysToExpiry <= 30 ? 'high' : customer.daysToExpiry <= 90 ? 'medium' : 'low'
+    },
+    isFavorite: false,
+    favorite: false,
+    platform: '企业版',
+    severity: customer.daysToExpiry <= 30 ? 'high' : customer.daysToExpiry <= 90 ? 'medium' : 'low',
+    createdAt: '2023-01-01',
+    updatedAt: customer.lastContactDate
+  }));
+};
+
+// 使用适配后的数据
+const adaptedRenewalCustomers = adaptRenewalData(renewalCustomers);
+
 const RenewalManagement: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('at-risk');
   const [selectedCustomer, setSelectedCustomer] = useState<RenewalCustomer | null>(null);
@@ -760,21 +477,21 @@ const RenewalManagement: React.FC = () => {
 
   // 根据状态过滤客户
   const getFilteredCustomers = (status: RenewalStatus | 'all') => {
-    if (status === 'all') return mockRenewalCustomers;
-    return mockRenewalCustomers.filter(customer => customer.status === status);
+    if (status === 'all') return adaptedRenewalCustomers;
+    return adaptedRenewalCustomers.filter(customer => customer.status === status);
   };
 
   // 获取当前分群的客户
   const getCurrentTabCustomers = () => {
     switch (selectedTab) {
       case 'at-risk':
-        return mockRenewalCustomers.filter(c => c.status === '流失风险');
+        return adaptedRenewalCustomers.filter(c => c.status === '流失风险');
       case 'upsell':
-        return mockRenewalCustomers.filter(c => c.healthLevel === '健康' && c.status === '意向明确');
+        return adaptedRenewalCustomers.filter(c => c.healthLevel === '健康' && c.status === '意向明确');
       case 'standard':
-        return mockRenewalCustomers.filter(c => c.status === '谈判中');
+        return adaptedRenewalCustomers.filter(c => c.status === '谈判中');
       case 'all':
-        return mockRenewalCustomers;
+        return adaptedRenewalCustomers;
       default:
         return [];
     }
@@ -1040,7 +757,7 @@ const RenewalManagement: React.FC = () => {
       label: (
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
           <BarChartOutlined />
-          所有机会 ({mockRenewalCustomers.length})
+          所有机会 ({adaptedRenewalCustomers.length})
         </span>
       ),
     },

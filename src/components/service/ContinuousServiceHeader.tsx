@@ -26,7 +26,7 @@ interface ContinuousServiceHeaderProps {
     contractNumber?: string;
   };
   onBack: () => void;
-
+  title?: string;
   onViewContract: () => void;
   onShare: () => void;
   isFavorite?: boolean;

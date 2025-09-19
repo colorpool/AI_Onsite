@@ -37,6 +37,10 @@ const pathToTitleMap: { [key: string]: string } = {
   '/ai-tools/prediction': '预测水晶球',
   '/ai-tools/avatar': '我的虚拟分身',
   '/ai-tools/tags': '智能标签在干活',
+  '/teaching-ai/dashboard': '运营看板',
+  '/teaching-ai/user-interaction': '用户互动管理',
+  '/teaching-ai/community': '学习社区运营',
+  '/teaching-ai/growth-strategy': '用户增长策略',
 };
 
 const CustomerSuccess: React.FC = () => {

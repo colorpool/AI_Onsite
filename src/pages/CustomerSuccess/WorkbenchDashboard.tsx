@@ -147,6 +147,7 @@ const HeaderSection: React.FC<{ userName: string; greeting: string }> = ({ userN
     { id: 1, name: 'CRM', icon: <UserOutlined />, url: '#', color: '#1890ff' },
     { id: 2, name: '禅道', icon: <SettingOutlined />, url: '#', color: '#52c41a' },
     { id: 3, name: '多维表', icon: <TableOutlined />, url: '#', color: '#722ed1' },
+    { id: 4, name: '对客物料', icon: <FileTextOutlined />, url: '#', color: '#fa8c16' },
   ]);
 
   return (
@@ -296,6 +297,19 @@ const CompanyKPIBanner: React.FC = () => {
         
         <Col span={6}>
           <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', fontWeight: '700', color: '#fa8c16', marginBottom: '8px' }}>
+              ¥2,850万
+            </div>
+            <Text type="secondary" style={{ fontSize: '14px' }}>业绩额</Text>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '8px' }}>
+              <ArrowUpOutlined style={{ color: '#52c41a', fontSize: '12px', marginRight: '4px' }} />
+              <Text style={{ color: '#52c41a', fontSize: '12px' }}>+12.3%</Text>
+            </div>
+          </div>
+        </Col>
+        
+        <Col span={6}>
+          <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '32px', fontWeight: '700', color: '#722ed1', marginBottom: '8px' }}>
               ¥1,250万
             </div>
@@ -307,6 +321,8 @@ const CompanyKPIBanner: React.FC = () => {
           </div>
       </Col>
       
+      {/* 客户档案完整度 - 隐藏 */}
+      {false && (
       <Col span={6}>
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '32px', fontWeight: '700', color: '#fa8c16', marginBottom: '8px' }}>
@@ -319,6 +335,7 @@ const CompanyKPIBanner: React.FC = () => {
               </div>
             </div>
       </Col>
+      )}
     </Row>
     </Card>
   );
@@ -343,9 +360,9 @@ const ActionSection: React.FC = () => {
       { id: 3, customer: '字节跳动', sales: '王销售', amount: '¥800,000', priority: 'high', dueDate: '2024-01-18' },
     ],
     pendingRenewal: [
-      { id: 4, customer: '美团点评', contractEnd: '2024-02-28', amount: '¥450,000', probability: 85 },
-      { id: 5, customer: '滴滴出行', contractEnd: '2024-03-15', amount: '¥320,000', probability: 75 },
-      { id: 6, customer: '小米科技', contractEnd: '2024-03-30', amount: '¥280,000', probability: 90 },
+      { id: 4, customer: '美团点评', contractSignDate: '2023-02-28', tianyuanSubmitDate: '2023-03-05', saasAmount: '¥350,000', valueAddedAmount: '¥100,000' },
+      { id: 5, customer: '滴滴出行', contractSignDate: '2023-03-15', tianyuanSubmitDate: '2023-03-20', saasAmount: '¥250,000', valueAddedAmount: '¥70,000' },
+      { id: 6, customer: '小米科技', contractSignDate: '2023-03-30', tianyuanSubmitDate: '2023-04-02', saasAmount: '¥200,000', valueAddedAmount: '¥80,000' },
     ],
     inactiveCustomers: [
       { id: 7, customer: '百度公司', lastActivity: '30天前', healthScore: 45, risk: 'high' },
@@ -356,6 +373,12 @@ const ActionSection: React.FC = () => {
       { id: 10, customer: '京东集团', opportunity: '产品升级', potential: '¥200,000', stage: '需求评估' },
       { id: 11, customer: '拼多多', opportunity: '功能扩展', potential: '¥350,000', stage: '方案制定' },
       { id: 12, customer: '新浪微博', opportunity: '增值服务', potential: '¥150,000', stage: '商务谈判' },
+    ],
+    customerVisits: [
+      { id: 13, customer: '腾讯科技', visitDate: '2024-01-15', visitType: '季度回顾', status: 'scheduled', priority: 'high' },
+      { id: 14, customer: '阿里巴巴', visitDate: '2024-01-18', visitType: '产品演示', status: 'confirmed', priority: 'medium' },
+      { id: 15, customer: '华为技术', visitDate: '2024-01-22', visitType: '需求调研', status: 'pending', priority: 'high' },
+      { id: 16, customer: '字节跳动', visitDate: '2024-01-25', visitType: '合作洽谈', status: 'scheduled', priority: 'medium' },
     ]
   };
 
@@ -640,22 +663,45 @@ const ActionSection: React.FC = () => {
                       ]}
                     >
                       <List.Item.Meta
-                        avatar={<Avatar style={{ backgroundColor: '#1890ff' }}>{item.customerName.charAt(0)}</Avatar>}
+                        avatar={
+                          <Avatar 
+                            size={40}
+                            style={{ 
+                              backgroundColor: item.deliveredAt ? '#52c41a' : '#fa8c16',
+                              color: '#fff',
+                              fontSize: '12px',
+                              fontWeight: '500',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            {item.deliveredAt ? '已实施' : '实施中'}
+                          </Avatar>
+                        }
                         title={item.customerName}
                         description={
                           <Space size="small" wrap>
                             <Tag color={item.expectationAlignment === 'aligned' ? 'green' : item.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange'}>
-                              {item.expectationAlignment === 'aligned' ? '已对齐' : item.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'}
+                              客户期望：{item.expectationAlignment === 'aligned' ? '已对齐' : item.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'}
                             </Tag>
+                            {/* 隐藏风险提示 */}
+                            {false && (
                             <Tag color={item.hasRiskAlert ? 'orange' : 'default'}>
                               风险提示: {item.hasRiskAlert ? '有' : '无'}
                             </Tag>
+                            )}
                             {typeof item.stakeholderCount === 'number' && (
                               <Tag color="purple">干系人: {item.stakeholderCount}</Tag>
                             )}
-                            {typeof item.handoverRating === 'number' && (
+                            {/* 隐藏评分 */}
+                            {false && typeof item.handoverRating === 'number' && (
                               <Tag color="gold">评分: {item.handoverRating}</Tag>
                             )}
+                            {/* 新增有要求/无要求标签 */}
+                            <Tag color="blue">
+                              {Math.random() > 0.5 ? '有要求' : '无要求'}
+                            </Tag>
                             {item.updatedAt && (
                               <Text type="secondary">更新时间: {item.updatedAt}</Text>
                             )}
@@ -674,15 +720,23 @@ const ActionSection: React.FC = () => {
                   {selectedHandover && (
                     <div>
                       <Space size="small" wrap style={{ marginBottom: 12 }}>
-                        <Tag color={selectedHandover.expectationAlignment === 'aligned' ? 'green' : selectedHandover.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange'}>
-                          {selectedHandover.expectationAlignment === 'aligned' ? '已对齐' : selectedHandover.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'}
+                        <Tag color={selectedHandover?.expectationAlignment === 'aligned' ? 'green' : selectedHandover?.expectationAlignment === 'partially_aligned' ? 'gold' : 'orange'}>
+                          客户期望：{selectedHandover?.expectationAlignment === 'aligned' ? '已对齐' : selectedHandover?.expectationAlignment === 'partially_aligned' ? '部分对齐' : '未对齐'}
                         </Tag>
-                        <Tag color={selectedHandover.hasRiskAlert ? 'orange' : 'default'}>风险提示: {selectedHandover.hasRiskAlert ? '有' : '无'}</Tag>
-                        {typeof selectedHandover.handoverRating === 'number' && <Tag color="gold">评分: {selectedHandover.handoverRating}</Tag>}
-                        {typeof selectedHandover.stakeholderCount === 'number' && <Tag color="purple">干系人: {selectedHandover.stakeholderCount}</Tag>}
+                        {/* 隐藏风险提示 */}
+                        {false && (
+                        <Tag color={selectedHandover?.hasRiskAlert ? 'orange' : 'default'}>风险提示: {selectedHandover?.hasRiskAlert ? '有' : '无'}</Tag>
+                        )}
+                        {/* 隐藏评分 */}
+                        {false && typeof selectedHandover?.handoverRating === 'number' && <Tag color="gold">评分: {selectedHandover?.handoverRating}</Tag>}
+                        {/* 新增有要求/无要求标签 */}
+                        <Tag color="blue">
+                          {Math.random() > 0.5 ? '有要求' : '无要求'}
+                        </Tag>
+                        {typeof selectedHandover?.stakeholderCount === 'number' && <Tag color="purple">干系人: {selectedHandover?.stakeholderCount}</Tag>}
                       </Space>
 
-                      {selectedHandover.crmData && (
+                      {selectedHandover?.crmData && (
                         <div style={{ marginBottom: 16 }}>
                           <Title level={5} style={{ marginBottom: 8 }}>CRM 同步信息</Title>
                           <Row gutter={16}>
@@ -704,7 +758,7 @@ const ActionSection: React.FC = () => {
                         </div>
                       )}
 
-                      {selectedHandover.onboardingTasks && (
+                      {selectedHandover?.onboardingTasks && (
                         <div style={{ marginBottom: 16 }}>
                           <Title level={5} style={{ marginBottom: 8 }}>Onboarding 行动计划</Title>
                           <List
@@ -723,7 +777,7 @@ const ActionSection: React.FC = () => {
                         </div>
                       )}
 
-                      {selectedHandover.internalComments && (
+                      {selectedHandover?.internalComments && (
                         <div>
                           <Title level={5} style={{ marginBottom: 8 }}>内部协作沟通</Title>
                           <List
@@ -759,10 +813,50 @@ const ActionSection: React.FC = () => {
                         avatar={<Avatar style={{ backgroundColor: '#52c41a' }}>{item.customer.charAt(0)}</Avatar>}
                         title={item.customer}
                         description={
-                          <Space>
-                            <Text type="secondary">合同到期: {item.contractEnd}</Text>
-                            <Text type="secondary">续费金额: {item.amount}</Text>
-                            <Tag color="green">续费概率: {item.probability}%</Tag>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            <div style={{ display: 'flex', gap: '40px' }}>
+                              <Text type="secondary" style={{ minWidth: '140px' }}>签署合同时间: {item.contractSignDate}</Text>
+                              <Text type="secondary" style={{ minWidth: '140px' }}>天元提单时间: {item.tianyuanSubmitDate}</Text>
+                            </div>
+                            <div style={{ display: 'flex', gap: '40px' }}>
+                              <Text type="secondary" style={{ minWidth: '140px' }}>SaaS续约金额: {item.saasAmount}</Text>
+                              <Text type="secondary" style={{ minWidth: '140px' }}>增值续费额: {item.valueAddedAmount}</Text>
+                            </div>
+                          </div>
+                        }
+                      />
+                    </List.Item>
+                  )}
+                />
+              </TabPane>
+              
+              <TabPane tab="客户拜访提醒" key="customerVisits">
+                <List
+                  dataSource={intelligentTasks.customerVisits}
+                  renderItem={(item) => (
+                    <List.Item
+                      actions={[
+                        <Button size="small" type="primary" style={{ borderRadius: '6px', marginRight: '8px' }}>保持提醒</Button>,
+                        <Button size="small" style={{ borderRadius: '6px' }}>关闭提醒</Button>
+                      ]}
+                    >
+                      <List.Item.Meta
+                        avatar={<Avatar style={{ backgroundColor: '#722ed1' }}>{item.customer.charAt(0)}</Avatar>}
+                        title={item.customer}
+                        description={
+                          <Space direction="vertical" size="small">
+                            <Space size="middle">
+                              <Text type="secondary">拜访日期: {item.visitDate}</Text>
+                              <Text type="secondary">拜访类型: {item.visitType}</Text>
+                            </Space>
+                            <Space size="small">
+                              <Tag color={item.status === 'confirmed' ? 'green' : item.status === 'scheduled' ? 'blue' : 'orange'}>
+                                {item.status === 'confirmed' ? '已确认' : item.status === 'scheduled' ? '已安排' : '待确认'}
+                              </Tag>
+                              <Tag color={item.priority === 'high' ? 'red' : 'default'}>
+                                {item.priority === 'high' ? '高优先级' : '普通'}
+                              </Tag>
+                            </Space>
                           </Space>
                         }
                       />
@@ -771,6 +865,8 @@ const ActionSection: React.FC = () => {
                 />
               </TabPane>
               
+              {/* 不活跃客户 - 隐藏 */}
+              {false && (
               <TabPane 
                 tab={
                   <span>
@@ -805,7 +901,10 @@ const ActionSection: React.FC = () => {
                   )}
                 />
               </TabPane>
+              )}
               
+              {/* 高活跃客户 - 隐藏 */}
+              {false && (
               <TabPane 
                 tab={
                   <span>
@@ -838,11 +937,13 @@ const ActionSection: React.FC = () => {
                   )}
                 />
               </TabPane>
+              )}
             </Tabs>
           </Card>
         </Col>
 
-        {/* 我的日程与待办 */}
+        {/* 我的日程与待办 - 隐藏 */}
+        {false && (
         <Col span={24}>
           <Card 
             style={cardStyle}
@@ -1176,7 +1277,7 @@ const ActionSection: React.FC = () => {
             )}
           </Card>
           <Modal
-            title={editingContext && editingContext.id != null ? '编辑日程' : '新增日程'}
+            title={editingContext?.id != null ? '编辑日程' : '新增日程'}
             open={isScheduleModalOpen}
             onOk={handleModalOk}
             onCancel={handleModalCancel}
@@ -1223,6 +1324,7 @@ const ActionSection: React.FC = () => {
             </Form>
           </Modal>
         </Col>
+        )}
       </Row>
     </Col>
   );
@@ -1311,13 +1413,13 @@ const InsightSection: React.FC = () => {
               
               <Col span={8}>
                 <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <div style={{ fontSize: '28px', fontWeight: '700', color: '#722ed1', marginBottom: '4px' }}>
-                    85.2
+                  <div style={{ fontSize: '28px', fontWeight: '700', color: '#fa8c16', marginBottom: '4px' }}>
+                    39
                   </div>
-                  <Text type="secondary" style={{ fontSize: '12px' }}>客户健康分均值</Text>
+                  <Text type="secondary" style={{ fontSize: '12px' }}>不活跃客户数</Text>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '4px' }}>
-                    <ArrowUpOutlined style={{ color: '#52c41a', fontSize: '10px', marginRight: '2px' }} />
-                    <Text style={{ color: '#52c41a', fontSize: '10px' }}>+2.3</Text>
+                    <ArrowDownOutlined style={{ color: '#ff4d4f', fontSize: '10px', marginRight: '2px' }} />
+                    <Text style={{ color: '#ff4d4f', fontSize: '10px' }}>-3</Text>
                   </div>
                 </div>
               </Col>
@@ -1337,12 +1439,12 @@ const InsightSection: React.FC = () => {
                 {/* 表头 */}
                 <div style={{ 
                   display: 'grid', 
-                  gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+                  gridTemplateColumns: '1fr 1fr 1fr 1fr',
                   background: '#fafafa',
                   borderBottom: '1px solid #f0f0f0'
                 }}>
                   <div style={{ padding: '12px 8px', fontSize: '12px', fontWeight: '600', color: '#262626', textAlign: 'center' }}>
-                    类型
+                    销售来源
                 </div>
                   <div style={{ padding: '12px 8px', fontSize: '12px', fontWeight: '600', color: '#262626', textAlign: 'center' }}>
                     总客户数
@@ -1353,16 +1455,19 @@ const InsightSection: React.FC = () => {
                   <div style={{ padding: '12px 8px', fontSize: '12px', fontWeight: '600', color: '#262626', textAlign: 'center' }}>
                     不活跃客户
                   </div>
+                  {/* 隐藏健康分列 */}
+                  {false && (
                   <div style={{ padding: '12px 8px', fontSize: '12px', fontWeight: '600', color: '#262626', textAlign: 'center' }}>
                     健康分
               </div>
+                  )}
             </div>
             
                 {/* 表格内容 */}
                 {businessMatrixData.map((row, index) => (
                   <div key={index} style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+                    gridTemplateColumns: '1fr 1fr 1fr 1fr',
                     borderBottom: index < businessMatrixData.length - 1 ? '1px solid #f0f0f0' : 'none'
                   }}>
               <div style={{ 
@@ -1401,6 +1506,8 @@ const InsightSection: React.FC = () => {
                     }}>
                       {row.inactive}
                     </div>
+                    {/* 隐藏健康分列 */}
+                    {false && (
                     <div style={{ 
                       padding: '12px 8px', 
                       fontSize: '12px', 
@@ -1410,14 +1517,136 @@ const InsightSection: React.FC = () => {
                     }}>
                       {row.healthScore}
                     </div>
+                    )}
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* 新客老客统计表 */}
+            <div style={{ marginTop: '24px' }}>
+              <Text style={{ fontSize: '14px', fontWeight: '600', color: '#262626', marginBottom: '12px', display: 'block' }}>
+                客户类型统计
+              </Text>
+              <div style={{ 
+                border: '1px solid #f0f0f0', 
+                borderRadius: '8px',
+                overflow: 'hidden',
+                background: '#fff'
+              }}>
+                {/* 表头 */}
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                  background: '#fafafa',
+                  borderBottom: '1px solid #f0f0f0'
+                }}>
+                  <div style={{ padding: '12px 8px', fontSize: '12px', fontWeight: '600', color: '#262626', textAlign: 'center' }}>
+                    客户类型
+                  </div>
+                  <div style={{ padding: '12px 8px', fontSize: '12px', fontWeight: '600', color: '#262626', textAlign: 'center' }}>
+                    总客户数
+                  </div>
+                  <div style={{ padding: '12px 8px', fontSize: '12px', fontWeight: '600', color: '#262626', textAlign: 'center' }}>
+                    活跃客户
+                  </div>
+                  <div style={{ padding: '12px 8px', fontSize: '12px', fontWeight: '600', color: '#262626', textAlign: 'center' }}>
+                    不活跃客户
+                  </div>
+                </div>
+                
+                {/* 表格内容 */}
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                  borderBottom: '1px solid #f0f0f0'
+                }}>
+                  <div style={{ 
+                    padding: '12px 8px', 
+                    fontSize: '12px', 
+                    color: '#262626', 
+                    textAlign: 'center',
+                    fontWeight: '500'
+                  }}>
+                    新客
+                  </div>
+                  <div style={{ 
+                    padding: '12px 8px', 
+                    fontSize: '12px', 
+                    color: '#1890ff', 
+                    textAlign: 'center',
+                    fontWeight: '600'
+                  }}>
+                    45
+                  </div>
+                  <div style={{ 
+                    padding: '12px 8px', 
+                    fontSize: '12px', 
+                    color: '#52c41a', 
+                    textAlign: 'center',
+                    fontWeight: '600'
+                  }}>
+                    32
+                  </div>
+                  <div style={{ 
+                    padding: '12px 8px', 
+                    fontSize: '12px', 
+                    color: '#fa8c16', 
+                    textAlign: 'center',
+                    fontWeight: '600'
+                  }}>
+                    13
+                  </div>
+                </div>
+                
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: '1fr 1fr 1fr 1fr'
+                }}>
+                  <div style={{ 
+                    padding: '12px 8px', 
+                    fontSize: '12px', 
+                    color: '#262626', 
+                    textAlign: 'center',
+                    fontWeight: '500'
+                  }}>
+                    老客
+                  </div>
+                  <div style={{ 
+                    padding: '12px 8px', 
+                    fontSize: '12px', 
+                    color: '#1890ff', 
+                    textAlign: 'center',
+                    fontWeight: '600'
+                  }}>
+                    78
+                  </div>
+                  <div style={{ 
+                    padding: '12px 8px', 
+                    fontSize: '12px', 
+                    color: '#52c41a', 
+                    textAlign: 'center',
+                    fontWeight: '600'
+                  }}>
+                    52
+                  </div>
+                  <div style={{ 
+                    padding: '12px 8px', 
+                    fontSize: '12px', 
+                    color: '#fa8c16', 
+                    textAlign: 'center',
+                    fontWeight: '600'
+                  }}>
+                    26
+                  </div>
+                </div>
               </div>
             </div>
           </Card>
         </Col>
 
-        {/* 我的客户行业分析 */}
+        {/* 我的客户行业分析 - 隐藏 */}
+        {false && (
         <Col span={24}>
           <Card 
             style={cardStyle}
@@ -1561,6 +1790,7 @@ const InsightSection: React.FC = () => {
             </div>
           </Card>
         </Col>
+        )}
       </Row>
     </Col>
   );

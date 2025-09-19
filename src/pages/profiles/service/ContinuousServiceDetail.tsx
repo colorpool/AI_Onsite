@@ -44,6 +44,7 @@ import {
   DeleteOutlined
 } from '@ant-design/icons';
 import ContinuousServiceDetailHeader from '@/components/service/ContinuousServiceDetailHeader';
+import CustomerProfileTab from '@/components/common/CustomerProfileTab';
 import { useParams, useNavigate, useLocation } from 'umi';
 import { mockCustomers } from '@/mock/continuousServiceData';
 import { ServiceRecordType, ContractAttachment } from '@/types/continuousService';
@@ -73,13 +74,17 @@ const ContinuousServiceDetail: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      const foundCustomer = mockCustomers.find(c => c.id === id);
+      // 根据路由参数id生成客户ID格式 (CUST-0001)
+      const customerId = `CUST-${id?.padStart(4, '0')}`;
+      console.log('持续服务详情页 - 路由参数id:', id, '生成的客户ID:', customerId);
+      
+      const foundCustomer = mockCustomers.find(c => c.id === customerId);
       if (foundCustomer) {
         setCustomer(foundCustomer);
         
         // 检查是否为收藏客户
         const favoriteCustomers = JSON.parse(localStorage.getItem('favoriteCustomers') || '[]');
-        setIsFavorite(favoriteCustomers.includes(id));
+        setIsFavorite(favoriteCustomers.includes(customerId));
         
         // 初始化联系人数据
         if (foundCustomer.keyContacts) {
@@ -428,532 +433,40 @@ const ContinuousServiceDetail: React.FC = () => {
                   </div>
                 ),
                 children: (
-                  <div style={{ padding: '16px 0' }}>
-                    {/* 合同与服务卡片 */}
-                    <Card 
-                      title={
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <DollarOutlined style={{ color: '#52c41a', marginRight: '8px' }} />
-                            <span>合同与服务</span>
-                          </div>
-                          <Button 
-                             type="primary" 
-                             icon={<EditOutlined />} 
-                             onClick={handleContractEdit}
-                             size="small"
-                           >
-                            编辑信息
-                           </Button>
-                        </div>
-                      }
-                      size="small"
-                      style={{ marginBottom: '16px' }}
-                    >
-                      <Row gutter={[24, 16]}>
-                        <Col span={24}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Text strong style={{ minWidth: 120, display: 'inline-block' }}>已购产品/服务：</Text>
-                            <div style={{ marginLeft: '8px' }}>
-                              {customer.purchasedProducts?.map((product: string, index: number) => (
-                                <Tag key={index} color="blue" style={{ marginRight: '4px' }}>
-                                  {product}
-                                </Tag>
-                              ))}
-                            </div>
-                          </div>
-                        </Col>
-                        
-                        <Col span={8}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Text strong style={{ minWidth: 120, display: 'inline-block' }}>合同金额 (ARR)：</Text>
-                            <span style={{ color: '#1890ff', fontSize: '16px', fontWeight: '600', marginLeft: '8px' }}>
-                              ¥{customer.currentContract?.amount?.toLocaleString() || '0'}
-                            </span>
-                          </div>
-                        </Col>
-                        <Col span={8}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Text strong style={{ minWidth: 100, display: 'inline-block' }}>服务到期日：</Text>
-                            <span style={{ color: '#fa8c16', marginLeft: '8px' }}>
-                              {customer.contractEndDate}
-                            </span>
-                          </div>
-                        </Col>
-                        <Col span={8}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Text strong style={{ minWidth: 80, display: 'inline-block' }}>人数版本：</Text>
-                            <span style={{ color: '#52c41a', marginLeft: '8px' }}>
-                              {customer.currentContract?.userVersion || '暂无'}
-                            </span>
-                          </div>
-                        </Col>
-                        
-                        <Col span={8}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Text strong style={{ minWidth: 80, display: 'inline-block' }}>提单版本：</Text>
-                            <span style={{ color: '#722ed1', marginLeft: '8px' }}>
-                              {customer.currentContract?.ticketVersion || '暂无'}
-                            </span>
-                          </div>
-                        </Col>
-                        <Col span={8}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Text strong style={{ minWidth: 80, display: 'inline-block' }}>客户分层：</Text>
-                            <span style={{ marginLeft: '8px' }}>
-                              {(() => {
-                                const segmentConfig: Record<string, { color: string; text: string }> = {
-                                  'strategic': { color: '#f5222d', text: '战略客户' },
-                                  'key': { color: '#1890ff', text: '重点客户' },
-                                  'standard': { color: '#52c41a', text: '普通客户' }
-                                };
-                                const config = segmentConfig[customer.customerTier] || { color: '#8c8c8c', text: '未知' };
-                                return (
-                                  <Tag color={config.color} style={{ fontSize: '12px' }}>
-                                    {config.text}
-                                  </Tag>
-                                );
-                              })()
-                            }
-                            </span>
-                          </div>
-                        </Col>
-                        <Col span={8}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Text strong style={{ minWidth: 120, display: 'inline-block' }}>天元订单状态：</Text>
-                            <span style={{ marginLeft: '8px' }}>
-                              {(() => {
-                                const statusConfig: Record<string, { color: string; text: string }> = {
-                                  'active': { color: '#52c41a', text: '已生效' },
-                                  'inactive': { color: '#8c8c8c', text: '未生效' },
-                                  'pending': { color: '#fa8c16', text: '待处理' }
-                                };
-                                const config = statusConfig[customer.currentContract?.tianyuanOrderStatus || ''] || { color: '#8c8c8c', text: '未知' };
-                                return (
-                                  <Tag color={config.color} style={{ fontSize: '12px' }}>
-                                    {config.text}
-                                  </Tag>
-                                );
-                              })()
-                            }
-                            </span>
-                          </div>
-                        </Col>
-                      </Row>
-                      
-                      {/* 服务成本投入 - 可展开链接 */}
-                      <div>
-                        <Collapse 
-                          ghost 
-                          size="small"
-                          items={[
-                            {
-                              key: '1',
-                              label: (
-                                <Text strong style={{ color: '#1890ff' }}>
-                                  服务成本投入: ¥{customer.currentContract?.serviceCost?.toLocaleString() || '15,000'} 
-                                </Text>
-                              ),
-                              children: (
-                                <div style={{ background: '#f8f9fa', padding: '12px', borderRadius: '6px', marginTop: '8px' }}>
-                                  {customer.currentContract?.serviceCostDetails ? 
-                                    customer.currentContract.serviceCostDetails.map((detail: string, index: number) => (
-                                      <div key={index} style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
-                                        • {detail}
-                                      </div>
-                                    )) : 
-                                    [
-                                      '客户拜访费用: ¥3,000',
-                                      '礼品采购: ¥5,000', 
-                                      '培训支持: ¥4,000',
-                                      '技术支持: ¥3,000'
-                                    ].map((detail, index) => (
-                                      <div key={index} style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
-                                        • {detail}
-                                      </div>
-                                    ))
-                                  }
-                                </div>
-                              )
-                            }
-                          ]}
-                        />
-                      </div>
-                    </Card>
-                    
-                    {/* 关键联系人卡片 */}
-                    <Card 
-                      title={
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <TeamOutlined style={{ color: '#1890ff', marginRight: '8px' }} />
-                            <span>关键联系人</span>
-                          </div>
-                          <Button 
-                            type="primary" 
-                            icon={<PlusOutlined />} 
-                            onClick={handleContactAdd}
-                            size="small"
-                          >
-                            添加联系人
-                          </Button>
-                        </div>
-                      }
-                      size="small"
-                    >
-                      <Table
-                        dataSource={contactData}
-                        pagination={false}
-                        size="small"
-                        rowKey="id"
-                        scroll={{ y: 300 }}
-                        columns={[
-                          {
-                            title: '姓名',
-                            dataIndex: 'name',
-                            key: 'name',
-                            width: 100,
-                            render: (name: string, record: any) => (
-                              <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <Avatar size="small" icon={<UserOutlined />} style={{ marginRight: 8 }} />
-                                <div style={{ fontWeight: 500, fontSize: '12px' }}>{name}</div>
-                              </div>
-                            )
-                          },
-                          {
-                            title: '职位',
-                            dataIndex: 'title',
-                            key: 'title',
-                            width: 100,
-                            render: (title: string) => (
-                              <Text style={{ fontSize: '12px' }}>{title}</Text>
-                            )
-                          },
-                          {
-                            title: '干系类型',
-                            dataIndex: 'stakeholderType',
-                            key: 'stakeholderType',
-                            width: 80,
-                            render: (type: string) => {
-                              const typeConfig: Record<string, { color: string; text: string }> = {
-                                'decision_maker': { color: 'red', text: '决策者' },
-                                'supporter': { color: 'green', text: '赞成者' },
-                                'opponent': { color: 'orange', text: '反对者' },
-                                'influencer': { color: 'blue', text: '影响者' },
-                                'user': { color: 'purple', text: '使用者' }
-                              };
-                              const config = typeConfig[type] || { color: 'default', text: type || '未知' };
-                              return <Tag color={config.color} style={{ fontSize: '11px' }}>{config.text}</Tag>;
-                            }
-                          },
-                          {
-                            title: '影响力',
-                            dataIndex: 'influence',
-                            key: 'influence',
-                            width: 60,
-                            render: (influence: string) => {
-                              const influenceConfig: Record<string, { color: string; text: string }> = {
-                                'high': { color: 'red', text: '高' },
-                                'medium': { color: 'orange', text: '中' },
-                                'low': { color: 'green', text: '低' }
-                              };
-                              const config = influenceConfig[influence] || { color: 'default', text: influence || '未知' };
-                              return <Tag color={config.color} style={{ fontSize: '11px' }}>{config.text}</Tag>;
-                            }
-                          },
-                          {
-                            title: '态度',
-                            dataIndex: 'attitude',
-                            key: 'attitude',
-                            width: 60,
-                            render: (attitude: string) => {
-                              const attitudeConfig: Record<string, { color: string; text: string }> = {
-                                'positive': { color: 'green', text: '积极' },
-                                'neutral': { color: 'blue', text: '中性' },
-                                'negative': { color: 'red', text: '消极' }
-                              };
-                              const config = attitudeConfig[attitude] || { color: 'default', text: attitude || '未知' };
-                              return <Tag color={config.color} style={{ fontSize: '11px' }}>{config.text}</Tag>;
-                            }
-                          },
-                          {
-                            title: '电话',
-                            dataIndex: 'phone',
-                            key: 'phone',
-                            width: 110,
-                            render: (phone: string) => (
-                              <div style={{ fontSize: '11px', display: 'flex', alignItems: 'center' }}>
-                                <PhoneOutlined style={{ marginRight: 4, color: '#8c8c8c' }} />
-                                <span>{phone}</span>
-                              </div>
-                            )
-                          },
-                          {
-                            title: '邮箱',
-                            dataIndex: 'email',
-                            key: 'email',
-                            width: 140,
-                            render: (email: string) => (
-                              <div style={{ fontSize: '11px', display: 'flex', alignItems: 'center' }}>
-                                <MailOutlined style={{ marginRight: 4, color: '#8c8c8c' }} />
-                                <span>{email}</span>
-                              </div>
-                            )
-                          },
-                          {
-                            title: '操作',
-                            key: 'action',
-                            width: 80,
-                            render: (_, record: any) => (
-                              <div style={{ display: 'flex', gap: '4px' }}>
-                                <Button 
-                                  type="text" 
-                                  icon={<EditOutlined />} 
-                                  size="small"
-                                  onClick={() => handleContactEdit(record)}
-                                />
-                                <Button 
-                                  type="text" 
-                                  icon={<DeleteOutlined />} 
-                                  size="small"
-                                  danger
-                                  onClick={() => handleContactDelete(record)}
-                                />
-                              </div>
-                            )
-                          }
-                        ]}
-                      />
-                    </Card>
-                  </div>
-                )
-              },
-              {
-                key: 'history-contracts',
-                label: (
-                  <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
-                    <DollarOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
-                    <span style={{ color: '#8c8c8c', fontSize: '14px' }}>往期合同</span>
-                  </div>
+                  <CustomerProfileTab 
+                    customer={customer}
+                    lifecycle="continuous"
+                    onEditContract={handleContractEdit}
+                    onEditContacts={handleContactAdd}
+                  />
                 ),
-                children: (
-                  <div style={{ padding: '8px 0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                      <Text type="secondary" style={{ fontSize: '14px' }}>
-                        共 {customer?.contracts?.length || 0} 份合同
-                      </Text>
-                    </div>
-                    <Timeline
-                      style={{ padding: '16px 0' }}
-                      items={customer?.contracts?.map((contract: any, index: number) => {
-                        const getContractStatusConfig = (status: string) => {
-                           const configs: Record<string, { color: string; text: string }> = {
-                             'active': { color: '#52c41a', text: '生效中' },
-                             'expired': { color: '#fa8c16', text: '已到期' },
-                             'terminated': { color: '#f5222d', text: '已终止' }
-                           };
-                           return configs[status] || { color: '#8c8c8c', text: '未知' };
-                         };
-                        
-                        const statusConfig = getContractStatusConfig(contract.status);
-                        
-                        return {
-                          color: statusConfig.color,
-                          dot: <DollarOutlined />,
-                          children: (
-                            <div style={{ 
-                              padding: '16px', 
-                              background: '#f8f9fa', 
-                              borderRadius: '8px',
-                              border: '1px solid #e8e8e8'
-                            }}>
-                              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-                                  <Tag color={statusConfig.color} style={{ marginRight: '8px' }}>
-                                    {statusConfig.text}
-                                  </Tag>
-                                  <Text strong style={{ fontSize: '14px' }}>
-                                    {contract.contractNumber || `合同-${index + 1}`}
-                                  </Text>
-                                </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                  <Text type="secondary" style={{ fontSize: '12px' }}>
-                                    {contract.startDate} - {contract.endDate}
-                                  </Text>
-                                </div>
-                              </div>
-                              
-                              <div style={{ marginBottom: '12px' }}>
-                                <Text strong>合同金额：</Text>
-                                <Text style={{ color: '#1890ff', fontWeight: '600' }}>
-                                  ¥{contract.amount?.toLocaleString() || '0'}
-                                </Text>
-                              </div>
-                              
-                              <div style={{ marginBottom: '8px' }}>
-                                <Text strong>购买产品：</Text>
-                                <div style={{ marginTop: '4px' }}>
-                                  {contract.purchasedProducts?.map((product: string, idx: number) => (
-                                    <Tag key={idx} style={{ marginBottom: '4px' }}>
-                                      {product}
-                                    </Tag>
-                                  ))}
-                                </div>
-                              </div>
-                              
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                                <div>
-                                  <Text strong>服务周期：</Text>
-                                  <Text> {contract.servicePeriod || '1年'}</Text>
-                                </div>
-                                {contract.attachments && contract.attachments.length > 0 && (
-                                  <Button
-                                    type="primary"
-                                    size="small"
-                                    icon={<EyeOutlined />}
-                                    onClick={() => handleViewAttachments(contract)}
-                                  >
-                                    查看附件({contract.attachments.length})
-                                  </Button>
-                                )}
-                              </div>
-                            </div>
-                          )
-                        };
-                      }) || []}
-                    />
-                  </div>
-                )
               },
               {
                 key: 'service',
                 label: (
                   <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
-                    <ClockCircleOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
+                    <SettingOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
                     <span style={{ color: '#8c8c8c', fontSize: '14px' }}>持续服务</span>
                   </div>
                 ),
                 children: (
-                  <div style={{ padding: '8px 0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                      <Text type="secondary" style={{ fontSize: '14px' }}>
-                        共 {customer?.serviceRecords?.length || 0} 条记录
-                      </Text>
-                      <Button 
-                        type="primary" 
-                        icon={<PlusOutlined />}
-                        onClick={() => setNewRecordModalVisible(true)}
-                      >
-                        新增服务记录
-                      </Button>
-                    </div>
-                    <Timeline
-                      style={{ padding: '16px 0' }}
-                      items={customer?.serviceRecords?.map((record: any) => {
-                        const getRecordConfig = (type: ServiceRecordType) => {
-                          const configs = {
-                            'QBR': { color: '#52c41a', icon: <TeamOutlined /> },
-                            '电话回访': { color: '#1890ff', icon: <PhoneOutlined /> },
-                            '培训': { color: '#722ed1', icon: <PlayCircleOutlined /> },
-                            '工单解决': { color: '#fa8c16', icon: <SettingOutlined /> },
-                            '风险处理': { color: '#f5222d', icon: <ExclamationCircleOutlined /> },
-                            '产品演示': { color: '#13c2c2', icon: <PlayCircleOutlined /> },
-                            '技术支持': { color: '#eb2f96', icon: <SettingOutlined /> },
-                            '商务沟通': { color: '#faad14', icon: <DollarOutlined /> },
-                            '其他': { color: '#8c8c8c', icon: <ClockCircleOutlined /> }
-                          };
-                          return configs[type] || configs['其他'];
-                        };
-                        
-                        const config = getRecordConfig(record.type);
-                        
-                        return {
-                          color: config.color,
-                          dot: config.icon,
-                          children: (
-                            <div style={{ 
-                              padding: '16px', 
-                              background: '#f8f9fa', 
-                              borderRadius: '8px',
-                              border: '1px solid #e8e8e8'
-                            }}>
-                              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-                                  <Tag color={config.color} style={{ marginRight: '8px' }}>
-                                    {record.type}
-                                  </Tag>
-                                  <Text strong style={{ fontSize: '14px' }}>
-                                    {record.title}
-                                  </Text>
-                                </div>
-                                <Text type="secondary" style={{ fontSize: '12px' }}>
-                                  {record.timestamp}
-                                </Text>
-                              </div>
-                              
-                              <div style={{ marginBottom: '8px' }}>
-                                <Text type="secondary" style={{ fontSize: '12px' }}>
-                                  操作人：{record.operator}
-                                </Text>
-                              </div>
-                              
-                              <div style={{ marginBottom: '12px' }}>
-                                <Text>{record.content}</Text>
-                              </div>
-                              
-                              {record.tags && record.tags.length > 0 && (
-                                <div style={{ marginBottom: '8px' }}>
-                                  <Space size={4}>
-                                    {record.tags.map((tag: string, index: number) => (
-                                      <Tag key={index} style={{ fontSize: '11px' }}>
-                                        {tag}
-                                      </Tag>
-                                    ))}
-                                  </Space>
-                                </div>
-                              )}
-                              
-                              {(record.relatedPlaybookId || record.relatedRiskEventId) && (
-                                <div style={{ 
-                                  padding: '8px 12px', 
-                                  background: '#e6f7ff', 
-                                  borderRadius: '4px',
-                                  border: '1px solid #91d5ff'
-                                }}>
-                                  <Text type="secondary" style={{ fontSize: '12px' }}>
-                                    关联信息：
-                                  </Text>
-                                  {record.relatedPlaybookId && (
-                                    <Tag color="blue" style={{ marginLeft: '4px', fontSize: '11px' }}>
-                                      剧本: {record.relatedPlaybookId}
-                                    </Tag>
-                                  )}
-                                  {record.relatedRiskEventId && (
-                                    <Tag color="red" style={{ marginLeft: '4px', fontSize: '11px' }}>
-                                      风险: {record.relatedRiskEventId}
-                                    </Tag>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          )
-                        };
-                      })}
-                    />
+                  <div style={{ padding: '24px' }}>
+                    <Text>持续服务内容</Text>
                   </div>
-                )
+                ),
               }
             ]}
           />
         </Card>
       </div>
 
+      {/* 新建服务记录模态框 */}
       <Modal
         title="新建服务记录"
         open={newRecordModalVisible}
         onCancel={() => setNewRecordModalVisible(false)}
         onOk={() => {
-          message.success('服务记录已创建');
+          // 处理新建服务记录的逻辑
           setNewRecordModalVisible(false);
         }}
         width={600}
@@ -1008,7 +521,7 @@ const ContinuousServiceDetail: React.FC = () => {
         </Form>
       </Modal>
 
-      {/* 附件查看模态框 */}
+      {/* 合同附件模态框 */}
       <Modal
         title={`合同附件 - ${selectedContract?.contractNumber || ''}`}
         open={attachmentModalVisible}
@@ -1038,11 +551,11 @@ const ContinuousServiceDetail: React.FC = () => {
                 render: (type: string) => {
                   const typeConfig: Record<string, { color: string; text: string }> = {
                     'contract': { color: 'blue', text: '合同' },
-                    'supplement': { color: 'green', text: '补充协议' },
+                    'sow': { color: 'green', text: 'SOW' },
                     'invoice': { color: 'orange', text: '发票' },
                     'other': { color: 'default', text: '其他' }
                   };
-                  const config = typeConfig[type] || { color: 'default', text: '未知' };
+                  const config = typeConfig[type] || typeConfig['other'];
                   return <Tag color={config.color}>{config.text}</Tag>;
                 }
               },
@@ -1052,14 +565,9 @@ const ContinuousServiceDetail: React.FC = () => {
                 key: 'size',
                 width: 80,
                 render: (size: number) => {
-                  const formatSize = (bytes: number) => {
-                    if (bytes === 0) return '0 B';
-                    const k = 1024;
-                    const sizes = ['B', 'KB', 'MB', 'GB'];
-                    const i = Math.floor(Math.log(bytes) / Math.log(k));
-                    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-                  };
-                  return formatSize(size);
+                  if (size < 1024) return `${size}B`;
+                  if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)}KB`;
+                  return `${(size / (1024 * 1024)).toFixed(1)}MB`;
                 }
               },
               {
@@ -1100,7 +608,7 @@ const ContinuousServiceDetail: React.FC = () => {
         )}
       </Modal>
 
-      {/* 合同编辑模态框 */}
+      {/* 编辑合同信息模态框 */}
       <Modal
         title="编辑合同信息"
         open={isContractEditVisible}
@@ -1167,7 +675,7 @@ const ContinuousServiceDetail: React.FC = () => {
         </Form>
       </Modal>
 
-      {/* 联系人编辑模态框 */}
+      {/* 编辑联系人模态框 */}
       <Modal
         title={editingContact ? "编辑联系人" : "添加联系人"}
         open={isContactEditVisible}

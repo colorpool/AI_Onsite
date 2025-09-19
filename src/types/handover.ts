@@ -1,5 +1,5 @@
 // 客户交接状态
-export type HandoverStatus = 'normal' | 'not_handover' | 'risk';
+export type HandoverStatus = 'pending_handover' | 'handover_in_progress' | 'pending_implementation' | 'implementation_in_progress';
 
 // 风险等级
 export type RiskLevel = 'high' | 'medium' | 'low';

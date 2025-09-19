@@ -1,1158 +1,6 @@
 ((typeof globalThis !== 'undefined' ? globalThis : self)["makoChunk_ant-design-pro"] = (typeof globalThis !== 'undefined' ? globalThis : self)["makoChunk_ant-design-pro"] || []).push([
         ['common'],
-{ "src/components/CustomerDetailWithPlaybooks.tsx": function (module, exports, __mako_require__){
-"use strict";
-__mako_require__.d(exports, "__esModule", {
-    value: true
-});
-__mako_require__.d(exports, "default", {
-    enumerable: true,
-    get: function() {
-        return _default;
-    }
-});
-var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
-var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
-var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
-var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
-var _antd = __mako_require__("node_modules/antd/es/index.js");
-var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
-var _dayjs = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/dayjs/dayjs.min.js"));
-var _continuousServiceData = __mako_require__("src/mock/continuousServiceData.ts");
-var _PlaybookLauncher = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/PlaybookLauncher.tsx"));
-var prevRefreshReg;
-var prevRefreshSig;
-prevRefreshReg = self.$RefreshReg$;
-prevRefreshSig = self.$RefreshSig$;
-self.$RefreshReg$ = (type, id)=>{
-    _reactrefresh.register(type, module.id + id);
-};
-self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
-var _s = $RefreshSig$();
-const { Title, Text, Paragraph } = _antd.Typography;
-const { TabPane } = _antd.Tabs;
-// 平台类型显示名称映射
-const getPlatformDisplayName = (platformType)=>{
-    const displayNames = {
-        'dingtalk': '钉钉',
-        'wechat_work': '企业微信',
-        'feishu': '飞书',
-        'lark': 'Lark',
-        'dingtalk_global': '钉钉海外版',
-        'standalone': '独立部署'
-    };
-    return displayNames[platformType] || '未知';
-};
-const CustomerDetailWithPlaybooks = ({ visible, customer, recommendations, executions, playbooks, onClose, onAction, onLaunchPlaybook, onUpdateRecommendation, loading = false })=>{
-    var _customer_name, _customer_arr;
-    _s();
-    const [activeTab, setActiveTab] = (0, _react.useState)('overview');
-    const [launcherVisible, setLauncherVisible] = (0, _react.useState)(false);
-    const [selectedPlaybook, setSelectedPlaybook] = (0, _react.useState)(null);
-    if (!customer) return null;
-    // 获取客户相关的推荐
-    const customerRecommendations = (recommendations || []).filter((r)=>r.customerId === customer.id);
-    // 获取客户相关的执行记录
-    const customerExecutions = (executions || []).filter((e)=>e.customerId === customer.id);
-    // 获取客户历史记录
-    const customerHistory = _continuousServiceData.mockCustomerHistory[customer.id] || [];
-    // 获取联系人信息
-    const contacts = _continuousServiceData.mockContacts[customer.id] || [];
-    // 使用统一的数据源函数
-    const getHealthColor = (score)=>{
-        if (score >= 80) return '#52c41a';
-        if (score >= 60) return '#faad14';
-        return '#fa541c';
-    };
-    const getStatusColor = (status)=>{
-        switch(status){
-            case 'pending':
-                return 'orange';
-            case 'accepted':
-            case 'completed':
-                return 'green';
-            case 'rejected':
-            case 'cancelled':
-                return 'red';
-            case 'in_progress':
-                return 'blue';
-            default:
-                return 'default';
-        }
-    };
-    // 处理推荐操作
-    const handleRecommendationAction = async (id, action)=>{
-        try {
-            await onUpdateRecommendation(id, {
-                status: action === 'accept' ? 'accepted' : 'rejected',
-                handledAt: new Date().toISOString(),
-                handledBy: '当前用户' // 这里应该从用户上下文获取
-            });
-            if (action === 'accept') {
-                const recommendation = customerRecommendations.find((r)=>r.id === id);
-                if (recommendation) {
-                    const playbook = playbooks.find((p)=>p.id === recommendation.playbookId);
-                    if (playbook) {
-                        setSelectedPlaybook(playbook);
-                        setLauncherVisible(true);
-                    }
-                }
-            }
-            _antd.message.success(action === 'accept' ? '已接受推荐' : '已拒绝推荐');
-        } catch (error) {
-            _antd.message.error('操作失败，请重试');
-        }
-    };
-    // 启动剧本适配器函数
-    const handleLaunchPlaybook = async (execution)=>{
-        if (!customer || !execution.playbookId) return;
-        try {
-            await onLaunchPlaybook(execution.playbookId, customer.id);
-            setLauncherVisible(false);
-            _antd.message.success('剧本启动成功');
-        } catch (error) {
-            _antd.message.error('启动剧本失败');
-        }
-    };
-    // 推荐表格列
-    const recommendationColumns = [
-        {
-            title: '推荐剧本',
-            dataIndex: 'playbookName',
-            key: 'playbookName',
-            render: (text, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                    children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                            strong: true,
-                            children: text
-                        }, void 0, false, {
-                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 205,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, {
-                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 206,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                            type: "secondary",
-                            style: {
-                                fontSize: '12px'
-                            },
-                            children: [
-                                "置信度: ",
-                                Math.round(record.confidence * 100),
-                                "%"
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 207,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                    lineNumber: 204,
-                    columnNumber: 9
-                }, this)
-        },
-        {
-            title: '推荐原因',
-            dataIndex: 'reason',
-            key: 'reason',
-            ellipsis: true
-        },
-        {
-            title: '状态',
-            dataIndex: 'status',
-            key: 'status',
-            render: (status)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                    color: getStatusColor(status),
-                    children: status === 'pending' ? '待处理' : status === 'accepted' ? '已接受' : status === 'rejected' ? '已拒绝' : '已过期'
-                }, void 0, false, {
-                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                    lineNumber: 224,
-                    columnNumber: 9
-                }, this)
-        },
-        {
-            title: '创建时间',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            render: (date)=>(0, _dayjs.default)(date).format('MM-DD HH:mm')
-        },
-        {
-            title: '操作',
-            key: 'actions',
-            render: (_, record)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                    size: "small",
-                    children: record.status === 'pending' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
-                        children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                type: "primary",
-                                size: "small",
-                                onClick: ()=>handleRecommendationAction(record.id, 'accept'),
-                                children: "接受"
-                            }, void 0, false, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 244,
-                                columnNumber: 15
-                            }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                size: "small",
-                                onClick: ()=>handleRecommendationAction(record.id, 'reject'),
-                                children: "拒绝"
-                            }, void 0, false, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 251,
-                                columnNumber: 15
-                            }, this)
-                        ]
-                    }, void 0, true)
-                }, void 0, false, {
-                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                    lineNumber: 241,
-                    columnNumber: 9
-                }, this)
-        }
-    ];
-    // 执行记录表格列
-    const executionColumns = [
-        {
-            title: '剧本名称',
-            dataIndex: 'playbookName',
-            key: 'playbookName'
-        },
-        {
-            title: '状态',
-            dataIndex: 'status',
-            key: 'status',
-            render: (status)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                    color: getStatusColor(status),
-                    children: status === 'pending' ? '待开始' : status === 'in_progress' ? '进行中' : status === 'completed' ? '已完成' : status === 'paused' ? '已暂停' : '已取消'
-                }, void 0, false, {
-                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                    lineNumber: 276,
-                    columnNumber: 9
-                }, this)
-        },
-        {
-            title: '进度',
-            dataIndex: 'progress',
-            key: 'progress',
-            render: (progress)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
-                    percent: progress,
-                    size: "small"
-                }, void 0, false, {
-                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                    lineNumber: 289,
-                    columnNumber: 9
-                }, this)
-        },
-        {
-            title: '启动时间',
-            dataIndex: 'startedAt',
-            key: 'startedAt',
-            render: (date)=>(0, _dayjs.default)(date).format('MM-DD HH:mm')
-        },
-        {
-            title: '预期完成',
-            dataIndex: 'expectedEndAt',
-            key: 'expectedEndAt',
-            render: (date)=>(0, _dayjs.default)(date).format('MM-DD HH:mm')
-        }
-    ];
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
-        children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
-                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                    style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 12
-                    },
-                    children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
-                            size: "large",
-                            style: {
-                                backgroundColor: '#1890ff'
-                            },
-                            children: (_customer_name = customer.name) === null || _customer_name === void 0 ? void 0 : _customer_name.charAt(0)
-                        }, void 0, false, {
-                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 311,
-                            columnNumber: 13
-                        }, void 0),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                            children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 8
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Title, {
-                                            level: 4,
-                                            style: {
-                                                margin: 0
-                                            },
-                                            children: customer.name
-                                        }, void 0, false, {
-                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                            lineNumber: 316,
-                                            columnNumber: 17
-                                        }, void 0),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                            color: "blue",
-                                            children: getPlatformDisplayName((0, _continuousServiceData.getPlatformType)(customer.id))
-                                        }, void 0, false, {
-                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                            lineNumber: 317,
-                                            columnNumber: 17
-                                        }, void 0)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                    lineNumber: 315,
-                                    columnNumber: 15
-                                }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                    type: "secondary",
-                                    children: "客户详情"
-                                }, void 0, false, {
-                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                    lineNumber: 319,
-                                    columnNumber: 15
-                                }, void 0)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 314,
-                            columnNumber: 13
-                        }, void 0)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                    lineNumber: 310,
-                    columnNumber: 11
-                }, void 0),
-                open: visible,
-                onClose: onClose,
-                width: 800,
-                placement: "right",
-                styles: {
-                    body: {
-                        padding: '24px'
-                    }
-                },
-                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tabs, {
-                    activeKey: activeTab,
-                    onChange: setActiveTab,
-                    children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                            tab: "基本信息",
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                                gutter: 24,
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                        span: 12,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                            direction: "vertical",
-                                            style: {
-                                                width: '100%'
-                                            },
-                                            size: 16,
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                                    title: "基本信息",
-                                                    size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
-                                                        column: 1,
-                                                        size: "small",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "客户名称",
-                                                                children: customer.name
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 341,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "行业",
-                                                                children: customer.industry
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 342,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "企业规模",
-                                                                children: customer.scale
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 343,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "客户成功经理",
-                                                                children: customer.csm
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 344,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "ARR",
-                                                                children: [
-                                                                    "¥",
-                                                                    (_customer_arr = customer.arr) === null || _customer_arr === void 0 ? void 0 : _customer_arr.toLocaleString()
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 345,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "生命周期阶段",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: "blue",
-                                                                    children: customer.lifecycleStage
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 347,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 346,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "客户定级",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: "purple",
-                                                                    children: customer.customerTier
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 350,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 349,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 340,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                }, void 0, false, {
-                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 339,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                                    title: "CRM信息",
-                                                    size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
-                                                        column: 1,
-                                                        size: "small",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "平台类型",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: "blue",
-                                                                    children: getPlatformDisplayName((0, _continuousServiceData.getPlatformType)(customer.id))
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 359,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 358,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "已购产品",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                    children: (0, _continuousServiceData.getPurchasedProducts)(customer.id).products.map((product, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                            color: "green",
-                                                                            style: {
-                                                                                marginBottom: 4
-                                                                            },
-                                                                            children: product
-                                                                        }, index, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 364,
-                                                                            columnNumber: 29
-                                                                        }, this))
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 362,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 361,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "增值服务",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                    children: (0, _continuousServiceData.getPurchasedProducts)(customer.id).services.map((service, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                            color: "orange",
-                                                                            style: {
-                                                                                marginBottom: 4
-                                                                            },
-                                                                            children: service
-                                                                        }, index, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 373,
-                                                                            columnNumber: 29
-                                                                        }, this))
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 371,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 370,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 357,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                }, void 0, false, {
-                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 356,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                                    title: "健康度分析",
-                                                    size: "small",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                            style: {
-                                                                textAlign: 'center',
-                                                                marginBottom: '16px'
-                                                            },
-                                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
-                                                                type: "circle",
-                                                                percent: customer.healthScore,
-                                                                strokeColor: getHealthColor(customer.healthScore),
-                                                                format: (percent)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                                style: {
-                                                                                    fontSize: '24px',
-                                                                                    fontWeight: 'bold',
-                                                                                    color: getHealthColor(customer.healthScore)
-                                                                                },
-                                                                                children: percent
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                lineNumber: 391,
-                                                                                columnNumber: 29
-                                                                            }, void 0),
-                                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                                style: {
-                                                                                    fontSize: '12px',
-                                                                                    color: '#8c8c8c'
-                                                                                },
-                                                                                children: "健康分"
-                                                                            }, void 0, false, {
-                                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                lineNumber: 394,
-                                                                                columnNumber: 29
-                                                                            }, void 0)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                        lineNumber: 390,
-                                                                        columnNumber: 27
-                                                                    }, void 0)
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 385,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                            lineNumber: 384,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                            style: {
-                                                                textAlign: 'center'
-                                                            },
-                                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                color: customer.healthLevel === '健康' ? 'green' : customer.healthLevel === '风险' ? 'red' : 'orange',
-                                                                children: customer.healthLevel
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 400,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        }, void 0, false, {
-                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                            lineNumber: 399,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 383,
-                                                    columnNumber: 19
-                                                }, this),
-                                                customer.nextRenewalDate && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                                    title: "续约信息",
-                                                    size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
-                                                        column: 1,
-                                                        size: "small",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "下次续约日期",
-                                                                children: (0, _dayjs.default)(customer.nextRenewalDate).format('YYYY-MM-DD')
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 413,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
-                                                                label: "续约风险",
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                                    color: customer.isRenewalRisk ? 'red' : 'green',
-                                                                    children: customer.isRenewalRisk ? '有风险' : '无风险'
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 417,
-                                                                    columnNumber: 27
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 416,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 412,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                }, void 0, false, {
-                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 411,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                                    title: "主要联系人",
-                                                    size: "small",
-                                                    children: contacts.map((contact, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                            style: {
-                                                                padding: '12px',
-                                                                border: '1px solid #f0f0f0',
-                                                                borderRadius: '6px',
-                                                                marginBottom: '8px',
-                                                                background: contact.isPrimary ? '#f6ffed' : '#fff'
-                                                            },
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                    style: {
-                                                                        display: 'flex',
-                                                                        alignItems: 'center',
-                                                                        gap: 8,
-                                                                        marginBottom: '4px'
-                                                                    },
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Avatar, {
-                                                                            size: "small",
-                                                                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
-                                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                lineNumber: 436,
-                                                                                columnNumber: 54
-                                                                            }, void 0)
-                                                                        }, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 436,
-                                                                            columnNumber: 27
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                            strong: true,
-                                                                            children: contact.name
-                                                                        }, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 437,
-                                                                            columnNumber: 27
-                                                                        }, this),
-                                                                        contact.isPrimary && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
-                                                                            status: "success",
-                                                                            text: "主要"
-                                                                        }, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 438,
-                                                                            columnNumber: 49
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 435,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                    style: {
-                                                                        fontSize: '12px',
-                                                                        color: '#8c8c8c',
-                                                                        marginBottom: '4px'
-                                                                    },
-                                                                    children: contact.title
-                                                                }, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 440,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                    style: {
-                                                                        fontSize: '12px',
-                                                                        color: '#8c8c8c'
-                                                                    },
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PhoneOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 444,
-                                                                            columnNumber: 27
-                                                                        }, this),
-                                                                        " ",
-                                                                        contact.phone,
-                                                                        " | ",
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 444,
-                                                                            columnNumber: 63
-                                                                        }, this),
-                                                                        " ",
-                                                                        contact.email
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 443,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            ]
-                                                        }, index, true, {
-                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                            lineNumber: 428,
-                                                            columnNumber: 23
-                                                        }, this))
-                                                }, void 0, false, {
-                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 426,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                            lineNumber: 337,
-                                            columnNumber: 17
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 336,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                        span: 12,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                            direction: "vertical",
-                                            style: {
-                                                width: '100%'
-                                            },
-                                            size: 16,
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                                    title: "客户历史记录",
-                                                    size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Timeline, {
-                                                        items: customerHistory.map((item, index)=>{
-                                                            // 根据icon字符串渲染对应的图标组件
-                                                            const getIconComponent = (iconName)=>{
-                                                                switch(iconName){
-                                                                    case 'UserOutlined':
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 462,
-                                                                            columnNumber: 57
-                                                                        }, void 0);
-                                                                    case 'ExclamationCircleOutlined':
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 463,
-                                                                            columnNumber: 70
-                                                                        }, void 0);
-                                                                    case 'RiseOutlined':
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.RiseOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 464,
-                                                                            columnNumber: 57
-                                                                        }, void 0);
-                                                                    case 'MailOutlined':
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 465,
-                                                                            columnNumber: 57
-                                                                        }, void 0);
-                                                                    case 'SettingOutlined':
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 466,
-                                                                            columnNumber: 60
-                                                                        }, void 0);
-                                                                    case 'FileTextOutlined':
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 467,
-                                                                            columnNumber: 61
-                                                                        }, void 0);
-                                                                    case 'TeamOutlined':
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 468,
-                                                                            columnNumber: 57
-                                                                        }, void 0);
-                                                                    case 'CheckCircleOutlined':
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 469,
-                                                                            columnNumber: 64
-                                                                        }, void 0);
-                                                                    default:
-                                                                        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 470,
-                                                                            columnNumber: 45
-                                                                        }, void 0);
-                                                                }
-                                                            };
-                                                            return {
-                                                                color: item.color,
-                                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                                            style: {
-                                                                                display: 'flex',
-                                                                                alignItems: 'center',
-                                                                                gap: '8px',
-                                                                                marginBottom: '4px'
-                                                                            },
-                                                                            children: [
-                                                                                getIconComponent(item.icon),
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                                    strong: true,
-                                                                                    children: item.type
-                                                                                }, void 0, false, {
-                                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                    lineNumber: 480,
-                                                                                    columnNumber: 33
-                                                                                }, void 0),
-                                                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                                    type: "secondary",
-                                                                                    style: {
-                                                                                        fontSize: '12px'
-                                                                                    },
-                                                                                    children: item.date
-                                                                                }, void 0, false, {
-                                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                                    lineNumber: 481,
-                                                                                    columnNumber: 33
-                                                                                }, void 0)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 478,
-                                                                            columnNumber: 31
-                                                                        }, void 0),
-                                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                                            type: "secondary",
-                                                                            children: item.description
-                                                                        }, void 0, false, {
-                                                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                            lineNumber: 483,
-                                                                            columnNumber: 31
-                                                                        }, void 0)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 477,
-                                                                    columnNumber: 29
-                                                                }, void 0)
-                                                            };
-                                                        })
-                                                    }, void 0, false, {
-                                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 457,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                }, void 0, false, {
-                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 456,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                                                    title: "快速操作",
-                                                    size: "small",
-                                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                                                        wrap: true,
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PhoneOutlined, {}, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 495,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                onClick: ()=>onAction('call', customer.id),
-                                                                children: "拨打电话"
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 494,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 501,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                onClick: ()=>onAction('email', customer.id),
-                                                                children: "发送邮件"
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 500,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 507,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                onClick: ()=>onAction('schedule', customer.id),
-                                                                children: "安排会议"
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 506,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 513,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                onClick: ()=>onAction('quote', customer.id),
-                                                                children: "发送报价"
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 512,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {}, void 0, false, {
-                                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                    lineNumber: 519,
-                                                                    columnNumber: 31
-                                                                }, void 0),
-                                                                onClick: ()=>onAction('escalate', customer.id),
-                                                                children: "升级处理"
-                                                            }, void 0, false, {
-                                                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                                lineNumber: 518,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                        lineNumber: 493,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                }, void 0, false, {
-                                                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                                    lineNumber: 492,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                            lineNumber: 454,
-                                            columnNumber: 17
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 453,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 334,
-                                columnNumber: 13
-                            }, this)
-                        }, "overview", false, {
-                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 333,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                            tab: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.RobotOutlined, {}, void 0, false, {
-                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 535,
-                                        columnNumber: 17
-                                    }, void 0),
-                                    "剧本推荐",
-                                    customerRecommendations.filter((r)=>r.status === 'pending').length > 0 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Badge, {
-                                        count: customerRecommendations.filter((r)=>r.status === 'pending').length,
-                                        style: {
-                                            marginLeft: 8
-                                        }
-                                    }, void 0, false, {
-                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 538,
-                                        columnNumber: 19
-                                    }, void 0)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 534,
-                                columnNumber: 15
-                            }, void 0),
-                            children: customerRecommendations.length > 0 ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
-                                columns: recommendationColumns,
-                                dataSource: customerRecommendations,
-                                rowKey: "id",
-                                pagination: false,
-                                size: "small"
-                            }, void 0, false, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 545,
-                                columnNumber: 15
-                            }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Empty, {
-                                description: "暂无剧本推荐"
-                            }, void 0, false, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 553,
-                                columnNumber: 15
-                            }, this)
-                        }, "recommendations", false, {
-                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 532,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TabPane, {
-                            tab: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.HistoryOutlined, {}, void 0, false, {
-                                        fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                        lineNumber: 561,
-                                        columnNumber: 17
-                                    }, void 0),
-                                    "执行记录"
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 560,
-                                columnNumber: 15
-                            }, void 0),
-                            children: customerExecutions.length > 0 ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
-                                columns: executionColumns,
-                                dataSource: customerExecutions,
-                                rowKey: "id",
-                                pagination: false,
-                                size: "small"
-                            }, void 0, false, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 568,
-                                columnNumber: 15
-                            }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Empty, {
-                                description: "暂无执行记录"
-                            }, void 0, false, {
-                                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                                lineNumber: 576,
-                                columnNumber: 15
-                            }, this)
-                        }, "executions", false, {
-                            fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                            lineNumber: 558,
-                            columnNumber: 11
-                        }, this)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                    lineNumber: 331,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
-                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                lineNumber: 308,
-                columnNumber: 7
-            }, this),
-            selectedPlaybook && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_PlaybookLauncher.default, {
-                visible: launcherVisible,
-                playbook: selectedPlaybook,
-                customer: customer,
-                onCancel: ()=>{
-                    setLauncherVisible(false);
-                    setSelectedPlaybook(null);
-                },
-                onLaunch: handleLaunchPlaybook
-            }, void 0, false, {
-                fileName: "src/components/CustomerDetailWithPlaybooks.tsx",
-                lineNumber: 584,
-                columnNumber: 9
-            }, this)
-        ]
-    }, void 0, true);
-};
-_s(CustomerDetailWithPlaybooks, "xeH3ZQ4dSyqFVXbVc/a2UzhAzJI=");
-_c = CustomerDetailWithPlaybooks;
-var _default = CustomerDetailWithPlaybooks;
-var _c;
-$RefreshReg$(_c, "CustomerDetailWithPlaybooks");
-if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
-if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
-function registerClassComponent(filename, moduleExports) {
-    for(const key in moduleExports)try {
-        if (key === "__esModule") continue;
-        const exportValue = moduleExports[key];
-        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
-    } catch (e) {}
-}
-function $RefreshIsReactComponentLike$(moduleExports) {
-    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
-    for(var key in moduleExports)try {
-        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
-    } catch (e) {}
-    return false;
-}
-registerClassComponent(module.id, module.exports);
-if ($RefreshIsReactComponentLike$(module.exports)) {
-    module.meta.hot.accept();
-    _reactrefresh.performReactRefresh();
-}
-
-},
-"src/components/PlaybookLauncher.tsx": function (module, exports, __mako_require__){
+{ "src/components/PlaybookLauncher.tsx": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
     value: true
@@ -2193,7 +1041,7 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 }
 
 },
-"src/components/common/CustomerInfoCell.tsx": function (module, exports, __mako_require__){
+"src/components/common/CustomerProfileTab.tsx": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
     value: true
@@ -2209,7 +1057,8 @@ var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_requir
 var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
 var _react = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/react/index.js"));
-var _continuousServiceData = __mako_require__("src/mock/continuousServiceData.ts");
+var _antd = __mako_require__("node_modules/antd/es/index.js");
+var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -2218,139 +1067,986 @@ self.$RefreshReg$ = (type, id)=>{
     _reactrefresh.register(type, module.id + id);
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
-// 平台图标组件 - 动态显示平台类型
-const PlatformTag = ({ customerId })=>{
-    const platformType = (0, _continuousServiceData.getPlatformType)(customerId);
-    // 获取平台配置
-    const getPlatformConfig = (platform)=>{
-        const configs = {
-            'dingtalk': {
-                text: '钉钉',
-                color: '#1677ff'
-            },
-            'wechat_work': {
-                text: '企微',
-                color: '#07c160'
-            },
-            'feishu': {
-                text: '飞书',
-                color: '#00d4aa'
-            },
-            'lark': {
-                text: 'Lark',
-                color: '#00d4aa'
-            },
-            'dingtalk_global': {
-                text: 'DingTalk',
-                color: '#1677ff'
-            },
-            'standalone': {
-                text: '独立部署',
-                color: '#722ed1'
-            }
-        };
-        return configs[platform] || {
-            text: '未知平台',
-            color: '#d9d9d9'
-        };
-    };
-    const config = getPlatformConfig(platformType);
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-        style: {
-            display: 'inline-flex',
-            alignItems: 'center',
-            backgroundColor: '#f0f0f0',
-            color: '#666',
-            padding: '2px 6px',
-            borderRadius: '4px',
-            fontSize: '11px',
-            fontWeight: '500',
-            marginRight: '8px'
-        },
-        children: config.text
-    }, void 0, false, {
-        fileName: "src/components/common/CustomerInfoCell.tsx",
-        lineNumber: 31,
-        columnNumber: 5
-    }, this);
-};
-_c = PlatformTag;
-const CustomerInfoCell = ({ customerId, customerName, contractNumber, showContract = true })=>{
+const { Text } = _antd.Typography;
+const CustomerProfileTab = ({ customer, lifecycle = 'continuous', onEditContract, onEditContacts })=>{
+    var _customer_purchasedProducts, _customer_currentContract, _customer_currentContract1, _customer_currentContract2, _customer_currentContract3, _customer_currentContract4, _customer_currentContract_serviceCost, _customer_currentContract5, _customer_currentContract6, _customer_keyContacts;
     return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
         style: {
-            position: 'relative'
+            padding: '16px 0'
         },
         children: [
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    style: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DollarOutlined, {
+                                    style: {
+                                        color: '#52c41a',
+                                        marginRight: '8px'
+                                    }
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 27,
+                                    columnNumber: 15
+                                }, void 0),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                    children: "合同与服务"
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 28,
+                                    columnNumber: 15
+                                }, void 0)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 26,
+                            columnNumber: 13
+                        }, void 0),
+                        onEditContract && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            type: "primary",
+                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 33,
+                                columnNumber: 23
+                            }, void 0),
+                            onClick: onEditContract,
+                            size: "small",
+                            children: "编辑信息"
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 31,
+                            columnNumber: 15
+                        }, void 0)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                    lineNumber: 25,
+                    columnNumber: 11
+                }, void 0),
+                size: "small",
                 style: {
-                    display: 'flex',
-                    alignItems: 'center'
+                    marginBottom: '16px'
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(PlatformTag, {
-                        customerId: customerId
-                    }, void 0, false, {
-                        fileName: "src/components/common/CustomerInfoCell.tsx",
-                        lineNumber: 56,
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                        gutter: [
+                            24,
+                            16
+                        ],
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                span: 24,
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            strong: true,
+                                            style: {
+                                                minWidth: 120,
+                                                display: 'inline-block'
+                                            },
+                                            children: "已购产品/服务："
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 48,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                marginLeft: '8px'
+                                            },
+                                            children: customer === null || customer === void 0 ? void 0 : (_customer_purchasedProducts = customer.purchasedProducts) === null || _customer_purchasedProducts === void 0 ? void 0 : _customer_purchasedProducts.map((product, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                    color: "blue",
+                                                    style: {
+                                                        marginRight: '4px'
+                                                    },
+                                                    children: product
+                                                }, index, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 51,
+                                                    columnNumber: 19
+                                                }, this))
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 49,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 47,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 46,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                span: 8,
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            strong: true,
+                                            style: {
+                                                minWidth: 120,
+                                                display: 'inline-block'
+                                            },
+                                            children: lifecycle === 'renewal' ? '续约金额 (ARR)：' : '合同金额 (ARR)：'
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 61,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            style: {
+                                                color: '#1890ff',
+                                                fontSize: '16px',
+                                                fontWeight: '600',
+                                                marginLeft: '8px'
+                                            },
+                                            children: [
+                                                "¥",
+                                                ((customer === null || customer === void 0 ? void 0 : customer.arr) || (customer === null || customer === void 0 ? void 0 : (_customer_currentContract = customer.currentContract) === null || _customer_currentContract === void 0 ? void 0 : _customer_currentContract.amount) || (customer === null || customer === void 0 ? void 0 : customer.renewalAmount) || 0).toLocaleString()
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 64,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 60,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 59,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                span: 8,
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            strong: true,
+                                            style: {
+                                                minWidth: 100,
+                                                display: 'inline-block'
+                                            },
+                                            children: lifecycle === 'renewal' ? '续约到期日：' : '服务到期日：'
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 72,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            style: {
+                                                color: '#fa8c16',
+                                                marginLeft: '8px'
+                                            },
+                                            children: (customer === null || customer === void 0 ? void 0 : customer.contractEndDate) || (customer === null || customer === void 0 ? void 0 : customer.contractExpiryDate) || (customer === null || customer === void 0 ? void 0 : customer.serviceExpiryDate) || '-'
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 75,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 71,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 70,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                span: 8,
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            strong: true,
+                                            style: {
+                                                minWidth: 80,
+                                                display: 'inline-block'
+                                            },
+                                            children: "人数版本："
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 83,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            style: {
+                                                color: '#52c41a',
+                                                marginLeft: '8px'
+                                            },
+                                            children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract1 = customer.currentContract) === null || _customer_currentContract1 === void 0 ? void 0 : _customer_currentContract1.userVersion) || (customer === null || customer === void 0 ? void 0 : customer.scale) || '暂无'
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 84,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 82,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 81,
+                                columnNumber: 11
+                            }, this),
+                            lifecycle !== 'renewal' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                        span: 8,
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center'
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                    strong: true,
+                                                    style: {
+                                                        minWidth: 80,
+                                                        display: 'inline-block'
+                                                    },
+                                                    children: "提单版本："
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 94,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                    style: {
+                                                        color: '#722ed1',
+                                                        marginLeft: '8px'
+                                                    },
+                                                    children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract2 = customer.currentContract) === null || _customer_currentContract2 === void 0 ? void 0 : _customer_currentContract2.ticketVersion) || '暂无'
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 95,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 93,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 92,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                        span: 8,
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center'
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                    strong: true,
+                                                    style: {
+                                                        minWidth: 100,
+                                                        display: 'inline-block'
+                                                    },
+                                                    children: "提单到期时间："
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 102,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                    style: {
+                                                        color: '#fa541c',
+                                                        marginLeft: '8px'
+                                                    },
+                                                    children: (customer === null || customer === void 0 ? void 0 : customer.ticketExpiryDate) || '暂无'
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 103,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 101,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 100,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                        span: 8,
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center'
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                    strong: true,
+                                                    style: {
+                                                        minWidth: 80,
+                                                        display: 'inline-block'
+                                                    },
+                                                    children: "天元订单："
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 110,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                    color: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract3 = customer.currentContract) === null || _customer_currentContract3 === void 0 ? void 0 : _customer_currentContract3.tianyuanOrderStatus) === 'active' ? 'green' : 'orange',
+                                                    children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract4 = customer.currentContract) === null || _customer_currentContract4 === void 0 ? void 0 : _customer_currentContract4.tianyuanOrderStatus) === 'active' ? '已生效' : '未生效'
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 111,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 109,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 108,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                        lineNumber: 45,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                    lifecycle === 'renewal' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                         style: {
-                            fontWeight: '500',
-                            color: '#262626'
+                            marginTop: '16px'
                         },
-                        children: customerName
+                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Collapse, {
+                            ghost: true,
+                            size: "small",
+                            items: [
+                                {
+                                    key: '1',
+                                    label: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        strong: true,
+                                        style: {
+                                            color: '#1890ff'
+                                        },
+                                        children: [
+                                            "服务成本投入: ¥",
+                                            (customer === null || customer === void 0 ? void 0 : (_customer_currentContract5 = customer.currentContract) === null || _customer_currentContract5 === void 0 ? void 0 : (_customer_currentContract_serviceCost = _customer_currentContract5.serviceCost) === null || _customer_currentContract_serviceCost === void 0 ? void 0 : _customer_currentContract_serviceCost.toLocaleString()) || '15,000'
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 130,
+                                        columnNumber: 21
+                                    }, void 0),
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            background: '#f8f9fa',
+                                            padding: '12px',
+                                            borderRadius: '6px',
+                                            marginTop: '8px'
+                                        },
+                                        children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract6 = customer.currentContract) === null || _customer_currentContract6 === void 0 ? void 0 : _customer_currentContract6.serviceCostDetails) ? customer.currentContract.serviceCostDetails.map((detail, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                style: {
+                                                    fontSize: '12px',
+                                                    color: '#666',
+                                                    marginBottom: '4px'
+                                                },
+                                                children: [
+                                                    "• ",
+                                                    detail
+                                                ]
+                                            }, index, true, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 138,
+                                                columnNumber: 27
+                                            }, void 0)) : [
+                                            '客户拜访费用: ¥3,000',
+                                            '礼品采购: ¥5,000',
+                                            '培训支持: ¥4,000',
+                                            '技术支持: ¥3,000'
+                                        ].map((detail, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                style: {
+                                                    fontSize: '12px',
+                                                    color: '#666',
+                                                    marginBottom: '4px'
+                                                },
+                                                children: [
+                                                    "• ",
+                                                    detail
+                                                ]
+                                            }, index, true, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 148,
+                                                columnNumber: 27
+                                            }, void 0))
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 135,
+                                        columnNumber: 21
+                                    }, void 0)
+                                }
+                            ]
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 123,
+                            columnNumber: 13
+                        }, this)
                     }, void 0, false, {
-                        fileName: "src/components/common/CustomerInfoCell.tsx",
-                        lineNumber: 57,
-                        columnNumber: 9
+                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                        lineNumber: 122,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
-                fileName: "src/components/common/CustomerInfoCell.tsx",
-                lineNumber: 55,
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 23,
                 columnNumber: 7
             }, this),
-            showContract && contractNumber && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    style: {
+                        display: 'flex',
+                        alignItems: 'center'
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {
+                            style: {
+                                color: '#1890ff',
+                                marginRight: '8px'
+                            }
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 166,
+                            columnNumber: 13
+                        }, void 0),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                            children: "基本信息"
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 167,
+                            columnNumber: 13
+                        }, void 0)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                    lineNumber: 165,
+                    columnNumber: 11
+                }, void 0),
+                size: "small",
                 style: {
-                    position: 'absolute',
-                    right: 24,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    color: '#8c8c8c',
-                    fontSize: 12
+                    marginBottom: '16px'
                 },
-                children: [
-                    "合同编号：",
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                        style: {
-                            fontFamily: 'monospace'
-                        },
-                        children: contractNumber
-                    }, void 0, false, {
-                        fileName: "src/components/common/CustomerInfoCell.tsx",
-                        lineNumber: 71,
-                        columnNumber: 16
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "src/components/common/CustomerInfoCell.tsx",
-                lineNumber: 63,
-                columnNumber: 9
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                    gutter: [
+                        24,
+                        16
+                    ],
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 8,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        strong: true,
+                                        style: {
+                                            minWidth: 80,
+                                            display: 'inline-block'
+                                        },
+                                        children: "公司名称："
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 176,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        style: {
+                                            marginLeft: '8px'
+                                        },
+                                        children: (customer === null || customer === void 0 ? void 0 : customer.name) || '-'
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 177,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 175,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 174,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 8,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        strong: true,
+                                        style: {
+                                            minWidth: 60,
+                                            display: 'inline-block'
+                                        },
+                                        children: "行业："
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 182,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        style: {
+                                            marginLeft: '8px'
+                                        },
+                                        children: (customer === null || customer === void 0 ? void 0 : customer.industry) || '-'
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 183,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 181,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 180,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 8,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        strong: true,
+                                        style: {
+                                            minWidth: 60,
+                                            display: 'inline-block'
+                                        },
+                                        children: "规模："
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 188,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        style: {
+                                            marginLeft: '8px'
+                                        },
+                                        children: (customer === null || customer === void 0 ? void 0 : customer.scale) || '-'
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 189,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 187,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 186,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 8,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        strong: true,
+                                        style: {
+                                            minWidth: 80,
+                                            display: 'inline-block'
+                                        },
+                                        children: "客户成功："
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 194,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        style: {
+                                            marginLeft: '8px'
+                                        },
+                                        children: (customer === null || customer === void 0 ? void 0 : customer.csm) || '-'
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 195,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 193,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 192,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 8,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        strong: true,
+                                        style: {
+                                            minWidth: 60,
+                                            display: 'inline-block'
+                                        },
+                                        children: "健康分："
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 200,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        style: {
+                                            color: ((customer === null || customer === void 0 ? void 0 : customer.healthScore) || 0) >= 80 ? '#3f8600' : ((customer === null || customer === void 0 ? void 0 : customer.healthScore) || 0) >= 60 ? '#faad14' : '#cf1322',
+                                            fontWeight: '600',
+                                            marginLeft: '8px'
+                                        },
+                                        children: [
+                                            (customer === null || customer === void 0 ? void 0 : customer.healthScore) || 0,
+                                            "分"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 201,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 199,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 198,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                            span: 8,
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        strong: true,
+                                        style: {
+                                            minWidth: 60,
+                                            display: 'inline-block'
+                                        },
+                                        children: "建联度："
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 213,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        style: {
+                                            marginLeft: '8px'
+                                        },
+                                        children: (customer === null || customer === void 0 ? void 0 : customer.connectionLevel) || '-'
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 214,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 212,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 211,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                    lineNumber: 173,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 163,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    style: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {
+                                    style: {
+                                        color: '#722ed1',
+                                        marginRight: '8px'
+                                    }
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 225,
+                                    columnNumber: 15
+                                }, void 0),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                    children: "关键联系人"
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 226,
+                                    columnNumber: 15
+                                }, void 0)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 224,
+                            columnNumber: 13
+                        }, void 0),
+                        onEditContacts && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                            type: "primary",
+                            icon: lifecycle === 'continuous' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 231,
+                                columnNumber: 52
+                            }, void 0) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 231,
+                                columnNumber: 71
+                            }, void 0),
+                            onClick: onEditContacts,
+                            size: "small",
+                            children: lifecycle === 'continuous' ? '添加联系人' : '编辑联系人'
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 229,
+                            columnNumber: 15
+                        }, void 0)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                    lineNumber: 223,
+                    columnNumber: 11
+                }, void 0),
+                size: "small",
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                    direction: "vertical",
+                    style: {
+                        width: '100%'
+                    },
+                    children: [
+                        customer === null || customer === void 0 ? void 0 : (_customer_keyContacts = customer.keyContacts) === null || _customer_keyContacts === void 0 ? void 0 : _customer_keyContacts.map((contact, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    padding: '12px',
+                                    border: '1px solid #f0f0f0',
+                                    borderRadius: '6px',
+                                    backgroundColor: contact.isPrimary ? '#f6ffed' : '#fafafa'
+                                },
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
+                                    gutter: 16,
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 6,
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                    strong: true,
+                                                    children: contact.name
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 252,
+                                                    columnNumber: 19
+                                                }, this),
+                                                contact.isPrimary && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                    color: "green",
+                                                    style: {
+                                                        marginLeft: '8px',
+                                                        fontSize: '12px'
+                                                    },
+                                                    children: "主要联系人"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 253,
+                                                    columnNumber: 41
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 251,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 4,
+                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                type: "secondary",
+                                                children: contact.title
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 256,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 255,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 6,
+                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                copyable: true,
+                                                children: contact.phone
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 259,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 258,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
+                                            span: 8,
+                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                copyable: true,
+                                                children: contact.email
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 262,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 261,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 250,
+                                    columnNumber: 15
+                                }, this)
+                            }, index, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 244,
+                                columnNumber: 13
+                            }, this)),
+                        (!(customer === null || customer === void 0 ? void 0 : customer.keyContacts) || customer.keyContacts.length === 0) && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                textAlign: 'center',
+                                color: '#999',
+                                padding: '20px'
+                            },
+                            children: "暂无联系人信息"
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 268,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                    lineNumber: 242,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 221,
+                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
-        fileName: "src/components/common/CustomerInfoCell.tsx",
-        lineNumber: 54,
+        fileName: "src/components/common/CustomerProfileTab.tsx",
+        lineNumber: 21,
         columnNumber: 5
     }, this);
 };
-_c1 = CustomerInfoCell;
-var _default = CustomerInfoCell;
+_c = CustomerProfileTab;
+var _default = CustomerProfileTab;
 var _c;
-var _c1;
-$RefreshReg$(_c, "PlatformTag");
-$RefreshReg$(_c1, "CustomerInfoCell");
+$RefreshReg$(_c, "CustomerProfileTab");
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {
@@ -3250,7 +2946,7 @@ const mockCustomers = [
         arr: 500000,
         healthScore: 85,
         healthLevel: '健康',
-        lifecycleStage: '成长期',
+        lifecycleStage: '成熟期',
         customerTier: 'strategic',
         salesPerson: '王销售',
         purchasedProducts: [
@@ -3442,7 +3138,7 @@ const mockCustomers = [
         arr: 1200000,
         healthScore: 92,
         healthLevel: '健康',
-        lifecycleStage: '成长期',
+        lifecycleStage: '成熟期',
         customerTier: 'strategic',
         salesPerson: '陈销售',
         purchasedProducts: [
@@ -3506,7 +3202,7 @@ const mockCustomers = [
         arr: 450000,
         healthScore: 58,
         healthLevel: '一般',
-        lifecycleStage: '成熟期',
+        lifecycleStage: '成长期',
         customerTier: 'medium',
         salesPerson: '刘销售',
         purchasedProducts: [
@@ -3570,7 +3266,7 @@ const mockCustomers = [
         arr: 200000,
         healthScore: 38,
         healthLevel: '风险',
-        lifecycleStage: '衰退期',
+        lifecycleStage: '成长期',
         customerTier: 'small',
         salesPerson: '赵销售',
         purchasedProducts: [
@@ -4303,6 +3999,9 @@ __mako_require__.e(exports, {
     mockCustomerHandovers: function() {
         return mockCustomerHandovers;
     },
+    mockCustomers: function() {
+        return mockCustomers;
+    },
     mockInternalComments: function() {
         return mockInternalComments;
     },
@@ -4486,6 +4185,159 @@ const mockInternalComments = [
         createdAt: '2024-01-11 09:15:00'
     }
 ];
+const mockCustomers = [
+    {
+        id: 'CUST-0001',
+        name: '北京科技创新有限公司',
+        industry: '科技',
+        size: 'large',
+        csm: '张明',
+        region: '华北',
+        arr: 1200000,
+        healthScore: 92,
+        healthLevel: '健康',
+        lifecycleStage: '成长期',
+        tier: 'S',
+        signDate: '2023-03-15',
+        tags: [
+            '重点客户',
+            '技术驱动'
+        ],
+        collaborationEvents: 15,
+        channelType: 'direct',
+        isKeyAccount: true,
+        isInRenewalWindow: false,
+        visits90Days: 12,
+        revenue90Days: 300000,
+        insights: [
+            {
+                id: 'insight-001',
+                content: '客户对新功能使用率较高，建议加强培训支持',
+                date: '2024-01-15',
+                type: 'usage'
+            }
+        ],
+        nextAction: {
+            content: '准备季度业务回顾会议',
+            dueDate: '2024-02-01',
+            overdue: false
+        }
+    },
+    {
+        id: 'CUST-0002',
+        name: '武汉智能制造有限公司',
+        industry: '制造业',
+        size: 'large',
+        csm: '李明',
+        region: '华中',
+        arr: 800000,
+        healthScore: 90,
+        healthLevel: '健康',
+        lifecycleStage: '成长期',
+        tier: 'S',
+        signDate: '2024-01-10',
+        tags: [
+            '制造业',
+            '智能化',
+            '重点客户'
+        ],
+        collaborationEvents: 5,
+        channelType: 'direct',
+        isKeyAccount: true,
+        isInRenewalWindow: false,
+        visits90Days: 8,
+        revenue90Days: 200000,
+        insights: [
+            {
+                id: 'insight_h002_001',
+                content: '客户对智能制造解决方案非常感兴趣',
+                date: '2024-01-12',
+                type: 'positive'
+            }
+        ],
+        nextAction: {
+            content: '安排制造业专家进行深度培训',
+            dueDate: '2024-01-28',
+            overdue: false
+        }
+    },
+    {
+        id: 'CUST-0003',
+        name: '天津教育科技集团',
+        industry: '教育',
+        size: 'large',
+        csm: '王芳',
+        region: '华北',
+        arr: 600000,
+        healthScore: 80,
+        healthLevel: '健康',
+        lifecycleStage: '成长期',
+        tier: 'A',
+        signDate: '2024-01-08',
+        tags: [
+            '教育行业',
+            '集团客户',
+            '多校区'
+        ],
+        collaborationEvents: 4,
+        channelType: 'partner',
+        isKeyAccount: true,
+        isInRenewalWindow: false,
+        visits90Days: 6,
+        revenue90Days: 150000,
+        insights: [
+            {
+                id: 'insight_h003_001',
+                content: '多校区部署需要统一的管理平台',
+                date: '2024-01-09',
+                type: 'requirement'
+            }
+        ],
+        nextAction: {
+            content: '制定多校区部署方案',
+            dueDate: '2024-01-30',
+            overdue: false
+        }
+    },
+    {
+        id: 'CUST-0010',
+        name: '西安航空航天有限公司',
+        industry: '航空航天',
+        size: 'xlarge',
+        csm: '郑涛',
+        region: '西北',
+        arr: 1100000,
+        healthScore: 76,
+        healthLevel: '健康',
+        lifecycleStage: '成长期',
+        tier: 'S',
+        signDate: '2024-01-08',
+        tags: [
+            '航空航天',
+            '军工',
+            '重点客户'
+        ],
+        collaborationEvents: 3,
+        channelType: 'direct',
+        isKeyAccount: true,
+        isInRenewalWindow: false,
+        visits90Days: 4,
+        revenue90Days: 275000,
+        insights: [
+            {
+                id: 'insight_h010_001',
+                content: '客户对系统安全性要求极高，需要定制化配置',
+                date: '2024-01-10',
+                type: 'requirement'
+            }
+        ],
+        nextAction: {
+            content: '安排安全合规专家评估',
+            dueDate: '2024-02-05',
+            overdue: false
+        }
+    }
+];
 const mockCustomerHandovers = [
     {
         id: '1',
@@ -4494,7 +4346,7 @@ const mockCustomerHandovers = [
         contractId: 'contract_001',
         contractNumber: 'CONT-2024-001',
         customerName: '北京科技有限公司',
-        handoverStatus: 'normal',
+        handoverStatus: 'implementation_in_progress',
         riskLevel: 'low',
         hasHandoverDocument: true,
         hasRiskAlert: false,
@@ -4525,7 +4377,7 @@ const mockCustomerHandovers = [
         contractId: 'contract_003',
         contractNumber: 'CONT-2023-045',
         customerName: '上海智能科技有限公司',
-        handoverStatus: 'not_handover',
+        handoverStatus: 'pending_handover',
         riskLevel: 'medium',
         hasHandoverDocument: false,
         hasRiskAlert: true,
@@ -4587,7 +4439,7 @@ const mockCustomerHandovers = [
         contractId: 'contract_004',
         contractNumber: 'CONT-2022-008',
         customerName: '深圳创新科技有限公司',
-        handoverStatus: 'risk',
+        handoverStatus: 'handover_in_progress',
         riskLevel: 'high',
         hasHandoverDocument: true,
         hasRiskAlert: true,
@@ -4665,7 +4517,7 @@ const mockCustomerHandovers = [
         contractId: 'contract_007',
         contractNumber: 'CONT-2023-089',
         customerName: '杭州互联网科技有限公司',
-        handoverStatus: 'normal',
+        handoverStatus: 'pending_implementation',
         riskLevel: 'low',
         hasHandoverDocument: true,
         hasRiskAlert: false,
@@ -4716,7 +4568,7 @@ const mockCustomerHandovers = [
         contractId: 'contract_009',
         contractNumber: 'CONT-2024-010',
         customerName: '成都软件开发有限公司',
-        handoverStatus: 'not_handover',
+        handoverStatus: 'pending_handover',
         riskLevel: 'medium',
         hasHandoverDocument: false,
         hasRiskAlert: true,
@@ -4763,11 +4615,71 @@ const mockCustomerHandovers = [
     {
         id: '6',
         handoverNumber: 'HO-2024-006',
+        customerId: 'CUST-0010',
+        contractId: 'contract_010',
+        contractNumber: 'CONT-2024-015',
+        customerName: '西安航空航天有限公司',
+        handoverStatus: 'implementation_in_progress',
+        riskLevel: 'low',
+        hasHandoverDocument: true,
+        hasRiskAlert: false,
+        stakeholderCount: 6,
+        expectationAlignment: 'aligned',
+        handoverRating: 4.3,
+        handoverComment: '客户技术实力强，配合度高',
+        createdAt: '2024-01-08 13:20:00',
+        updatedAt: '2024-01-25 12:45:00',
+        salesCreatedAt: '2024-01-05 16:30:00',
+        crmData: {
+            ...mockCRMSyncData,
+            contractAmount: 1100000,
+            accountCount: 120,
+            salesSource: 'direct',
+            salesPerson: '郑销售',
+            purchasedProducts: getPurchasedProductsByPlatform('CUST-0010')
+        },
+        stakeholders: [
+            {
+                id: '16',
+                name: '张航空',
+                position: '技术总监',
+                role: 'decision_maker',
+                contact: 'zhanghangkong@xaero.com',
+                status: 'active'
+            },
+            {
+                id: '17',
+                name: '李航天',
+                position: '项目经理',
+                role: 'user',
+                contact: 'lihangtian@xaero.com',
+                status: 'active'
+            },
+            {
+                id: '18',
+                name: '王工程',
+                position: '系统工程师',
+                role: 'technical_contact',
+                contact: 'wanggongcheng@xaero.com',
+                status: 'active'
+            }
+        ],
+        onboardingTasks: mockOnboardingTasks,
+        internalComments: mockInternalComments,
+        corePainPoints: '1. 航空航天行业对系统稳定性要求极高；2. 需要满足严格的安全合规要求；3. 技术团队对新系统接受度需要时间；4. 现有流程复杂，需要定制化配置',
+        shortTermExpectation: '1. 系统稳定上线运行；2. 满足行业合规要求；3. 核心团队熟练掌握系统操作',
+        longTermExpectation: '1. 提升研发效率和质量；2. 建立标准化的项目管理流程；3. 支撑企业数字化转型',
+        unacceptableSituations: '1. 系统安全漏洞；2. 影响关键项目进度；3. 不符合行业标准要求',
+        customerSuccessCriteria: '1. 系统安全性达到军工级标准；2. 项目管理效率提升25%；3. 用户满意度达到4.5分以上'
+    },
+    {
+        id: '7',
+        handoverNumber: 'HO-2024-007',
         customerId: 'CUST-0004',
         contractId: 'contract_006',
         contractNumber: 'CONT-2023-120',
         customerName: '广州数字化企业服务有限公司',
-        handoverStatus: 'normal',
+        handoverStatus: 'implementation_in_progress',
         riskLevel: 'low',
         hasHandoverDocument: true,
         hasRiskAlert: false,
@@ -4843,23 +4755,38 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 }
 
 },
-"src/pages/profiles/service/customer-detail-modal.tsx": function (module, exports, __mako_require__){
+"src/mock/renewalData.ts": function (module, exports, __mako_require__){
+// 续约管理专用mock数据
+// 确保与交接实施、持续服务的客户数据不重复
 "use strict";
 __mako_require__.d(exports, "__esModule", {
     value: true
 });
-__mako_require__.d(exports, "default", {
-    enumerable: true,
-    get: function() {
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    default: function() {
         return _default;
+    },
+    renewalContracts: function() {
+        return renewalContracts;
+    },
+    renewalCustomers: function() {
+        return renewalCustomers;
+    },
+    renewalRiskAnalysis: function() {
+        return renewalRiskAnalysis;
+    },
+    renewalStats: function() {
+        return renewalStats;
     }
 });
-var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
 var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
-var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/react/index.js"));
-var _CustomerDetailWithPlaybooks = /*#__PURE__*/ _interop_require_default._(__mako_require__("src/components/CustomerDetailWithPlaybooks.tsx"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -4868,74 +4795,465 @@ self.$RefreshReg$ = (type, id)=>{
     _reactrefresh.register(type, module.id + id);
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
-const CustomerDetailDrawer = ({ visible, customer, onClose, onAction })=>{
-    const handleLaunchPlaybook = async (playbookId, customerId)=>{
-        console.log('启动剧本:', {
-            playbookId,
-            customerId
-        });
-    // 这里可以调用实际的剧本启动API
-    };
-    // 将 RenewalCustomer 转换为 Customer 对象
-    const convertToCustomer = (renewalCustomer)=>{
-        return {
-            id: renewalCustomer.id,
-            name: renewalCustomer.customerName,
-            industry: '互联网',
-            scale: '大型企业',
-            csm: renewalCustomer.owner,
-            arr: renewalCustomer.renewalAmount,
-            healthScore: renewalCustomer.healthScore,
-            healthLevel: renewalCustomer.healthLevel,
-            lifecycleStage: '成熟期',
-            customerTier: 'large',
-            purchasedProducts: [
-                '产品A',
-                '产品B'
-            ],
-            keyContacts: [
-                {
-                    id: 'contact-1',
-                    name: '联系人',
-                    title: '技术负责人',
-                    phone: '138****8888',
-                    email: 'contact@company.com',
-                    isPrimary: true
-                }
-            ],
-            contracts: [],
-            handoverRecords: [],
-            nextRenewalDate: renewalCustomer.contractExpiryDate,
-            serviceExpiryDate: renewalCustomer.contractExpiryDate,
-            isRenewalRisk: renewalCustomer.status === '流失风险',
-            lastContactDate: renewalCustomer.lastInteraction,
-            serviceRecords: [],
-            todoTasks: [],
-            isFavorite: false,
-            createdAt: '2023-01-01T00:00:00Z',
-            updatedAt: new Date().toISOString()
-        };
-    };
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_CustomerDetailWithPlaybooks.default, {
-        visible: visible,
-        customer: convertToCustomer(customer),
-        recommendations: [],
-        executions: [],
-        playbooks: [],
-        onClose: onClose,
-        onAction: onAction,
-        onLaunchPlaybook: handleLaunchPlaybook,
-        onUpdateRecommendation: async ()=>{}
-    }, void 0, false, {
-        fileName: "src/pages/profiles/service/customer-detail-modal.tsx",
-        lineNumber: 80,
-        columnNumber: 5
-    }, this);
+const renewalCustomers = [
+    {
+        id: 'CUST-0001',
+        name: '深圳创新医疗科技有限公司',
+        industry: '医疗健康',
+        size: 'large',
+        csm: '王芳',
+        region: '华南',
+        arr: 800000,
+        healthScore: 75,
+        healthLevel: '一般',
+        lifecycleStage: '成熟期',
+        tier: 'A',
+        contractEndDate: '2024-03-31',
+        daysToExpiry: 45,
+        renewalProbability: 70,
+        renewalStage: '沟通中',
+        lastContactDate: '2024-01-15',
+        nextActionDate: '2024-01-25',
+        riskFactors: [
+            '预算压缩',
+            '新竞品出现'
+        ],
+        opportunities: [
+            '扩展到子公司',
+            '增加培训服务'
+        ],
+        currentContractValue: 800000,
+        proposedRenewalValue: 900000,
+        renewalType: '扩容续约',
+        keyStakeholders: [
+            {
+                name: '李总',
+                role: 'CEO',
+                influence: 'high',
+                attitude: 'supporter'
+            },
+            {
+                name: '张经理',
+                role: 'IT总监',
+                influence: 'high',
+                attitude: 'neutral'
+            },
+            {
+                name: '王主管',
+                role: '采购主管',
+                influence: 'medium',
+                attitude: 'detractor'
+            }
+        ],
+        competitorThreat: 'medium',
+        renewalNotes: '客户对产品满意，但对价格敏感，需要展示更多ROI价值',
+        tags: [
+            '重点客户',
+            '价格敏感',
+            '扩容机会'
+        ]
+    },
+    {
+        id: 'CUST-0002',
+        name: '广州智能制造集团',
+        industry: '制造业',
+        size: 'xlarge',
+        csm: '李明',
+        region: '华南',
+        arr: 1200000,
+        healthScore: 85,
+        healthLevel: '健康',
+        lifecycleStage: '成熟期',
+        tier: 'S',
+        contractEndDate: '2024-04-15',
+        daysToExpiry: 60,
+        renewalProbability: 90,
+        renewalStage: '方案制定',
+        lastContactDate: '2024-01-18',
+        nextActionDate: '2024-01-28',
+        riskFactors: [],
+        opportunities: [
+            '多工厂部署',
+            '高级功能模块',
+            '定制开发'
+        ],
+        currentContractValue: 1200000,
+        proposedRenewalValue: 1500000,
+        renewalType: '扩容续约',
+        keyStakeholders: [
+            {
+                name: '陈董事长',
+                role: '董事长',
+                influence: 'high',
+                attitude: 'supporter'
+            },
+            {
+                name: '刘副总',
+                role: '副总经理',
+                influence: 'high',
+                attitude: 'supporter'
+            },
+            {
+                name: '赵总监',
+                role: '信息化总监',
+                influence: 'medium',
+                attitude: 'supporter'
+            }
+        ],
+        competitorThreat: 'low',
+        renewalNotes: '标杆客户，满意度很高，有明确的扩容需求',
+        tags: [
+            '标杆客户',
+            '扩容确定',
+            '战略合作'
+        ]
+    },
+    {
+        id: 'CUST-0003',
+        name: '杭州电商科技有限公司',
+        industry: '电子商务',
+        size: 'medium',
+        csm: '张伟',
+        region: '华东',
+        arr: 450000,
+        healthScore: 60,
+        healthLevel: '风险',
+        lifecycleStage: '衰退期',
+        tier: 'B',
+        contractEndDate: '2024-02-28',
+        daysToExpiry: 15,
+        renewalProbability: 40,
+        renewalStage: '商务谈判',
+        lastContactDate: '2024-01-20',
+        nextActionDate: '2024-01-22',
+        riskFactors: [
+            '使用率下降',
+            '关键联系人离职',
+            '业务调整'
+        ],
+        opportunities: [
+            '降级续约保留',
+            '重新培训激活'
+        ],
+        currentContractValue: 450000,
+        proposedRenewalValue: 300000,
+        renewalType: '降级续约',
+        keyStakeholders: [
+            {
+                name: '新任CTO',
+                role: 'CTO',
+                influence: 'high',
+                attitude: 'neutral'
+            },
+            {
+                name: '财务总监',
+                role: 'CFO',
+                influence: 'high',
+                attitude: 'detractor'
+            }
+        ],
+        competitorThreat: 'high',
+        renewalNotes: '客户业务调整，预算收紧，需要紧急挽回措施',
+        tags: [
+            '流失风险',
+            '紧急处理',
+            '降级续约'
+        ]
+    },
+    {
+        id: 'CUST-0004',
+        name: '成都金融服务公司',
+        industry: '金融服务',
+        size: 'large',
+        csm: '赵六',
+        region: '西南',
+        arr: 600000,
+        healthScore: 80,
+        healthLevel: '健康',
+        lifecycleStage: '成熟期',
+        tier: 'A',
+        contractEndDate: '2024-05-20',
+        daysToExpiry: 95,
+        renewalProbability: 85,
+        renewalStage: '未开始',
+        lastContactDate: '2024-01-10',
+        nextActionDate: '2024-02-01',
+        riskFactors: [],
+        opportunities: [
+            '合规模块升级',
+            '多部门推广'
+        ],
+        currentContractValue: 600000,
+        proposedRenewalValue: 750000,
+        renewalType: '扩容续约',
+        keyStakeholders: [
+            {
+                name: '王行长',
+                role: '行长',
+                influence: 'high',
+                attitude: 'supporter'
+            },
+            {
+                name: '李副行长',
+                role: '副行长',
+                influence: 'high',
+                attitude: 'supporter'
+            }
+        ],
+        competitorThreat: 'none',
+        renewalNotes: '客户满意度高，有明确的扩容计划',
+        tags: [
+            '优质客户',
+            '扩容潜力',
+            '合规需求'
+        ]
+    },
+    {
+        id: 'CUST-0005',
+        name: '北京教育科技集团',
+        industry: '教育培训',
+        size: 'large',
+        csm: '钱七',
+        region: '华北',
+        arr: 550000,
+        healthScore: 70,
+        healthLevel: '一般',
+        lifecycleStage: '成熟期',
+        tier: 'A',
+        contractEndDate: '2024-06-30',
+        daysToExpiry: 135,
+        renewalProbability: 75,
+        renewalStage: '未开始',
+        lastContactDate: '2024-01-08',
+        nextActionDate: '2024-02-15',
+        riskFactors: [
+            '行业政策变化'
+        ],
+        opportunities: [
+            '在线教育模块',
+            '学员管理系统'
+        ],
+        currentContractValue: 550000,
+        proposedRenewalValue: 650000,
+        renewalType: '扩容续约',
+        keyStakeholders: [
+            {
+                name: '校长',
+                role: '校长',
+                influence: 'high',
+                attitude: 'supporter'
+            },
+            {
+                name: '教务主任',
+                role: '教务主任',
+                influence: 'medium',
+                attitude: 'neutral'
+            }
+        ],
+        competitorThreat: 'low',
+        renewalNotes: '教育行业客户，对产品依赖度高，续约意愿强',
+        tags: [
+            '教育行业',
+            '政策敏感',
+            '扩容机会'
+        ]
+    }
+];
+const renewalContracts = [
+    {
+        id: 'RENEWAL_CONTRACT_001',
+        customerId: 'CUST-0001',
+        contractNumber: 'RENEW-CONT-2024-001',
+        currentValue: 800000,
+        proposedValue: 900000,
+        startDate: '2023-04-01',
+        endDate: '2024-03-31',
+        renewalStartDate: '2024-01-01',
+        status: 'pending_renewal',
+        products: [
+            '企微版',
+            '高级分析模块'
+        ],
+        accountCount: 80,
+        renewalHistory: [
+            {
+                year: '2023',
+                value: 800000,
+                status: 'renewed',
+                notes: '首次续约，增加了分析模块'
+            },
+            {
+                year: '2022',
+                value: 600000,
+                status: 'renewed',
+                notes: '标准续约'
+            }
+        ]
+    },
+    {
+        id: 'RENEWAL_CONTRACT_002',
+        customerId: 'CUST-0002',
+        contractNumber: 'RENEW-CONT-2024-002',
+        currentValue: 1200000,
+        proposedValue: 1500000,
+        startDate: '2023-04-16',
+        endDate: '2024-04-15',
+        renewalStartDate: '2024-01-16',
+        status: 'pending_renewal',
+        products: [
+            'D-learning',
+            '定制模块',
+            '高级支持'
+        ],
+        accountCount: 150,
+        renewalHistory: [
+            {
+                year: '2023',
+                value: 1200000,
+                status: 'upgraded',
+                notes: '大幅扩容，增加定制功能'
+            },
+            {
+                year: '2022',
+                value: 800000,
+                status: 'renewed',
+                notes: '标准续约'
+            }
+        ]
+    },
+    {
+        id: 'RENEWAL_CONTRACT_003',
+        customerId: 'CUST-0003',
+        contractNumber: 'RENEW-CONT-2024-003',
+        currentValue: 450000,
+        proposedValue: 300000,
+        startDate: '2023-03-01',
+        endDate: '2024-02-28',
+        renewalStartDate: '2023-12-01',
+        status: 'pending_renewal',
+        products: [
+            '直营-极简版'
+        ],
+        accountCount: 45,
+        renewalHistory: [
+            {
+                year: '2023',
+                value: 450000,
+                status: 'renewed',
+                notes: '标准续约'
+            },
+            {
+                year: '2022',
+                value: 400000,
+                status: 'renewed',
+                notes: '小幅增长'
+            }
+        ]
+    },
+    {
+        id: 'RENEWAL_CONTRACT_004',
+        customerId: 'CUST-0004',
+        contractNumber: 'RENEW-CONT-2024-004',
+        currentValue: 600000,
+        proposedValue: 750000,
+        startDate: '2023-05-21',
+        endDate: '2024-05-20',
+        renewalStartDate: '2024-02-21',
+        status: 'active',
+        products: [
+            '企微版',
+            '合规模块'
+        ],
+        accountCount: 60,
+        renewalHistory: [
+            {
+                year: '2023',
+                value: 600000,
+                status: 'renewed',
+                notes: '增加合规模块'
+            },
+            {
+                year: '2022',
+                value: 500000,
+                status: 'renewed',
+                notes: '标准续约'
+            }
+        ]
+    },
+    {
+        id: 'RENEWAL_CONTRACT_005',
+        customerId: 'CUST-0005',
+        contractNumber: 'RENEW-CONT-2024-005',
+        currentValue: 550000,
+        proposedValue: 650000,
+        startDate: '2023-07-01',
+        endDate: '2024-06-30',
+        renewalStartDate: '2024-04-01',
+        status: 'active',
+        products: [
+            'D-learning',
+            '学员管理系统'
+        ],
+        accountCount: 55,
+        renewalHistory: [
+            {
+                year: '2023',
+                value: 550000,
+                status: 'renewed',
+                notes: '增加学员管理功能'
+            },
+            {
+                year: '2022',
+                value: 450000,
+                status: 'renewed',
+                notes: '标准续约'
+            }
+        ]
+    }
+];
+const renewalStats = {
+    totalCustomers: renewalCustomers.length,
+    totalARR: renewalCustomers.reduce((sum, customer)=>sum + customer.arr, 0),
+    averageHealthScore: Math.round(renewalCustomers.reduce((sum, customer)=>sum + customer.healthScore, 0) / renewalCustomers.length),
+    renewalStageDistribution: {
+        '未开始': renewalCustomers.filter((c)=>c.renewalStage === '未开始').length,
+        '沟通中': renewalCustomers.filter((c)=>c.renewalStage === '沟通中').length,
+        '方案制定': renewalCustomers.filter((c)=>c.renewalStage === '方案制定').length,
+        '商务谈判': renewalCustomers.filter((c)=>c.renewalStage === '商务谈判').length,
+        '合同签署': renewalCustomers.filter((c)=>c.renewalStage === '合同签署').length,
+        '已完成': renewalCustomers.filter((c)=>c.renewalStage === '已完成').length,
+        '已流失': renewalCustomers.filter((c)=>c.renewalStage === '已流失').length
+    },
+    healthDistribution: {
+        '健康': renewalCustomers.filter((c)=>c.healthLevel === '健康').length,
+        '一般': renewalCustomers.filter((c)=>c.healthLevel === '一般').length,
+        '风险': renewalCustomers.filter((c)=>c.healthLevel === '风险').length
+    },
+    tierDistribution: {
+        'S': renewalCustomers.filter((c)=>c.tier === 'S').length,
+        'A': renewalCustomers.filter((c)=>c.tier === 'A').length,
+        'B': renewalCustomers.filter((c)=>c.tier === 'B').length,
+        'C': renewalCustomers.filter((c)=>c.tier === 'C').length
+    },
+    renewalTypeDistribution: {
+        '标准续约': renewalCustomers.filter((c)=>c.renewalType === '标准续约').length,
+        '扩容续约': renewalCustomers.filter((c)=>c.renewalType === '扩容续约').length,
+        '降级续约': renewalCustomers.filter((c)=>c.renewalType === '降级续约').length
+    }
 };
-_c = CustomerDetailDrawer;
-var _default = CustomerDetailDrawer;
-var _c;
-$RefreshReg$(_c, "CustomerDetailDrawer");
+const renewalRiskAnalysis = {
+    highRiskCustomers: renewalCustomers.filter((c)=>c.renewalProbability < 50),
+    mediumRiskCustomers: renewalCustomers.filter((c)=>c.renewalProbability >= 50 && c.renewalProbability < 80),
+    lowRiskCustomers: renewalCustomers.filter((c)=>c.renewalProbability >= 80),
+    urgentActions: renewalCustomers.filter((c)=>c.daysToExpiry <= 30),
+    competitorThreats: renewalCustomers.filter((c)=>c.competitorThreat === 'high' || c.competitorThreat === 'medium')
+};
+var _default = {
+    renewalCustomers,
+    renewalContracts,
+    renewalStats,
+    renewalRiskAnalysis
+};
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {

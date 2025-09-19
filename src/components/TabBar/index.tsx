@@ -19,6 +19,7 @@ const useStyles = createStyles(({ token }) => ({
   customTabs: {
     flex: 1,
     overflow: 'hidden', // 防止内容溢出
+    maxWidth: 'calc(100% - 100px)', // 限制最大宽度，为右侧按钮留出空间
     '& .ant-tabs-nav': {
       margin: 0,
       overflow: 'auto', // 添加水平滚动
@@ -53,8 +54,10 @@ const useStyles = createStyles(({ token }) => ({
       transition: 'none', // 去掉过渡动画
       whiteSpace: 'nowrap', // 防止文字换行
       minWidth: '80px', // 减小最小宽度，适应短文本
-      maxWidth: 'none', // 移除最大宽度限制，让tab根据内容自适应
+      maxWidth: '200px', // 设置最大宽度，防止单个tab过宽
       flexShrink: 0, // 防止tab被压缩
+      overflow: 'hidden', // 隐藏溢出内容
+      textOverflow: 'ellipsis', // 文本溢出显示省略号
       '&:hover': {
         background: token.colorBgTextHover,
       },
@@ -92,6 +95,7 @@ const useStyles = createStyles(({ token }) => ({
       alignItems: 'center',
       minWidth: 'fit-content', // 确保容器宽度至少能容纳内容
       flexWrap: 'nowrap', // 防止换行
+      width: 'auto', // 自动宽度，不占满整个容器
     },
 
   },
@@ -202,9 +206,16 @@ const TabBar: React.FC<TabBarProps> = React.memo(({
         alignItems: 'center', 
         justifyContent: 'space-between',
         width: '100%',
-        minWidth: '80px'
+        minWidth: '80px',
+        maxWidth: '200px' // 确保单个tab不会过宽
       }}>
-        <span style={{ flex: 1, textAlign: 'left' }}>{tab.label}</span>
+        <span style={{ 
+          flex: 1, 
+          textAlign: 'left',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }}>{tab.label}</span>
         {tab.closable !== false && tabs.length > 1 && (
           <CloseOutlined
             className={styles.tabCloseButton}

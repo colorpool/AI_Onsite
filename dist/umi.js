@@ -128928,6 +128928,34 @@ RefIcon.displayName = 'BookOutlined';
 var _default = RefIcon;
 
 },
+"node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/BulbOutlined.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return _default;
+    }
+});
+var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _objectSpread2 = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@babel/runtime/helpers/esm/objectSpread2.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _BulbOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@ant-design/icons-svg/es/asn/BulbOutlined.js"));
+var _AntdIcon = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/components/AntdIcon.js"));
+var BulbOutlined = function BulbOutlined(props, ref) {
+    return /*#__PURE__*/ _react.createElement(_AntdIcon.default, (0, _objectSpread2.default)((0, _objectSpread2.default)({}, props), {}, {
+        ref: ref,
+        icon: _BulbOutlined.default
+    }));
+};
+var RefIcon = /*#__PURE__*/ _react.forwardRef(BulbOutlined);
+RefIcon.displayName = 'BulbOutlined';
+var _default = RefIcon;
+
+},
 "node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/CarOutlined.js": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
@@ -129236,6 +129264,34 @@ RefIcon.displayName = 'MessageOutlined';
 var _default = RefIcon;
 
 },
+"node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/ProfileOutlined.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return _default;
+    }
+});
+var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _objectSpread2 = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@babel/runtime/helpers/esm/objectSpread2.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _ProfileOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@ant-design/icons-svg/es/asn/ProfileOutlined.js"));
+var _AntdIcon = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/components/AntdIcon.js"));
+var ProfileOutlined = function ProfileOutlined(props, ref) {
+    return /*#__PURE__*/ _react.createElement(_AntdIcon.default, (0, _objectSpread2.default)((0, _objectSpread2.default)({}, props), {}, {
+        ref: ref,
+        icon: _ProfileOutlined.default
+    }));
+};
+var RefIcon = /*#__PURE__*/ _react.forwardRef(ProfileOutlined);
+RefIcon.displayName = 'ProfileOutlined';
+var _default = RefIcon;
+
+},
 "node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/RobotOutlined.js": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
@@ -129261,6 +129317,34 @@ var RobotOutlined = function RobotOutlined(props, ref) {
 };
 var RefIcon = /*#__PURE__*/ _react.forwardRef(RobotOutlined);
 RefIcon.displayName = 'RobotOutlined';
+var _default = RefIcon;
+
+},
+"node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/RocketOutlined.js": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return _default;
+    }
+});
+var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _objectSpread2 = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@babel/runtime/helpers/esm/objectSpread2.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _RocketOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@ant-design/icons-svg/es/asn/RocketOutlined.js"));
+var _AntdIcon = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/components/AntdIcon.js"));
+var RocketOutlined = function RocketOutlined(props, ref) {
+    return /*#__PURE__*/ _react.createElement(_AntdIcon.default, (0, _objectSpread2.default)((0, _objectSpread2.default)({}, props), {}, {
+        ref: ref,
+        icon: _RocketOutlined.default
+    }));
+};
+var RefIcon = /*#__PURE__*/ _react.forwardRef(RocketOutlined);
+RefIcon.displayName = 'RocketOutlined';
 var _default = RefIcon;
 
 },
@@ -302611,6 +302695,7 @@ async function getRoutes() {
             "path": "/dashboard/layers",
             "name": "客户分层盘点",
             "icon": "group",
+            "hideInMenu": true,
             "parentId": "3",
             "id": "6"
         },
@@ -302618,6 +302703,7 @@ async function getRoutes() {
             "path": "/dashboard/focus",
             "name": "近期客户关注重点",
             "icon": "trophy",
+            "hideInMenu": true,
             "parentId": "3",
             "id": "7"
         },
@@ -302625,6 +302711,7 @@ async function getRoutes() {
             "path": "/dashboard/competition",
             "name": "客成部门大比武",
             "icon": "trophy",
+            "hideInMenu": true,
             "parentId": "3",
             "id": "8"
         },
@@ -302632,6 +302719,7 @@ async function getRoutes() {
             "path": "/dashboard/coordination",
             "name": "大服务体系内协同",
             "icon": "team",
+            "hideInMenu": true,
             "parentId": "3",
             "id": "9"
         },
@@ -302649,267 +302737,319 @@ async function getRoutes() {
             "id": "11"
         },
         "12": {
-            "path": "/profiles/handover-implementation",
-            "name": "交接实施",
-            "icon": "userAdd",
+            "path": "/profiles/customer-profile",
+            "name": "客户档案",
+            "icon": "profile",
             "parentId": "10",
             "id": "12"
         },
         "13": {
-            "path": "/profiles/handover/new",
-            "hideInMenu": true,
+            "path": "/profiles/handover-implementation",
+            "name": "交接实施",
+            "icon": "userAdd",
             "parentId": "10",
             "id": "13"
         },
         "14": {
-            "path": "/profiles/handover/:id",
+            "path": "/profiles/handover/new",
             "hideInMenu": true,
-            "name": "客户交接详情",
             "parentId": "10",
             "id": "14"
         },
         "15": {
-            "path": "/profiles/handover/history",
+            "path": "/profiles/handover/:id",
             "hideInMenu": true,
-            "name": "历史交接查询",
+            "name": "客户交接详情",
             "parentId": "10",
             "id": "15"
         },
         "16": {
-            "path": "/profiles/service",
-            "name": "持续服务",
-            "icon": "customerService",
+            "path": "/profiles/handover/history",
+            "hideInMenu": true,
+            "name": "历史交接查询",
             "parentId": "10",
             "id": "16"
         },
         "17": {
-            "path": "/profiles/service/:id",
-            "hideInMenu": true,
-            "name": "持续服务详情",
+            "path": "/profiles/service",
+            "name": "持续服务",
+            "icon": "customerService",
             "parentId": "10",
             "id": "17"
         },
         "18": {
-            "path": "/profiles/service/risk-event/:id",
+            "path": "/profiles/service/:id",
             "hideInMenu": true,
-            "name": "风险事件详情",
+            "name": "持续服务详情",
             "parentId": "10",
             "id": "18"
         },
         "19": {
-            "path": "/profiles/renewal",
-            "name": "续约管理",
-            "icon": "fileText",
+            "path": "/profiles/service/risk-event/:id",
+            "hideInMenu": true,
+            "name": "风险事件详情",
             "parentId": "10",
             "id": "19"
         },
         "20": {
-            "path": "/profiles/renewal/:id",
-            "hideInMenu": true,
-            "name": "续约客户详情",
+            "path": "/profiles/renewal",
+            "name": "续约管理",
+            "icon": "fileText",
             "parentId": "10",
             "id": "20"
         },
         "21": {
-            "path": "/profiles/recall",
-            "name": "召回孵化",
-            "icon": "experiment",
+            "path": "/profiles/renewal/:id",
+            "hideInMenu": true,
+            "name": "续约客户详情",
             "parentId": "10",
             "id": "21"
         },
         "22": {
-            "path": "/profiles/churn",
-            "name": "流失归因",
-            "icon": "lineChart",
+            "path": "/profiles/recall",
+            "name": "召回孵化",
+            "icon": "experiment",
             "parentId": "10",
             "id": "22"
         },
         "23": {
-            "path": "/revenue",
-            "name": "增收服务推进",
-            "icon": "message",
-            "parentId": "ant-design-pro-layout",
+            "path": "/profiles/churn",
+            "name": "流失归因",
+            "icon": "lineChart",
+            "hideInMenu": true,
+            "parentId": "10",
             "id": "23"
         },
         "24": {
             "path": "/revenue",
-            "redirect": "/revenue/consultation",
-            "parentId": "23",
+            "name": "增收服务推进",
+            "icon": "message",
+            "hideInMenu": true,
+            "parentId": "ant-design-pro-layout",
             "id": "24"
         },
         "25": {
-            "path": "/revenue/consultation",
-            "name": "咨询应答",
-            "icon": "comment",
-            "parentId": "23",
+            "path": "/revenue",
+            "redirect": "/revenue/consultation",
+            "parentId": "24",
             "id": "25"
         },
         "26": {
-            "path": "/revenue/upgrade",
-            "name": "定制升舱建议",
-            "icon": "arrowUp",
-            "parentId": "23",
+            "path": "/revenue/consultation",
+            "name": "咨询应答",
+            "icon": "comment",
+            "parentId": "24",
             "id": "26"
         },
         "27": {
-            "path": "/revenue/learning",
-            "name": "学习项目推荐",
-            "icon": "book",
-            "parentId": "23",
+            "path": "/revenue/upgrade",
+            "name": "定制升舱建议",
+            "icon": "arrowUp",
+            "parentId": "24",
             "id": "27"
         },
         "28": {
-            "path": "/revenue/purchase",
-            "name": "课程采购活动",
-            "icon": "shoppingCart",
-            "parentId": "23",
+            "path": "/revenue/learning",
+            "name": "学习项目推荐",
+            "icon": "book",
+            "parentId": "24",
             "id": "28"
         },
         "29": {
-            "path": "/revenue/alliance",
-            "name": "战略活动结盟",
-            "icon": "userAdd",
-            "parentId": "23",
+            "path": "/revenue/purchase",
+            "name": "课程采购活动",
+            "icon": "shoppingCart",
+            "parentId": "24",
             "id": "29"
         },
         "30": {
-            "path": "/revenue/message",
-            "name": "消息推送管理",
-            "icon": "bell",
-            "parentId": "23",
+            "path": "/revenue/alliance",
+            "name": "战略活动结盟",
+            "icon": "userAdd",
+            "parentId": "24",
             "id": "30"
         },
         "31": {
-            "path": "/resources",
-            "name": "共享方案资料包",
-            "icon": "shareAlt",
-            "parentId": "ant-design-pro-layout",
+            "path": "/revenue/message",
+            "name": "消息推送管理",
+            "icon": "bell",
+            "parentId": "24",
             "id": "31"
         },
         "32": {
             "path": "/resources",
-            "redirect": "/resources/deployment",
-            "parentId": "31",
+            "name": "共享方案资料包",
+            "icon": "shareAlt",
+            "hideInMenu": true,
+            "parentId": "ant-design-pro-layout",
             "id": "32"
         },
         "33": {
-            "path": "/resources/deployment",
-            "name": "实施部署套件",
-            "icon": "setting",
-            "parentId": "31",
+            "path": "/resources",
+            "redirect": "/resources/deployment",
+            "parentId": "32",
             "id": "33"
         },
         "34": {
-            "path": "/resources/support",
-            "name": "年度服务支撑",
-            "icon": "barChart",
-            "parentId": "31",
+            "path": "/resources/deployment",
+            "name": "实施部署套件",
+            "icon": "setting",
+            "parentId": "32",
             "id": "34"
         },
         "35": {
-            "path": "/resources/equipment",
-            "name": "续约升级装备",
-            "icon": "arrowUp",
-            "parentId": "31",
+            "path": "/resources/support",
+            "name": "年度服务支撑",
+            "icon": "barChart",
+            "parentId": "32",
             "id": "35"
         },
         "36": {
-            "path": "/resources/knowledge",
-            "name": "团队能力建设",
-            "icon": "database",
-            "parentId": "31",
+            "path": "/resources/equipment",
+            "name": "续约升级装备",
+            "icon": "arrowUp",
+            "parentId": "32",
             "id": "36"
         },
         "37": {
-            "path": "/ai-tools",
-            "name": "AI智能工具箱",
-            "icon": "robot",
-            "parentId": "ant-design-pro-layout",
+            "path": "/resources/knowledge",
+            "name": "团队能力建设",
+            "icon": "database",
+            "parentId": "32",
             "id": "37"
         },
         "38": {
             "path": "/ai-tools",
-            "redirect": "/ai-tools/consultant",
-            "parentId": "37",
+            "name": "AI智能工具箱",
+            "icon": "robot",
+            "hideInMenu": true,
+            "parentId": "ant-design-pro-layout",
             "id": "38"
         },
         "39": {
-            "path": "/ai-tools/consultant",
-            "name": "实施顾问分身",
-            "icon": "userSwitch",
-            "parentId": "37",
+            "path": "/ai-tools",
+            "redirect": "/ai-tools/consultant",
+            "parentId": "38",
             "id": "39"
         },
         "40": {
-            "path": "/ai-tools/consultant/new",
-            "hideInMenu": true,
-            "parentId": "39",
+            "path": "/ai-tools/consultant",
+            "name": "实施顾问分身",
+            "icon": "userSwitch",
+            "parentId": "38",
             "id": "40"
         },
         "41": {
-            "path": "/ai-tools/consultant/:id/edit",
+            "path": "/ai-tools/consultant/new",
             "hideInMenu": true,
-            "parentId": "39",
+            "parentId": "40",
             "id": "41"
         },
         "42": {
-            "path": "/ai-tools/consultant/:id/analytics",
+            "path": "/ai-tools/consultant/:id/edit",
             "hideInMenu": true,
-            "parentId": "39",
+            "parentId": "40",
             "id": "42"
         },
         "43": {
-            "path": "/ai-tools/simulator",
-            "name": "续费模拟器",
-            "icon": "eye",
-            "parentId": "37",
+            "path": "/ai-tools/consultant/:id/analytics",
+            "hideInMenu": true,
+            "parentId": "40",
             "id": "43"
         },
         "44": {
-            "path": "/ai-tools/communication",
-            "name": "干系人沟通话术",
-            "icon": "comment",
-            "parentId": "37",
+            "path": "/ai-tools/simulator",
+            "name": "续费模拟器",
+            "icon": "eye",
+            "parentId": "38",
             "id": "44"
         },
         "45": {
-            "path": "/ai-tools/travel",
-            "name": "面客差旅行程表",
-            "icon": "car",
-            "parentId": "37",
+            "path": "/ai-tools/communication",
+            "name": "干系人沟通话术",
+            "icon": "comment",
+            "parentId": "38",
             "id": "45"
         },
         "46": {
-            "path": "/ai-tools/prediction",
-            "name": "预测水晶球",
-            "icon": "trophy",
-            "parentId": "37",
+            "path": "/ai-tools/travel",
+            "name": "面客差旅行程表",
+            "icon": "car",
+            "parentId": "38",
             "id": "46"
         },
         "47": {
-            "path": "/ai-tools/avatar",
-            "name": "我的虚拟分身",
-            "icon": "user",
-            "parentId": "37",
+            "path": "/ai-tools/prediction",
+            "name": "预测水晶球",
+            "icon": "trophy",
+            "parentId": "38",
             "id": "47"
         },
         "48": {
-            "path": "/ai-tools/tags",
-            "name": "智能标签在干活",
-            "icon": "tags",
-            "parentId": "37",
+            "path": "/ai-tools/avatar",
+            "name": "我的虚拟分身",
+            "icon": "user",
+            "parentId": "38",
             "id": "48"
         },
         "49": {
-            "path": "/",
-            "redirect": "/dashboard/work",
-            "parentId": "ant-design-pro-layout",
+            "path": "/ai-tools/tags",
+            "name": "智能标签在干活",
+            "icon": "tags",
+            "parentId": "38",
             "id": "49"
         },
         "50": {
+            "path": "/teaching-ai",
+            "name": "授客AI用户运营",
+            "icon": "bulb",
+            "parentId": "ant-design-pro-layout",
+            "id": "50"
+        },
+        "51": {
+            "path": "/teaching-ai",
+            "redirect": "/teaching-ai/dashboard",
+            "parentId": "50",
+            "id": "51"
+        },
+        "52": {
+            "path": "/teaching-ai/dashboard",
+            "name": "运营看板",
+            "icon": "dashboard",
+            "parentId": "50",
+            "id": "52"
+        },
+        "53": {
+            "path": "/teaching-ai/user-interaction",
+            "name": "用户互动管理",
+            "icon": "message",
+            "parentId": "50",
+            "id": "53"
+        },
+        "54": {
+            "path": "/teaching-ai/community",
+            "name": "学习社区运营",
+            "icon": "team",
+            "parentId": "50",
+            "id": "54"
+        },
+        "55": {
+            "path": "/teaching-ai/growth-strategy",
+            "name": "用户增长策略",
+            "icon": "rocketOutlined",
+            "parentId": "50",
+            "id": "55"
+        },
+        "56": {
+            "path": "/",
+            "redirect": "/dashboard/work",
+            "parentId": "ant-design-pro-layout",
+            "id": "56"
+        },
+        "57": {
             "path": "*",
             "layout": false,
-            "id": "50"
+            "id": "57"
         },
         "ant-design-pro-layout": {
             "id": "ant-design-pro-layout",
@@ -302935,45 +303075,52 @@ async function getRoutes() {
             '9': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '10': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
             '11': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '12': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/index.tsx")))),
-            '13': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/new/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/new/index.tsx")))),
-            '14': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/[id]/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/[id]/index.tsx")))),
-            '15': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/HistoryHandover.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/HistoryHandover.tsx")))),
-            '16': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/ContinuousService.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/ContinuousService.tsx")))),
-            '17': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/ContinuousServiceDetail.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/ContinuousServiceDetail.tsx")))),
-            '18': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/RiskEventDetail.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/RiskEventDetail.tsx")))),
-            '19': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/renewal-management.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/renewal-management.tsx")))),
-            '20': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/renewal/[id]/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/renewal/[id]/index.tsx")))),
-            '21': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '12': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerProfileList.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerProfileList.tsx")))),
+            '13': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/index.tsx")))),
+            '14': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/new/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/new/index.tsx")))),
+            '15': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/[id]/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/[id]/index.tsx")))),
+            '16': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/handover/HistoryHandover.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/handover/HistoryHandover.tsx")))),
+            '17': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/ContinuousService.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/ContinuousService.tsx")))),
+            '18': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/ContinuousServiceDetail.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/ContinuousServiceDetail.tsx")))),
+            '19': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/RiskEventDetail.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/RiskEventDetail.tsx")))),
+            '20': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/service/renewal-management.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/service/renewal-management.tsx")))),
+            '21': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/profiles/renewal/[id]/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/profiles/renewal/[id]/index.tsx")))),
             '22': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '23': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '23': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '24': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '25': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '25': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
             '26': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '27': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '28': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '29': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '30': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '31': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '31': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '32': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '33': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '33': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
             '34': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '35': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '36': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '37': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '37': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '38': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '39': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
+            '39': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
             '40': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
             '41': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
             '42': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
-            '43': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '43': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/agents/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/agents/index.tsx")))),
             '44': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '45': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '46': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '47': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
             '48': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
-            '49': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
-            '50': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/404.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/404.tsx")))),
+            '49': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '50': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '51': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '52': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '53': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '54': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '55': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/CustomerSuccess/index.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/CustomerSuccess/index.tsx")))),
+            '56': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/core/EmptyRoute.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/core/EmptyRoute.tsx")))),
+            '57': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/pages/404.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/pages/404.tsx")))),
             'ant-design-pro-layout': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/plugin-layout/Layout.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/plugin-layout/Layout.tsx")))),
             'umi/plugin/openapi': /*#__PURE__*/ _react.default.lazy(()=>__mako_require__.ensure2("src/.umi/plugin-openapi/openapi.tsx").then(__mako_require__.dr(interop, __mako_require__.bind(__mako_require__, "src/.umi/plugin-openapi/openapi.tsx"))))
         }
@@ -304314,6 +304461,7 @@ var _GroupOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("
 var _TrophyOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/TrophyOutlined.js"));
 var _TeamOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/TeamOutlined.js"));
 var _UserOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/UserOutlined.js"));
+var _ProfileOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/ProfileOutlined.js"));
 var _UserAddOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/UserAddOutlined.js"));
 var _CustomerServiceOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/CustomerServiceOutlined.js"));
 var _FileTextOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/FileTextOutlined.js"));
@@ -304333,6 +304481,8 @@ var _UserSwitchOutlined = /*#__PURE__*/ _interop_require_default._(__mako_requir
 var _EyeOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/EyeOutlined.js"));
 var _CarOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/CarOutlined.js"));
 var _TagsOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/TagsOutlined.js"));
+var _BulbOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/BulbOutlined.js"));
+var _RocketOutlined = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/RocketOutlined.js"));
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -304348,6 +304498,7 @@ var _default = {
     TrophyOutlined: _TrophyOutlined.default,
     TeamOutlined: _TeamOutlined.default,
     UserOutlined: _UserOutlined.default,
+    ProfileOutlined: _ProfileOutlined.default,
     UserAddOutlined: _UserAddOutlined.default,
     CustomerServiceOutlined: _CustomerServiceOutlined.default,
     FileTextOutlined: _FileTextOutlined.default,
@@ -304366,7 +304517,9 @@ var _default = {
     UserSwitchOutlined: _UserSwitchOutlined.default,
     EyeOutlined: _EyeOutlined.default,
     CarOutlined: _CarOutlined.default,
-    TagsOutlined: _TagsOutlined.default
+    TagsOutlined: _TagsOutlined.default,
+    BulbOutlined: _BulbOutlined.default,
+    RocketOutlined: _RocketOutlined.default
 };
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
@@ -307943,6 +308096,7 @@ const routeToTitleMap = {
     '/dashboard/coordination': '大服务体系内协同',
     '/profiles/handover-implementation': '交接实施',
     '/profiles/handover/history': '历史交接查询',
+    '/profiles/customer-profile': '客户档案',
     '/profiles/service': '持续服务',
     '/profiles/renewal': '续约管理',
     '/profiles/recall': '召回孵化',
@@ -307964,6 +308118,10 @@ const routeToTitleMap = {
     '/ai-tools/prediction': '预测水晶球',
     '/ai-tools/avatar': '我的虚拟分身',
     '/ai-tools/tags': '智能标签在干活',
+    '/teaching-ai/dashboard': '运营看板',
+    '/teaching-ai/user-interaction': '用户互动管理',
+    '/teaching-ai/community': '学习社区运营',
+    '/teaching-ai/growth-strategy': '用户增长策略',
     '/user/login': '登录',
     '/user/register': '注册',
     '/user/register-result': '注册结果',
@@ -308049,14 +308207,14 @@ const TabBarWrapper = /*#__PURE__*/ _s(_react.default.memo(_c = _s(()=>{
     // 如果没有Tab，只显示NotificationBar
     if (tabs.length === 0) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_NotificationBar.default, {}, void 0, false, {
         fileName: "src/components/TabBar/TabBarWrapper.tsx",
-        lineNumber: 141,
+        lineNumber: 146,
         columnNumber: 12
     }, this);
     return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
         children: [
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_NotificationBar.default, {}, void 0, false, {
                 fileName: "src/components/TabBar/TabBarWrapper.tsx",
-                lineNumber: 146,
+                lineNumber: 151,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_index.default, {
@@ -308066,7 +308224,7 @@ const TabBarWrapper = /*#__PURE__*/ _s(_react.default.memo(_c = _s(()=>{
                 onTabClose: removeTab
             }, void 0, false, {
                 fileName: "src/components/TabBar/TabBarWrapper.tsx",
-                lineNumber: 147,
+                lineNumber: 152,
                 columnNumber: 7
             }, this)
         ]
@@ -308155,6 +308313,7 @@ const useStyles = (0, _antdstyle.createStyles)(({ token })=>({
         customTabs: {
             flex: 1,
             overflow: 'hidden',
+            maxWidth: 'calc(100% - 100px)',
             '& .ant-tabs-nav': {
                 margin: 0,
                 overflow: 'auto',
@@ -308189,8 +308348,10 @@ const useStyles = (0, _antdstyle.createStyles)(({ token })=>({
                 transition: 'none',
                 whiteSpace: 'nowrap',
                 minWidth: '80px',
-                maxWidth: 'none',
+                maxWidth: '200px',
                 flexShrink: 0,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
                 '&:hover': {
                     background: token.colorBgTextHover
                 }
@@ -308227,7 +308388,8 @@ const useStyles = (0, _antdstyle.createStyles)(({ token })=>({
                 display: 'flex',
                 alignItems: 'center',
                 minWidth: 'fit-content',
-                flexWrap: 'nowrap'
+                flexWrap: 'nowrap',
+                width: 'auto'
             }
         },
         tabCloseButton: {
@@ -308309,18 +308471,22 @@ const TabBar = /*#__PURE__*/ _s(_react.default.memo(_c = _s(({ tabs, activeKey, 
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     width: '100%',
-                    minWidth: '80px'
+                    minWidth: '80px',
+                    maxWidth: '200px' // 确保单个tab不会过宽
                 },
                 children: [
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                         style: {
                             flex: 1,
-                            textAlign: 'left'
+                            textAlign: 'left',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
                         },
                         children: tab.label
                     }, void 0, false, {
                         fileName: "src/components/TabBar/index.tsx",
-                        lineNumber: 207,
+                        lineNumber: 212,
                         columnNumber: 9
                     }, this),
                     tab.closable !== false && tabs.length > 1 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CloseOutlined, {
@@ -308335,13 +308501,13 @@ const TabBar = /*#__PURE__*/ _s(_react.default.memo(_c = _s(({ tabs, activeKey, 
                         }
                     }, void 0, false, {
                         fileName: "src/components/TabBar/index.tsx",
-                        lineNumber: 209,
+                        lineNumber: 220,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/TabBar/index.tsx",
-                lineNumber: 200,
+                lineNumber: 204,
                 columnNumber: 7
             }, this)
         }));
@@ -308362,7 +308528,7 @@ const TabBar = /*#__PURE__*/ _s(_react.default.memo(_c = _s(({ tabs, activeKey, 
                 }
             }, void 0, false, {
                 fileName: "src/components/TabBar/index.tsx",
-                lineNumber: 224,
+                lineNumber: 235,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -308372,14 +308538,14 @@ const TabBar = /*#__PURE__*/ _s(_react.default.memo(_c = _s(({ tabs, activeKey, 
                         type: "text",
                         icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
                             fileName: "src/components/TabBar/index.tsx",
-                            lineNumber: 239,
+                            lineNumber: 250,
                             columnNumber: 19
                         }, void 0),
                         onClick: onTabAdd,
                         size: "small"
                     }, void 0, false, {
                         fileName: "src/components/TabBar/index.tsx",
-                        lineNumber: 237,
+                        lineNumber: 248,
                         columnNumber: 11
                     }, this),
                     tabs.length > 1 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Dropdown, {
@@ -308394,29 +308560,29 @@ const TabBar = /*#__PURE__*/ _s(_react.default.memo(_c = _s(({ tabs, activeKey, 
                             className: styles.moreButton,
                             children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MoreOutlined, {}, void 0, false, {
                                 fileName: "src/components/TabBar/index.tsx",
-                                lineNumber: 251,
+                                lineNumber: 262,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/TabBar/index.tsx",
-                            lineNumber: 250,
+                            lineNumber: 261,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/TabBar/index.tsx",
-                        lineNumber: 245,
+                        lineNumber: 256,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/TabBar/index.tsx",
-                lineNumber: 235,
+                lineNumber: 246,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/components/TabBar/index.tsx",
-        lineNumber: 223,
+        lineNumber: 234,
         columnNumber: 5
     }, this);
 }, "n7eQnjcnrQhQavkPInMnrz7ffAY=", false, function() {
@@ -314306,8 +314472,8 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 }
 
 },
- };var chunksIdToUrlMap= {"p__CustomerSuccess__index":"p__CustomerSuccess__index-async.js","src/.umi/core/EmptyRoute.tsx":"src__umi_core_EmptyRoute_tsx-async.js","p__404":"p__404-async.js","p__handover__id__index":"p__handover__id__index-async.js","src/pages/profiles/service/renewal-management.tsx":"src_pages_profiles_service_renewal-management_tsx-async.js","p__profiles__service__RiskEventDetail":"p__profiles__service__RiskEventDetail-async.js","p__handover__new__index":"p__handover__new__index-async.js","p__profiles__service__ContinuousService":"p__profiles__service__ContinuousService-async.js","p__handover__HistoryHandover":"p__handover__HistoryHandover-async.js","p__handover__index":"p__handover__index-async.js","vendors":"vendors-async.js","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.js","p__profiles__service__ContinuousServiceDetail":"p__profiles__service__ContinuousServiceDetail-async.js","src/.umi/plugin-openapi/openapi.tsx":"src__umi_plugin-openapi_openapi_tsx-async.js","p__profiles__renewal__id__index":"p__profiles__renewal__id__index-async.js","p__agents__index":"p__agents__index-async.js","p__user__login__index":"p__user__login__index-async.js","common":"common-async.js"};
-var cssChunksIdToUrlMap= {"p__CustomerSuccess__index":"p__CustomerSuccess__index-async.css","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.css","vendors":"vendors-async.css","src/.umi/umi.ts?hmr":"umi.css"};
+ };var chunksIdToUrlMap= {"p__CustomerSuccess__index":"p__CustomerSuccess__index-async.js","src/.umi/core/EmptyRoute.tsx":"src__umi_core_EmptyRoute_tsx-async.js","src/.umi/plugin-openapi/openapi.tsx":"src__umi_plugin-openapi_openapi_tsx-async.js","p__handover__index":"p__handover__index-async.js","p__CustomerProfileList":"p__CustomerProfileList-async.js","p__profiles__service__RiskEventDetail":"p__profiles__service__RiskEventDetail-async.js","p__user__login__index":"p__user__login__index-async.js","p__handover__new__index":"p__handover__new__index-async.js","src/pages/profiles/service/renewal-management.tsx":"src_pages_profiles_service_renewal-management_tsx-async.js","p__profiles__renewal__id__index":"p__profiles__renewal__id__index-async.js","vendors":"vendors-async.js","p__handover__id__index":"p__handover__id__index-async.js","p__handover__HistoryHandover":"p__handover__HistoryHandover-async.js","p__profiles__service__ContinuousService":"p__profiles__service__ContinuousService-async.js","common":"common-async.js","p__agents__index":"p__agents__index-async.js","p__404":"p__404-async.js","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.js","p__profiles__service__ContinuousServiceDetail":"p__profiles__service__ContinuousServiceDetail-async.js"};
+var cssChunksIdToUrlMap= {"p__CustomerSuccess__index":"p__CustomerSuccess__index-async.css","vendors":"vendors-async.css","src/.umi/plugin-layout/Layout.tsx":"src__umi_plugin-layout_Layout_tsx-async.css","src/.umi/umi.ts?hmr":"umi.css"};
 var cssInstalledChunks = { "src/.umi/umi.ts?hmr" : 0 };
 var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId, global) {
 
@@ -314793,7 +314959,7 @@ var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId,
 'use strict';
 // mako/runtime/hmr plugin
 !(function () {
-  requireModule._h = '5000013018312320932';
+  requireModule._h = '3594474137229814737';
   requireModule.currentHash = function () {
     return requireModule._h;
   };
@@ -315052,7 +315218,7 @@ var e = "src/.umi/umi.ts?hmr";function createRuntime(makoModules, entryModuleId,
 
 
 (function(){
-  let map = {"src/.umi/core/EmptyRoute.tsx":["src/.umi/core/EmptyRoute.tsx"],"src/.umi/plugin-layout/Layout.tsx":["vendors","src/.umi/plugin-layout/Layout.tsx"],"src/.umi/plugin-openapi/openapi.tsx":["vendors","src/.umi/plugin-openapi/openapi.tsx"],"src/pages/404.tsx":["p__404"],"src/pages/CustomerSuccess/index.tsx":["vendors","common","p__CustomerSuccess__index"],"src/pages/agents/index.tsx":["p__agents__index"],"src/pages/handover/HistoryHandover.tsx":["common","p__handover__HistoryHandover"],"src/pages/handover/[id]/index.tsx":["common","p__handover__id__index"],"src/pages/handover/index.tsx":["common","p__handover__index"],"src/pages/handover/new/index.tsx":["p__handover__new__index"],"src/pages/profiles/renewal/[id]/index.tsx":["common","p__profiles__renewal__id__index"],"src/pages/profiles/service/ContinuousService.tsx":["common","p__profiles__service__ContinuousService"],"src/pages/profiles/service/ContinuousServiceDetail.tsx":["common","p__profiles__service__ContinuousServiceDetail"],"src/pages/profiles/service/RiskEventDetail.tsx":["common","p__profiles__service__RiskEventDetail"],"src/pages/profiles/service/renewal-management.tsx":["common","p__profiles__renewal__id__index"],"src/pages/user/login/index.tsx":["p__user__login__index"]};
+  let map = {"src/.umi/core/EmptyRoute.tsx":["src/.umi/core/EmptyRoute.tsx"],"src/.umi/plugin-layout/Layout.tsx":["vendors","src/.umi/plugin-layout/Layout.tsx"],"src/.umi/plugin-openapi/openapi.tsx":["vendors","src/.umi/plugin-openapi/openapi.tsx"],"src/pages/404.tsx":["p__404"],"src/pages/CustomerProfileList.tsx":["p__CustomerProfileList"],"src/pages/CustomerSuccess/index.tsx":["vendors","common","p__CustomerSuccess__index"],"src/pages/agents/index.tsx":["p__agents__index"],"src/pages/handover/HistoryHandover.tsx":["common","p__handover__HistoryHandover"],"src/pages/handover/[id]/index.tsx":["common","p__handover__id__index"],"src/pages/handover/index.tsx":["common","p__handover__index"],"src/pages/handover/new/index.tsx":["p__handover__new__index"],"src/pages/profiles/renewal/[id]/index.tsx":["common","p__profiles__renewal__id__index"],"src/pages/profiles/service/ContinuousService.tsx":["common","p__profiles__service__ContinuousService"],"src/pages/profiles/service/ContinuousServiceDetail.tsx":["common","p__profiles__service__ContinuousServiceDetail"],"src/pages/profiles/service/RiskEventDetail.tsx":["common","p__profiles__service__RiskEventDetail"],"src/pages/profiles/service/renewal-management.tsx":["common","src/pages/profiles/service/renewal-management.tsx"],"src/pages/user/login/index.tsx":["p__user__login__index"]};
   requireModule.updateEnsure2Map = function(newMapping) {
     map = newMapping;
   };

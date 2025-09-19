@@ -13,7 +13,8 @@ import {
   Tabs,
   Descriptions,
   Progress,
-  Statistic
+  Statistic,
+  Timeline
 } from 'antd';
 import {
   UserOutlined,
@@ -22,14 +23,15 @@ import {
   TrophyOutlined,
   ShareAltOutlined,
   FileTextOutlined,
-  AppstoreOutlined
+  AppstoreOutlined,
+  EyeOutlined
 } from '@ant-design/icons';
 import { useNavigate, useParams, useLocation } from 'umi';
-import { mockRenewalCustomers } from '../../service/renewal-management';
-import { Customer } from '../../../../types/continuousService';
-import { RenewalCustomer } from '../../service/renewal-management';
-import { getPlatformType } from '../../../../mock/continuousServiceData';
+import { renewalCustomers, RenewalCustomer } from '../../../../mock/renewalData';
 import RenewalDetailHeader from '../../../../components/renewal/RenewalDetailHeader';
+import CustomerProfileTab from '../../../../components/common/CustomerProfileTab';
+import ServiceRecordTab from '../../../../components/common/ServiceRecordTab';
+import ServiceRecordAdapter from '../../../../utils/serviceRecordAdapter';
 
 const { Title, Text } = Typography;
 
@@ -71,11 +73,20 @@ const RenewalDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   
-  const [renewalData, setRenewalData] = useState<RenewalCustomer | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('profile');
 
+  // 根据客户ID查找续约数据（ID格式：0001 -> CUST-0001）
+  const customerId = `CUST-${id?.padStart(4, '0')}`;
+  const renewalData = renewalCustomers.find(c => c.id === customerId);
+  console.log('续约详情页 - 查找客户ID:', customerId, '找到的数据:', renewalData);
 
+  // 获取服务记录数据
+  const [serviceRecords, setServiceRecords] = useState(() => {
+    if (renewalData) {
+      return ServiceRecordAdapter.getServiceRecordsByName(renewalData.name);
+    }
+    return [];
+  });
 
   // 从URL参数获取默认标签页
   useEffect(() => {
@@ -86,38 +97,29 @@ const RenewalDetailPage: React.FC = () => {
     }
   }, [location.search]);
 
-  // 加载数据
+  // 检查客户是否存在
   useEffect(() => {
-    const loadData = async () => {
-      if (!id) {
-        message.error('客户ID不能为空');
-        navigate('/profiles/renewal');
-        return;
-      }
+    if (!id) {
+      message.error('客户ID不能为空');
+      navigate('/profiles/renewal');
+      return;
+    }
 
-      try {
-        setLoading(true);
-        // 模拟API调用
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        const customer = mockRenewalCustomers.find((c: RenewalCustomer) => c.id === id);
-        if (!customer) {
-          message.error('客户不存在');
-          navigate('/profiles/renewal');
-          return;
-        }
-        
-        setRenewalData(customer);
-      } catch (error) {
-        console.error('加载客户数据失败:', error);
-        message.error('加载客户数据失败');
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!renewalData) {
+      message.error('客户不存在');
+      navigate('/profiles/renewal');
+      return;
+    }
+  }, [id, renewalData, navigate]);
 
-    loadData();
-  }, [id, navigate]);
+  // 处理新增服务记录
+  const handleAddServiceRecord = (record: any) => {
+    if (renewalData) {
+      ServiceRecordAdapter.addServiceRecord(renewalData.id, record);
+      // 更新本地状态
+      setServiceRecords(ServiceRecordAdapter.getServiceRecordsByName(renewalData.name));
+    }
+  };
 
   // 处理返回
   const handleBack = () => {
@@ -151,14 +153,6 @@ const RenewalDetailPage: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div style={{ padding: '24px', textAlign: 'center' }}>
-        <Text>加载中...</Text>
-      </div>
-    );
-  }
-
   if (!renewalData) {
     return (
       <div style={{ padding: '24px', textAlign: 'center' }}>
@@ -167,7 +161,7 @@ const RenewalDetailPage: React.FC = () => {
     );
   }
 
-  // 概览标签页内容
+  // 客户档案标签页内容（原概览标签页）
   const OverviewTab = () => (
     <div style={{ padding: '24px' }}>
       <Row gutter={[24, 24]}>
@@ -175,12 +169,12 @@ const RenewalDetailPage: React.FC = () => {
         <Col span={24}>
           <Card title="基本信息" size="small">
             <Descriptions column={2} size="small">
-              <Descriptions.Item label="客户名称">{renewalData.customerName}</Descriptions.Item>
+              <Descriptions.Item label="客户名称">{renewalData.name}</Descriptions.Item>
               <Descriptions.Item label="客户编号">{renewalData.id}</Descriptions.Item>
-              <Descriptions.Item label="合同到期时间">{renewalData.contractExpiryDate}</Descriptions.Item>
+              <Descriptions.Item label="合同到期时间">{renewalData.contractEndDate}</Descriptions.Item>
               <Descriptions.Item label="续约状态">
-                <Tag color={getRenewalStatusColor(renewalData.renewalStatus)}>
-                  {renewalData.renewalStatus}
+                <Tag color={getRenewalStatusColor(renewalData.renewalStage)}>
+                  {renewalData.renewalStage}
                 </Tag>
               </Descriptions.Item>
               <Descriptions.Item label="健康度评分">
@@ -255,91 +249,177 @@ const RenewalDetailPage: React.FC = () => {
   );
 
   // 合同信息标签页内容
-  const ContractTab = () => (
-    <div style={{ padding: '24px' }}>
-      <Card title="合同详情" size="small">
-        <Descriptions column={2} size="small">
-          <Descriptions.Item label="当前合同金额">¥{renewalData.arr.toLocaleString()}</Descriptions.Item>
-          <Descriptions.Item label="合同开始时间">2023-01-01</Descriptions.Item>
-          <Descriptions.Item label="合同到期时间">{renewalData.contractExpiryDate}</Descriptions.Item>
-          <Descriptions.Item label="付款方式">年付</Descriptions.Item>
-          <Descriptions.Item label="服务等级">标准版</Descriptions.Item>
-          <Descriptions.Item label="用户数量">100人</Descriptions.Item>
-          <Descriptions.Item label="存储空间">1TB</Descriptions.Item>
-          <Descriptions.Item label="技术支持">工作日 9:00-18:00</Descriptions.Item>
-        </Descriptions>
-      </Card>
-    </div>
-  );
+  const ContractTab = () => {
+    // 模拟合同数据，包含当期续约合同和历史合同
+    const contractData = [
+      {
+        id: 'current',
+        contractNumber: `CONT-2024-${renewalData.id.slice(-3)}`,
+        status: 'active',
+        amount: renewalData.arr,
+        startDate: '2024-01-01',
+        endDate: renewalData.contractEndDate,
+        servicePeriod: '2024-01-01 至 ' + renewalData.contractEndDate,
+        purchasedProducts: ['企微版', 'AI助手'],
+        accountCount: 100,
+        userVersion: '100人版',
+        ticketVersion: 'V2.1',
+        ticketTime: '2024-01-15',
+        tianyuanOrderStatus: 'active',
+        tianyuanOrderId: 'TY-2024-001',
+        contractPlatform: '天元合同平台',
+        signerName: '张经理',
+        signerContact: '13800138000',
+        userType: '采购账号数量',
+        attachments: [
+          {
+            id: 'att_001',
+            name: '续约合同.pdf',
+            type: 'contract',
+            url: '/attachments/renewal-contract.pdf',
+            size: 2048576,
+            uploadDate: '2024-01-01'
+          }
+        ]
+      },
+      {
+        id: 'history_1',
+        contractNumber: `CONT-2023-${renewalData.id.slice(-3)}`,
+        status: 'expired',
+        amount: renewalData.arr * 0.8,
+        startDate: '2023-01-01',
+        endDate: '2023-12-31',
+        servicePeriod: '2023-01-01 至 2023-12-31',
+        purchasedProducts: ['企微版'],
+        accountCount: 80,
+        userVersion: '80人版',
+        ticketVersion: 'V2.0',
+        ticketTime: '2023-01-10',
+        tianyuanOrderStatus: 'inactive',
+        tianyuanOrderId: 'TY-2023-001',
+        contractPlatform: '天元合同平台',
+        signerName: '李经理',
+        signerContact: '13900139000',
+        userType: '采购账号数量',
+        attachments: []
+      }
+    ];
 
-  // 使用情况标签页内容
-  const UsageTab = () => (
-    <div style={{ padding: '24px' }}>
-      <Row gutter={[24, 24]}>
-        <Col span={12}>
-          <Card title="使用统计" size="small">
-            <div style={{ padding: '16px 0' }}>
-              <Row gutter={[16, 16]}>
-                <Col span={12}>
-                  <Statistic title="月活跃用户" value={75} suffix="/ 100" />
-                </Col>
-                <Col span={12}>
-                  <Statistic title="日均登录" value={45} suffix="人" />
-                </Col>
-                <Col span={12}>
-                  <Statistic title="功能使用率" value={68} suffix="%" />
-                </Col>
-                <Col span={12}>
-                  <Statistic title="存储使用" value={650} suffix="/ 1024 GB" />
-                </Col>
-              </Row>
-            </div>
-          </Card>
-        </Col>
-        <Col span={12}>
-          <Card title="使用趋势" size="small">
-            <div style={{ padding: '16px 0', textAlign: 'center' }}>
-              <Text type="secondary">使用趋势图表</Text>
-              <div style={{ height: '200px', background: '#f5f5f5', marginTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Text type="secondary">图表占位符</Text>
-              </div>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-    </div>
-  );
+    const getContractStatusConfig = (status: string) => {
+      const configs: Record<string, { color: string; text: string }> = {
+        'active': { color: '#52c41a', text: '生效中' },
+        'expired': { color: '#fa8c16', text: '已到期' },
+        'terminated': { color: '#f5222d', text: '已终止' }
+      };
+      return configs[status] || { color: '#8c8c8c', text: '未知' };
+    };
 
-  // 沟通记录标签页内容
-  const CommunicationTab = () => (
-    <div style={{ padding: '24px' }}>
-      <Card title="最近沟通记录" size="small">
-        <div style={{ padding: '16px 0' }}>
-          <div style={{ marginBottom: '16px', padding: '12px', background: '#f9f9f9', borderRadius: '6px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <Text strong>续约意向确认</Text>
-              <Text type="secondary">2024-01-15</Text>
-            </div>
-            <Text>与客户CTO沟通，确认续约意向积极，但需要调整服务等级。</Text>
-          </div>
-          <div style={{ marginBottom: '16px', padding: '12px', background: '#f9f9f9', borderRadius: '6px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <Text strong>商务条款讨论</Text>
-              <Text type="secondary">2024-01-10</Text>
-            </div>
-            <Text>讨论新合同的商务条款，客户希望获得更多折扣。</Text>
-          </div>
-          <div style={{ marginBottom: '16px', padding: '12px', background: '#f9f9f9', borderRadius: '6px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <Text strong>产品培训</Text>
-              <Text type="secondary">2024-01-05</Text>
-            </div>
-            <Text>为客户团队提供新功能培训，提升产品使用率。</Text>
-          </div>
+    return (
+      <div style={{ padding: '8px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <Text type="secondary" style={{ fontSize: '14px' }}>
+            共 {contractData.length} 份合同（当期续约合同和过往全部合同）
+          </Text>
         </div>
-      </Card>
-    </div>
-  );
+        <Timeline
+          style={{ padding: '16px 0' }}
+          items={contractData.map((contract, index) => {
+            const statusConfig = getContractStatusConfig(contract.status);
+            
+            return {
+              color: statusConfig.color,
+              dot: <DollarOutlined />,
+              children: (
+                <div style={{ 
+                  padding: '16px', 
+                  background: '#f8f9fa', 
+                  borderRadius: '8px',
+                  border: '1px solid #e8e8e8'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                      <Tag color={statusConfig.color} style={{ marginRight: '8px' }}>
+                        {statusConfig.text}
+                      </Tag>
+                      <Text strong style={{ fontSize: '14px' }}>
+                        {contract.contractNumber}
+                      </Text>
+                      {index === 0 && (
+                        <Tag color="blue" style={{ marginLeft: '8px' }}>
+                          当期续约
+                        </Tag>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Text type="secondary" style={{ fontSize: '12px' }}>
+                        {contract.startDate} - {contract.endDate}
+                      </Text>
+                    </div>
+                  </div>
+                  
+                  <div style={{ marginBottom: '12px' }}>
+                    <Text strong>合同金额：</Text>
+                    <Text style={{ color: '#1890ff', fontWeight: '600' }}>
+                      ¥{contract.amount?.toLocaleString() || '0'}
+                    </Text>
+                  </div>
+                  
+                  <div style={{ marginBottom: '8px' }}>
+                    <Text strong>购买产品：</Text>
+                    <div style={{ marginTop: '4px' }}>
+                      {contract.purchasedProducts?.map((product: string, idx: number) => (
+                        <Tag key={idx} style={{ marginBottom: '4px' }}>
+                          {product}
+                        </Tag>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div style={{ marginBottom: '8px' }}>
+                    <Text strong>天元下单版本：</Text>
+                    <Text>{contract.ticketVersion} </Text>
+                    <Text strong style={{ marginLeft: '16px' }}>天元提单到期时间：</Text>
+                    <Text>{contract.ticketTime}</Text>
+                  </div>
+
+                  <div style={{ marginBottom: '8px' }}>
+                    <Text strong>合同签约平台：</Text>
+                    <Text>{contract.contractPlatform} </Text>
+                    <Text strong style={{ marginLeft: '16px' }}>客户侧合同签约人：</Text>
+                    <Text>{contract.signerName}（{contract.signerContact}）</Text>
+                  </div>
+
+                  <div style={{ marginBottom: '8px' }}>
+                    <Text strong>用户数量：</Text>
+                    <Text>{contract.accountCount}个（{contract.userType}）</Text>
+                  </div>
+                  
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                    <div>
+                      <Text strong>服务周期：</Text>
+                      <Text> {contract.servicePeriod}</Text>
+                    </div>
+                    {contract.attachments && contract.attachments.length > 0 && (
+                      <Button
+                        type="primary"
+                        size="small"
+                        icon={<EyeOutlined />}
+                        onClick={() => message.info('查看附件功能开发中')}
+                      >
+                        查看附件({contract.attachments.length})
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              )
+            };
+          })}
+        />
+      </div>
+    );
+  };
+
+
 
   return (
     <>
@@ -357,14 +437,14 @@ const RenewalDetailPage: React.FC = () => {
           <RenewalDetailHeader 
              customerData={{
                id: renewalData.id,
-               name: renewalData.customerName,
+               name: renewalData.name,
                contractNumber: `CONT-2023-${renewalData.id.slice(-3)}`,
                healthScore: renewalData.healthScore,
                renewalAmount: renewalData.arr,
-               expiryDate: renewalData.contractExpiryDate,
-               status: renewalData.status === '流失风险' ? 'at_risk' : 
-                      renewalData.status === '意向明确' ? 'active' : 
-                      renewalData.status === '谈判中' ? 'negotiating' : 'pending'
+               expiryDate: renewalData.contractEndDate,
+               status: renewalData.renewalStage === '已流失' ? 'at_risk' : 
+                      renewalData.renewalStage === '已完成' ? 'active' : 
+                      renewalData.renewalStage === '商务谈判' ? 'negotiating' : 'pending'
              }}
              onBack={handleBack}
              onEdit={() => message.info('编辑功能开发中')}
@@ -381,28 +461,82 @@ const RenewalDetailPage: React.FC = () => {
           <Tabs
             activeKey={activeTab}
             onChange={setActiveTab}
-            style={{ margin: 0 }}
-            tabBarStyle={tabStyles.tabBar}
+            size="middle"
+            type="line"
+            style={{ height: '100%' }}
+            tabBarStyle={{
+              margin: 0,
+              backgroundColor: '#fff',
+              borderBottom: '1px solid #f0f0f0',
+              padding: '0px 24px 0 24px',
+              minHeight: '48px'
+            }}
             items={[
               {
-                key: 'overview',
-                label: '概览',
-                children: <OverviewTab />
+                key: 'profile',
+                label: (
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
+                    <UserOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
+                    <span style={{ color: '#8c8c8c', fontSize: '14px' }}>客户档案</span>
+                  </div>
+                ),
+                children: (
+                  <CustomerProfileTab 
+                    customer={renewalData}
+                    lifecycle="renewal"
+                    onEditContract={() => message.info('编辑合同功能开发中')}
+                    onEditContacts={() => message.info('编辑联系人功能开发中')}
+                  />
+                ),
               },
               {
                 key: 'contract',
-                label: '合同信息',
+                label: (
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
+                    <FileTextOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
+                    <span style={{ color: '#8c8c8c', fontSize: '14px' }}>往期合同</span>
+                  </div>
+                ),
                 children: <ContractTab />
               },
               {
-                key: 'usage',
-                label: '使用情况',
-                children: <UsageTab />
+                key: 'service',
+                label: (
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
+                    <AppstoreOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
+                    <span style={{ color: '#8c8c8c', fontSize: '14px' }}>服务记录</span>
+                  </div>
+                ),
+                children: (
+                  <ServiceRecordTab
+                    serviceRecords={serviceRecords}
+                    onAddRecord={handleAddServiceRecord}
+                    showAddButton={true}
+                    tabTitle="服务记录"
+                  />
+                )
               },
               {
                 key: 'communication',
-                label: '沟通记录',
-                children: <CommunicationTab />
+                label: (
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
+                    <ShareAltOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
+                    <span style={{ color: '#8c8c8c', fontSize: '14px' }}>沟通记录</span>
+                  </div>
+                ),
+                children: (
+                  <ServiceRecordTab
+                    serviceRecords={serviceRecords.filter(record => 
+                      ['商务沟通', '电话回访', 'QBR'].includes(record.type) ||
+                      (record.tags && record.tags.some(tag => 
+                        ['续约沟通', '续约意向', '商务谈判', '合同讨论'].some(renewalTag => tag.includes(renewalTag))
+                      ))
+                    )}
+                    onAddRecord={handleAddServiceRecord}
+                    showAddButton={true}
+                    tabTitle="沟通记录"
+                  />
+                )
               }
             ]}
           />

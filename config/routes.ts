@@ -43,24 +43,28 @@ export default [
         name: '客户分层盘点',
         icon: 'group',
         component: './CustomerSuccess',
+        hideInMenu: true,
       },
       {
         path: '/dashboard/focus',
         name: '近期客户关注重点',
         icon: 'trophy',
         component: './CustomerSuccess',
+        hideInMenu: true,
       },
       {
         path: '/dashboard/competition',
         name: '客成部门大比武',
         icon: 'trophy',
         component: './CustomerSuccess',
+        hideInMenu: true,
       },
       {
         path: '/dashboard/coordination',
         name: '大服务体系内协同',
         icon: 'team',
         component: './CustomerSuccess',
+        hideInMenu: true,
       },
     ],
   },
@@ -72,6 +76,12 @@ export default [
       {
         path: '/profiles',
         redirect: '/profiles/handover-implementation',
+      },
+      {
+        path: '/profiles/customer-profile',
+        name: '客户档案',
+        icon: 'profile',
+        component: './CustomerProfileList',
       },
       {
         path: '/profiles/handover-implementation',
@@ -137,6 +147,7 @@ export default [
         name: '流失归因',
         icon: 'lineChart',
         component: './CustomerSuccess',
+        hideInMenu: true,
       },
     ],
   },
@@ -144,6 +155,7 @@ export default [
     path: '/revenue',
     name: '增收服务推进',
     icon: 'message',
+    hideInMenu: true,
     routes: [
       {
         path: '/revenue',
@@ -191,6 +203,7 @@ export default [
     path: '/resources',
     name: '共享方案资料包',
     icon: 'shareAlt',
+    hideInMenu: true,
     routes: [
       {
         path: '/resources',
@@ -226,6 +239,7 @@ export default [
     path: '/ai-tools',
     name: 'AI智能工具箱',
     icon: 'robot',
+    hideInMenu: true,
     routes: [
       {
         path: '/ai-tools',
@@ -288,6 +302,41 @@ export default [
         path: '/ai-tools/tags',
         name: '智能标签在干活',
         icon: 'tags',
+        component: './CustomerSuccess',
+      },
+    ],
+  },
+  {
+    path: '/teaching-ai',
+    name: '授客AI用户运营',
+    icon: 'bulb',
+    routes: [
+      {
+        path: '/teaching-ai',
+        redirect: '/teaching-ai/dashboard',
+      },
+      {
+        path: '/teaching-ai/dashboard',
+        name: '运营看板',
+        icon: 'dashboard',
+        component: './CustomerSuccess',
+      },
+      {
+        path: '/teaching-ai/user-interaction',
+        name: '用户互动管理',
+        icon: 'message',
+        component: './CustomerSuccess',
+      },
+      {
+        path: '/teaching-ai/community',
+        name: '学习社区运营',
+        icon: 'team',
+        component: './CustomerSuccess',
+      },
+      {
+        path: '/teaching-ai/growth-strategy',
+        name: '用户增长策略',
+        icon: 'rocketOutlined',
         component: './CustomerSuccess',
       },
     ],

@@ -159,8 +159,10 @@ const HandoverDetailPage: React.FC = () => {
       try {
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        const data = mockCustomerHandovers.find(item => item.id === id);
-        console.log('找到的数据:', data);
+        // 根据客户ID查找交接记录（ID格式：0001 -> CUST-0001）
+        const customerId = `CUST-${id?.padStart(4, '0')}`;
+        const data = mockCustomerHandovers.find(item => item.customerId === customerId);
+        console.log('查找客户ID:', customerId, '找到的数据:', data);
         if (data) {
           setHandoverData(data);
           setOnboardingTasks(data.onboardingTasks || mockOnboardingTasks);

@@ -116,6 +116,12 @@ const SMART_RECOMMENDATIONS = [
     customer: '美团',
     reason: '商务谈判进展良好',
     priority: 'medium'
+  },
+  {
+    id: '4',
+    customer: '腾讯科技',
+    reason: '续约意向积极，可加快推进',
+    priority: 'medium'
   }
 ];
 
@@ -327,20 +333,26 @@ const CustomerCard: React.FC<CustomerCardProps> = ({ customer, onCardClick, onMo
         style={{
           borderLeft: `4px solid ${customer.churnReasonColor}`,
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          height: '60px', // 固定高度，扁平样式
         }}
+        bodyStyle={{ padding: '8px 12px', height: '100%' }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{customer.name}</div>
-            <Tag color={churnReasonConfig?.color}>
-              {churnReasonConfig?.label}
-            </Tag>
-            <div style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
-              <div>ARR: ¥{customer.preChurnARR.toLocaleString()}</div>
-              <div>流失: {customer.churnedDays}天</div>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          height: '100%'
+        }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{customer.name}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: '#666' }}>
+              <span>ARR: ¥{customer.preChurnARR.toLocaleString()}</span>
+              <span>流失: {customer.churnedDays}天</span>
             </div>
           </div>
-          <Avatar size="small" icon={<UserOutlined />} />
+          <Tag color={churnReasonConfig?.color} style={{ margin: 0 }}>
+            {churnReasonConfig?.label}
+          </Tag>
         </div>
       </Card>
     </div>
@@ -478,7 +490,7 @@ const SwimLane: React.FC<SwimLaneProps> = ({ lane, customers, onCardClick, onMov
         marginBottom: '12px',
         flexShrink: 0, // 防止标题被压缩
       }}>
-        <Title level={5} style={{ margin: 0, color: lane.color }}>
+        <Title level={4} style={{ margin: 0, color: lane.color }}>
           {lane.title}
         </Title>
         <AnimatedCountTag color={lane.color} count={customers.length} />
@@ -693,7 +705,7 @@ const RecallIncubationWorkbench: React.FC = () => {
             marginBottom: '24px'
           }}
         >
-          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             {SMART_RECOMMENDATIONS.filter(rec => rec.customer !== '阿里巴巴集团').map(rec => (
               <div 
                 key={rec.id}
@@ -795,7 +807,7 @@ const RecallIncubationWorkbench: React.FC = () => {
               <div>
                 {/* 第一行：流失客户池 -> 待召回 -> 孵化中 */}
                 <Row gutter={16} style={{ marginBottom: 24 }}>
-                  <Col span={7}>
+                  <Col span={8}>
                     <SwimLane
                       lane={SWIM_LANES[0]}
                       customers={customersByStage[SWIM_LANES[0].key] || []}
@@ -805,10 +817,7 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[0].key)}
                     />
                   </Col>
-                  <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
-                    <ArrowRightOutlined style={{ fontSize: 20, color: '#1890ff' }} />
-                  </Col>
-                  <Col span={7}>
+                  <Col span={8}>
                     <SwimLane
                       lane={SWIM_LANES[1]}
                       customers={customersByStage[SWIM_LANES[1].key] || []}
@@ -818,10 +827,7 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[1].key)}
                     />
                   </Col>
-                  <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
-                    <ArrowRightOutlined style={{ fontSize: 20, color: '#1890ff' }} />
-                  </Col>
-                  <Col span={7}>
+                  <Col span={8}>
                     <SwimLane
                       lane={SWIM_LANES[2]}
                       customers={customersByStage[SWIM_LANES[2].key] || []}
@@ -840,7 +846,7 @@ const RecallIncubationWorkbench: React.FC = () => {
                 
                 {/* 第二行：商务谈判 -> 已召回 -> 永久流失 */}
                 <Row gutter={16}>
-                  <Col span={7}>
+                  <Col span={8}>
                     <SwimLane
                       lane={SWIM_LANES[3]}
                       customers={customersByStage[SWIM_LANES[3].key] || []}
@@ -850,10 +856,7 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[3].key)}
                     />
                   </Col>
-                  <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
-                    <ArrowRightOutlined style={{ fontSize: 20, color: '#52c41a' }} />
-                  </Col>
-                  <Col span={7}>
+                  <Col span={8}>
                     <SwimLane
                       lane={SWIM_LANES[4]}
                       customers={customersByStage[SWIM_LANES[4].key] || []}
@@ -863,10 +866,7 @@ const RecallIncubationWorkbench: React.FC = () => {
                       onLoadMore={() => loadMoreCustomers(SWIM_LANES[4].key)}
                     />
                   </Col>
-                  <Col span={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 40 }}>
-                    <ArrowRightOutlined style={{ fontSize: 20, color: '#ff4d4f' }} />
-                  </Col>
-                  <Col span={7}>
+                  <Col span={8}>
                     <SwimLane
                       lane={SWIM_LANES[5]}
                       customers={customersByStage[SWIM_LANES[5].key] || []}

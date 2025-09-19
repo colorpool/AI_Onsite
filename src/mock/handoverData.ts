@@ -1,6 +1,40 @@
 import { CustomerHandover, CRMSyncData, Stakeholder, OnboardingTask, InternalComment, HandoverStatus } from '../types/handover';
 import { mockContracts, getPlatformType } from './continuousServiceData';
 
+// 交接实施阶段客户类型定义
+export interface Customer {
+  id: string;
+  name: string;
+  industry: string;
+  size: 'small' | 'medium' | 'large' | 'xlarge';
+  csm: string;
+  region: string;
+  arr: number;
+  healthScore: number;
+  healthLevel: '健康' | '一般' | '风险';
+  lifecycleStage: '成长期';
+  tier: 'S' | 'A' | 'B' | 'C';
+  signDate: string;
+  tags: string[];
+  collaborationEvents: number;
+  channelType: 'direct' | 'partner' | 'reseller';
+  isKeyAccount: boolean;
+  isInRenewalWindow: boolean;
+  visits90Days: number;
+  revenue90Days: number;
+  insights: Array<{
+    id: string;
+    content: string;
+    date: string;
+    type: string;
+  }>;
+  nextAction: {
+    content: string;
+    dueDate: string;
+    overdue: boolean;
+  };
+}
+
 // 根据平台类型获取已购产品
 function getPurchasedProductsByPlatform(customerId: string): string[] {
   const platformType = getPlatformType(customerId);
@@ -122,6 +156,146 @@ export const mockInternalComments: InternalComment[] = [
   }
 ];
 
+// 模拟客户数据 - 交接实施阶段专用 (使用HANDOVER-前缀)
+export const mockCustomers: Customer[] = [
+  {
+    id: 'CUST-0001',
+    name: '北京科技创新有限公司',
+    industry: '科技',
+    size: 'large',
+    csm: '张明',
+    region: '华北',
+    arr: 1200000,
+    healthScore: 92,
+    healthLevel: '健康',
+    lifecycleStage: '成长期',
+    tier: 'S',
+    signDate: '2023-03-15',
+    tags: ['重点客户', '技术驱动'],
+    collaborationEvents: 15,
+    channelType: 'direct',
+    isKeyAccount: true,
+    isInRenewalWindow: false,
+    visits90Days: 12,
+    revenue90Days: 300000,
+    insights: [
+      {
+        id: 'insight-001',
+        content: '客户对新功能使用率较高，建议加强培训支持',
+        date: '2024-01-15',
+        type: 'usage'
+      }
+    ],
+    nextAction: {
+      content: '准备季度业务回顾会议',
+      dueDate: '2024-02-01',
+      overdue: false
+    }
+  },
+  {
+    id: 'CUST-0002',
+    name: '武汉智能制造有限公司',
+    industry: '制造业',
+    size: 'large',
+    csm: '李明',
+    region: '华中',
+    arr: 800000,
+    healthScore: 90,
+    healthLevel: '健康',
+    lifecycleStage: '成长期',
+    tier: 'S',
+    signDate: '2024-01-10',
+    tags: ['制造业', '智能化', '重点客户'],
+    collaborationEvents: 5,
+    channelType: 'direct',
+    isKeyAccount: true,
+    isInRenewalWindow: false,
+    visits90Days: 8,
+    revenue90Days: 200000,
+    insights: [
+      {
+        id: 'insight_h002_001',
+        content: '客户对智能制造解决方案非常感兴趣',
+        date: '2024-01-12',
+        type: 'positive'
+      }
+    ],
+    nextAction: {
+      content: '安排制造业专家进行深度培训',
+      dueDate: '2024-01-28',
+      overdue: false
+    }
+  },
+  {
+    id: 'CUST-0003',
+    name: '天津教育科技集团',
+    industry: '教育',
+    size: 'large',
+    csm: '王芳',
+    region: '华北',
+    arr: 600000,
+    healthScore: 80,
+    healthLevel: '健康',
+    lifecycleStage: '成长期',
+    tier: 'A',
+    signDate: '2024-01-08',
+    tags: ['教育行业', '集团客户', '多校区'],
+    collaborationEvents: 4,
+    channelType: 'partner',
+    isKeyAccount: true,
+    isInRenewalWindow: false,
+    visits90Days: 6,
+    revenue90Days: 150000,
+    insights: [
+      {
+        id: 'insight_h003_001',
+        content: '多校区部署需要统一的管理平台',
+        date: '2024-01-09',
+        type: 'requirement'
+      }
+    ],
+    nextAction: {
+      content: '制定多校区部署方案',
+      dueDate: '2024-01-30',
+      overdue: false
+    }
+  },
+  {
+    id: 'CUST-0010',
+    name: '西安航空航天有限公司',
+    industry: '航空航天',
+    size: 'xlarge',
+    csm: '郑涛',
+    region: '西北',
+    arr: 1100000,
+    healthScore: 76,
+    healthLevel: '健康',
+    lifecycleStage: '成长期',
+    tier: 'S',
+    signDate: '2024-01-08',
+    tags: ['航空航天', '军工', '重点客户'],
+    collaborationEvents: 3,
+    channelType: 'direct',
+    isKeyAccount: true,
+    isInRenewalWindow: false,
+    visits90Days: 4,
+    revenue90Days: 275000,
+    insights: [
+      {
+        id: 'insight_h010_001',
+        content: '客户对系统安全性要求极高，需要定制化配置',
+        date: '2024-01-10',
+        type: 'requirement'
+      }
+    ],
+    nextAction: {
+      content: '安排安全合规专家评估',
+      dueDate: '2024-02-05',
+      overdue: false
+    }
+  }
+];
+
 // 模拟客户交接列表数据
 export const mockCustomerHandovers: CustomerHandover[] = [
   {
@@ -131,7 +305,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     contractId: 'contract_001',
     contractNumber: 'CONT-2024-001',
     customerName: '北京科技有限公司',
-    handoverStatus: 'normal',
+    handoverStatus: 'implementation_in_progress',
     riskLevel: 'low',
     hasHandoverDocument: true,
     hasRiskAlert: false,
@@ -162,7 +336,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     contractId: 'contract_003',
     contractNumber: 'CONT-2023-045',
     customerName: '上海智能科技有限公司',
-    handoverStatus: 'not_handover',
+    handoverStatus: 'pending_handover',
     riskLevel: 'medium',
     hasHandoverDocument: false,
     hasRiskAlert: true,
@@ -217,7 +391,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     contractId: 'contract_004',
     contractNumber: 'CONT-2022-008',
     customerName: '深圳创新科技有限公司',
-    handoverStatus: 'risk',
+    handoverStatus: 'handover_in_progress',
     riskLevel: 'high',
     hasHandoverDocument: true,
     hasRiskAlert: true,
@@ -283,7 +457,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     contractId: 'contract_007',
     contractNumber: 'CONT-2023-089',
     customerName: '杭州互联网科技有限公司',
-    handoverStatus: 'normal',
+    handoverStatus: 'pending_implementation',
     riskLevel: 'low',
     hasHandoverDocument: true,
     hasRiskAlert: false,
@@ -334,7 +508,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     contractId: 'contract_009',
     contractNumber: 'CONT-2024-010',
     customerName: '成都软件开发有限公司',
-    handoverStatus: 'not_handover',
+    handoverStatus: 'pending_handover',
     riskLevel: 'medium',
     hasHandoverDocument: false,
     hasRiskAlert: true,
@@ -381,11 +555,71 @@ export const mockCustomerHandovers: CustomerHandover[] = [
   {
     id: '6',
     handoverNumber: 'HO-2024-006',
+    customerId: 'CUST-0010',
+    contractId: 'contract_010',
+    contractNumber: 'CONT-2024-015',
+    customerName: '西安航空航天有限公司',
+    handoverStatus: 'implementation_in_progress',
+    riskLevel: 'low',
+    hasHandoverDocument: true,
+    hasRiskAlert: false,
+    stakeholderCount: 6,
+    expectationAlignment: 'aligned',
+    handoverRating: 4.3,
+    handoverComment: '客户技术实力强，配合度高',
+    createdAt: '2024-01-08 13:20:00',
+    updatedAt: '2024-01-25 12:45:00',
+    salesCreatedAt: '2024-01-05 16:30:00',
+    crmData: {
+      ...mockCRMSyncData,
+      contractAmount: 1100000,
+      accountCount: 120,
+      salesSource: 'direct',
+      salesPerson: '郑销售',
+      purchasedProducts: getPurchasedProductsByPlatform('CUST-0010')
+    },
+    stakeholders: [
+      {
+        id: '16',
+        name: '张航空',
+        position: '技术总监',
+        role: 'decision_maker',
+        contact: 'zhanghangkong@xaero.com',
+        status: 'active'
+      },
+      {
+        id: '17',
+        name: '李航天',
+        position: '项目经理',
+        role: 'user',
+        contact: 'lihangtian@xaero.com',
+        status: 'active'
+      },
+      {
+        id: '18',
+        name: '王工程',
+        position: '系统工程师',
+        role: 'technical_contact',
+        contact: 'wanggongcheng@xaero.com',
+        status: 'active'
+      }
+    ],
+    onboardingTasks: mockOnboardingTasks,
+    internalComments: mockInternalComments,
+    corePainPoints: '1. 航空航天行业对系统稳定性要求极高；2. 需要满足严格的安全合规要求；3. 技术团队对新系统接受度需要时间；4. 现有流程复杂，需要定制化配置',
+    shortTermExpectation: '1. 系统稳定上线运行；2. 满足行业合规要求；3. 核心团队熟练掌握系统操作',
+    longTermExpectation: '1. 提升研发效率和质量；2. 建立标准化的项目管理流程；3. 支撑企业数字化转型',
+    unacceptableSituations: '1. 系统安全漏洞；2. 影响关键项目进度；3. 不符合行业标准要求',
+    customerSuccessCriteria: '1. 系统安全性达到军工级标准；2. 项目管理效率提升25%；3. 用户满意度达到4.5分以上'
+  },
+  {
+    id: '7',
+    handoverNumber: 'HO-2024-007',
     customerId: 'CUST-0004',
     contractId: 'contract_006',
     contractNumber: 'CONT-2023-120',
     customerName: '广州数字化企业服务有限公司',
-    handoverStatus: 'normal',
+    handoverStatus: 'implementation_in_progress',
     riskLevel: 'low',
     hasHandoverDocument: true,
     hasRiskAlert: false,

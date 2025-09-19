@@ -277,29 +277,47 @@ const HandoverListPage = ()=>{
                 }, this)
         },
         {
-            title: '交接单',
-            dataIndex: 'hasHandoverDocument',
-            key: 'hasHandoverDocument',
-            width: 80,
-            sorter: (a, b)=>Number(a.hasHandoverDocument) - Number(b.hasHandoverDocument),
-            render: (hasDocument, record)=>hasDocument ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                    color: "blue",
+            title: '交接状态',
+            dataIndex: 'handoverStatus',
+            key: 'handoverStatus',
+            width: 120,
+            sorter: (a, b)=>a.handoverStatus.localeCompare(b.handoverStatus),
+            render: (status, record)=>{
+                const statusMap = {
+                    pending_handover: {
+                        text: '待交接',
+                        color: 'orange'
+                    },
+                    handover_in_progress: {
+                        text: '交接中',
+                        color: 'blue'
+                    },
+                    pending_implementation: {
+                        text: '待实施',
+                        color: 'purple'
+                    },
+                    implementation_in_progress: {
+                        text: '实施中',
+                        color: 'green'
+                    }
+                };
+                const config = statusMap[status] || {
+                    text: status,
+                    color: 'default'
+                };
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                    color: config.color,
                     style: {
                         cursor: 'pointer'
                     },
                     onClick: ()=>handleViewDetail(record, 'action-plan'),
-                    children: "有"
+                    children: config.text
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 344,
+                    lineNumber: 351,
                     columnNumber: 11
-                }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                    children: "无"
-                }, void 0, false, {
-                    fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 346,
-                    columnNumber: 11
-                }, this)
+                }, this);
+            }
         },
         {
             title: '风险提示',
@@ -312,7 +330,7 @@ const HandoverListPage = ()=>{
                     children: "无风险"
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 357,
+                    lineNumber: 364,
                     columnNumber: 30
                 }, this);
                 const level = record.riskLevel;
@@ -327,7 +345,7 @@ const HandoverListPage = ()=>{
                     children: text
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 362,
+                    lineNumber: 369,
                     columnNumber: 11
                 }, this);
             }
@@ -350,7 +368,7 @@ const HandoverListPage = ()=>{
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 375,
+                    lineNumber: 382,
                     columnNumber: 9
                 }, this)
         },
@@ -380,7 +398,7 @@ const HandoverListPage = ()=>{
                     children: textMap[alignment]
                 }, void 0, false, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 398,
+                    lineNumber: 405,
                     columnNumber: 11
                 }, this);
             }
@@ -414,7 +432,7 @@ const HandoverListPage = ()=>{
                             }
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 420,
+                            lineNumber: 427,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
@@ -425,13 +443,13 @@ const HandoverListPage = ()=>{
                             children: rating
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 425,
+                            lineNumber: 432,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 419,
+                    lineNumber: 426,
                     columnNumber: 9
                 }, this)
         }
@@ -461,7 +479,7 @@ const HandoverListPage = ()=>{
                             children: "交接实施"
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 447,
+                            lineNumber: 454,
                             columnNumber: 15
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -469,18 +487,18 @@ const HandoverListPage = ()=>{
                             children: "确保从销售到服务的丝滑交接与价值对齐"
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 448,
+                            lineNumber: 455,
                             columnNumber: 15
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 446,
+                    lineNumber: 453,
                     columnNumber: 13
                 }, this)
             }, void 0, false, {
                 fileName: "src/pages/handover/index.tsx",
-                lineNumber: 440,
+                lineNumber: 447,
                 columnNumber: 11
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -516,7 +534,7 @@ const HandoverListPage = ()=>{
                                                             children: "待处理交接"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 465,
+                                                            lineNumber: 472,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -526,7 +544,7 @@ const HandoverListPage = ()=>{
                                                             children: "含义：当前需要处理的客户交接任务数量"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 466,
+                                                            lineNumber: 473,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -536,7 +554,7 @@ const HandoverListPage = ()=>{
                                                             children: "来源：CRM系统中的交接任务状态"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 467,
+                                                            lineNumber: 474,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -546,7 +564,7 @@ const HandoverListPage = ()=>{
                                                             children: '计算方式：状态为"待处理"的交接记录总数'
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 468,
+                                                            lineNumber: 475,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -556,13 +574,13 @@ const HandoverListPage = ()=>{
                                                             children: "提示：建议优先处理高优先级客户"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 469,
+                                                            lineNumber: 476,
                                                             columnNumber: 29
                                                         }, void 0)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/index.tsx",
-                                                    lineNumber: 464,
+                                                    lineNumber: 471,
                                                     columnNumber: 27
                                                 }, void 0),
                                                 placement: "top",
@@ -579,18 +597,18 @@ const HandoverListPage = ()=>{
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/index.tsx",
-                                                    lineNumber: 478,
+                                                    lineNumber: 485,
                                                     columnNumber: 25
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 462,
+                                                lineNumber: 469,
                                                 columnNumber: 23
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 460,
+                                        lineNumber: 467,
                                         columnNumber: 21
                                     }, void 0),
                                     value: kpi.pendingCount,
@@ -599,17 +617,17 @@ const HandoverListPage = ()=>{
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 458,
+                                    lineNumber: 465,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 457,
+                                lineNumber: 464,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 456,
+                            lineNumber: 463,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -638,7 +656,7 @@ const HandoverListPage = ()=>{
                                                             children: "本月已完成"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 503,
+                                                            lineNumber: 510,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -648,7 +666,7 @@ const HandoverListPage = ()=>{
                                                             children: "含义：本月成功完成的客户交接数量"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 504,
+                                                            lineNumber: 511,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -658,7 +676,7 @@ const HandoverListPage = ()=>{
                                                             children: "来源：交接完成时间在本月内的记录"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 505,
+                                                            lineNumber: 512,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -668,7 +686,7 @@ const HandoverListPage = ()=>{
                                                             children: '计算方式：状态为"已完成"且完成时间在本月'
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 506,
+                                                            lineNumber: 513,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -678,13 +696,13 @@ const HandoverListPage = ()=>{
                                                             children: "提示：反映团队本月工作效率"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 507,
+                                                            lineNumber: 514,
                                                             columnNumber: 29
                                                         }, void 0)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/index.tsx",
-                                                    lineNumber: 502,
+                                                    lineNumber: 509,
                                                     columnNumber: 27
                                                 }, void 0),
                                                 placement: "top",
@@ -701,18 +719,18 @@ const HandoverListPage = ()=>{
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/index.tsx",
-                                                    lineNumber: 516,
+                                                    lineNumber: 523,
                                                     columnNumber: 25
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 500,
+                                                lineNumber: 507,
                                                 columnNumber: 23
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 498,
+                                        lineNumber: 505,
                                         columnNumber: 21
                                     }, void 0),
                                     value: kpi.completedThisMonth,
@@ -721,17 +739,17 @@ const HandoverListPage = ()=>{
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 496,
+                                    lineNumber: 503,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 495,
+                                lineNumber: 502,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 494,
+                            lineNumber: 501,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -760,7 +778,7 @@ const HandoverListPage = ()=>{
                                                             children: "存在风险交接"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 541,
+                                                            lineNumber: 548,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -770,7 +788,7 @@ const HandoverListPage = ()=>{
                                                             children: "含义：需要特别关注的潜在风险交接"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 542,
+                                                            lineNumber: 549,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -780,7 +798,7 @@ const HandoverListPage = ()=>{
                                                             children: "来源：风险评估系统自动识别"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 543,
+                                                            lineNumber: 550,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -790,7 +808,7 @@ const HandoverListPage = ()=>{
                                                             children: '计算方式：风险等级为"中"或"高"的交接'
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 544,
+                                                            lineNumber: 551,
                                                             columnNumber: 29
                                                         }, void 0),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -800,13 +818,13 @@ const HandoverListPage = ()=>{
                                                             children: "提示：建议优先处理，避免客户流失"
                                                         }, void 0, false, {
                                                             fileName: "src/pages/handover/index.tsx",
-                                                            lineNumber: 545,
+                                                            lineNumber: 552,
                                                             columnNumber: 29
                                                         }, void 0)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/pages/handover/index.tsx",
-                                                    lineNumber: 540,
+                                                    lineNumber: 547,
                                                     columnNumber: 27
                                                 }, void 0),
                                                 placement: "top",
@@ -823,18 +841,18 @@ const HandoverListPage = ()=>{
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "src/pages/handover/index.tsx",
-                                                    lineNumber: 554,
+                                                    lineNumber: 561,
                                                     columnNumber: 25
                                                 }, void 0)
                                             }, void 0, false, {
                                                 fileName: "src/pages/handover/index.tsx",
-                                                lineNumber: 538,
+                                                lineNumber: 545,
                                                 columnNumber: 23
                                             }, void 0)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 536,
+                                        lineNumber: 543,
                                         columnNumber: 21
                                     }, void 0),
                                     value: kpi.riskyCount,
@@ -843,28 +861,28 @@ const HandoverListPage = ()=>{
                                     }
                                 }, void 0, false, {
                                     fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 534,
+                                    lineNumber: 541,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 533,
+                                lineNumber: 540,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/handover/index.tsx",
-                            lineNumber: 532,
+                            lineNumber: 539,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/handover/index.tsx",
-                    lineNumber: 455,
+                    lineNumber: 462,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "src/pages/handover/index.tsx",
-                lineNumber: 454,
+                lineNumber: 461,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -885,7 +903,7 @@ const HandoverListPage = ()=>{
                                 placeholder: "搜索客户名称或交接单编号",
                                 prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SearchOutlined, {}, void 0, false, {
                                     fileName: "src/pages/handover/index.tsx",
-                                    lineNumber: 586,
+                                    lineNumber: 593,
                                     columnNumber: 23
                                 }, void 0),
                                 value: searchText,
@@ -897,7 +915,7 @@ const HandoverListPage = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 584,
+                                lineNumber: 591,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
@@ -906,7 +924,7 @@ const HandoverListPage = ()=>{
                                         type: "primary",
                                         icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ShareAltOutlined, {}, void 0, false, {
                                             fileName: "src/pages/handover/index.tsx",
-                                            lineNumber: 596,
+                                            lineNumber: 603,
                                             columnNumber: 23
                                         }, void 0),
                                         onClick: handleShare,
@@ -916,33 +934,33 @@ const HandoverListPage = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 594,
+                                        lineNumber: 601,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                         type: "primary",
                                         icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.HistoryOutlined, {}, void 0, false, {
                                             fileName: "src/pages/handover/index.tsx",
-                                            lineNumber: 603,
+                                            lineNumber: 610,
                                             columnNumber: 23
                                         }, void 0),
                                         onClick: ()=>navigate('/profiles/handover/history'),
                                         children: "历史交接单"
                                     }, void 0, false, {
                                         fileName: "src/pages/handover/index.tsx",
-                                        lineNumber: 601,
+                                        lineNumber: 608,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 593,
+                                lineNumber: 600,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/handover/index.tsx",
-                        lineNumber: 578,
+                        lineNumber: 585,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Table, {
@@ -960,7 +978,7 @@ const HandoverListPage = ()=>{
                         }
                     }, void 0, false, {
                         fileName: "src/pages/handover/index.tsx",
-                        lineNumber: 612,
+                        lineNumber: 619,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -983,7 +1001,7 @@ const HandoverListPage = ()=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 630,
+                                lineNumber: 637,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Pagination, {
@@ -996,25 +1014,25 @@ const HandoverListPage = ()=>{
                                 showTotal: (total, range)=>`第 ${range[0]}-${range[1]} 条/共 ${total} 条`
                             }, void 0, false, {
                                 fileName: "src/pages/handover/index.tsx",
-                                lineNumber: 633,
+                                lineNumber: 640,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/handover/index.tsx",
-                        lineNumber: 624,
+                        lineNumber: 631,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/handover/index.tsx",
-                lineNumber: 574,
+                lineNumber: 581,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/pages/handover/index.tsx",
-        lineNumber: 434,
+        lineNumber: 441,
         columnNumber: 5
     }, this);
 };
