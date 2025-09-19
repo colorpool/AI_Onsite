@@ -316,15 +316,17 @@ const HandoverDetailPage: React.FC = () => {
 
   // 状态标签颜色映射
   const statusColorMap = {
-    normal: 'green',
-    not_handover: 'orange',
-    risk: 'red'
+    pending_handover: 'orange',
+    handover_in_progress: 'blue',
+    pending_implementation: 'purple',
+    implementation_in_progress: 'green'
   };
 
   const statusTextMap = {
-    normal: '正常交接',
-    not_handover: '未交接',
-    risk: '有风险'
+    pending_handover: '待交接',
+    handover_in_progress: '交接中',
+    pending_implementation: '待实施',
+    implementation_in_progress: '实施中'
   };
 
   const riskColorMap = {
