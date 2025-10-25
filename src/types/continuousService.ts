@@ -329,6 +329,7 @@ export interface ServicePlaybook {
   createdBy: string;
   createdAt: string;
   updatedAt: string;
+  lastExecutedAt?: string; // 最后执行时间
 }
 
 // 剧本任务（替代原来的PlaybookStep）

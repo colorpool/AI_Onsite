@@ -12,11 +12,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 500000,
     serviceExpiryDate: '2024-12-31',
     customerTier: 'A',
+    customerScale: 'mid_market',
     healthLevel: 'healthy',
     industry: '科技',
     region: '华北',
     createdAt: '2024-01-15 10:00:00',
-    updatedAt: '2024-01-20 14:30:00'
+    updatedAt: '2024-01-20 14:30:00',
+    isFavorite: true
   },
   {
     id: 'CUST-0002',
@@ -28,11 +30,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 800000,
     serviceExpiryDate: '2024-03-15',
     customerTier: 'S',
+    customerScale: 'key_account',
     healthLevel: 'warning',
     industry: '制造业',
     region: '华东',
     createdAt: '2023-12-10 09:15:00',
-    updatedAt: '2024-01-18 16:45:00'
+    updatedAt: '2024-01-18 16:45:00',
+    isFavorite: false
   },
   {
     id: 'CUST-0003',
@@ -44,11 +48,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 1200000,
     serviceExpiryDate: '2025-06-30',
     customerTier: 'S',
+    customerScale: 'key_account',
     healthLevel: 'healthy',
     industry: '金融',
     region: '华南',
     createdAt: '2024-01-20 11:30:00',
-    updatedAt: '2024-01-22 09:20:00'
+    updatedAt: '2024-01-22 09:20:00',
+    isFavorite: true
   },
   {
     id: 'CUST-0004',
@@ -60,11 +66,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 350000,
     serviceExpiryDate: '2024-09-20',
     customerTier: 'A',
+    customerScale: 'mid_market',
     healthLevel: 'healthy',
     industry: '教育',
     region: '华南',
     createdAt: '2023-11-05 14:20:00',
-    updatedAt: '2024-01-19 11:10:00'
+    updatedAt: '2024-01-19 11:10:00',
+    isFavorite: false
   },
   {
     id: 'CUST-0005',
@@ -76,11 +84,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 200000,
     serviceExpiryDate: '2024-02-28',
     customerTier: 'B',
+    customerScale: 'smb',
     healthLevel: 'risk',
     industry: '电商',
     region: '华东',
     createdAt: '2023-08-15 16:45:00',
-    updatedAt: '2024-01-21 13:25:00'
+    updatedAt: '2024-01-21 13:25:00',
+    isFavorite: true
   },
   {
     id: 'CUST-0006',
@@ -92,11 +102,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 450000,
     serviceExpiryDate: '2024-11-15',
     customerTier: 'A',
+    customerScale: 'mid_market',
     healthLevel: 'healthy',
     industry: '软件',
     region: '西南',
     createdAt: '2024-01-10 08:30:00',
-    updatedAt: '2024-01-23 15:40:00'
+    updatedAt: '2024-01-23 15:40:00',
+    isFavorite: false
   },
   {
     id: 'CUST-0007',
@@ -108,11 +120,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 600000,
     serviceExpiryDate: '2024-08-10',
     customerTier: 'A',
+    customerScale: 'mid_market',
     healthLevel: 'healthy',
     industry: '医疗',
     region: '华中',
     createdAt: '2023-10-20 12:15:00',
-    updatedAt: '2024-01-17 10:30:00'
+    updatedAt: '2024-01-17 10:30:00',
+    isFavorite: false
   },
   {
     id: 'CUST-0008',
@@ -124,11 +138,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 750000,
     serviceExpiryDate: '2024-04-30',
     customerTier: 'S',
+    customerScale: 'key_account',
     healthLevel: 'warning',
     industry: '物流',
     region: '华北',
     createdAt: '2023-09-12 09:45:00',
-    updatedAt: '2024-01-16 14:20:00'
+    updatedAt: '2024-01-16 14:20:00',
+    isFavorite: true
   },
   {
     id: 'CUST-0009',
@@ -140,11 +156,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 900000,
     serviceExpiryDate: '2024-10-25',
     customerTier: 'S',
+    customerScale: 'key_account',
     healthLevel: 'healthy',
     industry: '新能源',
     region: '华东',
     createdAt: '2023-12-01 11:00:00',
-    updatedAt: '2024-01-24 16:15:00'
+    updatedAt: '2024-01-24 16:15:00',
+    isFavorite: false
   },
   {
     id: 'CUST-0010',
@@ -156,11 +174,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 1100000,
     serviceExpiryDate: '2025-01-20',
     customerTier: 'S',
+    customerScale: 'key_account',
     healthLevel: 'healthy',
     industry: '航空航天',
     region: '西北',
     createdAt: '2024-01-08 13:20:00',
-    updatedAt: '2024-01-25 12:45:00'
+    updatedAt: '2024-01-25 12:45:00',
+    isFavorite: false
   },
   {
     id: 'CUST-0011',
@@ -172,11 +192,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 180000,
     serviceExpiryDate: '2024-01-31',
     customerTier: 'C',
+    customerScale: 'smb',
     healthLevel: 'risk',
     industry: '海洋科技',
     region: '华东',
     createdAt: '2023-07-20 15:30:00',
-    updatedAt: '2024-01-15 09:10:00'
+    updatedAt: '2024-01-15 09:10:00',
+    isFavorite: false
   },
   {
     id: 'CUST-0012',
@@ -188,11 +210,13 @@ export const mockCustomerProfiles: CustomerProfile[] = [
     contractAmount: 650000,
     serviceExpiryDate: '2024-05-15',
     customerTier: 'A',
+    customerScale: 'mid_market',
     healthLevel: 'warning',
     industry: '智慧城市',
     region: '西南',
     createdAt: '2023-11-18 10:45:00',
-    updatedAt: '2024-01-22 17:30:00'
+    updatedAt: '2024-01-22 17:30:00',
+    isFavorite: false
   }
 ];
 
@@ -202,6 +226,7 @@ export const getFilteredCustomerProfiles = (filters: {
   healthLevel?: string;
   customerTier?: string;
   searchKeyword?: string;
+  showFavoriteOnly?: boolean;
 }) => {
   return mockCustomerProfiles.filter(profile => {
     // 生命周期阶段筛选
@@ -223,6 +248,11 @@ export const getFilteredCustomerProfiles = (filters: {
     if (filters.searchKeyword && filters.searchKeyword.trim()) {
       const keyword = filters.searchKeyword.toLowerCase();
       if (!profile.customerName.toLowerCase().includes(keyword)) return false;
+    }
+
+    // 关注企业筛选
+    if (filters.showFavoriteOnly) {
+      if (!profile.isFavorite) return false;
     }
 
     return true;

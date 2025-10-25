@@ -306,7 +306,7 @@ const ContinuousServiceHeader: React.FC<ContinuousServiceHeaderProps> = ({
             backgroundColor: contactHeat.color,
             color: '#fff',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '16px',
             padding: '2px 8px',
             fontSize: '12px',
             fontWeight: '500',

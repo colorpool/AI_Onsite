@@ -12,6 +12,7 @@ import {
   MessageOutlined
 } from '@ant-design/icons';
 import { getPlatformType } from '../../mock/continuousServiceData';
+import { CustomerScale, CUSTOMER_SCALE_CONFIG, getCustomerScaleByARR } from '@/types/customerProfile';
 
 interface ContinuousServiceDetailHeaderProps {
   customerData: {
@@ -19,6 +20,7 @@ interface ContinuousServiceDetailHeaderProps {
     name: string;
     healthLevel: 'healthy' | 'normal' | 'risk';
     customerTier: 'strategic' | 'large' | 'medium';
+    customerScale?: CustomerScale;
     arr: number;
     renewalDate: string;
     lastContactDays: number;
@@ -32,25 +34,30 @@ interface ContinuousServiceDetailHeaderProps {
   onToggleFavorite?: () => void;
 }
 
-// 平台图标组件 - 动态显示平台类型
 const PlatformIcon: React.FC<{ customerId: string }> = ({ customerId }) => {
   const platformType = getPlatformType(customerId);
   
-  // 获取平台配置
-  const getPlatformConfig = (platform: string) => {
-    const configs = {
-      'dingtalk': { text: '钉', color: '#1677ff' },
-      'wechat_work': { text: '企', color: '#07c160' },
-      'feishu': { text: '飞', color: '#00d4aa' },
-      'lark': { text: 'L', color: '#00d4aa' },
-      'dingtalk_global': { text: 'D', color: '#1677ff' },
-      'standalone': { text: '独', color: '#722ed1' }
-    };
-    return configs[platform as keyof typeof configs] || { text: '未', color: '#d9d9d9' };
+  const getPlatformConfig = (type: string) => {
+    switch (type) {
+      case 'dingtalk':
+        return { color: '#1677ff', text: '钉' };
+      case 'wechat_work':
+        return { color: '#07c160', text: '企' };
+      case 'feishu':
+        return { color: '#00d4aa', text: '飞' };
+      case 'lark':
+        return { color: '#00d4aa', text: 'L' };
+      case 'dingtalk_global':
+        return { color: '#1677ff', text: 'D' };
+      case 'standalone':
+        return { color: '#722ed1', text: '独' };
+      default:
+        return { color: '#d9d9d9', text: '未' };
+    }
   };
-  
+
   const config = getPlatformConfig(platformType);
-  
+
   return (
     <div style={{
       width: 24,
@@ -80,22 +87,22 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
 }) => {
   // 健康状态配置
   const getHealthConfig = (healthLevel: string) => {
-    const configs = {
-      'healthy': { color: '#52c41a', text: '健康' },
-      'normal': { color: '#faad14', text: '一般' },
-      'risk': { color: '#ff4d4f', text: '风险' }
-    };
-    return configs[healthLevel as keyof typeof configs] || { color: '#d9d9d9', text: '未知' };
+    switch (healthLevel) {
+      case 'healthy': return { color: '#52c41a', text: '健康' };
+      case 'normal': return { color: '#faad14', text: '正常' };
+      case 'risk': return { color: '#ff4d4f', text: '风险' };
+      default: return { color: '#8c8c8c', text: '未知' };
+    }
   };
 
   // 客户定级配置
   const getTierConfig = (tier: string) => {
-    const configs = {
-      'strategic': { color: '#722ed1', text: '战略客户' },
-      'large': { color: '#1890ff', text: '大客户' },
-      'medium': { color: '#13c2c2', text: '中型客户' }
-    };
-    return configs[tier as keyof typeof configs] || { color: '#d9d9d9', text: '普通客户' };
+    switch (tier) {
+      case 'strategic': return { color: '#722ed1', text: '战略客户' };
+      case 'large': return { color: '#1890ff', text: '大客户' };
+      case 'medium': return { color: '#52c41a', text: '中等客户' };
+      default: return { color: '#8c8c8c', text: '普通客户' };
+    }
   };
 
   // 计算续约剩余天数
@@ -103,50 +110,76 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
     const today = new Date();
     const renewal = new Date(renewalDate);
     const diffTime = renewal.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
 
   // 格式化ARR金额
   const formatARR = (amount: number) => {
-    if (amount >= 10000) {
-      return `¥${(amount / 10000).toFixed(0)}万`;
+    if (amount >= 1000000) {
+      return `${(amount / 1000000).toFixed(1)}M`;
+    } else if (amount >= 1000) {
+      return `${(amount / 1000).toFixed(0)}K`;
     }
-    return `¥${amount.toLocaleString()}`;
+    return amount.toString();
   };
 
-  // 获取关系热度配置
+  // 获取联系热度配置
   const getContactHeatConfig = (days: number) => {
-    if (days <= 7) {
-      return { color: '#52c41a', level: '热' };
-    } else if (days <= 30) {
-      return { color: '#faad14', level: '温' };
-    } else {
-      return { color: '#ff4d4f', level: '冷' };
-    }
+    if (days <= 7) return { color: '#52c41a', text: '热' };
+    if (days <= 30) return { color: '#faad14', text: '温' };
+    return { color: '#ff4d4f', text: '冷' };
   };
 
-  // 获取建联度配置
+  // 获取连接等级配置
   const getConnectionLevelConfig = (level: number) => {
-    if (level >= 5) {
-      return { bars: 5, color: '#52c41a', text: '极强', tooltip: '建联度极强：与客户核心决策层建立深度信任关系，沟通无障碍' };
-    } else if (level >= 4) {
-      return { bars: 4, color: '#73d13d', text: '强', tooltip: '建联度强：与客户关键决策人保持密切联系，沟通顺畅' };
-    } else if (level >= 3) {
-      return { bars: 3, color: '#faad14', text: '中', tooltip: '建联度中：与客户有一定联系，但需要加强沟通深度' };
-    } else if (level >= 2) {
-      return { bars: 2, color: '#ff7a45', text: '弱', tooltip: '建联度弱：与客户联系较少，需要主动建立更多接触点' };
-    } else if (level >= 1) {
-      return { bars: 1, color: '#ff4d4f', text: '极弱', tooltip: '建联度极弱：与客户几乎无联系，急需建立有效沟通渠道' };
-    } else {
-      return { bars: 0, color: '#d9d9d9', text: '未知', tooltip: '建联度未知：缺乏客户联系信息' };
-    }
+    const getSignalConfig = (level: number) => {
+      if (level >= 5) {
+        return { bars: 5, color: '#52c41a', text: '极强' };
+      } else if (level >= 4) {
+        return { bars: 4, color: '#73d13d', text: '强' };
+      } else if (level >= 3) {
+        return { bars: 3, color: '#faad14', text: '中' };
+      } else if (level >= 2) {
+        return { bars: 2, color: '#ff7a45', text: '弱' };
+      } else if (level >= 1) {
+        return { bars: 1, color: '#ff4d4f', text: '极弱' };
+      } else {
+        return { bars: 0, color: '#d9d9d9', text: '未知' };
+      }
+    };
+    
+    const config = getSignalConfig(level || 0);
+    
+    return {
+      color: config.color,
+      text: config.text,
+      icon: (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1px' }}>
+          {[1, 2, 3, 4, 5].map(bar => (
+            <div
+              key={bar}
+              style={{
+                width: '3px',
+                height: `${6 + bar * 1.5}px`,
+                backgroundColor: bar <= config.bars ? config.color : '#f0f0f0',
+                borderRadius: '1px',
+                transition: 'all 0.2s ease'
+              }}
+            />
+          ))}
+        </div>
+      )
+    };
   };
 
   const healthConfig = getHealthConfig(customerData.healthLevel);
   const tierConfig = getTierConfig(customerData.customerTier);
   const remainingDays = calculateRemainingDays(customerData.renewalDate);
   const contactHeat = getContactHeatConfig(customerData.lastContactDays);
+  
+  // 获取客户规模标签配置
+  const customerScale = customerData.customerScale || getCustomerScaleByARR(customerData.arr);
+  const scaleConfig = CUSTOMER_SCALE_CONFIG[customerScale];
 
   return (
     <div style={{ 
@@ -165,7 +198,7 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
         padding: '20px 24px 16px 24px',
         borderBottom: '1px solid #f0f0f0'
       }}>
-        {/* 左侧：返回按钮 + 平台图标 + 客户名称 */}
+        {/* 左侧：返回按钮 + 平台标识 + 客户名称 + 连接等级 */}
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <Button
             type="text"
@@ -195,28 +228,16 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
               {customerData.name}
             </h1>
             
-            {/* 建联度图标 */}
+            {/* 连接等级指示器 */}
             {customerData.connectionLevel && (() => {
-              const config = getConnectionLevelConfig(customerData.connectionLevel);
+              const connectionConfig = getConnectionLevelConfig(customerData.connectionLevel);
               return (
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '1px',
-                  cursor: 'pointer'
+                  gap: '6px'
                 }}>
-                  {[1, 2, 3, 4, 5].map(bar => (
-                    <div
-                      key={bar}
-                      style={{
-                        width: '3px',
-                        height: `${6 + bar * 1.5}px`,
-                        backgroundColor: bar <= config.bars ? config.color : '#f0f0f0',
-                        borderRadius: '1px',
-                        transition: 'all 0.2s ease'
-                      }}
-                    />
-                  ))}
+                  {connectionConfig.icon}
                 </div>
               );
             })()}
@@ -270,7 +291,27 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
         </div>
       </div>
 
-      {/* 核心信息标签栏 */}
+      {/* 客户分层标签行 */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        padding: '12px 24px',
+        backgroundColor: '#fafafa',
+        borderBottom: '1px solid #f0f0f0',
+        gap: '12px'
+      }}>
+        {/* 客户规模标签 */}
+        <Tag color={scaleConfig.color}>
+          {scaleConfig.text}
+        </Tag>
+        
+        {/* 客户定级标签 */}
+        <Tag color={tierConfig.color === '#722ed1' ? 'purple' : tierConfig.color === '#1890ff' ? 'blue' : 'green'}>
+          {tierConfig.text}
+        </Tag>
+      </div>
+
+      {/* 底部标签区域 */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -285,7 +326,7 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
             backgroundColor: healthConfig.color,
             color: '#fff',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '16px',
             padding: '4px 12px',
             fontSize: '13px',
             fontWeight: '500',
@@ -299,28 +340,13 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
           {healthConfig.text}
         </Tag>
 
-        {/* 客户定级标签 */}
-        <Tag
-          style={{
-            backgroundColor: '#f5f5f5',
-            color: '#666',
-            border: 'none',
-            borderRadius: '4px',
-            padding: '4px 12px',
-            fontSize: '13px',
-            margin: 0
-          }}
-        >
-          {tierConfig.text}
-        </Tag>
-
         {/* ARR 核心商业指标 */}
         <Tag
           style={{
             backgroundColor: '#f5f5f5',
             color: '#666',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '16px',
             padding: '4px 12px',
             fontSize: '13px',
             margin: 0
@@ -330,13 +356,13 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
           ARR: {formatARR(customerData.arr)}
         </Tag>
 
-        {/* 续约倒计时 */}
+        {/* 续约时间标签 */}
         <Tag
           style={{
             backgroundColor: '#f5f5f5',
             color: '#666',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '16px',
             padding: '4px 12px',
             fontSize: '13px',
             margin: 0
@@ -346,13 +372,13 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
           将于 {customerData.renewalDate} 续约 (剩 {remainingDays} 天)
         </Tag>
 
-        {/* 关系热度指标 */}
+        {/* 最后接触时间标签 */}
         <Tag
           style={{
             backgroundColor: contactHeat.color,
             color: '#fff',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '16px',
             padding: '4px 12px',
             fontSize: '13px',
             fontWeight: '500',
@@ -363,7 +389,7 @@ const ContinuousServiceDetailHeader: React.FC<ContinuousServiceDetailHeaderProps
           上次接触: {customerData.lastContactDays}天前
         </Tag>
 
-        {/* 合同编号：状态栏内部右侧垂直居中 */}
+        {/* 合同编号 - 右侧绝对定位 */}
         {customerData.contractNumber && (
           <div style={{ position: 'absolute', right: 24, top: '50%', transform: 'translateY(-50%)', color: '#8c8c8c', fontSize: 12 }}>
             合同编号：<span style={{ fontFamily: 'monospace' }}>{customerData.contractNumber}</span>

@@ -42,6 +42,15 @@ export async function getInitialState(): Promise<{
       return getMockCurrentUser();
     };
     
+    // 检查当前路径是否为登录页面
+    if (history.location.pathname === loginPath) {
+      return {
+        fetchUserInfo,
+        currentUser: undefined, // 登录页面不设置用户信息
+        settings: defaultSettings as Partial<LayoutSettings>,
+      };
+    }
+    
     const currentUser = await fetchUserInfo();
     console.log('Current user loaded:', currentUser?.name);
     
@@ -51,11 +60,8 @@ export async function getInitialState(): Promise<{
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   } catch (error) {
-    console.error('getInitialState error:', error);
-    // 发生任何错误时返回基本配置和Mock用户
+    console.error('Failed to get initial state:', error);
     return {
-      fetchUserInfo: async () => getMockCurrentUser(),
-      currentUser: getMockCurrentUser(),
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
@@ -80,16 +86,14 @@ export const layout: RunTimeLayoutConfig = ({
     //     return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
     //   },
     // },
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
-    },
+    // 去除全局水印
+    waterMarkProps: undefined,
+    // 去除全局面包屑
+    breadcrumbRender: false,
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
-      // 生产环境跳过登录检查
-      if (isProduction()) {
-        return;
-      }
+      
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);

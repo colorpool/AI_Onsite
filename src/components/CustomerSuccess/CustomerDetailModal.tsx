@@ -162,8 +162,8 @@ const CustomerDetailDrawer: React.FC<CustomerDetailDrawerProps> = ({ visible, cu
         {customer.tags && customer.tags.length > 0 && (
           <Card title="业务标签" size="small">
             <Space wrap>
-              {customer.tags.map((tag, index) => (
-                <Tag key={index} color="processing">{tag}</Tag>
+              {customer.tags.map((tag) => (
+                <Tag key={tag} color="processing">{tag}</Tag>
               ))}
             </Space>
           </Card>

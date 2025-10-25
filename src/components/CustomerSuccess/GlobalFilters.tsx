@@ -25,7 +25,7 @@ export interface GlobalFiltersProps {
 const GlobalFilters: React.FC<GlobalFiltersProps> = ({
   filters,
   onFiltersChange,
-  onSaveView,
+  // onSaveView, // 暂时未使用
   onExport,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);

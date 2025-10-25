@@ -90,7 +90,7 @@ export default (props: any) => {
   "colorWeak": false,
   "title": "智能驻场-钉学科技",
   "pwa": false,
-  "logo": "/simple-logo.svg",
+  "logo": "./simple-logo.svg",
   "iconfontUrl": "",
   "token": {},
   "menuProps": {

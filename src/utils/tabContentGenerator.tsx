@@ -241,7 +241,7 @@ export const HandoverImplementationContent: React.FC = () => {
           </Col>
           <Col span={6}>
             <Card size="small" title="进行中交接">
-              <Statistic title="客户数量" value={mockCustomerHandovers.filter(item => item.handoverStatus === 'normal').length} prefix={<SyncOutlined spin />} />
+              <Statistic title="客户数量" value={mockCustomerHandovers.filter(item => item.handoverStatus === 'handover_in_progress').length} prefix={<SyncOutlined spin />} />
             </Card>
           </Col>
           <Col span={6}>
@@ -279,8 +279,8 @@ export const ContinuousServiceContent: React.FC = () => {
 
   // 异动情况数据
   const changeData = [
-    { id: 1, company: '北京科技有限公司', type: '健康', change: '85', time: '2025-01-05' },
-    { id: 2, company: '上海智能科技有限公司', type: '一般', change: '65', time: '2025-01-08' },
+    { id: 1, company: '北京科技创新有限公司', type: '健康', change: '85', time: '2025-01-05' },
+        { id: 2, company: '上海智能制造集团', type: '一般', change: '65', time: '2025-01-08' },
     { id: 3, company: '深圳创新科技', type: '风险', change: '35', time: '2025-01-12' }
   ];
 
@@ -307,8 +307,8 @@ export const ContinuousServiceContent: React.FC = () => {
             size="small"
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', height: '100%' }}>
-              {healthDistribution.map((item, index) => (
-                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {healthDistribution.map((item) => (
+                <div key={item.level} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <Avatar 
                     size={14} 
                     style={{ backgroundColor: item.color, minWidth: '14px' }}

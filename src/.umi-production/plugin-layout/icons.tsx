@@ -7,6 +7,7 @@ import GroupOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@um
 import TrophyOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/TrophyOutlined';
 import TeamOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/TeamOutlined';
 import UserOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/UserOutlined';
+import ProfileOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/ProfileOutlined';
 import UserAddOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/UserAddOutlined';
 import CustomerServiceOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/CustomerServiceOutlined';
 import FileTextOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/FileTextOutlined';
@@ -26,4 +27,9 @@ import UserSwitchOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_module
 import EyeOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/EyeOutlined';
 import CarOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/CarOutlined';
 import TagsOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/TagsOutlined';
-export default { DashboardOutlined, BellOutlined, GroupOutlined, TrophyOutlined, TeamOutlined, UserOutlined, UserAddOutlined, CustomerServiceOutlined, FileTextOutlined, ExperimentOutlined, LineChartOutlined, MessageOutlined, CommentOutlined, ArrowUpOutlined, BookOutlined, ShoppingCartOutlined, ShareAltOutlined, SettingOutlined, BarChartOutlined, DatabaseOutlined, RobotOutlined, UserSwitchOutlined, EyeOutlined, CarOutlined, TagsOutlined };
+import BulbOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/BulbOutlined';
+import RiseOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/RiseOutlined';
+import CrownOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/CrownOutlined';
+import BankOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/BankOutlined';
+import KeyOutlined from '/Users/colorpool/Downloads/AI_Onsite/node_modules/@umijs/plugins/node_modules/@ant-design/icons/es/icons/KeyOutlined';
+export default { DashboardOutlined, BellOutlined, GroupOutlined, TrophyOutlined, TeamOutlined, UserOutlined, ProfileOutlined, UserAddOutlined, CustomerServiceOutlined, FileTextOutlined, ExperimentOutlined, LineChartOutlined, MessageOutlined, CommentOutlined, ArrowUpOutlined, BookOutlined, ShoppingCartOutlined, ShareAltOutlined, SettingOutlined, BarChartOutlined, DatabaseOutlined, RobotOutlined, UserSwitchOutlined, EyeOutlined, CarOutlined, TagsOutlined, BulbOutlined, RiseOutlined, CrownOutlined, BankOutlined, KeyOutlined };

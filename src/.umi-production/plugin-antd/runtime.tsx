@@ -19,7 +19,7 @@ const getAntdConfig = () => {
       key: 'antd',
       type: ApplyPluginsType.modify,
       initialValue: {
-        ...{"theme":{"cssVar":true,"token":{"fontFamily":"AlibabaSans, sans-serif"}}},
+        ...{"theme":{"cssVar":true,"token":{"fontFamily":"AlibabaPuHuiTi, sans-serif"}}},
         appConfig: {},
       },
     });

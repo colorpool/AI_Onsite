@@ -14,7 +14,10 @@ import {
   Pagination,
   message,
   Tooltip,
-  Rate
+  Rate,
+  Modal,
+  Form,
+  Dropdown
 } from 'antd';
 import { 
   SearchOutlined, 
@@ -22,7 +25,10 @@ import {
   DownOutlined,
   QuestionCircleOutlined,
   HistoryOutlined,
-  ShareAltOutlined
+  ShareAltOutlined,
+  LinkOutlined,
+  FileTextOutlined,
+  BookOutlined
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'umi';
 import { mockCustomerHandovers } from '../../mock/handoverData';
@@ -61,6 +67,14 @@ const HandoverListPage: React.FC = () => {
     status: undefined,
     riskLevel: undefined
   });
+
+  // 快链相关状态
+  const [quickLinks, setQuickLinks] = useState([
+    { id: 1, name: '实施资料', url: 'https://docs.example.com/implementation' },
+    { id: 2, name: '用户手册', url: 'https://docs.example.com/user-manual' }
+  ]);
+  const [addLinkModalVisible, setAddLinkModalVisible] = useState(false);
+  const [form] = Form.useForm();
 
   // 处理搜索
   const handleSearch = (
@@ -163,6 +177,37 @@ const HandoverListPage: React.FC = () => {
       return;
     }
     message.success(`已选择 ${selectedRowKeys.length} 个交接单进行分享`);
+  };
+
+  // 快链相关处理函数
+  const handleQuickLinkClick = (url: string) => {
+    window.open(url, '_blank');
+  };
+
+  const handleAddQuickLink = () => {
+    setAddLinkModalVisible(true);
+  };
+
+  const handleAddLinkSubmit = async () => {
+    try {
+      const values = await form.validateFields();
+      const newLink = {
+        id: Date.now(),
+        name: values.name,
+        url: values.url
+      };
+      setQuickLinks([...quickLinks, newLink]);
+      setAddLinkModalVisible(false);
+      form.resetFields();
+      message.success('快链添加成功');
+    } catch (error) {
+      console.error('表单验证失败:', error);
+    }
+  };
+
+  const handleAddLinkCancel = () => {
+    setAddLinkModalVisible(false);
+    form.resetFields();
   };
 
   // 多选配置
@@ -278,8 +323,17 @@ const HandoverListPage: React.FC = () => {
       return updated.getFullYear() === currentYear && updated.getMonth() === currentMonth;
     }).length;
     const riskyCount = mockCustomerHandovers.filter(item => item.hasRiskAlert).length;
+    
+    // 计算本月交接平均满意度（使用handoverRating字段）
+    const thisMonthHandovers = mockCustomerHandovers.filter(item => {
+      const updated = toDate(item.updatedAt);
+      return updated.getFullYear() === currentYear && updated.getMonth() === currentMonth;
+    });
+    const avgSatisfaction = thisMonthHandovers.length > 0 
+      ? (thisMonthHandovers.reduce((sum, item) => sum + (item.handoverRating || 0), 0) / thisMonthHandovers.length).toFixed(1)
+      : '0.0';
 
-    return { pendingCount, completedThisMonth, riskyCount };
+    return { pendingCount, completedThisMonth, riskyCount, avgSatisfaction };
   }, []);
 
   // 状态标签颜色映射
@@ -319,6 +373,7 @@ const HandoverListPage: React.FC = () => {
       dataIndex: 'handoverNumber',
       key: 'handoverNumber',
       width: 120,
+      fixed: 'left' as const,
       render: (num: string, record: CustomerHandover) => (
         <span style={{ fontFamily: 'monospace' }}>{num}</span>
       ),
@@ -327,7 +382,8 @@ const HandoverListPage: React.FC = () => {
       title: '客户名称',
       dataIndex: 'customerName',
       key: 'customerName',
-      width: 200,
+      width: 160,
+      fixed: 'left' as const,
       sorter: (a: CustomerHandover, b: CustomerHandover) => a.customerName.localeCompare(b.customerName),
       render: (name: string, record: CustomerHandover) => (
         <a onClick={() => handleViewDetail(record, 'action-plan')}>{name}</a>
@@ -354,24 +410,25 @@ const HandoverListPage: React.FC = () => {
         );
       },
     },
-    {
-      title: '风险提示',
-      dataIndex: 'hasRiskAlert',
-      key: 'hasRiskAlert',
-      width: 100,
-      sorter: (a: CustomerHandover, b: CustomerHandover) => Number(a.hasRiskAlert) - Number(b.hasRiskAlert),
-      render: (hasRisk: boolean, record: CustomerHandover) => {
-        if (!hasRisk) return <Tag>无风险</Tag>;
-        const level = record.riskLevel;
-        const color = riskColorMap[level as keyof typeof riskColorMap] || 'orange';
-        const text = riskTextMap[level as keyof typeof riskTextMap] || '有风险';
-        return (
-          <Tag color={color} style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'risks-opportunities')}>
-            {text}
-          </Tag>
-        );
-      },
-    },
+    // 隐藏风险提示列
+    // {
+    //   title: '风险提示',
+    //   dataIndex: 'hasRiskAlert',
+    //   key: 'hasRiskAlert',
+    //   width: 100,
+    //   sorter: (a: CustomerHandover, b: CustomerHandover) => Number(a.hasRiskAlert) - Number(b.hasRiskAlert),
+    //   render: (hasRisk: boolean, record: CustomerHandover) => {
+    //     if (!hasRisk) return <Tag>无风险</Tag>;
+    //     const level = record.riskLevel;
+    //     const color = riskColorMap[level as keyof typeof riskColorMap] || 'orange';
+    //     const text = riskTextMap[level as keyof typeof riskTextMap] || '有风险';
+    //     return (
+    //       <Tag color={color} style={{ cursor: 'pointer' }} onClick={() => handleViewDetail(record, 'risks-opportunities')}>
+    //         {text}
+    //       </Tag>
+    //     );
+    //   },
+    // },
     {
       title: '干系人',
       dataIndex: 'stakeholderCount',
@@ -416,25 +473,25 @@ const HandoverListPage: React.FC = () => {
       sorter: (a: CustomerHandover, b: CustomerHandover) => new Date(a.salesCreatedAt || '').getTime() - new Date(b.salesCreatedAt || '').getTime(),
       render: (date: string) => date ? new Date(date).toLocaleDateString() : '-',
     },
-    {
-      title: '客户满意度',
-      dataIndex: 'handoverRating',
-      key: 'handoverRating',
-      width: 150,
-      sorter: (a: CustomerHandover, b: CustomerHandover) => (a.handoverRating || 0) - (b.handoverRating || 0),
-      render: (rating: number, record: CustomerHandover) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Rate 
-            disabled 
-            value={rating} 
-            style={{ fontSize: '16px' }}
-          />
-          <span style={{ color: '#1890ff', fontWeight: '500' }}>
-            {rating}
-          </span>
-        </div>
-      ),
-    },
+    // {
+    //   title: '客户满意度',
+    //   dataIndex: 'handoverRating',
+    //   key: 'handoverRating',
+    //   width: 150,
+    //   sorter: (a: CustomerHandover, b: CustomerHandover) => (a.handoverRating || 0) - (b.handoverRating || 0),
+    //   render: (rating: number, record: CustomerHandover) => (
+    //     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    //       <Rate 
+    //         disabled 
+    //         value={rating} 
+    //         style={{ fontSize: '16px' }}
+    //       />
+    //       <span style={{ color: '#1890ff', fontWeight: '500' }}>
+    //         {rating}
+    //       </span>
+    //     </div>
+    //   ),
+    // },
   ];
 
   return (
@@ -455,6 +512,47 @@ const HandoverListPage: React.FC = () => {
               <Text type="secondary">确保从销售到服务的丝滑交接与价值对齐</Text>
             </div>
             
+            {/* 快链区域 */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {quickLinks.map(link => (
+                <Tooltip key={link.id} title={link.name}>
+                  <Button
+                    type="text"
+                    shape="circle"
+                    size="large"
+                    icon={link.name === '实施资料' ? <FileTextOutlined /> : <BookOutlined />}
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      background: link.name === '实施资料' ? '#1890ff15' : '#52c41a15',
+                      border: `1px solid ${link.name === '实施资料' ? '#1890ff30' : '#52c41a30'}`,
+                      color: link.name === '实施资料' ? '#1890ff' : '#52c41a',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onClick={() => handleQuickLinkClick(link.url)}
+                  />
+                </Tooltip>
+              ))}
+              
+              {/* 添加快链按钮 */}
+              <Tooltip title="添加快捷链接">
+                <Button
+                  type="dashed"
+                  shape="circle"
+                  size="large"
+                  icon={<PlusOutlined />}
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    borderColor: '#d9d9d9',
+                    color: '#666'
+                  }}
+                  onClick={handleAddQuickLink}
+                />
+              </Tooltip>
+            </div>
           </div>
 
         {/* 顶部数据看板 */}
@@ -536,7 +634,7 @@ const HandoverListPage: React.FC = () => {
                 />
               </Card>
             </Col>
-            <Col xs={24} sm={8}>
+            {/* <Col xs={24} sm={6}>
               <Card style={{ ...cardStyle, marginBottom: 0 }}>
                 <Statistic 
                   title={
@@ -570,6 +668,44 @@ const HandoverListPage: React.FC = () => {
                     </span>
                   } 
                   value={kpi.riskyCount} 
+                  valueStyle={{ fontWeight: 700 }} 
+                />
+              </Card>
+            </Col> */}
+            <Col xs={24} sm={8}>
+              <Card style={{ ...cardStyle, marginBottom: 0 }}>
+                <Statistic 
+                  title={
+                    <span>
+                      本月交接平均满意度
+                      <Tooltip 
+                        title={
+                          <div style={{ maxWidth: '300px' }}>
+                            <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>本月交接平均满意度</div>
+                            <div style={{ marginBottom: '6px' }}>含义：本月完成交接的客户满意度平均分</div>
+                            <div style={{ marginBottom: '6px' }}>来源：客户交接满意度评分</div>
+                            <div style={{ marginBottom: '6px' }}>计算方式：本月所有交接满意度评分的平均值</div>
+                            <div style={{ color: '#1890ff' }}>提示：反映交接服务质量水平</div>
+                          </div>
+                        }
+                        placement="top"
+                        overlayStyle={{ 
+                          maxWidth: '320px',
+                          fontSize: '12px'
+                        }}
+                      >
+                        <QuestionCircleOutlined 
+                          style={{ 
+                            marginLeft: '8px', 
+                            color: '#8c8c8c',
+                            fontSize: '14px',
+                            cursor: 'pointer'
+                          }} 
+                        />
+                      </Tooltip>
+                    </span>
+                  } 
+                  value={kpi.avgSatisfaction} 
                   valueStyle={{ fontWeight: 700 }} 
                 />
               </Card>
@@ -623,7 +759,7 @@ const HandoverListPage: React.FC = () => {
             rowSelection={rowSelection}
             pagination={false}
             size="small"
-            scroll={{ x: 900 }}
+            scroll={{ x: 1200 }}
             style={{ background: '#fff' }}
           />
 
@@ -649,7 +785,46 @@ const HandoverListPage: React.FC = () => {
               }
             />
           </div>
-        </div>
+      </div>
+
+      {/* 添加快链弹窗 */}
+      <Modal
+        title="添加快链"
+        open={addLinkModalVisible}
+        onOk={handleAddLinkSubmit}
+        onCancel={handleAddLinkCancel}
+        okText="确定"
+        cancelText="取消"
+        width={500}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          style={{ marginTop: '20px' }}
+        >
+          <Form.Item
+            name="name"
+            label="快链名称"
+            rules={[
+              { required: true, message: '请输入快链名称' },
+              { max: 20, message: '快链名称不能超过20个字符' }
+            ]}
+          >
+            <Input placeholder="请输入快链名称" />
+          </Form.Item>
+          
+          <Form.Item
+            name="url"
+            label="链接地址"
+            rules={[
+              { required: true, message: '请输入链接地址' },
+              { type: 'url', message: '请输入有效的URL地址' }
+            ]}
+          >
+            <Input placeholder="请输入链接地址，如：https://example.com" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

@@ -348,7 +348,7 @@ export const mockTemplateUsages: TemplateUsage[] = [
     id: 'usage_001',
     templateId: 'template_001',
     customerId: 'CUST-0001',
-    customerName: '北京科技有限公司',
+    customerName: '北京科技创新有限公司',
     valueBoardId: 'vb001',
     usedAt: '2024-01-20',
     feedback: {
@@ -360,7 +360,7 @@ export const mockTemplateUsages: TemplateUsage[] = [
     id: 'usage_002',
     templateId: 'template_002',
     customerId: 'CUST-0002',
-    customerName: '上海智能科技有限公司',
+    customerName: '上海智能制造集团',
     valueBoardId: 'vb002',
     usedAt: '2024-01-18',
     feedback: {

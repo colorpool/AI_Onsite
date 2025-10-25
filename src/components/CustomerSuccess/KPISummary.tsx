@@ -55,7 +55,7 @@ export interface KPISummaryProps {
 }
 
 const KPISummary: React.FC<KPISummaryProps> = ({ data, loading = false }) => {
-  const formatNumber = (num: number): string => {
+  const _formatNumber = (num: number): string => {
     if (num >= 10000) {
       return `${(num / 10000).toFixed(1)}万`;
     }

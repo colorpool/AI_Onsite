@@ -30,7 +30,7 @@ const { Option } = Select;
 const mockCustomerProfiles = [
   {
     id: 'CUST-001',
-    name: '北京科技有限公司',
+    name: '北京科技创新有限公司',
     industry: '科技',
     scale: '大型企业',
     csm: '张三',
@@ -43,7 +43,7 @@ const mockCustomerProfiles = [
   },
   {
     id: 'CUST-002',
-    name: '上海智能科技有限公司',
+    name: '上海智能制造集团',
     industry: '人工智能',
     scale: '中型企业',
     csm: '李四',
@@ -56,7 +56,7 @@ const mockCustomerProfiles = [
   },
   {
     id: 'CUST-003',
-    name: '深圳创新科技有限公司',
+    name: '深圳金融科技有限公司',
     industry: '互联网',
     scale: '小型企业',
     csm: '王五',

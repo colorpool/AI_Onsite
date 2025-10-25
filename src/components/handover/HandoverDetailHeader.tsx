@@ -73,9 +73,11 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
   // 状态颜色映射
   const getStatusConfig = (status: string) => {
     const configs = {
-      'normal': { color: '#52c41a', text: '正常交接' },
-      'not_handover': { color: '#faad14', text: '未交接' },
-      'risk': { color: '#ff4d4f', text: '有风险' }
+      'pending_handover': { color: '#faad14', text: '待交接' },
+      'handover_in_progress': { color: '#1890ff', text: '交接中' },
+      'pending_implementation': { color: '#722ed1', text: '待实施' },
+      'implementation_in_progress': { color: '#52c41a', text: '实施中' },
+      'completed': { color: '#52c41a', text: '已完成' }
     };
     return configs[status as keyof typeof configs] || { color: '#d9d9d9', text: '未知' };
   };
@@ -137,7 +139,7 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
           </h1>
         </div>
 
-        {/* 右侧：销售来源信息 + 操作按钮 */}
+        {/* 右侧：交接状态信息 + 操作按钮 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <span style={{
             color: '#666',
@@ -147,7 +149,7 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
               ? `销售: ${handoverData.crmData?.salesPerson || '未知'}`
               : handoverData.crmData?.salesSource === 'channel' 
                 ? `渠道: ${handoverData.crmData?.channelPartner || '未知'}`
-                : '销售: 未知'
+                : `状态: ${statusConfig.text}`
             }
           </span>
           
@@ -165,17 +167,7 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
               />
             )}
             
-            <Button
-              type="default"
-              icon={<EditOutlined />}
-              onClick={onEdit}
-              style={{
-                borderColor: '#d9d9d9',
-                color: '#666'
-              }}
-            >
-              编辑
-            </Button>
+
             
             <Button
               type="text"
@@ -231,8 +223,8 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
           {statusConfig.text}
         </Tag>
 
-        {/* 档案完整度标签 */}
-        <Tag
+        {/* 档案完整度标签 - 已隐藏 */}
+        {/* <Tag
           style={{
             backgroundColor: '#f5f5f5',
             color: '#666',
@@ -244,7 +236,7 @@ const HandoverDetailHeader: React.FC<HandoverDetailHeaderProps> = ({
           }}
         >
           档案完整度: {completeness}%
-        </Tag>
+        </Tag> */}
 
         {/* 服务周期标签 */}
         <Tag

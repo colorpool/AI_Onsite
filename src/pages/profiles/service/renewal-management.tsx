@@ -515,11 +515,14 @@ const RenewalManagement: React.FC = () => {
 
   // 处理客户详情查看
   const handleViewCustomerDetail = (customer: RenewalCustomer) => {
+    // 从完整的客户ID中提取数字部分，例如从 "CUST-0001" 提取 "1"
+    const numericId = customer.id.replace('CUST-', '').replace(/^0+/, '') || '1';
+    
     // 使用TabContext打开新标签页
     addTab({
       key: `renewal-detail-${customer.id}`,
       label: `续约详情`,
-      path: `/profiles/renewal/${customer.id}`,
+      path: `/profiles/renewal/${numericId}`,
       closable: true
     });
   };

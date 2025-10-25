@@ -14,7 +14,7 @@ import { ApplyPluginsType } from 'umi';
 
 
 const publicPath = "/";
-const runtimePublicPath = false;
+const runtimePublicPath = true;
 
 async function render() {
   const pluginManager = createPluginManager();
@@ -37,7 +37,7 @@ async function render() {
   });
 
   const basename = contextOpts.basename || '/';
-  const historyType = contextOpts.historyType || 'browser';
+  const historyType = contextOpts.historyType || 'hash';
 
   const history = createHistory({
     type: historyType,

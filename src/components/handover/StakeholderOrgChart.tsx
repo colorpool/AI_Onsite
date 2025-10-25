@@ -393,7 +393,7 @@ const StakeholderOrgChart: React.FC<StakeholderOrgChartProps> = ({
 
   return (
     <Card
-      title="客户干系人架构"
+      title={<span style={{ color: '#722ed1', fontWeight: '600' }}>客户干系人架构</span>}
       size="small"
       extra={
         <div style={{ display: 'flex', gap: '8px' }}>

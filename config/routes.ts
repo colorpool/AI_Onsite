@@ -12,6 +12,46 @@
  */
 export default [
   {
+    path: '/',
+    layout: false,
+    component: './PersonalCenter',
+  },
+  {
+    path: '/customer-success',
+    name: '授客AI客户成功服务',
+    icon: 'customerService',
+    routes: [
+      {
+        path: '/customer-success',
+        redirect: '/customer-success/community',
+      },
+      {
+        path: '/customer-success/community',
+        name: '运营交流社区',
+        icon: 'team',
+        component: './teaching-ai/customer-success/CommunityOperations',
+      },
+      {
+        path: '/customer-success/service-records',
+        name: '服务互动记录',
+        icon: 'fileText',
+        component: './teaching-ai/customer-success/ServiceRecords',
+      },
+      {
+        path: '/customer-success/team-cards',
+        name: '驻场团队名片',
+        icon: 'idcard',
+        component: './teaching-ai/customer-success/TeamCard',
+      },
+      {
+        path: '/customer-success/purchase-details',
+        name: '购买明细和建议',
+        icon: 'shoppingCart',
+        component: './teaching-ai/customer-success/PurchaseDetails',
+      },
+    ],
+  },
+  {
     path: '/user',
     layout: false,
     routes: [
@@ -22,7 +62,6 @@ export default [
       },
     ],
   },
-  // 客户成功系统主要功能路由
   {
     path: '/dashboard',
     name: '驻场智能看板',
@@ -43,28 +82,24 @@ export default [
         name: '客户分层盘点',
         icon: 'group',
         component: './CustomerSuccess',
-        hideInMenu: true,
       },
       {
         path: '/dashboard/focus',
         name: '近期客户关注重点',
         icon: 'trophy',
         component: './CustomerSuccess',
-        hideInMenu: true,
       },
       {
         path: '/dashboard/competition',
         name: '客成部门大比武',
         icon: 'trophy',
         component: './CustomerSuccess',
-        hideInMenu: true,
       },
       {
         path: '/dashboard/coordination',
         name: '大服务体系内协同',
         icon: 'team',
         component: './CustomerSuccess',
-        hideInMenu: true,
       },
     ],
   },
@@ -73,10 +108,6 @@ export default [
     name: '动态客户档案',
     icon: 'user',
     routes: [
-      {
-        path: '/profiles',
-        redirect: '/profiles/handover-implementation',
-      },
       {
         path: '/profiles/customer-profile',
         name: '客户档案',
@@ -147,7 +178,6 @@ export default [
         name: '流失归因',
         icon: 'lineChart',
         component: './CustomerSuccess',
-        hideInMenu: true,
       },
     ],
   },
@@ -155,7 +185,6 @@ export default [
     path: '/revenue',
     name: '增收服务推进',
     icon: 'message',
-    hideInMenu: true,
     routes: [
       {
         path: '/revenue',
@@ -203,7 +232,6 @@ export default [
     path: '/resources',
     name: '共享方案资料包',
     icon: 'shareAlt',
-    hideInMenu: true,
     routes: [
       {
         path: '/resources',
@@ -239,7 +267,6 @@ export default [
     path: '/ai-tools',
     name: 'AI智能工具箱',
     icon: 'robot',
-    hideInMenu: true,
     routes: [
       {
         path: '/ai-tools',
@@ -308,7 +335,7 @@ export default [
   },
   {
     path: '/teaching-ai',
-    name: '授客AI用户运营',
+    name: '智能驻场用户运营',
     icon: 'bulb',
     routes: [
       {
@@ -325,25 +352,69 @@ export default [
         path: '/teaching-ai/user-interaction',
         name: '用户互动管理',
         icon: 'message',
-        component: './CustomerSuccess',
+        component: './teaching-ai/UserInteractionManagement',
       },
       {
         path: '/teaching-ai/community',
         name: '学习社区运营',
         icon: 'team',
-        component: './CustomerSuccess',
+        component: './teaching-ai/CommunityOperations',
       },
       {
         path: '/teaching-ai/growth-strategy',
         name: '用户增长策略',
-        icon: 'rocketOutlined',
-        component: './CustomerSuccess',
+        icon: 'riseOutlined',
+        component: './teaching-ai/GrowthStrategy',
       },
+
+
     ],
   },
+  // 超管菜单
   {
-    path: '/',
-    redirect: '/dashboard/work',
+    path: '/super-admin',
+    name: '超管',
+    icon: 'crown',
+    routes: [
+      {
+        path: '/super-admin',
+        redirect: '/super-admin/customer-success-config',
+      },
+      {
+        path: '/super-admin/customer-success-config',
+        name: '客户成功服务配置',
+        icon: 'setting',
+        routes: [
+          {
+            path: '/super-admin/customer-success-config',
+            redirect: '/super-admin/customer-success-config/enterprise-management',
+          },
+          {
+            path: '/super-admin/customer-success-config/enterprise-management',
+            name: '企业管理',
+            icon: 'bank',
+            component: './super-admin/EnterpriseManagement',
+          },
+        ],
+      },
+      {
+        path: '/super-admin/intelligent-onsite-config',
+        name: '智能驻场配置',
+        icon: 'robot',
+        routes: [
+          {
+            path: '/super-admin/intelligent-onsite-config',
+            redirect: '/super-admin/intelligent-onsite-config/permission-config',
+          },
+          {
+            path: '/super-admin/intelligent-onsite-config/permission-config',
+            name: '权限配置',
+            icon: 'key',
+            component: './super-admin/PermissionConfig',
+          },
+        ],
+      },
+    ],
   },
   {
     path: '*',

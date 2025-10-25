@@ -1654,10 +1654,10 @@ const CustomerDetailDrawer = ({ visible, customer, onClose })=>{
                     size: "small",
                     children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
                         wrap: true,
-                        children: customer.tags.map((tag, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                        children: customer.tags.map((tag)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
                                 color: "processing",
                                 children: tag
-                            }, index, false, {
+                            }, tag, false, {
                                 fileName: "src/components/CustomerSuccess/CustomerDetailModal.tsx",
                                 lineNumber: 166,
                                 columnNumber: 17
@@ -2265,7 +2265,8 @@ self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 var _s = $RefreshSig$();
 const { RangePicker } = _antd.DatePicker;
 const { Option } = _antd.Select;
-const GlobalFilters = ({ filters, onFiltersChange, onSaveView, onExport })=>{
+const GlobalFilters = ({ filters, onFiltersChange, // onSaveView, // 暂时未使用
+onExport })=>{
     _s();
     const [isExpanded, setIsExpanded] = (0, _react.useState)(false);
     const industries = [
@@ -7125,6 +7126,7 @@ const AnimatedCountTag = ({ color, count })=>{
             }, duration / steps);
             return ()=>clearInterval(timer);
         }
+        return undefined;
     }, [
         count,
         displayCount
@@ -7156,6 +7158,7 @@ const AnimatedCountTag = ({ color, count })=>{
                 document.head.removeChild(styleElement);
             };
         }
+        return undefined;
     }, [
         isAnimating,
         pulseKeyframes
@@ -7173,7 +7176,7 @@ const AnimatedCountTag = ({ color, count })=>{
         children: displayCount
     }, void 0, false, {
         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-        lineNumber: 431,
+        lineNumber: 433,
         columnNumber: 5
     }, this);
 };
@@ -7223,7 +7226,7 @@ const SwimLane = ({ lane, customers, onCardClick, onMoveCustomer, visibleCount, 
                         children: lane.title
                     }, void 0, false, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 493,
+                        lineNumber: 495,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(AnimatedCountTag, {
@@ -7231,13 +7234,13 @@ const SwimLane = ({ lane, customers, onCardClick, onMoveCustomer, visibleCount, 
                         count: customers.length
                     }, void 0, false, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 496,
+                        lineNumber: 498,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                lineNumber: 486,
+                lineNumber: 488,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -7253,7 +7256,7 @@ const SwimLane = ({ lane, customers, onCardClick, onMoveCustomer, visibleCount, 
                             onMoveCustomer: onMoveCustomer
                         }, customer.id, false, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 506,
+                            lineNumber: 508,
                             columnNumber: 11
                         }, this)),
                     hasMore && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
@@ -7268,7 +7271,7 @@ const SwimLane = ({ lane, customers, onCardClick, onMoveCustomer, visibleCount, 
                         children: [
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ArrowDownOutlined, {}, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 521,
+                                lineNumber: 523,
                                 columnNumber: 13
                             }, this),
                             " 加载更多 (",
@@ -7277,19 +7280,19 @@ const SwimLane = ({ lane, customers, onCardClick, onMoveCustomer, visibleCount, 
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 515,
+                        lineNumber: 517,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                lineNumber: 500,
+                lineNumber: 502,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-        lineNumber: 473,
+        lineNumber: 475,
         columnNumber: 5
     }, this);
 };
@@ -7355,7 +7358,7 @@ const RecallIncubationWorkbench = ()=>{
                     children: text
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 587,
+                    lineNumber: 589,
                     columnNumber: 9
                 }, this)
         },
@@ -7370,7 +7373,7 @@ const RecallIncubationWorkbench = ()=>{
                     children: config === null || config === void 0 ? void 0 : config.label
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 598,
+                    lineNumber: 600,
                     columnNumber: 16
                 }, this);
             }
@@ -7399,7 +7402,7 @@ const RecallIncubationWorkbench = ()=>{
                     children: lane === null || lane === void 0 ? void 0 : lane.title
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 620,
+                    lineNumber: 622,
                     columnNumber: 16
                 }, this);
             }
@@ -7462,7 +7465,7 @@ const RecallIncubationWorkbench = ()=>{
                             children: "召回孵化"
                         }, void 0, false, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 662,
+                            lineNumber: 664,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -7474,13 +7477,13 @@ const RecallIncubationWorkbench = ()=>{
                             children: "以数据驱动的流失客户召回与价值重建"
                         }, void 0, false, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 665,
+                            lineNumber: 667,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 661,
+                    lineNumber: 663,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -7510,7 +7513,7 @@ const RecallIncubationWorkbench = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 676,
+                                            lineNumber: 678,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -7520,18 +7523,18 @@ const RecallIncubationWorkbench = ()=>{
                                             children: "待召回总金额"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 679,
+                                            lineNumber: 681,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 675,
+                                    lineNumber: 677,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 674,
+                                lineNumber: 676,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -7553,7 +7556,7 @@ const RecallIncubationWorkbench = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 684,
+                                            lineNumber: 686,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -7563,18 +7566,18 @@ const RecallIncubationWorkbench = ()=>{
                                             children: "已召回金额"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 687,
+                                            lineNumber: 689,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 683,
+                                    lineNumber: 685,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 682,
+                                lineNumber: 684,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -7596,7 +7599,7 @@ const RecallIncubationWorkbench = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 692,
+                                            lineNumber: 694,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -7606,29 +7609,29 @@ const RecallIncubationWorkbench = ()=>{
                                             children: "召回成功率"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 695,
+                                            lineNumber: 697,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 691,
+                                    lineNumber: 693,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 690,
+                                lineNumber: 692,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 673,
+                        lineNumber: 675,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 669,
+                    lineNumber: 671,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -7640,14 +7643,14 @@ const RecallIncubationWorkbench = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 703,
+                                lineNumber: 705,
                                 columnNumber: 24
                             }, void 0),
                             " 智能推荐 - 今日优先关注"
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 703,
+                        lineNumber: 705,
                         columnNumber: 18
                     }, void 0),
                     style: {
@@ -7689,7 +7692,7 @@ const RecallIncubationWorkbench = ()=>{
                                         children: rec.customer.charAt(0)
                                     }, void 0, false, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 732,
+                                        lineNumber: 734,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -7706,7 +7709,7 @@ const RecallIncubationWorkbench = ()=>{
                                                 children: rec.customer
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 736,
+                                                lineNumber: 738,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
@@ -7717,29 +7720,29 @@ const RecallIncubationWorkbench = ()=>{
                                                 children: rec.reason
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 737,
+                                                lineNumber: 739,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 735,
+                                        lineNumber: 737,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, rec.id, true, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 710,
+                                lineNumber: 712,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 708,
+                        lineNumber: 710,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 702,
+                    lineNumber: 704,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -7755,7 +7758,7 @@ const RecallIncubationWorkbench = ()=>{
                                     children: [
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FilterOutlined, {}, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 749,
+                                            lineNumber: 751,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
@@ -7771,7 +7774,7 @@ const RecallIncubationWorkbench = ()=>{
                                                     children: "全部原因"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 756,
+                                                    lineNumber: 758,
                                                     columnNumber: 19
                                                 }, this),
                                                 CHURN_REASONS.map((reason)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -7779,13 +7782,13 @@ const RecallIncubationWorkbench = ()=>{
                                                         children: reason.label
                                                     }, reason.value, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 758,
+                                                        lineNumber: 760,
                                                         columnNumber: 21
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 750,
+                                            lineNumber: 752,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
@@ -7801,7 +7804,7 @@ const RecallIncubationWorkbench = ()=>{
                                                     children: "全部金额"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 767,
+                                                    lineNumber: 769,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -7809,7 +7812,7 @@ const RecallIncubationWorkbench = ()=>{
                                                     children: "高价值(≥50万)"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 768,
+                                                    lineNumber: 770,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -7817,7 +7820,7 @@ const RecallIncubationWorkbench = ()=>{
                                                     children: "中价值(10-50万)"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 769,
+                                                    lineNumber: 771,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
@@ -7825,19 +7828,19 @@ const RecallIncubationWorkbench = ()=>{
                                                     children: "低价值(<10万)"
                                                 }, void 0, false, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 770,
+                                                    lineNumber: 772,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 761,
+                                            lineNumber: 763,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
                                             prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SearchOutlined, {}, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 773,
+                                                lineNumber: 775,
                                                 columnNumber: 27
                                             }, void 0),
                                             placeholder: "搜索客户名称",
@@ -7848,25 +7851,25 @@ const RecallIncubationWorkbench = ()=>{
                                             }
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 772,
+                                            lineNumber: 774,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 748,
+                                    lineNumber: 750,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 747,
+                                lineNumber: 749,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
                                 flex: "auto"
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 781,
+                                lineNumber: 783,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -7876,50 +7879,50 @@ const RecallIncubationWorkbench = ()=>{
                                             type: viewMode === 'board' ? 'primary' : 'default',
                                             icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.AppstoreOutlined, {}, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 786,
+                                                lineNumber: 788,
                                                 columnNumber: 25
                                             }, void 0),
                                             onClick: ()=>setViewMode('board'),
                                             children: "看板视图"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 784,
+                                            lineNumber: 786,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
                                             type: viewMode === 'list' ? 'primary' : 'default',
                                             icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UnorderedListOutlined, {}, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 793,
+                                                lineNumber: 795,
                                                 columnNumber: 25
                                             }, void 0),
                                             onClick: ()=>setViewMode('list'),
                                             children: "列表视图"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 791,
+                                            lineNumber: 793,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 783,
+                                    lineNumber: 785,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 782,
+                                lineNumber: 784,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 746,
+                        lineNumber: 748,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 745,
+                    lineNumber: 747,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
@@ -7945,12 +7948,12 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[0].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 811,
+                                                lineNumber: 813,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 810,
+                                            lineNumber: 812,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -7964,12 +7967,12 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[1].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 821,
+                                                lineNumber: 823,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 820,
+                                            lineNumber: 822,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -7983,18 +7986,18 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[2].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 831,
+                                                lineNumber: 833,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 830,
+                                            lineNumber: 832,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 809,
+                                    lineNumber: 811,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8009,12 +8012,12 @@ const RecallIncubationWorkbench = ()=>{
                                         }
                                     }, void 0, false, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 844,
+                                        lineNumber: 846,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 843,
+                                    lineNumber: 845,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
@@ -8031,12 +8034,12 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[3].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 850,
+                                                lineNumber: 852,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 849,
+                                            lineNumber: 851,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -8050,12 +8053,12 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[4].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 860,
+                                                lineNumber: 862,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 859,
+                                            lineNumber: 861,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -8069,24 +8072,24 @@ const RecallIncubationWorkbench = ()=>{
                                                 onLoadMore: ()=>loadMoreCustomers(SWIM_LANES[5].key)
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 870,
+                                                lineNumber: 872,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 869,
+                                            lineNumber: 871,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 848,
+                                    lineNumber: 850,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 807,
+                            lineNumber: 809,
                             columnNumber: 15
                         }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                             title: "客户列表",
@@ -8099,22 +8102,22 @@ const RecallIncubationWorkbench = ()=>{
                                 }
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 883,
+                                lineNumber: 885,
                                 columnNumber: 17
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                            lineNumber: 882,
+                            lineNumber: 884,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 805,
+                        lineNumber: 807,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 803,
+                    lineNumber: 805,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Drawer, {
@@ -8143,7 +8146,7 @@ const RecallIncubationWorkbench = ()=>{
                                                             children: "行业:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 910,
+                                                            lineNumber: 912,
                                                             columnNumber: 26
                                                         }, this),
                                                         " ",
@@ -8151,7 +8154,7 @@ const RecallIncubationWorkbench = ()=>{
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 910,
+                                                    lineNumber: 912,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8160,7 +8163,7 @@ const RecallIncubationWorkbench = ()=>{
                                                             children: "风险等级:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 911,
+                                                            lineNumber: 913,
                                                             columnNumber: 26
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -8168,19 +8171,19 @@ const RecallIncubationWorkbench = ()=>{
                                                             children: selectedCustomer.riskLevel === 'high' ? '高风险' : selectedCustomer.riskLevel === 'medium' ? '中风险' : '低风险'
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 912,
+                                                            lineNumber: 914,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 911,
+                                                    lineNumber: 913,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 909,
+                                            lineNumber: 911,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
@@ -8192,7 +8195,7 @@ const RecallIncubationWorkbench = ()=>{
                                                             children: "流失前ARR:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 918,
+                                                            lineNumber: 920,
                                                             columnNumber: 26
                                                         }, this),
                                                         " ¥",
@@ -8200,7 +8203,7 @@ const RecallIncubationWorkbench = ()=>{
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 918,
+                                                    lineNumber: 920,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8209,7 +8212,7 @@ const RecallIncubationWorkbench = ()=>{
                                                             children: "流失天数:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                            lineNumber: 919,
+                                                            lineNumber: 921,
                                                             columnNumber: 26
                                                         }, this),
                                                         " ",
@@ -8218,24 +8221,24 @@ const RecallIncubationWorkbench = ()=>{
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                    lineNumber: 919,
+                                                    lineNumber: 921,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 917,
+                                            lineNumber: 919,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 908,
+                                    lineNumber: 910,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 907,
+                                lineNumber: 909,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -8255,7 +8258,7 @@ const RecallIncubationWorkbench = ()=>{
                                                         children: contact.name
                                                     }, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 928,
+                                                        lineNumber: 930,
                                                         columnNumber: 26
                                                     }, this),
                                                     " - ",
@@ -8263,7 +8266,7 @@ const RecallIncubationWorkbench = ()=>{
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 928,
+                                                lineNumber: 930,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8274,7 +8277,7 @@ const RecallIncubationWorkbench = ()=>{
                                                 children: [
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PhoneOutlined, {}, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 930,
+                                                        lineNumber: 932,
                                                         columnNumber: 23
                                                     }, this),
                                                     " ",
@@ -8282,7 +8285,7 @@ const RecallIncubationWorkbench = ()=>{
                                                     " | ",
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.MailOutlined, {}, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 930,
+                                                        lineNumber: 932,
                                                         columnNumber: 59
                                                     }, this),
                                                     " ",
@@ -8290,18 +8293,18 @@ const RecallIncubationWorkbench = ()=>{
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 929,
+                                                lineNumber: 931,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, index, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 927,
+                                        lineNumber: 929,
                                         columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 925,
+                                lineNumber: 927,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -8317,7 +8320,7 @@ const RecallIncubationWorkbench = ()=>{
                                                 children: "主要原因:"
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 938,
+                                                lineNumber: 940,
                                                 columnNumber: 22
                                             }, this),
                                             " ",
@@ -8325,7 +8328,7 @@ const RecallIncubationWorkbench = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 938,
+                                        lineNumber: 940,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8334,7 +8337,7 @@ const RecallIncubationWorkbench = ()=>{
                                                 children: "次要原因:"
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 939,
+                                                lineNumber: 941,
                                                 columnNumber: 22
                                             }, this),
                                             " ",
@@ -8342,7 +8345,7 @@ const RecallIncubationWorkbench = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 939,
+                                        lineNumber: 941,
                                         columnNumber: 17
                                     }, this),
                                     selectedCustomer.churnAnalysis.competitorInfo && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8351,7 +8354,7 @@ const RecallIncubationWorkbench = ()=>{
                                                 children: "竞品信息:"
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 941,
+                                                lineNumber: 943,
                                                 columnNumber: 24
                                             }, this),
                                             " ",
@@ -8359,7 +8362,7 @@ const RecallIncubationWorkbench = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 941,
+                                        lineNumber: 943,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8368,7 +8371,7 @@ const RecallIncubationWorkbench = ()=>{
                                                 children: "客户反馈:"
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 943,
+                                                lineNumber: 945,
                                                 columnNumber: 22
                                             }, this),
                                             " ",
@@ -8376,13 +8379,13 @@ const RecallIncubationWorkbench = ()=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 943,
+                                        lineNumber: 945,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 937,
+                                lineNumber: 939,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -8413,7 +8416,7 @@ const RecallIncubationWorkbench = ()=>{
                                                         children: plan.task
                                                     }, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 957,
+                                                        lineNumber: 959,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8424,7 +8427,7 @@ const RecallIncubationWorkbench = ()=>{
                                                         children: [
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
                                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                                lineNumber: 964,
+                                                                lineNumber: 966,
                                                                 columnNumber: 25
                                                             }, this),
                                                             " ",
@@ -8432,13 +8435,13 @@ const RecallIncubationWorkbench = ()=>{
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 963,
+                                                        lineNumber: 965,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 956,
+                                                lineNumber: 958,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
@@ -8446,18 +8449,18 @@ const RecallIncubationWorkbench = ()=>{
                                                 children: plan.completed ? '已完成' : '进行中'
                                             }, void 0, false, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 967,
+                                                lineNumber: 969,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, plan.id, true, {
                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                        lineNumber: 949,
+                                        lineNumber: 951,
                                         columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 947,
+                                lineNumber: 949,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
@@ -8477,7 +8480,7 @@ const RecallIncubationWorkbench = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 977,
+                                            lineNumber: 979,
                                             columnNumber: 19
                                         }, this),
                                         ((_PLAYBOOK_TEMPLATES_selectedCustomer_churnReason = PLAYBOOK_TEMPLATES[selectedCustomer.churnReason]) === null || _PLAYBOOK_TEMPLATES_selectedCustomer_churnReason === void 0 ? void 0 : _PLAYBOOK_TEMPLATES_selectedCustomer_churnReason.map((template)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8495,7 +8498,7 @@ const RecallIncubationWorkbench = ()=>{
                                                         children: [
                                                             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
                                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                                lineNumber: 983,
+                                                                lineNumber: 985,
                                                                 columnNumber: 25
                                                             }, this),
                                                             " ",
@@ -8503,7 +8506,7 @@ const RecallIncubationWorkbench = ()=>{
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 982,
+                                                        lineNumber: 984,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -8515,53 +8518,53 @@ const RecallIncubationWorkbench = ()=>{
                                                         children: template.type
                                                     }, void 0, false, {
                                                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                        lineNumber: 985,
+                                                        lineNumber: 987,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, template.id, true, {
                                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                                lineNumber: 981,
+                                                lineNumber: 983,
                                                 columnNumber: 21
                                             }, this))) || /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
                                             type: "secondary",
                                             children: "暂无相关剧本"
                                         }, void 0, false, {
                                             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                            lineNumber: 990,
+                                            lineNumber: 992,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                    lineNumber: 976,
+                                    lineNumber: 978,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                                lineNumber: 975,
+                                lineNumber: 977,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                        lineNumber: 905,
+                        lineNumber: 907,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-                    lineNumber: 897,
+                    lineNumber: 899,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-            lineNumber: 659,
+            lineNumber: 661,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/components/CustomerSuccess/RecallIncubationWorkbench.tsx",
-        lineNumber: 658,
+        lineNumber: 660,
         columnNumber: 5
     }, this);
 };
@@ -14301,13 +14304,13 @@ const HandoverImplementationContent = ()=>{
                                 title: "进行中交接",
                                 children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Statistic, {
                                     title: "客户数量",
-                                    value: _handoverData.mockCustomerHandovers.filter((item)=>item.handoverStatus === 'normal').length,
+                                    value: _handoverData.mockCustomerHandovers.filter((item)=>item.handoverStatus === 'handover_in_progress').length,
                                     prefix: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SyncOutlined, {
                                         spin: true
                                     }, void 0, false, {
                                         fileName: "src/utils/tabContentGenerator.tsx",
                                         lineNumber: 244,
-                                        columnNumber: 133
+                                        columnNumber: 147
                                     }, void 0)
                                 }, void 0, false, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
@@ -14435,14 +14438,14 @@ const ContinuousServiceContent = ()=>{
     const changeData = [
         {
             id: 1,
-            company: '北京科技有限公司',
+            company: '北京科技创新有限公司',
             type: '健康',
             change: '85',
             time: '2025-01-05'
         },
         {
             id: 2,
-            company: '上海智能科技有限公司',
+            company: '上海智能制造集团',
             type: '一般',
             change: '65',
             time: '2025-01-08'
@@ -14487,7 +14490,7 @@ const ContinuousServiceContent = ()=>{
                                 gap: '12px',
                                 height: '100%'
                             },
-                            children: healthDistribution.map((item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            children: healthDistribution.map((item)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                                     style: {
                                         display: 'flex',
                                         alignItems: 'center',
@@ -14554,7 +14557,7 @@ const ContinuousServiceContent = ()=>{
                                             columnNumber: 19
                                         }, this)
                                     ]
-                                }, index, true, {
+                                }, item.level, true, {
                                     fileName: "src/utils/tabContentGenerator.tsx",
                                     lineNumber: 311,
                                     columnNumber: 17

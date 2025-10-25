@@ -119,7 +119,7 @@ const OverviewTab: React.FC = () => {
   
   // 字段管理状态
   const [visibleColumns, setVisibleColumns] = useState<string[]>([
-    'isFavorite', 'name', 'healthLevel', 'connectionLevel', 
+    'isFavorite', 'name', 'connectionLevel', 
     'arr', 'lastContactDate', 'ticketExpiryDate', 'contractStartDate', 
     'contractEndDate', 'customerSegment', 'isRenewalRisk', 'contractAmount'
   ]);
@@ -131,13 +131,13 @@ const OverviewTab: React.FC = () => {
   // 智能跟进提醒数据
   const followUpReminders = {
     high: [
-      { id: 1, customer: '深圳创新科技有限公司', content: '健康分下降至35分，建议立即联系', time: '2小时前', type: 'health_decline' },
+      { id: 1, customer: '深圳金融科技有限公司', content: '健康分下降至35分，建议立即联系', time: '2小时前', type: 'health_decline' },
       { id: 2, customer: '广州数字化企业', content: '合同即将到期，需要续约跟进', time: '4小时前', type: 'contract_expiry' },
       { id: 3, customer: '杭州互联网公司', content: '客户投诉未处理，影响满意度', time: '6小时前', type: 'complaint' }
     ],
     medium: [
       { id: 4, customer: '上海智能科技', content: '7天未登录，建议主动联系', time: '1天前', type: 'inactive' },
-      { id: 5, customer: '北京科技有限公司', content: '使用频率下降30%，需要关注', time: '1天前', type: 'usage_decline' },
+      { id: 5, customer: '北京科技创新有限公司', content: '使用频率下降30%，需要关注', time: '1天前', type: 'usage_decline' },
       { id: 6, customer: '成都软件公司', content: '支持工单响应超时', time: '2天前', type: 'support_delay' },
       { id: 7, customer: '武汉创新企业', content: '产品功能使用率偏低', time: '2天前', type: 'low_adoption' },
       { id: 8, customer: '西安科技集团', content: '培训完成度不足50%', time: '3天前', type: 'training_incomplete' }
@@ -259,7 +259,7 @@ const OverviewTab: React.FC = () => {
 
   // 异动情况的示例数据
   const movementEvents = [
-    { id: 'm1', title: '管理员离职', detail: '北京科技有限公司 主要管理员离职', date: '2025-01-05', level: 'high' },
+    { id: 'm1', title: '管理员离职', detail: '北京科技创新有限公司 主要管理员离职', date: '2025-01-05', level: 'high' },
     { id: 'm2', title: 'CSM变更', detail: '深圳创新科技 CSM负责人调整', date: '2025-01-08', level: 'medium' },
     { id: 'm3', title: '权限收缩', detail: '广州数字化企业 减少管理员数量', date: '2025-01-12', level: 'low' },
     { id: 'm4', title: '合同到期', detail: '上海软件公司 合同即将到期', date: '2025-01-15', level: 'high' },
@@ -326,7 +326,11 @@ const OverviewTab: React.FC = () => {
       sorter: (a: Customer, b: Customer) => a.name.localeCompare(b.name),
       render: (text: string, record: Customer) => (
         <a 
-          onClick={() => navigate(`/profiles/service/${record.id}`)}
+          onClick={() => {
+            // 从客户ID中提取数字部分 (CUST-0001 -> 1)
+            const numericId = record.id.replace('CUST-', '').replace(/^0+/, '') || '1';
+            navigate(`/profiles/service/${numericId}`);
+          }}
           style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block' }}
           title={text}
         >
@@ -377,6 +381,64 @@ const OverviewTab: React.FC = () => {
       }
     },
 
+    {
+      title: '建联度',
+      dataIndex: 'connectionLevel',
+      key: 'connectionLevel',
+      width: 100,
+      align: 'center' as const,
+      sorter: (a: Customer, b: Customer) => {
+        const levelA = a.connectionLevel || 0;
+        const levelB = b.connectionLevel || 0;
+        return levelA - levelB;
+      },
+      render: (level: number) => {
+        const getSignalConfig = (level: number) => {
+          if (level >= 5) {
+            return { bars: 5, color: '#52c41a', text: '极强', tooltip: '建联度极强：与客户核心决策层建立深度信任关系，沟通无障碍' };
+          } else if (level >= 4) {
+            return { bars: 4, color: '#73d13d', text: '强', tooltip: '建联度强：与客户关键决策人保持密切联系，沟通顺畅' };
+          } else if (level >= 3) {
+            return { bars: 3, color: '#faad14', text: '中', tooltip: '建联度中：与客户有一定联系，但需要加强沟通深度' };
+          } else if (level >= 2) {
+            return { bars: 2, color: '#ff7a45', text: '弱', tooltip: '建联度弱：与客户联系较少，需要主动建立更多接触点' };
+          } else if (level >= 1) {
+            return { bars: 1, color: '#ff4d4f', text: '极弱', tooltip: '建联度极弱：与客户几乎无联系，急需建立有效沟通渠道' };
+          } else {
+            return { bars: 0, color: '#d9d9d9', text: '未知', tooltip: '建联度未知：缺乏客户联系信息' };
+          }
+        };
+        
+        const config = getSignalConfig(level || 0);
+        
+        return (
+          <Tooltip 
+            title={
+              <div>
+                <div style={{ fontWeight: 'bold', marginBottom: 4 }}>建联度：{config.text} ({level || 0}/5)</div>
+                <div>{config.tooltip}</div>
+              </div>
+            } 
+            placement="top"
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1px', cursor: 'pointer' }}>
+              {[1, 2, 3, 4, 5].map(bar => (
+                <div
+                  key={bar}
+                  style={{
+                    width: '3px',
+                    height: `${6 + bar * 1.5}px`,
+                    backgroundColor: bar <= config.bars ? config.color : '#f0f0f0',
+                    borderRadius: '1px',
+                    transition: 'all 0.2s ease'
+                  }}
+                />
+              ))}
+            </div>
+          </Tooltip>
+        );
+      }
+    },
     {
       title: 'ARR',
       dataIndex: 'arr',
@@ -553,64 +615,65 @@ const OverviewTab: React.FC = () => {
         </span>
       )
     },
-    {
-      title: '建联度',
-      dataIndex: 'connectionLevel',
-      key: 'connectionLevel',
-      width: 100,
-      align: 'center' as const,
-      sorter: (a: Customer, b: Customer) => {
-        const levelA = a.connectionLevel || 0;
-        const levelB = b.connectionLevel || 0;
-        return levelA - levelB;
-      },
-      render: (level: number) => {
-        const getSignalConfig = (level: number) => {
-          if (level >= 5) {
-            return { bars: 5, color: '#52c41a', text: '极强', tooltip: '建联度极强：与客户核心决策层建立深度信任关系，沟通无障碍' };
-          } else if (level >= 4) {
-            return { bars: 4, color: '#73d13d', text: '强', tooltip: '建联度强：与客户关键决策人保持密切联系，沟通顺畅' };
-          } else if (level >= 3) {
-            return { bars: 3, color: '#faad14', text: '中', tooltip: '建联度中：与客户有一定联系，但需要加强沟通深度' };
-          } else if (level >= 2) {
-            return { bars: 2, color: '#ff7a45', text: '弱', tooltip: '建联度弱：与客户联系较少，需要主动建立更多接触点' };
-          } else if (level >= 1) {
-            return { bars: 1, color: '#ff4d4f', text: '极弱', tooltip: '建联度极弱：与客户几乎无联系，急需建立有效沟通渠道' };
-          } else {
-            return { bars: 0, color: '#d9d9d9', text: '未知', tooltip: '建联度未知：缺乏客户联系信息' };
-          }
-        };
-        
-        const config = getSignalConfig(level || 0);
-        
-        return (
-          <Tooltip 
-            title={
-              <div>
-                <div style={{ fontWeight: 'bold', marginBottom: 4 }}>建联度：{config.text} ({level || 0}/5)</div>
-                <div>{config.tooltip}</div>
-              </div>
-            } 
-            placement="top"
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1px', cursor: 'pointer' }}>
-              {[1, 2, 3, 4, 5].map(bar => (
-                <div
-                  key={bar}
-                  style={{
-                    width: '3px',
-                    height: `${6 + bar * 1.5}px`,
-                    backgroundColor: bar <= config.bars ? config.color : '#f0f0f0',
-                    borderRadius: '1px',
-                    transition: 'all 0.2s ease'
-                  }}
-                />
-              ))}
-            </div>
-          </Tooltip>
-        );
-      }
-    },
+    // 第二个建联度字段已删除，避免重复
+    // {
+    //   title: '建联度',
+    //   dataIndex: 'connectionLevel',
+    //   key: 'connectionLevel',
+    //   width: 100,
+    //   align: 'center' as const,
+    //   sorter: (a: Customer, b: Customer) => {
+    //     const levelA = a.connectionLevel || 0;
+    //     const levelB = b.connectionLevel || 0;
+    //     return levelA - levelB;
+    //   },
+    //   render: (level: number) => {
+    //     const getSignalConfig = (level: number) => {
+    //       if (level >= 5) {
+    //         return { bars: 5, color: '#52c41a', text: '极强', tooltip: '建联度极强：与客户核心决策层建立深度信任关系，沟通无障碍' };
+    //       } else if (level >= 4) {
+    //         return { bars: 4, color: '#73d13d', text: '强', tooltip: '建联度强：与客户关键决策人保持密切联系，沟通顺畅' };
+    //       } else if (level >= 3) {
+    //         return { bars: 3, color: '#faad14', text: '中', tooltip: '建联度中：与客户有一定联系，但需要加强沟通深度' };
+    //       } else if (level >= 2) {
+    //         return { bars: 2, color: '#ff7a45', text: '弱', tooltip: '建联度弱：与客户联系较少，需要主动建立更多接触点' };
+    //       } else if (level >= 1) {
+    //         return { bars: 1, color: '#ff4d4f', text: '极弱', tooltip: '建联度极弱：与客户几乎无联系，急需建立有效沟通渠道' };
+    //       } else {
+    //         return { bars: 0, color: '#d9d9d9', text: '未知', tooltip: '建联度未知：缺乏客户联系信息' };
+    //       }
+    //     };
+    //     
+    //     const config = getSignalConfig(level || 0);
+    //     
+    //     return (
+    //       <Tooltip 
+    //         title={
+    //           <div>
+    //             <div style={{ fontWeight: 'bold', marginBottom: 4 }}>建联度：{config.text} ({level || 0}/5)</div>
+    //             <div>{config.tooltip}</div>
+    //           </div>
+    //         } 
+    //         placement="top"
+    //       >
+    //         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1px', cursor: 'pointer' }}>
+    //           {[1, 2, 3, 4, 5].map(bar => (
+    //             <div
+    //               key={bar}
+    //               style={{
+    //                 width: '3px',
+    //                 height: `${6 + bar * 1.5}px`,
+    //                 backgroundColor: bar <= config.bars ? config.color : '#f0f0f0',
+    //                 borderRadius: '1px',
+    //                 transition: 'all 0.2s ease'
+    //               }}
+    //             />
+    //           ))}
+    //         </div>
+    //       </Tooltip>
+    //     );
+    //   }
+    // },
     // 待办任务字段已隐藏，代码保留
     // {
     //   title: '待办任务',
@@ -825,9 +888,9 @@ const OverviewTab: React.FC = () => {
                 }}>
                   {filteredMovements.slice(rowIndex * 2, rowIndex * 2 + 2).map(e => {
                     const levelConfig = {
-                      high: { color: '#ff4d4f', text: '高风险' },
-                      medium: { color: '#fa8c16', text: '中风险' },
-                      low: { color: '#52c41a', text: '低风险' }
+                      high: { color: '#ff4d4f', text: '高' },
+                      medium: { color: '#fa8c16', text: '中' },
+                      low: { color: '#52c41a', text: '低' }
                     };
                     const config = levelConfig[e.level as keyof typeof levelConfig];
                     
@@ -1131,7 +1194,7 @@ const OverviewTab: React.FC = () => {
                     <Badge count={2} size="small" style={{ marginLeft: 8 }} />
                   </div>
                   <div style={{ fontSize: 12, color: '#666', lineHeight: '18px' }}>
-                    北京科技有限公司续约即将到期，可准备续约材料
+                    北京科技创新有限公司续约即将到期，可准备续约材料
                   </div>
                   <div style={{ fontSize: 11, color: '#999', marginTop: 4 }}>
                     3天前
@@ -1322,7 +1385,9 @@ const OverviewTab: React.FC = () => {
                         // 根据客户名称找到对应的客户ID
                         const customer = mockCustomers.find(c => c.name === reminder.customer);
                         if (customer) {
-                          navigate(`/profiles/service/${customer.id}`);
+                          // 从客户ID中提取数字部分 (CUST-0001 -> 1)
+                          const numericId = customer.id.replace('CUST-', '').replace(/^0+/, '') || '1';
+                          navigate(`/profiles/service/${numericId}`);
                         } else {
                           message.warning('未找到对应的客户信息');
                         }
@@ -1638,6 +1703,7 @@ const PlaybooksTab: React.FC = () => {
   const [triggerEngineVisible, setTriggerEngineVisible] = useState(false);
   const [executions, setExecutions] = useState<PlaybookExecution[]>([]);
   const [recommendations, setRecommendations] = useState<PlaybookRecommendation[]>([]);
+  const [playbooks, setPlaybooks] = useState<ServicePlaybook[]>(mockServicePlaybooks);
 
   const handleLaunchPlaybook = async (playbookId: string, customerId: string) => {
     try {
@@ -1645,7 +1711,7 @@ const PlaybooksTab: React.FC = () => {
       const newExecution: PlaybookExecution = {
         id: `exec_${Date.now()}`,
         playbookId,
-        playbookName: mockServicePlaybooks.find(p => p.id === playbookId)?.name || '未知剧本',
+        playbookName: playbooks.find(p => p.id === playbookId)?.name || '未知剧本',
         customerId,
         customerName: mockCustomers.find(c => c.id === customerId)?.name || '未知客户',
         status: 'pending',
@@ -1671,6 +1737,29 @@ const PlaybooksTab: React.FC = () => {
     setLauncherVisible(true);
   };
 
+  const handleAddPlaybook = async (newPlaybook: Omit<ServicePlaybook, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      // 创建新剧本
+      const playbook: ServicePlaybook = {
+        ...newPlaybook,
+        id: `playbook_${Date.now()}`,
+        usage: 0,
+        successRate: 0,
+        createdBy: '当前用户',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        lastExecutedAt: undefined,
+        successMetrics: [],
+        resources: []
+      };
+      
+      setPlaybooks(prev => [...prev, playbook]);
+      message.success('服务剧本创建成功！');
+    } catch (error) {
+      message.error('创建剧本失败');
+    }
+  };
+
   const handleUpdateRecommendation = async (id: string, updates: Partial<PlaybookRecommendation>) => {
     setRecommendations(prev => 
       prev.map(rec => rec.id === id ? { ...rec, ...updates } : rec)
@@ -1681,13 +1770,14 @@ const PlaybooksTab: React.FC = () => {
     <div style={{ padding: 0 }}>
       {/* 剧本库组件 */}
       <PlaybookLibrary
-        playbooks={mockServicePlaybooks}
+        playbooks={playbooks}
         onLaunchPlaybook={(playbookId) => {
-          const playbook = mockServicePlaybooks.find(p => p.id === playbookId);
+          const playbook = playbooks.find(p => p.id === playbookId);
           if (playbook) {
             handlePlaybookSelect(playbook);
           }
         }}
+        onAddPlaybook={handleAddPlaybook}
         loading={false}
       />
 

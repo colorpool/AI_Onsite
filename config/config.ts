@@ -14,7 +14,7 @@ const { REACT_APP_ENV = 'dev' } = process.env;
  * @description 部署时的路径，如果部署在非根目录下，需要配置这个变量
  * @doc https://umijs.org/docs/api/config#publicpath
  */
-const PUBLIC_PATH: string = '/';
+const PUBLIC_PATH: string = process.env.UMI_ENV === 'prod' ? './' : '/';
 
 export default defineConfig({
   /**
@@ -25,6 +25,23 @@ export default defineConfig({
   hash: true,
 
   publicPath: PUBLIC_PATH,
+  
+  /**
+   * @name 路由模式
+   * @description 使用 hash 路由模式，支持直接打开静态文件（file:// 协议）
+   * @doc https://umijs.org/docs/api/config#history
+   */
+  history: {
+    type: 'hash',
+  },
+  
+  /**
+   * @name 运行时公共路径
+   * @description 当使用相对路径时需要启用，支持静态文件访问
+   */
+  runtimePublicPath: process.env.UMI_ENV === 'prod' ? {
+    strict: false,
+  } : {},
 
   /**
    * @name 兼容性设置
@@ -119,7 +136,7 @@ export default defineConfig({
       theme: {
         cssVar: true,
         token: {
-          fontFamily: 'AlibabaSans, sans-serif',
+          fontFamily: 'AlibabaPuHuiTi, sans-serif',
         },
       },
     },
@@ -141,9 +158,11 @@ export default defineConfig({
    * @description 配置 <head> 中额外的 script
    */
   headScripts: [
+    // 设置运行时 publicPath，支持静态文件访问
+    process.env.UMI_ENV === 'prod' ? `window.publicPath = './';` : '',
     // 解决首次加载时白屏的问题
     { src: join(PUBLIC_PATH, 'scripts/loading.js'), async: true },
-  ],
+  ].filter(Boolean),
   //================ pro 插件配置 =================
   presets: ['umi-presets-pro'],
   /**
@@ -177,5 +196,12 @@ export default defineConfig({
   mako: {},
   esbuildMinifyIIFE: true,
   requestRecord: {},
-  exportStatic: {},
+  /**
+   * @name 禁用 source map
+   * @description 生产环境不生成 .map 文件，减小打包体积和文件数量
+   * @doc https://umijs.org/docs/api/config#devtool
+   */
+  devtool: process.env.UMI_ENV === 'prod' ? false : 'source-map',
+  // 使用 hash 路由模式时不需要 exportStatic
+  // exportStatic: process.env.UMI_ENV === 'prod' ? { htmlSuffix: false, dynamicRoot: true } : {},
 });

@@ -17,7 +17,7 @@ const Settings: ProLayoutProps & {
   colorWeak: false,
   title: '智能驻场-钉学科技',
   pwa: false,
-  logo: '/simple-logo.svg',
+  logo: './simple-logo.svg',
   iconfontUrl: '',
   token: {
     // 参见ts声明，demo 见文档，通过token 修改样式

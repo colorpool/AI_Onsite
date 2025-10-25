@@ -16,7 +16,8 @@ import {
   Badge,
   Tooltip,
   Empty,
-  message
+  message,
+  Form
 } from 'antd';
 import {
   SearchOutlined,
@@ -28,16 +29,19 @@ import {
   FireOutlined,
   UserOutlined,
   FileTextOutlined,
-  TagOutlined
+  TagOutlined,
+  PlusOutlined
 } from '@ant-design/icons';
 import type { ServicePlaybook, LifecycleStage, PlaybookStatus } from '../types/continuousService';
 
 const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
+const { TextArea } = Input;
 
 interface PlaybookLibraryProps {
   playbooks: ServicePlaybook[];
   onLaunchPlaybook: (playbookId: string) => void;
+  onAddPlaybook?: (playbook: Omit<ServicePlaybook, 'id' | 'createdAt' | 'updatedAt'>) => void;
   loading?: boolean;
 }
 
@@ -52,11 +56,14 @@ interface PlaybookFilter {
 const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
   playbooks,
   onLaunchPlaybook,
+  onAddPlaybook,
   loading = false
 }) => {
   const [filter, setFilter] = useState<PlaybookFilter>({});
   const [selectedPlaybook, setSelectedPlaybook] = useState<ServicePlaybook | null>(null);
   const [detailModalVisible, setDetailModalVisible] = useState(false);
+  const [addPlaybookModalVisible, setAddPlaybookModalVisible] = useState(false);
+  const [form] = Form.useForm();
 
   // 获取所有分类和场景标签
   const categories = useMemo(() => {
@@ -69,10 +76,10 @@ const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
     return Array.from(tags);
   }, [playbooks]);
 
-  // 过滤剧本
+  // 筛选剧本
   const filteredPlaybooks = useMemo(() => {
     return playbooks.filter(playbook => {
-      if (filter.search && !playbook.name.toLowerCase().includes(filter.search.toLowerCase()) &&
+      if (filter.search && !playbook.name.toLowerCase().includes(filter.search.toLowerCase()) && 
           !playbook.description.toLowerCase().includes(filter.search.toLowerCase())) {
         return false;
       }
@@ -92,19 +99,46 @@ const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
     });
   }, [playbooks, filter]);
 
-  // 处理剧本启动
+  // 处理启动剧本
   const handleLaunchPlaybook = (playbook: ServicePlaybook) => {
-    if (playbook.status !== '可用') {
-      message.warning('该剧本当前不可用');
-      return;
-    }
     onLaunchPlaybook(playbook.id);
+    message.success(`已启动剧本：${playbook.name}`);
   };
 
   // 显示剧本详情
   const showPlaybookDetail = (playbook: ServicePlaybook) => {
     setSelectedPlaybook(playbook);
     setDetailModalVisible(true);
+  };
+
+  // 处理新增剧本
+  const handleAddPlaybook = () => {
+    form.validateFields().then(values => {
+      const newPlaybook = {
+        ...values,
+        status: '可用' as PlaybookStatus,
+        executionCount: 0,
+        successRate: 0,
+        avgDuration: 0,
+        lastExecutedAt: null,
+        tasks: values.tasks ? values.tasks.split('\n').filter((task: string) => task.trim()).map((task: string, index: number) => ({
+          id: `task-${index}`,
+          title: task.trim(),
+          description: task.trim(),
+          phase: '执行阶段',
+          duration: 1,
+          dueOffset: 1,
+          checkpoints: []
+        })) : []
+      };
+      
+      if (onAddPlaybook) {
+        onAddPlaybook(newPlaybook);
+        message.success('服务剧本创建成功！');
+        setAddPlaybookModalVisible(false);
+        form.resetFields();
+      }
+    });
   };
 
   // 获取状态颜色
@@ -117,11 +151,11 @@ const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
     }
   };
 
-  // 获取生命周期阶段颜色
+  // 获取阶段颜色
   const getStageColor = (stage: LifecycleStage) => {
     switch (stage) {
       case '成长期': return 'blue';
-      case '成熟期': return 'purple';
+      case '成熟期': return 'green';
       case '衰退期': return 'orange';
       default: return 'default';
     }
@@ -129,9 +163,9 @@ const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
 
   return (
     <div>
-      {/* 筛选器 */}
+      {/* 筛选器和新增按钮 */}
       <Card style={{ marginBottom: 16 }}>
-        <Row gutter={[16, 16]}>
+        <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={12} md={6}>
             <Input
               placeholder="搜索剧本名称或描述"
@@ -181,17 +215,28 @@ const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
             </Select>
           </Col>
           <Col xs={24} sm={12} md={6}>
-            <Select
-              placeholder="场景标签"
-              value={filter.scenarioTag}
-              onChange={(value) => setFilter({ ...filter, scenarioTag: value })}
-              allowClear
-              style={{ width: '100%' }}
-            >
-              {scenarioTags.map(tag => (
-                <Option key={tag} value={tag}>{tag}</Option>
-              ))}
-            </Select>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <Select
+                placeholder="场景标签"
+                value={filter.scenarioTag}
+                onChange={(value) => setFilter({ ...filter, scenarioTag: value })}
+                allowClear
+                style={{ flex: 1 }}
+              >
+                {scenarioTags.map(tag => (
+                  <Option key={tag} value={tag}>{tag}</Option>
+                ))}
+              </Select>
+              {onAddPlaybook && (
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  onClick={() => setAddPlaybookModalVisible(true)}
+                >
+                  新增剧本
+                </Button>
+              )}
+            </div>
           </Col>
         </Row>
       </Card>
@@ -394,7 +439,7 @@ const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
               ))}
             </Timeline>
 
-            {selectedPlaybook.successMetrics.length > 0 && (
+            {selectedPlaybook.successMetrics && selectedPlaybook.successMetrics.length > 0 && (
               <>
                 <Divider orientation="left">成功指标</Divider>
                 <div>
@@ -420,7 +465,7 @@ const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
               </>
             )}
 
-            {selectedPlaybook.resources.length > 0 && (
+            {selectedPlaybook.resources && selectedPlaybook.resources.length > 0 && (
               <>
                 <Divider orientation="left">相关资源</Divider>
                 <div>
@@ -446,6 +491,92 @@ const PlaybookLibrary: React.FC<PlaybookLibraryProps> = ({
             )}
           </div>
         )}
+      </Modal>
+
+      {/* 新增剧本模态框 */}
+      <Modal
+        title="新增服务剧本"
+        open={addPlaybookModalVisible}
+        onCancel={() => {
+          setAddPlaybookModalVisible(false);
+          form.resetFields();
+        }}
+        onOk={handleAddPlaybook}
+        width={800}
+        destroyOnClose
+      >
+        <Form form={form} layout="vertical">
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item name="name" label="剧本名称" rules={[{ required: true, message: '请输入剧本名称' }]}>
+                <Input placeholder="请输入剧本名称" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="category" label="剧本分类" rules={[{ required: true, message: '请选择剧本分类' }]}>
+                <Select placeholder="请选择剧本分类">
+                  <Option value="增购引导">增购引导</Option>
+                  <Option value="风险挽回">风险挽回</Option>
+                  <Option value="深度合作">深度合作</Option>
+                  <Option value="产品培训">产品培训</Option>
+                  <Option value="技术支持">技术支持</Option>
+                  <Option value="客户关怀">客户关怀</Option>
+                  <Option value="其他">其他</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item name="description" label="剧本描述" rules={[{ required: true, message: '请输入剧本描述' }]}>
+            <TextArea rows={3} placeholder="请详细描述剧本的目标和适用场景" />
+          </Form.Item>
+
+          <Form.Item name="goal" label="剧本目标" rules={[{ required: true, message: '请输入剧本目标' }]}>
+            <TextArea rows={2} placeholder="请描述剧本要达成的具体目标" />
+          </Form.Item>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item name="applicableStage" label="适用阶段" rules={[{ required: true, message: '请选择适用阶段' }]}>
+                <Select mode="multiple" placeholder="请选择适用阶段">
+                  <Option value="成长期">成长期</Option>
+                  <Option value="成熟期">成熟期</Option>
+                  <Option value="衰退期">衰退期</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item name="estimatedDuration" label="预计执行时长（小时）" rules={[{ required: true, message: '请输入预计执行时长' }]}>
+                <Input type="number" min={1} placeholder="请输入小时数" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item name="scenarioTags" label="场景标签">
+            <Select mode="tags" placeholder="请输入或选择场景标签（可多选）">
+              <Option value="健康度下降">健康度下降</Option>
+              <Option value="使用率低">使用率低</Option>
+              <Option value="续费风险">续费风险</Option>
+              <Option value="增购机会">增购机会</Option>
+              <Option value="产品升级">产品升级</Option>
+              <Option value="技术问题">技术问题</Option>
+              <Option value="客户投诉">客户投诉</Option>
+              <Option value="定期回访">定期回访</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="triggerConditions" label="触发条件">
+            <TextArea rows={2} placeholder="请描述剧本的自动触发条件（可选）" />
+          </Form.Item>
+
+          <Form.Item name="expectedOutcome" label="预期结果">
+            <TextArea rows={2} placeholder="请描述执行剧本后的预期结果" />
+          </Form.Item>
+
+          <Form.Item name="tasks" label="任务清单">
+            <TextArea rows={4} placeholder="请列出剧本包含的主要任务步骤，每行一个任务" />
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );

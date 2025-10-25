@@ -111,48 +111,90 @@ export const mockStakeholders: Stakeholder[] = [
   }
 ];
 
-// 模拟Onboarding任务
+// 模拟Onboarding任务数据
 export const mockOnboardingTasks: OnboardingTask[] = [
   {
     id: '1',
-    title: '安排启动会',
+    title: '安排启动会议',
     completed: true,
     dueDate: '2024-01-15'
   },
   {
     id: '2',
-    title: '完成账号开通',
+    title: '完成账号开通和权限配置',
     completed: true,
     dueDate: '2024-01-16'
   },
   {
     id: '3',
-    title: '配置数据权限',
-    completed: false,
-    dueDate: '2024-01-20'
+    title: '系统环境配置和数据迁移',
+    completed: true,
+    dueDate: '2024-01-18'
   },
   {
     id: '4',
-    title: '培训用户使用',
+    title: '用户培训和操作指导',
     completed: false,
     dueDate: '2024-01-25'
+  },
+  {
+    id: '5',
+    title: '业务流程梳理和优化',
+    completed: false,
+    dueDate: '2024-01-28'
+  },
+  {
+    id: '6',
+    title: '系统集成测试和验收',
+    completed: false,
+    dueDate: '2024-02-01'
+  },
+  {
+    id: '7',
+    title: '正式上线和运行监控',
+    completed: false,
+    dueDate: '2024-02-05'
   }
 ];
 
-// 模拟内部评论
+// 模拟内部评论数据
 export const mockInternalComments: InternalComment[] = [
   {
     id: '1',
     content: '客户对数据安全要求很高，建议安排安全专家参与启动会 @security_team',
-    author: 'CSM-小王',
+    author: 'CSM-张明',
     createdAt: '2024-01-10 14:30:00',
     mentions: ['security_team']
   },
   {
     id: '2',
-    content: '已联系技术团队，确认可以满足客户的合规要求',
-    author: 'CSM-小李',
+    content: '已联系技术团队，确认可以满足客户的合规要求，预计下周完成环境配置',
+    author: 'CSM-李华',
     createdAt: '2024-01-11 09:15:00'
+  },
+  {
+    id: '3',
+    content: '启动会议进行顺利，客户技术团队配合度很高，已确定培训计划',
+    author: 'CSM-张明',
+    createdAt: '2024-01-15 16:20:00'
+  },
+  {
+    id: '4',
+    content: '账号开通完成，权限配置已按客户需求调整，等待客户确认',
+    author: '技术支持-王工',
+    createdAt: '2024-01-16 11:45:00'
+  },
+  {
+    id: '5',
+    content: '数据迁移测试通过，客户对系统响应速度表示满意',
+    author: '实施顾问-刘强',
+    createdAt: '2024-01-18 14:30:00'
+  },
+  {
+    id: '6',
+    content: '下周安排用户培训，已准备培训材料和演示环境',
+    author: 'CSM-张明',
+    createdAt: '2024-01-20 10:00:00'
   }
 ];
 
@@ -228,8 +270,8 @@ export const mockCustomers: Customer[] = [
   },
   {
     id: 'CUST-0003',
-    name: '天津教育科技集团',
-    industry: '教育',
+    name: '深圳金融科技有限公司',
+    industry: '金融',
     size: 'large',
     csm: '王芳',
     region: '华北',
@@ -239,7 +281,7 @@ export const mockCustomers: Customer[] = [
     lifecycleStage: '成长期',
     tier: 'A',
     signDate: '2024-01-08',
-    tags: ['教育行业', '集团客户', '多校区'],
+    tags: ['金融科技', '重点客户', '数字化转型'],
     collaborationEvents: 4,
     channelType: 'partner',
     isKeyAccount: true,
@@ -249,13 +291,13 @@ export const mockCustomers: Customer[] = [
     insights: [
       {
         id: 'insight_h003_001',
-        content: '多校区部署需要统一的管理平台',
+        content: '金融行业对数据安全和合规性要求极高',
         date: '2024-01-09',
         type: 'requirement'
       }
     ],
     nextAction: {
-      content: '制定多校区部署方案',
+      content: '制定金融合规和安全方案',
       dueDate: '2024-01-30',
       overdue: false
     }
@@ -304,7 +346,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     customerId: 'CUST-0001',
     contractId: 'contract_001',
     contractNumber: 'CONT-2024-001',
-    customerName: '北京科技有限公司',
+    customerName: '北京科技创新有限公司',
     handoverStatus: 'implementation_in_progress',
     riskLevel: 'low',
     hasHandoverDocument: true,
@@ -327,7 +369,31 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     shortTermExpectation: '1. 员工平台使用率达到80%以上；2. 完成新员工入职培训全覆盖；3. 解决线下培训数据统计难题',
     longTermExpectation: '1. 通过平台赋能30%培训成本；2. 员工技能达标率提升20%；3. 形成企业内部知识库，支持知识沉淀',
     unacceptableSituations: '1. 系统频繁宕机影响业务；2. 数据安全出现重大漏洞；3. 培训效果无法量化评估',
-    customerSuccessCriteria: '1. 系统稳定性达到99.9%；2. 用户满意度评分4.5分以上；3. 培训完成率达到95%以上'
+    customerSuccessCriteria: '1. 系统稳定性达到99.9%；2. 用户满意度评分4.5分以上；3. 培训完成率达到95%以上',
+    risks: [
+      {
+        type: 'leadership',
+        description: '技术总监张三即将离职，可能影响项目推进'
+      },
+      {
+        type: 'unclear_needs',
+        description: '客户对数据分析模块的具体需求还不够明确'
+      }
+    ],
+    opportunities: [
+      {
+        type: 'account_expansion',
+        description: '客户表示有意向增购50个账号'
+      },
+      {
+        type: 'version_upgrade',
+        description: '客户对企业版功能很感兴趣，有升级意向'
+      },
+      {
+        type: 'referrals',
+        description: '客户愿意推荐给同行业的合作伙伴'
+      }
+    ]
   },
   {
     id: '2',
@@ -335,7 +401,7 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     customerId: 'CUST-0002',
     contractId: 'contract_003',
     contractNumber: 'CONT-2023-045',
-    customerName: '上海智能科技有限公司',
+    customerName: '上海智能制造集团',
     handoverStatus: 'pending_handover',
     riskLevel: 'medium',
     hasHandoverDocument: false,
@@ -385,12 +451,12 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     customerSuccessCriteria: '1. 系统正常运行率99%以上；2. 用户培训通过率90%以上；3. 业务指标提升可量化'
   },
   {
-    id: '3',
+    id: '0003',
     handoverNumber: 'HO-2024-003',
     customerId: 'CUST-0003',
     contractId: 'contract_004',
     contractNumber: 'CONT-2022-008',
-    customerName: '深圳创新科技有限公司',
+    customerName: '深圳金融科技有限公司',
     handoverStatus: 'handover_in_progress',
     riskLevel: 'high',
     hasHandoverDocument: true,
@@ -448,7 +514,27 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     shortTermExpectation: '1. 解决当前业务痛点；2. 提升团队协作效率；3. 建立规范化管理流程',
     longTermExpectation: '1. 成为行业数字化标杆；2. 实现智能化运营管理；3. 支撑业务快速扩张',
     unacceptableSituations: '1. 影响现有业务正常运行；2. 增加员工工作负担；3. 投资回报率低于预期',
-    customerSuccessCriteria: '1. 关键业务指标提升15%以上；2. 员工工作效率提升25%；3. 客户满意度保持在4.0以上'
+    customerSuccessCriteria: '1. 关键业务指标提升15%以上；2. 员工工作效率提升25%；3. 客户满意度保持在4.0以上',
+    risks: [
+      {
+        type: 'high_expectations',
+        description: '客户对产品功能期待值过高，可能导致满意度下降'
+      },
+      {
+        type: 'tight_schedule',
+        description: '客户要求快速上线，时间压力较大'
+      }
+    ],
+    opportunities: [
+      {
+        type: 'version_upgrade',
+        description: '客户对高级功能感兴趣，有升级潜力'
+      },
+      {
+        type: 'new_modules',
+        description: '客户提到可能需要采购额外的数据分析模块'
+      }
+    ]
   },
   {
     id: '4',
@@ -499,7 +585,27 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     shortTermExpectation: '1. 系统稳定上线运行；2. 核心用户快速上手；3. 基础数据完整迁移',
     longTermExpectation: '1. 全面提升客户服务质量；2. 实现精细化运营管理；3. 支持业务创新发展',
     unacceptableSituations: '1. 系统不稳定影响业务；2. 学习成本过高；3. 无法满足个性化需求',
-    customerSuccessCriteria: '1. 系统可用性达到99.5%；2. 用户活跃度达到85%；3. 客户服务效率提升20%'
+    customerSuccessCriteria: '1. 系统可用性达到99.5%；2. 用户活跃度达到85%；3. 客户服务效率提升20%',
+    risks: [
+      {
+        type: 'high_expectations',
+        description: '系统集成复杂度较高，可能影响上线时间'
+      },
+      {
+        type: 'unclear_needs',
+        description: '用户对新系统接受度需要时间培养'
+      }
+    ],
+    opportunities: [
+      {
+        type: 'version_upgrade',
+        description: '客户服务流程优化有很大提升空间'
+      },
+      {
+        type: 'new_modules',
+        description: '数据分析能力提升可以带来更多商业价值'
+      }
+    ]
   },
   {
     id: '5',
@@ -550,7 +656,27 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     shortTermExpectation: '1. 完成团队培训；2. 建立使用规范；3. 实现基本功能应用',
     longTermExpectation: '1. 打造学习型组织；2. 实现知识管理体系化；3. 提升企业竞争力',
     unacceptableSituations: '1. 培训效果不达标；2. 系统操作复杂；3. 技术支持响应慢',
-    customerSuccessCriteria: '1. 培训覆盖率100%；2. 系统使用满意度4.5分以上；3. 业务流程优化效果明显'
+    customerSuccessCriteria: '1. 培训覆盖率100%；2. 系统使用满意度4.5分以上；3. 业务流程优化效果明显',
+    risks: [
+      {
+        type: 'tight_schedule',
+        description: '团队技术能力参差不齐，培训周期可能延长'
+      },
+      {
+        type: 'unclear_needs',
+        description: '学习积极性不高，需要建立有效激励机制'
+      }
+    ],
+    opportunities: [
+      {
+        type: 'account_expansion',
+        description: '培训效果好可以推广到更多部门'
+      },
+      {
+        type: 'long_term',
+        description: '建立学习型组织有助于长期合作'
+      }
+    ]
   },
   {
     id: '6',
@@ -610,7 +736,27 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     shortTermExpectation: '1. 系统稳定上线运行；2. 满足行业合规要求；3. 核心团队熟练掌握系统操作',
     longTermExpectation: '1. 提升研发效率和质量；2. 建立标准化的项目管理流程；3. 支撑企业数字化转型',
     unacceptableSituations: '1. 系统安全漏洞；2. 影响关键项目进度；3. 不符合行业标准要求',
-    customerSuccessCriteria: '1. 系统安全性达到军工级标准；2. 项目管理效率提升25%；3. 用户满意度达到4.5分以上'
+    customerSuccessCriteria: '1. 系统安全性达到军工级标准；2. 项目管理效率提升25%；3. 用户满意度达到4.5分以上',
+    risks: [
+      {
+        type: 'high_expectations',
+        description: '航空航天行业对系统稳定性要求极高'
+      },
+      {
+        type: 'tight_schedule',
+        description: '严格的安全合规要求可能影响实施进度'
+      }
+    ],
+    opportunities: [
+      {
+        type: 'referrals',
+        description: '航空航天行业标杆客户，有转介绍潜力'
+      },
+      {
+        type: 'version_upgrade',
+        description: '定制化需求可能带来高级版本升级机会'
+      }
+    ]
   },
   {
     id: '7',
@@ -669,6 +815,26 @@ export const mockCustomerHandovers: CustomerHandover[] = [
     shortTermExpectation: '1. 快速实现投资回报；2. 团队高效协作；3. 客户满意度提升',
     longTermExpectation: '1. 成为数字化转型典范；2. 实现可持续发展；3. 建立行业领先优势',
     unacceptableSituations: '1. 投资回报周期过长；2. 员工适应困难；3. 服务质量下降',
-    customerSuccessCriteria: '1. ROI在12个月内实现；2. 员工满意度保持4.8分以上；3. 客户续约率达到95%以上'
+    customerSuccessCriteria: '1. ROI在12个月内实现；2. 员工满意度保持4.8分以上；3. 客户续约率达到95%以上',
+    risks: [
+      {
+        type: 'leadership',
+        description: '数字化转型需要高层持续支持和推动'
+      },
+      {
+        type: 'other_risks',
+        description: '各部门协作效率提升需要时间磨合'
+      }
+    ],
+    opportunities: [
+      {
+        type: 'account_expansion',
+        description: '数字化转型成功可推广到集团其他公司'
+      },
+      {
+        type: 'long_term',
+        description: '客户满意度高，续约意愿强烈'
+      }
+    ]
   }
 ];

@@ -31,7 +31,9 @@ import { renewalCustomers, RenewalCustomer } from '../../../../mock/renewalData'
 import RenewalDetailHeader from '../../../../components/renewal/RenewalDetailHeader';
 import CustomerProfileTab from '../../../../components/common/CustomerProfileTab';
 import ServiceRecordTab from '../../../../components/common/ServiceRecordTab';
+import CustomerJourneyTimeline from '../../../../components/common/CustomerJourneyTimeline';
 import ServiceRecordAdapter from '../../../../utils/serviceRecordAdapter';
+import { getCustomerJourney } from '../../../../data/mockCustomerJourney';
 
 const { Title, Text } = Typography;
 
@@ -168,7 +170,11 @@ const RenewalDetailPage: React.FC = () => {
         {/* 基本信息 */}
         <Col span={24}>
           <Card title="基本信息" size="small">
-            <Descriptions column={2} size="small">
+            <Descriptions 
+              column={2} 
+              size="small"
+              labelStyle={{ width: '180px', minWidth: '180px' }}
+            >
               <Descriptions.Item label="客户名称">{renewalData.name}</Descriptions.Item>
               <Descriptions.Item label="客户编号">{renewalData.id}</Descriptions.Item>
               <Descriptions.Item label="合同到期时间">{renewalData.contractEndDate}</Descriptions.Item>
@@ -444,7 +450,8 @@ const RenewalDetailPage: React.FC = () => {
                expiryDate: renewalData.contractEndDate,
                status: renewalData.renewalStage === '已流失' ? 'at_risk' : 
                       renewalData.renewalStage === '已完成' ? 'active' : 
-                      renewalData.renewalStage === '商务谈判' ? 'negotiating' : 'pending'
+                      renewalData.renewalStage === '商务谈判' ? 'negotiating' : 'pending',
+               lastContactDays: Math.floor((new Date().getTime() - new Date(renewalData.lastContactDate).getTime()) / (1000 * 60 * 60 * 24))
              }}
              onBack={handleBack}
              onEdit={() => message.info('编辑功能开发中')}
@@ -453,11 +460,24 @@ const RenewalDetailPage: React.FC = () => {
            />
         </div>
 
+        {/* 客户旅程时间轴 */}
+        <CustomerJourneyTimeline 
+          customerId={id || ''}
+          journeyType="renewal"
+          style={{ marginBottom: '24px' }}
+        />
+
         {/* 标签页内容 */}
-        <Card style={{
-          borderRadius: '8px',
-          boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02)'
-        }}>
+        <Card 
+          style={{
+            borderRadius: '12px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+            border: '1px solid #f0f0f0',
+            background: '#ffffff',
+            minHeight: '420px'
+          }}
+          bodyStyle={{ paddingTop: '0px' }}
+        >
           <Tabs
             activeKey={activeTab}
             onChange={setActiveTab}
@@ -513,28 +533,6 @@ const RenewalDetailPage: React.FC = () => {
                     onAddRecord={handleAddServiceRecord}
                     showAddButton={true}
                     tabTitle="服务记录"
-                  />
-                )
-              },
-              {
-                key: 'communication',
-                label: (
-                  <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
-                    <ShareAltOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
-                    <span style={{ color: '#8c8c8c', fontSize: '14px' }}>沟通记录</span>
-                  </div>
-                ),
-                children: (
-                  <ServiceRecordTab
-                    serviceRecords={serviceRecords.filter(record => 
-                      ['商务沟通', '电话回访', 'QBR'].includes(record.type) ||
-                      (record.tags && record.tags.some(tag => 
-                        ['续约沟通', '续约意向', '商务谈判', '合同讨论'].some(renewalTag => tag.includes(renewalTag))
-                      ))
-                    )}
-                    onAddRecord={handleAddServiceRecord}
-                    showAddButton={true}
-                    tabTitle="沟通记录"
                   />
                 )
               }

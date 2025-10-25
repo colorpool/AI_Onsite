@@ -49,21 +49,15 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
    * 退出登录，并且将当前的 url 保存
    */
   const loginOut = async () => {
-    await outLogin();
-    const { search, pathname } = window.location;
-    const urlParams = new URL(window.location.href).searchParams;
-    const searchParams = new URLSearchParams({
-      redirect: pathname + search,
-    });
-    /** 此方法会跳转到 redirect 参数所在的位置 */
-    const redirect = urlParams.get('redirect');
-    // Note: There may be security issues, please note
-    if (window.location.pathname !== '/user/login' && !redirect) {
-      history.replace({
-        pathname: '/user/login',
-        search: searchParams.toString(),
-      });
+    try {
+      await outLogin();
+    } catch (error) {
+      // 即使API调用失败，也继续执行退出登录流程
+      console.log('退出登录API调用失败，但继续执行退出流程');
     }
+    
+    // 直接跳转到登录页面，不保存重定向参数
+    history.replace('/user/login');
   };
   const { styles } = useStyles();
 

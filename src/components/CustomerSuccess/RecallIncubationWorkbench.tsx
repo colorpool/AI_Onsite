@@ -394,6 +394,7 @@ const AnimatedCountTag: React.FC<AnimatedCountTagProps> = ({ color, count }) => 
 
       return () => clearInterval(timer);
     }
+    return undefined;
   }, [count, displayCount]);
 
   // 创建动态样式
@@ -425,6 +426,7 @@ const AnimatedCountTag: React.FC<AnimatedCountTagProps> = ({ color, count }) => 
         document.head.removeChild(styleElement);
       };
     }
+    return undefined;
   }, [isAnimating, pulseKeyframes]);
 
   return (

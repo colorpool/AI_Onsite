@@ -39,6 +39,11 @@ const routeToTitleMap: Record<string, string> = {
   '/teaching-ai/user-interaction': '用户互动管理',
   '/teaching-ai/community': '学习社区运营',
   '/teaching-ai/growth-strategy': '用户增长策略',
+  // 授客AI客户成功服务
+  '/customer-success/community': '运营交流社区',
+  '/customer-success/service-records': '服务互动记录',
+  '/customer-success/team-cards': '驻场团队名片',
+  '/customer-success/purchase-details': '购买明细和建议',
   '/user/login': '登录',
   '/user/register': '注册',
   '/user/register-result': '注册结果',
@@ -123,6 +128,10 @@ const TabBarWrapper: React.FC = React.memo(() => {
     // 持续服务详情页标题
     else if (currentPath.match(/^\/profiles\/service\/[\w-]+$/)) {
       title = '持续服务详情';
+    }
+    // 用户互动管理（旅程）客户详情页标题
+    else if (currentPath.match(/^\/teaching-ai\/user-interaction\/[\w-]+$/)) {
+      title = '用户旅程详情';
     }
     
     // 如果当前路径没有对应的Tab，则添加一个

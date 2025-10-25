@@ -4,7 +4,7 @@ import React from 'react';
 // 自定义SVG图标组件
 const SokeIcon: React.FC = () => (
   <img 
-    src="/soke.svg" 
+    src={(typeof window !== 'undefined' && (window as any).publicPath) ? `${(window as any).publicPath}soke.svg` : './soke.svg'} 
     alt="Soke" 
     style={{ 
       width: '16px', 

@@ -43,6 +43,7 @@ import {
   BarChartOutlined
 } from '@ant-design/icons';
 import ContinuousServiceHeader from '../../../components/service/ContinuousServiceHeader';
+import CustomerJourneyTimeline from '@/components/common/CustomerJourneyTimeline';
 import { renewalCustomers, RenewalCustomer } from '../../../mock/renewalData';
 import dayjs from 'dayjs';
 
@@ -144,167 +145,192 @@ const RenewalDetail: React.FC = () => {
         />
       </div>
 
-      <Row gutter={[24, 24]} style={{ marginTop: '24px' }}>
-        {/* 基本信息卡片 */}
-        <Col span={24}>
-          <Card title="基本信息" bordered={false}>
-            <Row gutter={[16, 16]}>
-              <Col span={6}>
-                <Statistic
-                  title="客户名称"
-                  value={customer.name}
-                  valueStyle={{ fontSize: '16px' }}
+      {/* 标签页内容 */}
+      <Tabs
+        defaultActiveKey="journey"
+        style={{ marginTop: '24px' }}
+        items={[
+          {
+            key: 'journey',
+            label: '客户旅程',
+            children: (
+              <div style={{ backgroundColor: '#fff', borderRadius: '8px', padding: '24px' }}>
+                <CustomerJourneyTimeline
+                  customerId={customer.id}
+                  journeyType="renewal"
                 />
-              </Col>
-              <Col span={6}>
-                <Statistic
-                  title="健康状态"
-                  value={customer.healthLevel}
-                  valueStyle={{ color: getHealthLevelColor(customer.healthLevel) }}
-                  prefix={<Tag color={getHealthLevelColor(customer.healthLevel)}>{customer.healthLevel}</Tag>}
-                />
-              </Col>
-              <Col span={6}>
-                <Statistic
-                  title="客户等级"
-                  value={customer.tier}
-                  valueStyle={{ color: getTierColor(customer.tier) }}
-                  prefix={<Tag color={getTierColor(customer.tier)}>{customer.tier}</Tag>}
-                />
-              </Col>
-              <Col span={6}>
-                <Statistic
-                  title="ARR"
-                  value={customer.arr}
-                  precision={0}
-                  prefix="¥"
-                  suffix="万"
-                />
-              </Col>
-            </Row>
-          </Card>
-        </Col>
+              </div>
+            ),
+          },
+          {
+            key: 'details',
+            label: '续约详情',
+            children: (
+              <Row gutter={[24, 24]}>
+                {/* 基本信息卡片 */}
+                <Col span={24}>
+                  <Card title="基本信息" bordered={false}>
+                    <Row gutter={[16, 16]}>
+                      <Col span={6}>
+                        <Statistic
+                          title="客户名称"
+                          value={customer.name}
+                          valueStyle={{ fontSize: '16px' }}
+                        />
+                      </Col>
+                      <Col span={6}>
+                        <Statistic
+                          title="健康状态"
+                          value={customer.healthLevel}
+                          valueStyle={{ color: getHealthLevelColor(customer.healthLevel) }}
+                          prefix={<Tag color={getHealthLevelColor(customer.healthLevel)}>{customer.healthLevel}</Tag>}
+                        />
+                      </Col>
+                      <Col span={6}>
+                        <Statistic
+                          title="客户等级"
+                          value={customer.tier}
+                          valueStyle={{ color: getTierColor(customer.tier) }}
+                          prefix={<Tag color={getTierColor(customer.tier)}>{customer.tier}</Tag>}
+                        />
+                      </Col>
+                      <Col span={6}>
+                        <Statistic
+                          title="ARR"
+                          value={customer.arr}
+                          precision={0}
+                          prefix="¥"
+                          suffix="万"
+                        />
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
 
-        {/* 续约信息卡片 */}
-        <Col span={12}>
-          <Card title="续约信息" bordered={false}>
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              <div>
-                <Text strong>合同到期日期：</Text>
-                <Text>{customer.contractEndDate}</Text>
-              </div>
-              <div>
-                <Text strong>距离到期：</Text>
-                <Text>{customer.daysToExpiry} 天</Text>
-              </div>
-              <div>
-                <Text strong>续约概率：</Text>
-                <Progress percent={customer.renewalProbability} size="small" />
-              </div>
-              <div>
-                <Text strong>续约阶段：</Text>
-                <Tag color="blue">{customer.renewalStage}</Tag>
-              </div>
-              <div>
-                <Text strong>续约类型：</Text>
-                <Tag>{customer.renewalType}</Tag>
-              </div>
-            </Space>
-          </Card>
-        </Col>
-
-        {/* 财务信息卡片 */}
-        <Col span={12}>
-          <Card title="财务信息" bordered={false}>
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              <div>
-                <Text strong>当前合同价值：</Text>
-                <Text>¥{customer.currentContractValue.toLocaleString()}</Text>
-              </div>
-              <div>
-                <Text strong>建议续约价值：</Text>
-                <Text>¥{customer.proposedRenewalValue.toLocaleString()}</Text>
-              </div>
-              <div>
-                <Text strong>价值变化：</Text>
-                <Text style={{ 
-                  color: customer.proposedRenewalValue > customer.currentContractValue ? 'green' : 'red' 
-                }}>
-                  {customer.proposedRenewalValue > customer.currentContractValue ? '+' : ''}
-                  {((customer.proposedRenewalValue - customer.currentContractValue) / customer.currentContractValue * 100).toFixed(1)}%
-                </Text>
-              </div>
-            </Space>
-          </Card>
-        </Col>
-
-        {/* 风险因素 */}
-        <Col span={12}>
-          <Card title="风险因素" bordered={false}>
-            <Space wrap>
-              {customer.riskFactors.map((risk, index) => (
-                <Tag key={index} color="red">{risk}</Tag>
-              ))}
-              {customer.riskFactors.length === 0 && <Text type="secondary">暂无风险因素</Text>}
-            </Space>
-          </Card>
-        </Col>
-
-        {/* 机会点 */}
-        <Col span={12}>
-          <Card title="机会点" bordered={false}>
-            <Space wrap>
-              {customer.opportunities.map((opportunity, index) => (
-                <Tag key={index} color="green">{opportunity}</Tag>
-              ))}
-              {customer.opportunities.length === 0 && <Text type="secondary">暂无机会点</Text>}
-            </Space>
-          </Card>
-        </Col>
-
-        {/* 关键干系人 */}
-        <Col span={24}>
-          <Card title="关键干系人" bordered={false}>
-            <Row gutter={[16, 16]}>
-              {customer.keyStakeholders.map((stakeholder, index) => (
-                <Col key={index} span={8}>
-                  <Card size="small">
-                    <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                {/* 续约信息卡片 */}
+                <Col span={12}>
+                  <Card title="续约信息" bordered={false}>
+                    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
                       <div>
-                        <Avatar icon={<UserOutlined />} />
-                        <Text strong style={{ marginLeft: 8 }}>{stakeholder.name}</Text>
+                        <Text strong>合同到期日期：</Text>
+                        <Text>{customer.contractEndDate}</Text>
                       </div>
                       <div>
-                        <Text type="secondary">职位：</Text>
-                        <Text>{stakeholder.role}</Text>
+                        <Text strong>距离到期：</Text>
+                        <Text>{customer.daysToExpiry} 天</Text>
                       </div>
                       <div>
-                        <Text type="secondary">影响力：</Text>
-                        <Tag color={stakeholder.influence === 'high' ? 'red' : stakeholder.influence === 'medium' ? 'orange' : 'green'}>
-                          {stakeholder.influence}
-                        </Tag>
+                        <Text strong>续约概率：</Text>
+                        <Progress percent={customer.renewalProbability} size="small" />
                       </div>
                       <div>
-                        <Text type="secondary">态度：</Text>
-                        <Tag color={stakeholder.attitude === 'supporter' ? 'green' : stakeholder.attitude === 'neutral' ? 'blue' : 'red'}>
-                          {stakeholder.attitude}
-                        </Tag>
+                        <Text strong>续约阶段：</Text>
+                        <Tag color="blue">{customer.renewalStage}</Tag>
+                      </div>
+                      <div>
+                        <Text strong>续约类型：</Text>
+                        <Tag>{customer.renewalType}</Tag>
                       </div>
                     </Space>
                   </Card>
                 </Col>
-              ))}
-            </Row>
-          </Card>
-        </Col>
 
-        {/* 续约备注 */}
-        <Col span={24}>
-          <Card title="续约备注" bordered={false}>
-            <Text>{customer.renewalNotes}</Text>
-          </Card>
-        </Col>
-      </Row>
+                {/* 财务信息卡片 */}
+                <Col span={12}>
+                  <Card title="财务信息" bordered={false}>
+                    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                      <div>
+                        <Text strong>当前合同价值：</Text>
+                        <Text>¥{customer.currentContractValue.toLocaleString()}</Text>
+                      </div>
+                      <div>
+                        <Text strong>预期续约价值：</Text>
+                        <Text>¥{customer.proposedRenewalValue.toLocaleString()}</Text>
+                      </div>
+                      <div>
+                        <Text strong>价值变化：</Text>
+                        <Text style={{ 
+                          color: customer.proposedRenewalValue > customer.currentContractValue ? '#52c41a' : '#ff4d4f' 
+                        }}>
+                          {customer.proposedRenewalValue > customer.currentContractValue ? '+' : ''}
+                          {((customer.proposedRenewalValue - customer.currentContractValue) / customer.currentContractValue * 100).toFixed(1)}%
+                        </Text>
+                      </div>
+                    </Space>
+                  </Card>
+                </Col>
+
+                {/* 风险因素 */}
+                <Col span={12}>
+                  <Card title="风险因素" bordered={false}>
+                    <Space wrap>
+                      {customer.riskFactors.map((risk, index) => (
+                        <Tag key={index} color="red">{risk}</Tag>
+                      ))}
+                      {customer.riskFactors.length === 0 && <Text type="secondary">暂无风险因素</Text>}
+                    </Space>
+                  </Card>
+                </Col>
+
+                {/* 机会点 */}
+                <Col span={12}>
+                  <Card title="机会点" bordered={false}>
+                    <Space wrap>
+                      {customer.opportunities.map((opportunity, index) => (
+                        <Tag key={index} color="green">{opportunity}</Tag>
+                      ))}
+                      {customer.opportunities.length === 0 && <Text type="secondary">暂无机会点</Text>}
+                    </Space>
+                  </Card>
+                </Col>
+
+                {/* 关键干系人 */}
+                <Col span={24}>
+                  <Card title="关键干系人" bordered={false}>
+                    <Row gutter={[16, 16]}>
+                      {customer.keyStakeholders.map((stakeholder, index) => (
+                        <Col key={index} span={8}>
+                          <Card size="small">
+                            <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                              <div>
+                                <Avatar icon={<UserOutlined />} />
+                                <Text strong style={{ marginLeft: 8 }}>{stakeholder.name}</Text>
+                              </div>
+                              <div>
+                                <Text type="secondary">职位：</Text>
+                                <Text>{stakeholder.role}</Text>
+                              </div>
+                              <div>
+                                <Text type="secondary">影响力：</Text>
+                                <Tag color={stakeholder.influence === 'high' ? 'red' : stakeholder.influence === 'medium' ? 'orange' : 'green'}>
+                                  {stakeholder.influence}
+                                </Tag>
+                              </div>
+                              <div>
+                                <Text type="secondary">态度：</Text>
+                                <Tag color={stakeholder.attitude === 'supporter' ? 'green' : stakeholder.attitude === 'neutral' ? 'blue' : 'red'}>
+                                  {stakeholder.attitude}
+                                </Tag>
+                              </div>
+                            </Space>
+                          </Card>
+                        </Col>
+                      ))}
+                    </Row>
+                  </Card>
+                </Col>
+
+                {/* 续约备注 */}
+                <Col span={24}>
+                  <Card title="续约备注" bordered={false}>
+                    <Text>{customer.renewalNotes}</Text>
+                  </Card>
+                </Col>
+              </Row>
+            ),
+          },
+        ]}
+      />
     </div>
   );
 };

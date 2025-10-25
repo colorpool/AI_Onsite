@@ -21,6 +21,7 @@ import {
   InputNumber,
   DatePicker
 } from 'antd';
+import dayjs from 'dayjs';
 import { 
   UserOutlined,
   PhoneOutlined,
@@ -41,13 +42,20 @@ import {
   EyeOutlined,
   DownloadOutlined,
   EditOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  FileTextOutlined,
+  AppstoreOutlined
 } from '@ant-design/icons';
 import ContinuousServiceDetailHeader from '@/components/service/ContinuousServiceDetailHeader';
 import CustomerProfileTab from '@/components/common/CustomerProfileTab';
+import ServiceRecordTab from '@/components/common/ServiceRecordTab';
+import CustomerJourneyTimeline from '@/components/common/CustomerJourneyTimeline';
 import { useParams, useNavigate, useLocation } from 'umi';
 import { mockCustomers } from '@/mock/continuousServiceData';
+import { mockCustomerHandovers, mockInternalComments, mockOnboardingTasks } from '@/mock/handoverData';
 import { ServiceRecordType, ContractAttachment } from '@/types/continuousService';
+import { syncHandoverToServiceRecords, canSyncHandoverData } from '@/utils/handoverToServiceSync';
+import { getCustomerJourney } from '@/data/mockCustomerJourney';
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -71,6 +79,8 @@ const ContinuousServiceDetail: React.FC = () => {
   const [contactForm] = Form.useForm();
   const [editingContact, setEditingContact] = useState<any>(null);
   const [contactData, setContactData] = useState<any[]>([]);
+  const [serviceRecords, setServiceRecords] = useState<any[]>([]);
+  const [relatedHandover, setRelatedHandover] = useState<any>(null);
 
   useEffect(() => {
     if (id) {
@@ -91,6 +101,74 @@ const ContinuousServiceDetail: React.FC = () => {
           setContactData(foundCustomer.keyContacts);
         }
         
+        // 初始化服务记录数据
+        const initialServiceRecords = [
+          {
+            id: '1',
+            type: 'QBR',
+            title: 'Q1季度业务回顾',
+            content: '与客户进行了Q1季度的业务回顾，讨论了产品使用情况和未来规划。客户对当前服务表示满意，提出了一些功能优化建议。',
+            operator: '张三',
+            timestamp: '2024-03-15 14:30:00',
+            tags: ['定期回访', '客户满意'],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          },
+          {
+            id: '2',
+            type: '技术支持',
+            title: '系统集成问题解决',
+            content: '协助客户解决了与第三方系统的集成问题，提供了详细技术方案和实施指导。',
+            operator: '李四',
+            timestamp: '2024-03-10 10:15:00',
+            tags: ['技术支持', '问题解决'],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          },
+          {
+            id: '3',
+            type: '培训',
+            title: '新功能培训',
+            content: '为客户团队提供了新版本功能的培训，包括操作演示和最佳实践分享。',
+            operator: '王五',
+            timestamp: '2024-03-05 16:00:00',
+            tags: ['产品培训', '功能介绍'],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          }
+        ];
+
+        // 检查是否有对应的交接实施记录需要同步
+        const foundHandover = mockCustomerHandovers.find(h => h.customerId === customerId);
+        setRelatedHandover(foundHandover);
+        
+        if (foundHandover && canSyncHandoverData(foundHandover)) {
+          // 获取交接实施的活动源与协作数据
+          const handoverComments = mockInternalComments.filter(c => 
+            // 假设评论ID包含交接ID，实际应用中应该有更明确的关联关系
+            c.id.includes(foundHandover.id) || c.id.startsWith('comment-')
+          );
+          const handoverTasks = mockOnboardingTasks.filter(t => 
+            // 假设任务ID包含交接ID，实际应用中应该有更明确的关联关系
+            t.id.includes(foundHandover.id) || t.id.startsWith('task-')
+          );
+
+          // 同步交接数据到服务记录
+          const handoverServiceRecords = syncHandoverToServiceRecords(
+            foundHandover,
+            handoverComments,
+            handoverTasks
+          );
+
+          // 合并交接记录和现有服务记录
+          const allServiceRecords = [...handoverServiceRecords, ...initialServiceRecords];
+          setServiceRecords(allServiceRecords);
+
+          // 同步成功，不显示提示消息
+        } else {
+          setServiceRecords(initialServiceRecords);
+        }
+        
         // 如果URL中包含scrollTo参数，滚动到对应位置
         const searchParams = new URLSearchParams(location.search);
         const scrollTo = searchParams.get('scrollTo');
@@ -104,13 +182,13 @@ const ContinuousServiceDetail: React.FC = () => {
         navigate('/profiles/service');
       }
     }
-  }, [id]);
+  }, [id, location.search, navigate]);
 
   // 合同编辑处理函数
   const handleContractEdit = () => {
     contractForm.setFieldsValue({
       amount: customer.currentContract?.amount,
-      endDate: customer.contractEndDate,
+      endDate: customer.contractEndDate ? dayjs(customer.contractEndDate) : null,
       userVersion: customer.currentContract?.userVersion,
       ticketVersion: customer.currentContract?.ticketVersion,
       customerTier: customer.customerTier,
@@ -215,6 +293,26 @@ const ContinuousServiceDetail: React.FC = () => {
     message.success(`开始下载 ${attachment.name}`);
   };
 
+  // 服务记录处理函数
+  const handleAddServiceRecord = (record: any) => {
+    const newRecord = {
+      ...record,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    setServiceRecords([newRecord, ...serviceRecords]);
+  };
+
+  // 编辑服务记录处理函数
+  const handleEditServiceRecord = (updatedRecord: any) => {
+    setServiceRecords(serviceRecords.map(record => 
+      record.id === updatedRecord.id 
+        ? { ...updatedRecord, updatedAt: new Date().toISOString() }
+        : record
+    ));
+  };
+
   if (!customer) {
     return <div>加载中...</div>;
   }
@@ -274,8 +372,8 @@ const ContinuousServiceDetail: React.FC = () => {
             <Card 
               title={
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <HeartOutlined style={{ color: '#fa8c16', marginRight: '8px', fontSize: '18px' }} />
-                  <span style={{ fontSize: '18px', fontWeight: '600' }}>客户健康度详情</span>
+                  <HeartOutlined style={{ color: '#1890ff', marginRight: '8px', fontSize: '18px' }} />
+                  <span style={{ fontSize: '16px', fontWeight: '600' }}>客户状态概览</span>
                 </div>
               }
               style={{
@@ -288,21 +386,28 @@ const ContinuousServiceDetail: React.FC = () => {
             >
               <Row gutter={[24, 16]}>
                 <Col xs={24} sm={12} md={6}>
-                  <div style={{ textAlign: 'center', padding: '16px' }}>
-                    <div style={{ 
-                      fontSize: '32px', 
-                      fontWeight: 'bold', 
-                      color: customer.healthLevel === '健康' ? '#52c41a' : customer.healthLevel === '一般' ? '#faad14' : '#ff4d4f',
-                      marginBottom: '8px' 
-                    }}>
-                      {customer.healthScore}
+                  <div style={{ textAlign: 'center', padding: '20px 16px' }}>
+                    <div style={{ marginBottom: '16px' }}>
+                      <Text style={{ fontSize: '32px', fontWeight: 'bold', color: '#52c41a', lineHeight: '1' }}>85</Text>
                     </div>
-                    <div style={{ fontSize: '14px', color: '#666', marginBottom: '4px' }}>综合健康分</div>
-                    <Tag color={customer.healthLevel === '健康' ? 'green' : customer.healthLevel === '一般' ? 'orange' : 'red'}>
-                      {customer.healthLevel}
+                    <div style={{ marginBottom: '12px' }}>
+                      <Text style={{ fontSize: '14px', color: '#666', fontWeight: '500' }}>综合健康分</Text>
+                    </div>
+                    <Tag 
+                      style={{ 
+                        borderRadius: '4px', 
+                        fontSize: '12px', 
+                        padding: '2px 8px',
+                        backgroundColor: '#f6ffed',
+                        border: '1px solid #b7eb8f',
+                        color: '#52c41a'
+                      }}
+                    >
+                      健康
                     </Tag>
                   </div>
                 </Col>
+
                 <Col xs={24} sm={12} md={6}>
                   <div style={{ textAlign: 'center', padding: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
@@ -316,30 +421,32 @@ const ContinuousServiceDetail: React.FC = () => {
                     <Text type="secondary" style={{ fontSize: '12px' }}>最近30天登录15次</Text>
                   </div>
                 </Col>
+
                 <Col xs={24} sm={12} md={6}>
                   <div style={{ textAlign: 'center', padding: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
-                      <SettingOutlined style={{ color: '#722ed1', marginRight: '8px' }} />
-                      <Text strong style={{ whiteSpace: 'nowrap' }}>关键功能渗透率</Text>
+                      <SettingOutlined style={{ color: '#fa8c16', marginRight: '8px' }} />
+                      <Text strong style={{ whiteSpace: 'nowrap' }}>服务工单情况</Text>
                     </div>
                     <div style={{ marginBottom: '8px' }}>
-                      <Text style={{ fontSize: '20px', fontWeight: 'bold', color: '#722ed1' }}>60</Text>
-                      <Text style={{ color: '#666', marginLeft: '4px' }}>/100</Text>
+                      <Text style={{ fontSize: '20px', fontWeight: 'bold', color: '#fa8c16' }}>3</Text>
+                      <Text style={{ color: '#666', marginLeft: '4px' }}>次</Text>
                     </div>
-                    <Text type="secondary" style={{ fontSize: '12px' }}>核心功能A已使用，B未使用</Text>
+                    <Text type="secondary" style={{ fontSize: '12px' }}>最近30天技术支持请求</Text>
                   </div>
                 </Col>
+
                 <Col xs={24} sm={12} md={6}>
                   <div style={{ textAlign: 'center', padding: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
-                      <SmileOutlined style={{ color: '#52c41a', marginRight: '8px' }} />
-                      <Text strong style={{ whiteSpace: 'nowrap' }}>服务满意度</Text>
+                      <AppstoreOutlined style={{ color: '#722ed1', marginRight: '8px' }} />
+                      <Text strong style={{ whiteSpace: 'nowrap' }}>功能使用频率</Text>
                     </div>
                     <div style={{ marginBottom: '8px' }}>
-                      <Text style={{ fontSize: '20px', fontWeight: 'bold', color: '#52c41a' }}>90</Text>
-                      <Text style={{ color: '#666', marginLeft: '4px' }}>/100</Text>
+                      <Text style={{ fontSize: '20px', fontWeight: 'bold', color: '#722ed1' }}>10</Text>
+                      <Text style={{ color: '#666', marginLeft: '4px' }}>次</Text>
                     </div>
-                    <Text type="secondary" style={{ fontSize: '12px' }}>上季度NPS为9分</Text>
+                    <Text type="secondary" style={{ fontSize: '12px' }}>报表导出功能30天使用</Text>
                   </div>
                 </Col>
               </Row>
@@ -353,7 +460,7 @@ const ContinuousServiceDetail: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <PlayCircleOutlined style={{ color: '#1890ff', marginRight: '8px', fontSize: '18px' }} />
-                    <span style={{ fontSize: '18px', fontWeight: '600' }}>推荐行动</span>
+                    <span style={{ fontSize: '16px', fontWeight: '600' }}>推荐行动</span>
                   </div>
                   <Button 
                     type="primary" 
@@ -400,6 +507,13 @@ const ContinuousServiceDetail: React.FC = () => {
           </Col>
         </Row>
 
+        {/* 客户旅程时间轴 */}
+        <CustomerJourneyTimeline 
+          customerId={customer?.id || ''}
+          journeyType="continuous"
+          style={{ marginBottom: '24px' }}
+        />
+
         {/* 客户档案和持续服务标签页 */}
         <Card 
           style={{
@@ -428,8 +542,8 @@ const ContinuousServiceDetail: React.FC = () => {
                 key: 'profile',
                 label: (
                   <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
-                    <UserOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
-                    <span style={{ color: '#8c8c8c', fontSize: '14px' }}>客户档案</span>
+                    <UserOutlined style={{ marginRight: '6px', color: '#1890ff', fontSize: '15px' }} />
+                    <span style={{ fontSize: '15px', fontWeight: '600' }}>客户档案</span>
                   </div>
                 ),
                 children: (
@@ -442,18 +556,137 @@ const ContinuousServiceDetail: React.FC = () => {
                 ),
               },
               {
-                key: 'service',
+                key: 'contract',
                 label: (
                   <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
-                    <SettingOutlined style={{ marginRight: '6px', color: '#8c8c8c', fontSize: '14px' }} />
-                    <span style={{ color: '#8c8c8c', fontSize: '14px' }}>持续服务</span>
+                    <FileTextOutlined style={{ marginRight: '6px', color: '#1890ff', fontSize: '18px' }} />
+                    <span style={{ fontSize: '15px', fontWeight: '600' }}>往期合同</span>
                   </div>
                 ),
                 children: (
-                  <div style={{ padding: '24px' }}>
-                    <Text>持续服务内容</Text>
+                  <div style={{ padding: '8px 0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                      <Text type="secondary" style={{ fontSize: '14px' }}>
+                        共 {customer?.contracts?.length || 0} 份合同（当期合同和过往全部合同）
+                      </Text>
+                    </div>
+                    <Timeline
+                      style={{ padding: '16px 0' }}
+                      items={customer?.contracts?.map((contract: any, index: number) => {
+                        const getContractStatusConfig = (status: string) => {
+                          const configs: Record<string, { color: string; text: string }> = {
+                            'active': { color: '#52c41a', text: '生效中' },
+                            'expired': { color: '#fa8c16', text: '已到期' },
+                            'terminated': { color: '#f5222d', text: '已终止' }
+                          };
+                          return configs[status] || { color: '#8c8c8c', text: '未知' };
+                        };
+                        
+                        const statusConfig = getContractStatusConfig(contract.status);
+                        
+                        return {
+                          color: statusConfig.color,
+                          dot: <DollarOutlined />,
+                          children: (
+                            <div style={{ 
+                              padding: '16px', 
+                              background: '#f8f9fa', 
+                              borderRadius: '8px',
+                              border: '1px solid #e8e8e8'
+                            }}>
+                              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                                  <Tag color={statusConfig.color} style={{ marginRight: '8px' }}>
+                                    {statusConfig.text}
+                                  </Tag>
+                                  <Text strong style={{ fontSize: '14px' }}>
+                                    {contract.contractNumber}
+                                  </Text>
+                                  {contract.status === 'active' && (
+                                    <Tag color="blue" style={{ marginLeft: '8px' }}>
+                                      当期合同
+                                    </Tag>
+                                  )}
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <Text type="secondary" style={{ fontSize: '12px' }}>
+                                    {contract.startDate} - {contract.endDate}
+                                  </Text>
+                                </div>
+                              </div>
+                              
+                              <div style={{ marginBottom: '12px' }}>
+                                <Text strong>合同金额：</Text>
+                                <Text style={{ color: '#1890ff', fontWeight: '600' }}>
+                                  ¥{contract.amount?.toLocaleString() || '0'}
+                                </Text>
+                              </div>
+                              
+                              <div style={{ marginBottom: '8px' }}>
+                                <Text strong>购买产品：</Text>
+                                <div style={{ marginTop: '4px' }}>
+                                  {contract.purchasedProducts?.map((product: string, idx: number) => (
+                                    <Tag key={idx} style={{ marginBottom: '4px' }}>
+                                      {product}
+                                    </Tag>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div style={{ marginBottom: '8px' }}>
+                                <Text strong>天元下单版本：</Text>
+                                <Text>{contract.ticketVersion} </Text>
+                                <Text strong style={{ marginLeft: '16px' }}>天元提单到期时间：</Text>
+                                <Text>{contract.ticketTime}</Text>
+                              </div>
+
+                              <div style={{ marginBottom: '8px' }}>
+                                <Text strong>用户数量：</Text>
+                                <Text>{contract.accountCount}个（采购账号数量）</Text>
+                              </div>
+                              
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                                <div>
+                                  <Text strong>服务周期：</Text>
+                                  <Text> {contract.servicePeriod}</Text>
+                                </div>
+                                {contract.attachments && contract.attachments.length > 0 && (
+                                  <Button
+                                    type="primary"
+                                    size="small"
+                                    icon={<EyeOutlined />}
+                                    onClick={() => message.info('查看附件功能开发中')}
+                                  >
+                                    查看附件({contract.attachments.length})
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+                          )
+                        };
+                      }) || []}
+                    />
                   </div>
                 ),
+              },
+              {
+                key: 'service-record',
+                label: (
+                  <div style={{ display: 'flex', alignItems: 'center', padding: '4px 8px' }}>
+                    <AppstoreOutlined style={{ marginRight: '6px', color: '#1890ff', fontSize: '15px' }} />
+                    <span style={{ fontSize: '15px', fontWeight: '600' }}>服务记录</span>
+                  </div>
+                ),
+                children: (
+                  <ServiceRecordTab
+                    serviceRecords={serviceRecords}
+                    onAddRecord={handleAddServiceRecord}
+                    onEditRecord={handleEditServiceRecord}
+                    showAddButton={true}
+                    tabTitle="服务记录"
+                    handoverData={relatedHandover}
+                  />
+                )
               }
             ]}
           />
@@ -647,7 +880,7 @@ const ContinuousServiceDetail: React.FC = () => {
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label="客户分层" name="customerTier">
+              <Form.Item name="customerTier">
                 <Select>
                   <Select.Option value="strategic">战略客户</Select.Option>
                   <Select.Option value="key">重点客户</Select.Option>

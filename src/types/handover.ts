@@ -36,6 +36,18 @@ export interface CRMSyncData {
   channelPartner?: string; // 渠道合作伙伴（渠道时使用）
 }
 
+// 风险类型
+export interface Risk {
+  type: 'leadership' | 'unclear_needs' | 'high_expectations' | 'tight_schedule' | 'difficult_contact' | 'other_risks';
+  description?: string;
+}
+
+// 商机类型
+export interface Opportunity {
+  type: 'account_expansion' | 'version_upgrade' | 'new_modules' | 'referrals' | 'long_term' | 'other_opportunities';
+  description?: string;
+}
+
 // 客户交接记录
 export interface CustomerHandover {
   id: string;
@@ -66,6 +78,8 @@ export interface CustomerHandover {
   longTermExpectation?: string; // 长期预期
   unacceptableSituations?: string; // 客户不可接受的情况
   customerSuccessCriteria?: string; // 客户定义的服务成功标准
+  risks?: Risk[]; // 风险列表
+  opportunities?: Opportunity[]; // 商机列表
   onboardingTasks?: OnboardingTask[];
   internalComments?: InternalComment[];
 }
@@ -76,6 +90,7 @@ export interface OnboardingTask {
   title: string;
   completed: boolean;
   dueDate?: string;
+  completedAt?: string; // 任务完成时间
 }
 
 // 内部协作评论

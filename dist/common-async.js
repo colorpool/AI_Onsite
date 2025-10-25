@@ -1041,7 +1041,7 @@ if ($RefreshIsReactComponentLike$(module.exports)) {
 }
 
 },
-"src/components/common/CustomerProfileTab.tsx": function (module, exports, __mako_require__){
+"src/components/common/CustomerJourneyTimeline.tsx": function (module, exports, __mako_require__){
 "use strict";
 __mako_require__.d(exports, "__esModule", {
     value: true
@@ -1056,9 +1056,13 @@ var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require
 var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
 var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
 var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
-var _react = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/react/index.js"));
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
 var _antd = __mako_require__("node_modules/antd/es/index.js");
+var _dayjs = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/dayjs/dayjs.min.js"));
 var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
+var _mockCustomerJourney = __mako_require__("src/data/mockCustomerJourney.ts");
+var _customerJourneyByScale = __mako_require__("src/data/customerJourneyByScale.ts");
+var _continuousServiceData = __mako_require__("src/mock/continuousServiceData.ts");
 var prevRefreshReg;
 var prevRefreshSig;
 prevRefreshReg = self.$RefreshReg$;
@@ -1067,13 +1071,434 @@ self.$RefreshReg$ = (type, id)=>{
     _reactrefresh.register(type, module.id + id);
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
-const { Text } = _antd.Typography;
-const CustomerProfileTab = ({ customer, lifecycle = 'continuous', onEditContract, onEditContacts })=>{
-    var _customer_purchasedProducts, _customer_currentContract, _customer_currentContract1, _customer_currentContract2, _customer_currentContract3, _customer_currentContract4, _customer_currentContract_serviceCost, _customer_currentContract5, _customer_currentContract6, _customer_keyContacts;
-    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-        style: {
-            padding: '16px 0'
-        },
+var _s = $RefreshSig$();
+const { Text, Title } = _antd.Typography;
+const CustomerJourneyTimeline = ({ customerId, journeyType, onActionClick, onStageClick, showActions = true, compact = false, style })=>{
+    _s();
+    const [journey, setJourney] = (0, _react.useState)(null);
+    const [modalVisible, setModalVisible] = (0, _react.useState)(false);
+    const [selectedAction, setSelectedAction] = (0, _react.useState)(null);
+    const [form] = _antd.Form.useForm();
+    // 获取客户数据和规模信息
+    (0, _react.useEffect)(()=>{
+        if (customerId) {
+            // 查找客户数据
+            const customer = _continuousServiceData.mockCustomers.find((c)=>c.id === customerId);
+            if (customer) {
+                // 获取客户规模 - 修复映射逻辑
+                const customerScale = customer.customerSegment === 'strategic' || customer.customerSegment === 'key' ? 'key_account' : customer.customerSegment === 'medium' ? 'mid_market' : customer.customerSegment === 'general' ? 'smb' : customer.arr >= 500000 ? 'key_account' : customer.arr >= 200000 ? 'mid_market' : 'smb';
+                // 根据客户规模获取定制化旅程
+                const customizedJourney = (0, _customerJourneyByScale.getCustomerJourneyByScale)(customerId, customer.name, customerScale, journeyType);
+                setJourney(customizedJourney);
+            } else {
+                // 如果找不到客户数据，使用默认旅程
+                const defaultJourney = (0, _mockCustomerJourney.getCustomerJourney)(customerId, '客户名称', journeyType);
+                setJourney(defaultJourney);
+            }
+        }
+    }, [
+        customerId,
+        journeyType
+    ]);
+    if (!journey) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
+        style: style,
+        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            style: {
+                textAlign: 'center',
+                padding: '40px 0'
+            },
+            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                type: "secondary",
+                children: "暂无客户旅程数据"
+            }, void 0, false, {
+                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                lineNumber: 83,
+                columnNumber: 11
+            }, this)
+        }, void 0, false, {
+            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+            lineNumber: 82,
+            columnNumber: 9
+        }, this)
+    }, void 0, false, {
+        fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+        lineNumber: 81,
+        columnNumber: 7
+    }, this);
+    // 计算整体进度 - 根据实际完成的行动项计算
+    const calculateProgress = ()=>{
+        if (!journey.actions || journey.actions.length === 0) return 0;
+        const completedActions = journey.actions.filter((action)=>action.status === 'completed').length;
+        return Math.round(completedActions / journey.actions.length * 100);
+    };
+    // 获取状态图标 - 简化为单圈设计
+    const getStatusIcon = (status)=>{
+        switch(status){
+            case 'completed':
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {
+                    style: {
+                        color: '#ffffff',
+                        fontSize: '10px'
+                    }
+                }, void 0, false, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 103,
+                    columnNumber: 16
+                }, this);
+            case 'in_progress':
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {
+                    style: {
+                        color: '#ffffff',
+                        fontSize: '10px'
+                    }
+                }, void 0, false, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 105,
+                    columnNumber: 16
+                }, this);
+            case 'overdue':
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {
+                    style: {
+                        color: '#ffffff',
+                        fontSize: '10px'
+                    }
+                }, void 0, false, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 107,
+                    columnNumber: 16
+                }, this);
+            case 'pending':
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {
+                    style: {
+                        color: '#ffffff',
+                        fontSize: '10px'
+                    }
+                }, void 0, false, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 109,
+                    columnNumber: 16
+                }, this);
+            default:
+                return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CheckCircleOutlined, {
+                    style: {
+                        color: '#ffffff',
+                        fontSize: '10px'
+                    }
+                }, void 0, false, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 111,
+                    columnNumber: 16
+                }, this);
+        }
+    };
+    // 获取状态颜色
+    const getStatusColor = (status)=>{
+        switch(status){
+            case 'completed':
+                return '#52c41a';
+            case 'in_progress':
+                return '#1890ff';
+            case 'overdue':
+                return '#ff4d4f';
+            case 'pending':
+                return '#d9d9d9';
+            default:
+                return '#52c41a';
+        }
+    };
+    // 获取状态文本
+    const getStatusText = (status)=>{
+        switch(status){
+            case 'completed':
+                return '已完成';
+            case 'in_progress':
+                return '进行中';
+            case 'overdue':
+                return '已延期';
+            case 'pending':
+                return '待处理';
+            default:
+                return '未知';
+        }
+    };
+    // 检查是否延期
+    const isOverdue = (action)=>{
+        if (action.status === 'overdue') return true;
+        if (action.status === 'completed') return false;
+        if (!action.dueDate) return false;
+        const dueDate = new Date(action.dueDate);
+        const now = new Date();
+        return now > dueDate;
+    };
+    // 处理节点点击
+    const handleNodeClick = (action)=>{
+        setSelectedAction(action);
+        setModalVisible(true);
+        form.setFieldsValue({
+            title: action.title,
+            description: action.description,
+            status: action.status,
+            dueDate: action.dueDate ? (0, _dayjs.default)(action.dueDate) : null,
+            assignee: action.assignee
+        });
+    };
+    // 处理节点更新
+    const handleNodeUpdate = async (values)=>{
+        if (!selectedAction || !journey) return;
+        try {
+            // 更新节点数据
+            const updatedActions = journey.actions.map((action)=>action.id === selectedAction.id ? {
+                    ...action,
+                    title: values.title,
+                    description: values.description,
+                    status: values.status,
+                    dueDate: values.dueDate ? values.dueDate.format('YYYY-MM-DD') : action.dueDate,
+                    assignee: values.assignee
+                } : action);
+            // 更新旅程数据
+            const updatedJourney = {
+                ...journey,
+                actions: updatedActions
+            };
+            setJourney(updatedJourney);
+            setModalVisible(false);
+            form.resetFields();
+            _antd.message.success('节点更新成功');
+            // 如果有回调函数，调用它
+            if (onActionClick) onActionClick(selectedAction);
+        } catch (error) {
+            _antd.message.error('节点更新失败');
+        }
+    };
+    // 处理节点完成
+    const handleCompleteAction = ()=>{
+        if (!selectedAction) return;
+        form.setFieldsValue({
+            ...form.getFieldsValue(),
+            status: 'completed'
+        });
+        handleNodeUpdate({
+            ...form.getFieldsValue(),
+            status: 'completed'
+        });
+    };
+    // 渲染节点内容卡片
+    const renderNodeCard = (action, index)=>{
+        const overdue = isOverdue(action);
+        const actualStatus = overdue && action.status !== 'completed' ? 'overdue' : action.status;
+        return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            style: {
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                position: 'relative',
+                minWidth: '220px',
+                maxWidth: '280px'
+            },
+            children: [
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    style: {
+                        width: '24px',
+                        height: '24px',
+                        backgroundColor: getStatusColor(actualStatus),
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 2,
+                        marginBottom: '16px',
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                    },
+                    children: getStatusIcon(actualStatus)
+                }, void 0, false, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 243,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    style: {
+                        backgroundColor: '#ffffff',
+                        borderRadius: '12px',
+                        padding: '20px',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+                        border: '1px solid #f0f0f0',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        width: '100%',
+                        position: 'relative'
+                    },
+                    onClick: ()=>handleNodeClick(action),
+                    onMouseEnter: (e)=>{
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.12)';
+                    },
+                    onMouseLeave: (e)=>{
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                    },
+                    children: [
+                        overdue && action.status !== 'completed' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                position: 'absolute',
+                                top: '12px',
+                                left: '12px',
+                                backgroundColor: '#ff4d4f',
+                                color: '#ffffff',
+                                fontSize: '10px',
+                                padding: '2px 6px',
+                                borderRadius: '8px',
+                                fontWeight: '500'
+                            },
+                            children: "延期"
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 283,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                marginTop: overdue && action.status !== 'completed' ? '24px' : '0',
+                                paddingBottom: '50px' // 为底部状态和日期留出空间
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        fontSize: '15px',
+                                        fontWeight: '600',
+                                        color: '#262626',
+                                        lineHeight: '1.4',
+                                        marginBottom: '8px',
+                                        wordBreak: 'break-word'
+                                    },
+                                    children: action.title
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 303,
+                                    columnNumber: 13
+                                }, this),
+                                action.description && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        fontSize: '13px',
+                                        color: '#595959',
+                                        lineHeight: '1.5',
+                                        marginBottom: '12px',
+                                        wordBreak: 'break-word'
+                                    },
+                                    children: action.description
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 315,
+                                    columnNumber: 15
+                                }, this),
+                                action.assignee && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        fontSize: '12px',
+                                        color: '#8c8c8c',
+                                        marginBottom: '8px'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {}, void 0, false, {
+                                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                            lineNumber: 336,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            children: action.assignee
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                            lineNumber: 337,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 328,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 299,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                position: 'absolute',
+                                bottom: '12px',
+                                right: '12px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'flex-end',
+                                gap: '4px'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                    color: getStatusColor(actualStatus),
+                                    style: {
+                                        fontSize: '11px',
+                                        padding: '2px 8px',
+                                        borderRadius: '12px',
+                                        border: 'none',
+                                        color: '#ffffff',
+                                        fontWeight: '500',
+                                        margin: 0
+                                    },
+                                    children: getStatusText(actualStatus)
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 353,
+                                    columnNumber: 13
+                                }, this),
+                                action.dueDate && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        fontSize: '12px',
+                                        color: '#8c8c8c'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {}, void 0, false, {
+                                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                            lineNumber: 377,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                            children: new Date(action.dueDate).toLocaleDateString('zh-CN')
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                            lineNumber: 378,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 370,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 343,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 259,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, action.id, true, {
+            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+            lineNumber: 231,
+            columnNumber: 7
+        }, this);
+    };
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
         children: [
             /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
                 title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
@@ -1089,366 +1514,736 @@ const CustomerProfileTab = ({ customer, lifecycle = 'continuous', onEditContract
                                 alignItems: 'center'
                             },
                             children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DollarOutlined, {
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.CalendarOutlined, {
                                     style: {
-                                        color: '#52c41a',
-                                        marginRight: '8px'
+                                        color: '#1890ff',
+                                        marginRight: '8px',
+                                        fontSize: '18px'
                                     }
                                 }, void 0, false, {
-                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 27,
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 393,
                                     columnNumber: 15
                                 }, void 0),
                                 /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                    children: "合同与服务"
+                                    style: {
+                                        fontSize: '16px',
+                                        fontWeight: '600'
+                                    },
+                                    children: "客户旅程"
                                 }, void 0, false, {
-                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 28,
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 394,
                                     columnNumber: 15
                                 }, void 0)
                             ]
                         }, void 0, true, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 26,
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 392,
                             columnNumber: 13
                         }, void 0),
-                        onEditContract && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                            type: "primary",
-                            icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
-                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 33,
-                                columnNumber: 23
-                            }, void 0),
-                            onClick: onEditContract,
-                            size: "small",
-                            children: "编辑信息"
-                        }, void 0, false, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 31,
-                            columnNumber: 15
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '16px'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '8px'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            type: "secondary",
+                                            style: {
+                                                fontSize: '14px'
+                                            },
+                                            children: "整体进度:"
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                            lineNumber: 398,
+                                            columnNumber: 17
+                                        }, void 0),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Progress, {
+                                            percent: calculateProgress(),
+                                            size: "small",
+                                            style: {
+                                                width: '100px'
+                                            },
+                                            strokeColor: "#1890ff"
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                            lineNumber: 399,
+                                            columnNumber: 17
+                                        }, void 0)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 397,
+                                    columnNumber: 15
+                                }, void 0),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                    color: "blue",
+                                    children: journey.lifecycle === 'continuous' ? '持续服务' : journey.lifecycle === 'renewal' ? '续约阶段' : '其他阶段'
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 406,
+                                    columnNumber: 15
+                                }, void 0)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 396,
+                            columnNumber: 13
                         }, void 0)
                     ]
                 }, void 0, true, {
-                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                    lineNumber: 25,
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 391,
                     columnNumber: 11
                 }, void 0),
-                size: "small",
+                style: {
+                    borderRadius: '12px',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+                    border: '1px solid #f0f0f0',
+                    background: '#ffffff',
+                    ...style
+                },
+                bodyStyle: {
+                    padding: compact ? '16px' : '24px'
+                },
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    style: {
+                        position: 'relative',
+                        width: '100%',
+                        padding: '20px 0',
+                        overflowX: 'auto'
+                    },
+                    children: [
+                        journey.actions && journey.actions.length > 1 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+                            children: journey.actions.slice(0, -1).map((_, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        position: 'absolute',
+                                        top: '32px',
+                                        left: `calc(${130 + index * 280}px + 12px)`,
+                                        width: `${256}px`,
+                                        height: '2px',
+                                        backgroundColor: '#e8e8e8',
+                                        zIndex: 1
+                                    }
+                                }, `line-${index}`, false, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 430,
+                                    columnNumber: 17
+                                }, this))
+                        }, void 0, false),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                display: 'flex',
+                                flexDirection: 'row',
+                                gap: '60px',
+                                padding: '0 20px',
+                                minWidth: 'fit-content',
+                                justifyContent: journey.actions && journey.actions.length <= 3 ? 'center' : 'flex-start'
+                            },
+                            children: journey.actions && journey.actions.length > 0 ? journey.actions.map((action, index)=>renderNodeCard(action, index)) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    textAlign: 'center',
+                                    padding: '40px 0',
+                                    width: '100%'
+                                },
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    type: "secondary",
+                                    children: "暂无行动项数据"
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                    lineNumber: 459,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                lineNumber: 458,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 447,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 420,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                lineNumber: 389,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                title: "节点详情",
+                open: modalVisible,
+                onCancel: ()=>{
+                    setModalVisible(false);
+                    form.resetFields();
+                },
+                footer: [
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        onClick: ()=>setModalVisible(false),
+                        children: "取消"
+                    }, "cancel", false, {
+                        fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                        lineNumber: 475,
+                        columnNumber: 11
+                    }, void 0),
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        type: "primary",
+                        onClick: handleCompleteAction,
+                        disabled: (selectedAction === null || selectedAction === void 0 ? void 0 : selectedAction.status) === 'completed',
+                        children: "标记完成"
+                    }, "complete", false, {
+                        fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                        lineNumber: 478,
+                        columnNumber: 11
+                    }, void 0),
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        type: "primary",
+                        onClick: ()=>form.submit(),
+                        children: "保存更新"
+                    }, "save", false, {
+                        fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                        lineNumber: 486,
+                        columnNumber: 11
+                    }, void 0)
+                ],
+                width: 600,
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                    form: form,
+                    layout: "vertical",
+                    onFinish: handleNodeUpdate,
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "title",
+                            label: "标题",
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '请输入标题'
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                placeholder: "请输入节点标题"
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                lineNumber: 506,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 501,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "description",
+                            label: "描述",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input.TextArea, {
+                                rows: 3,
+                                placeholder: "请输入节点描述"
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                lineNumber: 513,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 509,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "status",
+                            label: "状态",
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '请选择状态'
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                placeholder: "请选择状态",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select.Option, {
+                                        value: "pending",
+                                        children: "待处理"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                        lineNumber: 525,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select.Option, {
+                                        value: "in_progress",
+                                        children: "进行中"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                        lineNumber: 526,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select.Option, {
+                                        value: "completed",
+                                        children: "已完成"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                        lineNumber: 527,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select.Option, {
+                                        value: "overdue",
+                                        children: "已延期"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                        lineNumber: 528,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                lineNumber: 524,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 519,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "dueDate",
+                            label: "截止日期",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.DatePicker, {
+                                style: {
+                                    width: '100%'
+                                },
+                                placeholder: "请选择截止日期"
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                lineNumber: 536,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 532,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "assignee",
+                            label: "负责人",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                placeholder: "请输入负责人"
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                                lineNumber: 546,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                            lineNumber: 542,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                    lineNumber: 496,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/components/common/CustomerJourneyTimeline.tsx",
+                lineNumber: 467,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true);
+};
+_s(CustomerJourneyTimeline, "E+3N763s0MoFrGGYgmaUu07i/b0=", false, function() {
+    return [
+        _antd.Form.useForm
+    ];
+});
+_c = CustomerJourneyTimeline;
+var _default = CustomerJourneyTimeline;
+var _c;
+$RefreshReg$(_c, "CustomerJourneyTimeline");
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/components/common/CustomerProfileTab.tsx": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return _default;
+    }
+});
+var _interop_require_default = __mako_require__("@swc/helpers/_/_interop_require_default");
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _antd = __mako_require__("node_modules/antd/es/index.js");
+var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
+var _dayjs = /*#__PURE__*/ _interop_require_default._(__mako_require__("node_modules/dayjs/dayjs.min.js"));
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+var _s = $RefreshSig$();
+const { Text } = _antd.Typography;
+const { Option } = _antd.Select;
+const CustomerProfileTab = ({ customer, lifecycle = 'continuous', onEditContract, onEditContacts })=>{
+    var _customer_currentContract, _customer_currentContract1, _customer_currentContract_amount, _customer_currentContract2, _customer_currentContract3, _customer_currentContract4, _customer_currentContract5, _customer_currentContract6, _customer_currentContract7, _customer_currentContract8, _customer_currentContract_serviceCost, _customer_currentContract9;
+    _s();
+    // 关键联系人本地可编辑数据
+    const [keyContacts, setKeyContacts] = (0, _react.useState)((customer === null || customer === void 0 ? void 0 : customer.keyContacts) || []);
+    const [contactModalVisible, setContactModalVisible] = (0, _react.useState)(false);
+    const [editingContactIndex, setEditingContactIndex] = (0, _react.useState)(null);
+    const [contactForm] = _antd.Form.useForm();
+    const initialCostDetails = ((customer === null || customer === void 0 ? void 0 : (_customer_currentContract = customer.currentContract) === null || _customer_currentContract === void 0 ? void 0 : _customer_currentContract.serviceCostDetails) || [
+        '客户拜访费用: ¥3,000',
+        '礼品采购: ¥5,000',
+        '培训支持: ¥4,000',
+        '技术支持: ¥3,000'
+    ]).map((detail)=>{
+        if (typeof detail === 'string') {
+            const match = detail.match(/^(.*?):\s*¥?([\d,]+)/);
+            return {
+                description: match ? match[1] : detail.replace(/^•\s*/, '').trim(),
+                amount: match ? parseInt(match[2].replace(/,/g, ''), 10) : undefined,
+                time: undefined
+            };
+        }
+        // 兼容对象格式 { description, amount, time }
+        return {
+            description: detail.description || '',
+            amount: detail.amount,
+            time: detail.time
+        };
+    });
+    const [serviceCostItems, setServiceCostItems] = (0, _react.useState)(initialCostDetails);
+    const [addModalVisible, setAddModalVisible] = (0, _react.useState)(false);
+    const [editModalVisible, setEditModalVisible] = (0, _react.useState)(false);
+    const [editingIndex, setEditingIndex] = (0, _react.useState)(null);
+    const [addForm] = _antd.Form.useForm();
+    const [editForm] = _antd.Form.useForm();
+    const handleEditContact = (index)=>{
+        setEditingContactIndex(index);
+        const contact = keyContacts[index];
+        contactForm.setFieldsValue({
+            name: contact.name,
+            title: contact.title,
+            phone: contact.phone,
+            email: contact.email,
+            type: contact.type,
+            influence: contact.influence,
+            attitude: contact.attitude,
+            isPrimary: contact.isPrimary || false
+        });
+        setContactModalVisible(true);
+    };
+    const handleSaveContact = ()=>{
+        contactForm.validateFields().then((values)=>{
+            // 如果设置为主要联系人，需要将其他联系人的isPrimary设为false
+            if (values.isPrimary) {
+                const updatedContacts = keyContacts.map((contact)=>({
+                        ...contact,
+                        isPrimary: false
+                    }));
+                setKeyContacts(updatedContacts);
+            }
+            if (editingContactIndex !== null) {
+                // 编辑现有联系人
+                const updatedContacts = [
+                    ...keyContacts
+                ];
+                updatedContacts[editingContactIndex] = {
+                    ...updatedContacts[editingContactIndex],
+                    ...values
+                };
+                setKeyContacts(updatedContacts);
+                _antd.message.success('联系人信息更新成功');
+            } else {
+                // 新增联系人
+                const newContact = {
+                    id: Date.now().toString(),
+                    ...values
+                };
+                setKeyContacts([
+                    ...keyContacts,
+                    newContact
+                ]);
+                _antd.message.success('联系人添加成功');
+            }
+            setContactModalVisible(false);
+            setEditingContactIndex(null);
+        });
+    };
+    const handleAddCost = ()=>{
+        addForm.validateFields().then((values)=>{
+            const newItem = {
+                description: values.description,
+                amount: values.amount,
+                time: values.time ? values.time.format('YYYY-MM-DD HH:mm') : undefined
+            };
+            setServiceCostItems((prev)=>[
+                    ...prev,
+                    newItem
+                ]);
+            setAddModalVisible(false);
+            addForm.resetFields();
+            _antd.message.success('已添加投入');
+        });
+    };
+    const openEditCost = (index)=>{
+        setEditingIndex(index);
+        const item = serviceCostItems[index];
+        editForm.setFieldsValue({
+            description: item.description,
+            amount: item.amount,
+            time: item.time ? (0, _dayjs.default)(item.time) : undefined
+        });
+        setEditModalVisible(true);
+    };
+    const handleSaveEditCost = ()=>{
+        editForm.validateFields().then((values)=>{
+            if (editingIndex === null) return;
+            const next = [
+                ...serviceCostItems
+            ];
+            next[editingIndex] = {
+                description: values.description,
+                amount: values.amount,
+                time: values.time ? values.time.format('YYYY-MM-DD HH:mm') : next[editingIndex].time
+            };
+            setServiceCostItems(next);
+            setEditModalVisible(false);
+            setEditingIndex(null);
+            _antd.message.success('已更新投入');
+        });
+    };
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        style: {
+            padding: '16px 0'
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
                 style: {
                     marginBottom: '16px'
                 },
                 children: [
-                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                        gutter: [
-                            24,
-                            16
-                        ],
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '12px',
+                            fontSize: '14px',
+                            fontWeight: '500'
+                        },
                         children: [
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                span: 24,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                            strong: true,
-                                            style: {
-                                                minWidth: 120,
-                                                display: 'inline-block'
-                                            },
-                                            children: "已购产品/服务："
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 48,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                            style: {
-                                                marginLeft: '8px'
-                                            },
-                                            children: customer === null || customer === void 0 ? void 0 : (_customer_purchasedProducts = customer.purchasedProducts) === null || _customer_purchasedProducts === void 0 ? void 0 : _customer_purchasedProducts.map((product, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                    color: "blue",
-                                                    style: {
-                                                        marginRight: '4px'
-                                                    },
-                                                    children: product
-                                                }, index, false, {
-                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 51,
-                                                    columnNumber: 19
-                                                }, this))
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 49,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 47,
-                                    columnNumber: 13
-                                }, this)
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DollarOutlined, {
+                                style: {
+                                    color: '#52c41a',
+                                    marginRight: '8px'
+                                }
                             }, void 0, false, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 46,
+                                lineNumber: 185,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                span: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                            strong: true,
-                                            style: {
-                                                minWidth: 120,
-                                                display: 'inline-block'
-                                            },
-                                            children: lifecycle === 'renewal' ? '续约金额 (ARR)：' : '合同金额 (ARR)：'
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 61,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                            style: {
-                                                color: '#1890ff',
-                                                fontSize: '16px',
-                                                fontWeight: '600',
-                                                marginLeft: '8px'
-                                            },
-                                            children: [
-                                                "¥",
-                                                ((customer === null || customer === void 0 ? void 0 : customer.arr) || (customer === null || customer === void 0 ? void 0 : (_customer_currentContract = customer.currentContract) === null || _customer_currentContract === void 0 ? void 0 : _customer_currentContract.amount) || (customer === null || customer === void 0 ? void 0 : customer.renewalAmount) || 0).toLocaleString()
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 64,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 60,
-                                    columnNumber: 13
-                                }, this)
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                children: "合同与服务"
                             }, void 0, false, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 59,
+                                lineNumber: 186,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                span: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                    style: {
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                            strong: true,
-                                            style: {
-                                                minWidth: 100,
-                                                display: 'inline-block'
-                                            },
-                                            children: lifecycle === 'renewal' ? '续约到期日：' : '服务到期日：'
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 72,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                            style: {
-                                                color: '#fa8c16',
-                                                marginLeft: '8px'
-                                            },
-                                            children: (customer === null || customer === void 0 ? void 0 : customer.contractEndDate) || (customer === null || customer === void 0 ? void 0 : customer.contractExpiryDate) || (customer === null || customer === void 0 ? void 0 : customer.serviceExpiryDate) || '-'
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 75,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
+                            onEditContract && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                type: "text",
+                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
                                     fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 71,
-                                    columnNumber: 13
-                                }, this)
+                                    lineNumber: 190,
+                                    columnNumber: 21
+                                }, void 0),
+                                onClick: onEditContract,
+                                size: "small",
+                                style: {
+                                    marginLeft: 'auto'
+                                }
                             }, void 0, false, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 70,
+                                lineNumber: 188,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                        lineNumber: 178,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                        bordered: true,
+                        size: "small",
+                        column: 2,
+                        labelStyle: {
+                            width: '180px',
+                            minWidth: '180px'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "服务开始时间",
+                                span: 1,
+                                children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract1 = customer.currentContract) === null || _customer_currentContract1 === void 0 ? void 0 : _customer_currentContract1.startDate) || '-'
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 203,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                span: 8,
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "合同金额",
+                                span: 1,
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                                     style: {
-                                        display: 'flex',
-                                        alignItems: 'center'
+                                        color: '#52c41a',
+                                        fontWeight: '600'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                            strong: true,
-                                            style: {
-                                                minWidth: 80,
-                                                display: 'inline-block'
-                                            },
-                                            children: "人数版本："
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 83,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                            style: {
-                                                color: '#52c41a',
-                                                marginLeft: '8px'
-                                            },
-                                            children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract1 = customer.currentContract) === null || _customer_currentContract1 === void 0 ? void 0 : _customer_currentContract1.userVersion) || (customer === null || customer === void 0 ? void 0 : customer.scale) || '暂无'
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 84,
-                                            columnNumber: 15
-                                        }, this)
+                                        "¥",
+                                        (customer === null || customer === void 0 ? void 0 : (_customer_currentContract2 = customer.currentContract) === null || _customer_currentContract2 === void 0 ? void 0 : (_customer_currentContract_amount = _customer_currentContract2.amount) === null || _customer_currentContract_amount === void 0 ? void 0 : _customer_currentContract_amount.toLocaleString()) || '0'
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 82,
+                                    lineNumber: 208,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 81,
+                                lineNumber: 207,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "服务到期时间",
+                                span: 1,
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                    style: {
+                                        color: '#fa541c'
+                                    },
+                                    children: (customer === null || customer === void 0 ? void 0 : customer.contractEndDate) || '暂无'
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 214,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 213,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "人数版本",
+                                span: 1,
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                    style: {
+                                        color: '#52c41a'
+                                    },
+                                    children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract3 = customer.currentContract) === null || _customer_currentContract3 === void 0 ? void 0 : _customer_currentContract3.userVersion) || (customer === null || customer === void 0 ? void 0 : customer.scale) || '暂无'
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 220,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 219,
                                 columnNumber: 11
                             }, this),
                             lifecycle !== 'renewal' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                        span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                        label: "提单版本",
+                                        span: 1,
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                                             style: {
-                                                display: 'flex',
-                                                alignItems: 'center'
+                                                color: '#722ed1'
                                             },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                    strong: true,
-                                                    style: {
-                                                        minWidth: 80,
-                                                        display: 'inline-block'
-                                                    },
-                                                    children: "提单版本："
-                                                }, void 0, false, {
-                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 94,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                                    style: {
-                                                        color: '#722ed1',
-                                                        marginLeft: '8px'
-                                                    },
-                                                    children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract2 = customer.currentContract) === null || _customer_currentContract2 === void 0 ? void 0 : _customer_currentContract2.ticketVersion) || '暂无'
-                                                }, void 0, false, {
-                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 95,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
+                                            children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract4 = customer.currentContract) === null || _customer_currentContract4 === void 0 ? void 0 : _customer_currentContract4.ticketVersion) || '暂无'
+                                        }, void 0, false, {
                                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 93,
+                                            lineNumber: 228,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 92,
+                                        lineNumber: 227,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                        span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                        label: "提单到期时间",
+                                        span: 1,
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
                                             style: {
-                                                display: 'flex',
-                                                alignItems: 'center'
+                                                color: '#fa541c'
                                             },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                    strong: true,
-                                                    style: {
-                                                        minWidth: 100,
-                                                        display: 'inline-block'
-                                                    },
-                                                    children: "提单到期时间："
-                                                }, void 0, false, {
-                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 102,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                                    style: {
-                                                        color: '#fa541c',
-                                                        marginLeft: '8px'
-                                                    },
-                                                    children: (customer === null || customer === void 0 ? void 0 : customer.ticketExpiryDate) || '暂无'
-                                                }, void 0, false, {
-                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 103,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
+                                            children: (customer === null || customer === void 0 ? void 0 : customer.ticketExpiryDate) || '暂无'
+                                        }, void 0, false, {
                                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 101,
+                                            lineNumber: 233,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 100,
+                                        lineNumber: 232,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                        span: 8,
-                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                            style: {
-                                                display: 'flex',
-                                                alignItems: 'center'
-                                            },
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                    strong: true,
-                                                    style: {
-                                                        minWidth: 80,
-                                                        display: 'inline-block'
-                                                    },
-                                                    children: "天元订单："
-                                                }, void 0, false, {
-                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 110,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                    color: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract3 = customer.currentContract) === null || _customer_currentContract3 === void 0 ? void 0 : _customer_currentContract3.tianyuanOrderStatus) === 'active' ? 'green' : 'orange',
-                                                    children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract4 = customer.currentContract) === null || _customer_currentContract4 === void 0 ? void 0 : _customer_currentContract4.tianyuanOrderStatus) === 'active' ? '已生效' : '未生效'
-                                                }, void 0, false, {
-                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 111,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                        label: "天元订单",
+                                        span: 1,
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                            color: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract5 = customer.currentContract) === null || _customer_currentContract5 === void 0 ? void 0 : _customer_currentContract5.tianyuanOrderStatus) === 'active' ? 'green' : 'orange',
+                                            children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract6 = customer.currentContract) === null || _customer_currentContract6 === void 0 ? void 0 : _customer_currentContract6.tianyuanOrderStatus) === 'active' ? '已生效' : '未生效'
+                                        }, void 0, false, {
                                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 109,
+                                            lineNumber: 238,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 108,
+                                        lineNumber: 237,
                                         columnNumber: 15
                                     }, this)
                                 ]
@@ -1456,597 +2251,3395 @@ const CustomerProfileTab = ({ customer, lifecycle = 'continuous', onEditContract
                         ]
                     }, void 0, true, {
                         fileName: "src/components/common/CustomerProfileTab.tsx",
-                        lineNumber: 45,
+                        lineNumber: 197,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 177,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {}, void 0, false, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 247,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    marginBottom: '16px'
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '12px',
+                            fontSize: '14px',
+                            fontWeight: '500'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {
+                                style: {
+                                    color: '#1890ff',
+                                    marginRight: '8px'
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 258,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                children: "基本信息"
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 259,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                        lineNumber: 251,
                         columnNumber: 9
                     }, this),
-                    lifecycle === 'renewal' && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                        style: {
-                            marginTop: '16px'
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                        bordered: true,
+                        size: "small",
+                        column: 2,
+                        labelStyle: {
+                            width: '180px',
+                            minWidth: '180px'
                         },
-                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Collapse, {
-                            ghost: true,
-                            size: "small",
-                            items: [
-                                {
-                                    key: '1',
-                                    label: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                        strong: true,
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "公司名称",
+                                span: 1,
+                                children: (customer === null || customer === void 0 ? void 0 : customer.companyName) || '暂无'
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 267,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "行业",
+                                span: 1,
+                                children: (customer === null || customer === void 0 ? void 0 : customer.industry) || '暂无'
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 271,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "规模",
+                                span: 1,
+                                children: (customer === null || customer === void 0 ? void 0 : customer.scale) || '暂无'
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 275,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "客户类型",
+                                span: 1,
+                                children: (customer === null || customer === void 0 ? void 0 : customer.customerType) || '暂无'
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 279,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "健康分",
+                                span: 1,
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                    style: {
+                                        color: (customer === null || customer === void 0 ? void 0 : customer.healthScore) >= 80 ? '#52c41a' : (customer === null || customer === void 0 ? void 0 : customer.healthScore) >= 60 ? '#faad14' : '#ff4d4f',
+                                        fontWeight: '600'
+                                    },
+                                    children: (customer === null || customer === void 0 ? void 0 : customer.healthScore) || '暂无'
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 284,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 283,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "建档数",
+                                span: 1,
+                                children: (customer === null || customer === void 0 ? void 0 : customer.profileCount) || '0'
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 293,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                        lineNumber: 261,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 250,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {}, void 0, false, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 299,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    marginBottom: '16px'
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '12px',
+                            fontSize: '14px',
+                            fontWeight: '500'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {
+                                style: {
+                                    color: '#722ed1',
+                                    marginRight: '8px'
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 310,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                children: "关键联系人"
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 311,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                type: "text",
+                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 314,
+                                    columnNumber: 19
+                                }, void 0),
+                                onClick: ()=>setContactModalVisible(true),
+                                size: "small",
+                                style: {
+                                    marginLeft: 'auto'
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 312,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                        lineNumber: 303,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '12px'
+                        },
+                        children: keyContacts === null || keyContacts === void 0 ? void 0 : keyContacts.map((contact, index)=>{
+                            var _contact_phone;
+                            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    position: 'relative'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                                        bordered: true,
+                                        size: "small",
+                                        column: 2,
                                         style: {
-                                            color: '#1890ff'
+                                            width: '100%'
+                                        },
+                                        labelStyle: {
+                                            width: '180px',
+                                            minWidth: '180px'
+                                        },
+                                        contentStyle: {
+                                            minWidth: '200px'
                                         },
                                         children: [
-                                            "服务成本投入: ¥",
-                                            (customer === null || customer === void 0 ? void 0 : (_customer_currentContract5 = customer.currentContract) === null || _customer_currentContract5 === void 0 ? void 0 : (_customer_currentContract_serviceCost = _customer_currentContract5.serviceCost) === null || _customer_currentContract_serviceCost === void 0 ? void 0 : _customer_currentContract_serviceCost.toLocaleString()) || '15,000'
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                label: "姓名",
+                                                span: 1,
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                    style: {
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: '8px'
+                                                    },
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                            children: contact.name
+                                                        }, void 0, false, {
+                                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                            lineNumber: 335,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        contact.isPrimary && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                            color: "green",
+                                                            children: "主要联系人"
+                                                        }, void 0, false, {
+                                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                            lineNumber: 336,
+                                                            columnNumber: 43
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 334,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 333,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                label: "职位",
+                                                span: 1,
+                                                children: contact.title
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 340,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                label: "电话",
+                                                span: 1,
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                    children: ((_contact_phone = contact.phone) === null || _contact_phone === void 0 ? void 0 : _contact_phone.replace(/\*+/g, '')) || contact.phone
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 345,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 344,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                                label: "邮箱",
+                                                span: 1,
+                                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                                    children: contact.email
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 349,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 348,
+                                                columnNumber: 17
+                                            }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 130,
-                                        columnNumber: 21
-                                    }, void 0),
-                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        lineNumber: 325,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                        type: "text",
+                                        size: "small",
+                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 357,
+                                            columnNumber: 23
+                                        }, void 0),
+                                        onClick: ()=>handleEditContact(index),
                                         style: {
-                                            background: '#f8f9fa',
-                                            padding: '12px',
-                                            borderRadius: '6px',
-                                            marginTop: '8px'
-                                        },
-                                        children: (customer === null || customer === void 0 ? void 0 : (_customer_currentContract6 = customer.currentContract) === null || _customer_currentContract6 === void 0 ? void 0 : _customer_currentContract6.serviceCostDetails) ? customer.currentContract.serviceCostDetails.map((detail, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                style: {
-                                                    fontSize: '12px',
-                                                    color: '#666',
-                                                    marginBottom: '4px'
-                                                },
-                                                children: [
-                                                    "• ",
-                                                    detail
-                                                ]
-                                            }, index, true, {
-                                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                lineNumber: 138,
-                                                columnNumber: 27
-                                            }, void 0)) : [
-                                            '客户拜访费用: ¥3,000',
-                                            '礼品采购: ¥5,000',
-                                            '培训支持: ¥4,000',
-                                            '技术支持: ¥3,000'
-                                        ].map((detail, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                                style: {
-                                                    fontSize: '12px',
-                                                    color: '#666',
-                                                    marginBottom: '4px'
-                                                },
-                                                children: [
-                                                    "• ",
-                                                    detail
-                                                ]
-                                            }, index, true, {
-                                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                lineNumber: 148,
-                                                columnNumber: 27
-                                            }, void 0))
+                                            position: 'absolute',
+                                            top: '8px',
+                                            right: '8px',
+                                            zIndex: 1
+                                        }
                                     }, void 0, false, {
                                         fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 135,
-                                        columnNumber: 21
-                                    }, void 0)
-                                }
-                            ]
-                        }, void 0, false, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 123,
-                            columnNumber: 13
-                        }, this)
+                                        lineNumber: 354,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, index, true, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 324,
+                                columnNumber: 13
+                            }, this);
+                        })
                     }, void 0, false, {
                         fileName: "src/components/common/CustomerProfileTab.tsx",
-                        lineNumber: 122,
+                        lineNumber: 322,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 302,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {}, void 0, false, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 371,
+                columnNumber: 7
+            }, this),
+            (lifecycle === 'renewal' || (customer === null || customer === void 0 ? void 0 : (_customer_currentContract7 = customer.currentContract) === null || _customer_currentContract7 === void 0 ? void 0 : _customer_currentContract7.serviceCost) || (customer === null || customer === void 0 ? void 0 : (_customer_currentContract8 = customer.currentContract) === null || _customer_currentContract8 === void 0 ? void 0 : _customer_currentContract8.serviceCostDetails)) && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    marginTop: '16px'
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            marginBottom: '16px'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                style: {
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DollarOutlined, {
+                                        style: {
+                                            color: '#1890ff',
+                                            marginRight: '8px'
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 378,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        style: {
+                                            fontSize: '14px',
+                                            fontWeight: '500'
+                                        },
+                                        children: "服务成本投入"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 379,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 377,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                type: "text",
+                                size: "small",
+                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 384,
+                                    columnNumber: 21
+                                }, void 0),
+                                onClick: ()=>setAddModalVisible(true)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 381,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                        lineNumber: 376,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                        bordered: true,
+                        size: "small",
+                        column: 1,
+                        labelStyle: {
+                            width: '180px',
+                            minWidth: '180px'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "总投入",
+                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                    style: {
+                                        color: '#1890ff',
+                                        fontWeight: 600
+                                    },
+                                    children: [
+                                        "¥",
+                                        (customer === null || customer === void 0 ? void 0 : (_customer_currentContract9 = customer.currentContract) === null || _customer_currentContract9 === void 0 ? void 0 : (_customer_currentContract_serviceCost = _customer_currentContract9.serviceCost) === null || _customer_currentContract_serviceCost === void 0 ? void 0 : _customer_currentContract_serviceCost.toLocaleString()) || '15,000'
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 397,
+                                    columnNumber: 15
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 396,
+                                columnNumber: 13
+                            }, this),
+                            serviceCostItems.map((item, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: item.description,
+                                    style: {
+                                        position: 'relative'
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between'
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                children: item.amount !== undefined ? `¥${item.amount.toLocaleString()}` : '—'
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 409,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                                style: {
+                                                    display: 'flex',
+                                                    alignItems: 'center'
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                        type: "secondary",
+                                                        style: {
+                                                            marginRight: '8px',
+                                                            fontSize: '12px'
+                                                        },
+                                                        children: item.time || '—'
+                                                    }, void 0, false, {
+                                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                        lineNumber: 413,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                        type: "text",
+                                                        size: "small",
+                                                        icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                            lineNumber: 419,
+                                                            columnNumber: 29
+                                                        }, void 0),
+                                                        onClick: ()=>openEditCost(index)
+                                                    }, void 0, false, {
+                                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                        lineNumber: 416,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                lineNumber: 412,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 408,
+                                        columnNumber: 17
+                                    }, this)
+                                }, index, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 403,
+                                    columnNumber: 15
+                                }, this))
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                        lineNumber: 390,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                lineNumber: 23,
-                columnNumber: 7
+                lineNumber: 375,
+                columnNumber: 9
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                    style: {
-                        display: 'flex',
-                        alignItems: 'center'
-                    },
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                title: "添加服务成本投入",
+                open: addModalVisible,
+                onOk: handleAddCost,
+                onCancel: ()=>setAddModalVisible(false),
+                width: 400,
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                    form: addForm,
+                    layout: "vertical",
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.UserOutlined, {
-                            style: {
-                                color: '#1890ff',
-                                marginRight: '8px'
-                            }
-                        }, void 0, false, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 166,
-                            columnNumber: 13
-                        }, void 0),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                            children: "基本信息"
-                        }, void 0, false, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 167,
-                            columnNumber: 13
-                        }, void 0)
-                    ]
-                }, void 0, true, {
-                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                    lineNumber: 165,
-                    columnNumber: 11
-                }, void 0),
-                size: "small",
-                style: {
-                    marginBottom: '16px'
-                },
-                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                    gutter: [
-                        24,
-                        16
-                    ],
-                    children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                            span: 8,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                style: {
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                        strong: true,
-                                        style: {
-                                            minWidth: 80,
-                                            display: 'inline-block'
-                                        },
-                                        children: "公司名称："
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 176,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                        style: {
-                                            marginLeft: '8px'
-                                        },
-                                        children: (customer === null || customer === void 0 ? void 0 : customer.name) || '-'
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 177,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "投入描述",
+                            name: "description",
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '请输入投入描述'
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                placeholder: "例如：客户拜访费用"
+                            }, void 0, false, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 175,
+                                lineNumber: 440,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 174,
+                            lineNumber: 439,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                            span: 8,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "金额",
+                            name: "amount",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.InputNumber, {
                                 style: {
-                                    display: 'flex',
-                                    alignItems: 'center'
+                                    width: '100%'
                                 },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                        strong: true,
-                                        style: {
-                                            minWidth: 60,
-                                            display: 'inline-block'
-                                        },
-                                        children: "行业："
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 182,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                        style: {
-                                            marginLeft: '8px'
-                                        },
-                                        children: (customer === null || customer === void 0 ? void 0 : customer.industry) || '-'
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 183,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                                formatter: (value)=>`¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                                parser: (value)=>value.replace(/¥\s?|(,*)/g, ''),
+                                placeholder: "请输入金额"
+                            }, void 0, false, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 181,
+                                lineNumber: 443,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 180,
+                            lineNumber: 442,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                            span: 8,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "时间",
+                            name: "time",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.DatePicker, {
+                                showTime: true,
                                 style: {
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                        strong: true,
-                                        style: {
-                                            minWidth: 60,
-                                            display: 'inline-block'
-                                        },
-                                        children: "规模："
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 188,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                        style: {
-                                            marginLeft: '8px'
-                                        },
-                                        children: (customer === null || customer === void 0 ? void 0 : customer.scale) || '-'
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 189,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                                    width: '100%'
+                                }
+                            }, void 0, false, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 187,
+                                lineNumber: 451,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 186,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                            span: 8,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                style: {
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                        strong: true,
-                                        style: {
-                                            minWidth: 80,
-                                            display: 'inline-block'
-                                        },
-                                        children: "客户成功："
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 194,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                        style: {
-                                            marginLeft: '8px'
-                                        },
-                                        children: (customer === null || customer === void 0 ? void 0 : customer.csm) || '-'
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 195,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 193,
-                                columnNumber: 13
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 192,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                            span: 8,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                style: {
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                        strong: true,
-                                        style: {
-                                            minWidth: 60,
-                                            display: 'inline-block'
-                                        },
-                                        children: "健康分："
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 200,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                        style: {
-                                            color: ((customer === null || customer === void 0 ? void 0 : customer.healthScore) || 0) >= 80 ? '#3f8600' : ((customer === null || customer === void 0 ? void 0 : customer.healthScore) || 0) >= 60 ? '#faad14' : '#cf1322',
-                                            fontWeight: '600',
-                                            marginLeft: '8px'
-                                        },
-                                        children: [
-                                            (customer === null || customer === void 0 ? void 0 : customer.healthScore) || 0,
-                                            "分"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 201,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 199,
-                                columnNumber: 13
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 198,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                            span: 8,
-                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                style: {
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                },
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                        strong: true,
-                                        style: {
-                                            minWidth: 60,
-                                            display: 'inline-block'
-                                        },
-                                        children: "建联度："
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 213,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                        style: {
-                                            marginLeft: '8px'
-                                        },
-                                        children: (customer === null || customer === void 0 ? void 0 : customer.connectionLevel) || '-'
-                                    }, void 0, false, {
-                                        fileName: "src/components/common/CustomerProfileTab.tsx",
-                                        lineNumber: 214,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 212,
-                                columnNumber: 13
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 211,
+                            lineNumber: 450,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/common/CustomerProfileTab.tsx",
-                    lineNumber: 173,
+                    lineNumber: 438,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                lineNumber: 163,
+                lineNumber: 431,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Card, {
-                title: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                    style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                    },
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                title: "编辑服务成本投入",
+                open: editModalVisible,
+                onOk: handleSaveEditCost,
+                onCancel: ()=>setEditModalVisible(false),
+                width: 400,
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                    form: editForm,
+                    layout: "vertical",
                     children: [
-                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                            style: {
-                                display: 'flex',
-                                alignItems: 'center'
-                            },
-                            children: [
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {
-                                    style: {
-                                        color: '#722ed1',
-                                        marginRight: '8px'
-                                    }
-                                }, void 0, false, {
-                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 225,
-                                    columnNumber: 15
-                                }, void 0),
-                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
-                                    children: "关键联系人"
-                                }, void 0, false, {
-                                    fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 226,
-                                    columnNumber: 15
-                                }, void 0)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 224,
-                            columnNumber: 13
-                        }, void 0),
-                        onEditContacts && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
-                            type: "primary",
-                            icon: lifecycle === 'continuous' ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "投入描述",
+                            name: "description",
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '请输入投入描述'
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                placeholder: "例如：客户拜访费用"
+                            }, void 0, false, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 231,
-                                columnNumber: 52
-                            }, void 0) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
-                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 231,
-                                columnNumber: 71
-                            }, void 0),
-                            onClick: onEditContacts,
-                            size: "small",
-                            children: lifecycle === 'continuous' ? '添加联系人' : '编辑联系人'
+                                lineNumber: 466,
+                                columnNumber: 13
+                            }, this)
                         }, void 0, false, {
                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 229,
-                            columnNumber: 15
-                        }, void 0)
+                            lineNumber: 465,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "金额",
+                            name: "amount",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.InputNumber, {
+                                style: {
+                                    width: '100%'
+                                },
+                                formatter: (value)=>`¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                                parser: (value)=>value.replace(/¥\s?|(,*)/g, ''),
+                                placeholder: "请输入金额"
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 469,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 468,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "时间",
+                            name: "time",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.DatePicker, {
+                                showTime: true,
+                                style: {
+                                    width: '100%'
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 477,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 476,
+                            columnNumber: 11
+                        }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/common/CustomerProfileTab.tsx",
-                    lineNumber: 223,
-                    columnNumber: 11
-                }, void 0),
-                size: "small",
-                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
-                    direction: "vertical",
-                    style: {
-                        width: '100%'
-                    },
+                    lineNumber: 464,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/components/common/CustomerProfileTab.tsx",
+                lineNumber: 457,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                title: editingContactIndex !== null ? "编辑联系人" : "添加联系人",
+                open: contactModalVisible,
+                onOk: handleSaveContact,
+                onCancel: ()=>{
+                    setContactModalVisible(false);
+                    setEditingContactIndex(null);
+                },
+                width: 500,
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                    form: contactForm,
+                    layout: "vertical",
                     children: [
-                        customer === null || customer === void 0 ? void 0 : (_customer_keyContacts = customer.keyContacts) === null || _customer_keyContacts === void 0 ? void 0 : _customer_keyContacts.map((contact, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                                style: {
-                                    padding: '12px',
-                                    border: '1px solid #f0f0f0',
-                                    borderRadius: '6px',
-                                    backgroundColor: contact.isPrimary ? '#f6ffed' : '#fafafa'
-                                },
-                                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Row, {
-                                    gutter: 16,
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 6,
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "姓名",
+                            name: "name",
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '请输入姓名'
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {}, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 495,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 494,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "职位",
+                            name: "title",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {}, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 498,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 497,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                display: 'flex',
+                                gap: '16px'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        flex: 1
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        label: "干系类型",
+                                        name: "type",
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请选择干系类型'
+                                            }
+                                        ],
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
                                             children: [
-                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                    strong: true,
-                                                    children: contact.name
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                    value: "decision_maker",
+                                                    children: "决策者"
                                                 }, void 0, false, {
                                                     fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 252,
-                                                    columnNumber: 19
+                                                    lineNumber: 504,
+                                                    columnNumber: 20
                                                 }, this),
-                                                contact.isPrimary && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
-                                                    color: "green",
-                                                    style: {
-                                                        marginLeft: '8px',
-                                                        fontSize: '12px'
-                                                    },
-                                                    children: "主要联系人"
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                    value: "influencer",
+                                                    children: "影响者"
                                                 }, void 0, false, {
                                                     fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                    lineNumber: 253,
-                                                    columnNumber: 41
+                                                    lineNumber: 505,
+                                                    columnNumber: 20
+                                                }, this),
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                    value: "user",
+                                                    children: "使用者"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 506,
+                                                    columnNumber: 20
+                                                }, this),
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                    value: "gatekeeper",
+                                                    children: "把关者"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 507,
+                                                    columnNumber: 20
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 251,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 4,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                type: "secondary",
-                                                children: contact.title
-                                            }, void 0, false, {
-                                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                lineNumber: 256,
-                                                columnNumber: 19
-                                            }, this)
-                                        }, void 0, false, {
+                                            lineNumber: 503,
+                                            columnNumber: 18
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 502,
+                                        columnNumber: 16
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 501,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        flex: 1
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        label: "影响力",
+                                        name: "influence",
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请选择影响力'
+                                            }
+                                        ],
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                    value: "high",
+                                                    children: "高"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 514,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                    value: "medium",
+                                                    children: "中"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 515,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                                    value: "low",
+                                                    children: "低"
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                                    lineNumber: 516,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 255,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 6,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                copyable: true,
-                                                children: contact.phone
-                                            }, void 0, false, {
-                                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                lineNumber: 259,
-                                                columnNumber: 19
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 258,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Col, {
-                                            span: 8,
-                                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
-                                                copyable: true,
-                                                children: contact.email
-                                            }, void 0, false, {
-                                                fileName: "src/components/common/CustomerProfileTab.tsx",
-                                                lineNumber: 262,
-                                                columnNumber: 19
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "src/components/common/CustomerProfileTab.tsx",
-                                            lineNumber: 261,
+                                            lineNumber: 513,
                                             columnNumber: 17
                                         }, this)
-                                    ]
-                                }, void 0, true, {
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 512,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
                                     fileName: "src/components/common/CustomerProfileTab.tsx",
-                                    lineNumber: 250,
-                                    columnNumber: 15
+                                    lineNumber: 511,
+                                    columnNumber: 13
                                 }, this)
-                            }, index, false, {
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 500,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            label: "态度",
+                            name: "attitude",
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '请选择态度'
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "positive",
+                                        children: "积极"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 523,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "neutral",
+                                        children: "中性"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 524,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "negative",
+                                        children: "消极"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 525,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                                lineNumber: 244,
+                                lineNumber: 522,
                                 columnNumber: 13
-                            }, this)),
-                        (!(customer === null || customer === void 0 ? void 0 : customer.keyContacts) || customer.keyContacts.length === 0) && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
-                            style: {
-                                textAlign: 'center',
-                                color: '#999',
-                                padding: '20px'
-                            },
-                            children: "暂无联系人信息"
+                            }, this)
                         }, void 0, false, {
                             fileName: "src/components/common/CustomerProfileTab.tsx",
-                            lineNumber: 268,
-                            columnNumber: 13
+                            lineNumber: 521,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                display: 'flex',
+                                gap: '16px'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        flex: 1
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        label: "电话",
+                                        name: "phone",
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {}, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 531,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 530,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 529,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        flex: 1
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                                        label: "邮箱",
+                                        name: "email",
+                                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {}, void 0, false, {
+                                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                                            lineNumber: 536,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/CustomerProfileTab.tsx",
+                                        lineNumber: 535,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "src/components/common/CustomerProfileTab.tsx",
+                                    lineNumber: 534,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 528,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "isPrimary",
+                            valuePropName: "checked",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Checkbox, {
+                                children: "设为主要联系人"
+                            }, void 0, false, {
+                                fileName: "src/components/common/CustomerProfileTab.tsx",
+                                lineNumber: 541,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/CustomerProfileTab.tsx",
+                            lineNumber: 540,
+                            columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/common/CustomerProfileTab.tsx",
-                    lineNumber: 242,
+                    lineNumber: 493,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/common/CustomerProfileTab.tsx",
-                lineNumber: 221,
+                lineNumber: 483,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/components/common/CustomerProfileTab.tsx",
-        lineNumber: 21,
+        lineNumber: 175,
         columnNumber: 5
     }, this);
 };
+_s(CustomerProfileTab, "GzHloFBK1Awdg1zzwP2P9ezlHrs=", false, function() {
+    return [
+        _antd.Form.useForm,
+        _antd.Form.useForm,
+        _antd.Form.useForm
+    ];
+});
 _c = CustomerProfileTab;
 var _default = CustomerProfileTab;
 var _c;
 $RefreshReg$(_c, "CustomerProfileTab");
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/components/common/ServiceRecordTab.tsx": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+__mako_require__.d(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return _default;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var _jsxdevruntime = __mako_require__("node_modules/react/jsx-dev-runtime.js");
+var _react = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react/index.js"));
+var _antd = __mako_require__("node_modules/antd/es/index.js");
+var _icons = __mako_require__("node_modules/@ant-design/icons/es/index.js");
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+var _s = $RefreshSig$();
+const { Text } = _antd.Typography;
+const { TextArea } = _antd.Input;
+const { Option } = _antd.Select;
+const { RangePicker } = _antd.DatePicker;
+const ServiceRecordTab = ({ serviceRecords = [], onAddRecord, onEditRecord, showAddButton = true, tabTitle = '服务记录', handoverData })=>{
+    var _handoverData_crmInfo, _handoverData_crmInfo1, _handoverData_crmInfo2, _handoverData_crmInfo3, _handoverData_risks, _handoverData_opportunities, _handoverData_stakeholders;
+    _s();
+    const [newRecordModalVisible, setNewRecordModalVisible] = (0, _react.useState)(false);
+    const [editRecordModalVisible, setEditRecordModalVisible] = (0, _react.useState)(false);
+    const [handoverDetailVisible, setHandoverDetailVisible] = (0, _react.useState)(false);
+    const [editingRecord, setEditingRecord] = (0, _react.useState)(null);
+    const [form] = _antd.Form.useForm();
+    const [editForm] = _antd.Form.useForm();
+    // 筛选状态
+    const [filterType, setFilterType] = (0, _react.useState)('all');
+    const [filterDateRange, setFilterDateRange] = (0, _react.useState)(null);
+    // 筛选后的服务记录
+    const filteredServiceRecords = (0, _react.useMemo)(()=>{
+        return serviceRecords.filter((record)=>{
+            // 类型筛选
+            if (filterType !== 'all' && record.type !== filterType) return false;
+            // 时间筛选
+            if (filterDateRange && filterDateRange[0] && filterDateRange[1]) {
+                const recordDate = new Date(record.timestamp);
+                const startDate = filterDateRange[0].startOf('day');
+                const endDate = filterDateRange[1].endOf('day');
+                if (recordDate < startDate || recordDate > endDate) return false;
+            }
+            return true;
+        });
+    }, [
+        serviceRecords,
+        filterType,
+        filterDateRange
+    ]);
+    // 获取记录类型配置
+    const getRecordConfig = (type)=>{
+        const configs = {
+            'QBR': {
+                color: '#52c41a',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.TeamOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 109,
+                    columnNumber: 40
+                }, this)
+            },
+            '电话回访': {
+                color: '#1890ff',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PhoneOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 110,
+                    columnNumber: 41
+                }, this)
+            },
+            '培训': {
+                color: '#722ed1',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlayCircleOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 111,
+                    columnNumber: 39
+                }, this)
+            },
+            '工单解决': {
+                color: '#fa8c16',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 112,
+                    columnNumber: 41
+                }, this)
+            },
+            '风险处理': {
+                color: '#f5222d',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ExclamationCircleOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 113,
+                    columnNumber: 41
+                }, this)
+            },
+            '产品演示': {
+                color: '#13c2c2',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlayCircleOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 114,
+                    columnNumber: 41
+                }, this)
+            },
+            '技术支持': {
+                color: '#eb2f96',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.SettingOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 115,
+                    columnNumber: 41
+                }, this)
+            },
+            '商务沟通': {
+                color: '#faad14',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.DollarOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 116,
+                    columnNumber: 41
+                }, this)
+            },
+            '其他': {
+                color: '#8c8c8c',
+                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.ClockCircleOutlined, {}, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 117,
+                    columnNumber: 39
+                }, this)
+            }
+        };
+        return configs[type] || configs['其他'];
+    };
+    // 处理编辑记录
+    const handleEditRecord = (record)=>{
+        setEditingRecord(record);
+        editForm.setFieldsValue({
+            type: record.type,
+            title: record.title,
+            content: record.content,
+            tags: record.tags || [],
+            attachments: record.attachments || []
+        });
+        setEditRecordModalVisible(true);
+    };
+    // 处理保存编辑
+    const handleSaveEdit = ()=>{
+        editForm.validateFields().then((values)=>{
+            if (editingRecord && onEditRecord) {
+                const updatedRecord = {
+                    ...values,
+                    operator: editingRecord.operator,
+                    timestamp: editingRecord.timestamp,
+                    tags: values.tags || [],
+                    attachments: values.attachments || []
+                };
+                onEditRecord(editingRecord.id, updatedRecord);
+                _antd.message.success('服务记录已更新');
+                setEditRecordModalVisible(false);
+                setEditingRecord(null);
+                editForm.resetFields();
+            }
+        });
+    };
+    // 处理新增记录
+    const handleAddRecord = ()=>{
+        form.validateFields().then((values)=>{
+            const newRecord = {
+                ...values,
+                operator: '当前用户',
+                timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
+                tags: values.tags || [],
+                attachments: values.attachments || []
+            };
+            if (onAddRecord) onAddRecord(newRecord);
+            _antd.message.success('服务记录已创建');
+            setNewRecordModalVisible(false);
+            form.resetFields();
+        });
+    };
+    return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+        style: {
+            padding: '8px 0'
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                style: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: '16px',
+                    padding: '12px',
+                    background: '#f8f9fa',
+                    borderRadius: '6px',
+                    border: '1px solid #e8e8e8'
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FilterOutlined, {
+                                style: {
+                                    color: '#666'
+                                }
+                            }, void 0, false, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 191,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                value: filterType,
+                                onChange: setFilterType,
+                                style: {
+                                    width: 120
+                                },
+                                placeholder: "服务类型",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "all",
+                                        children: "全部类型"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 198,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "QBR",
+                                        children: "QBR"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 199,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "电话回访",
+                                        children: "电话回访"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 200,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "培训",
+                                        children: "培训"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 201,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "工单解决",
+                                        children: "工单解决"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 202,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "风险处理",
+                                        children: "风险处理"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 203,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "产品演示",
+                                        children: "产品演示"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 204,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "技术支持",
+                                        children: "技术支持"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 205,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "商务沟通",
+                                        children: "商务沟通"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 206,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "其他",
+                                        children: "其他"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 207,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 192,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(RangePicker, {
+                                value: filterDateRange,
+                                onChange: setFilterDateRange,
+                                placeholder: [
+                                    '开始时间',
+                                    '结束时间'
+                                ],
+                                style: {
+                                    width: 240
+                                },
+                                allowClear: true
+                            }, void 0, false, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 210,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                onClick: ()=>{
+                                    setFilterType('all');
+                                    setFilterDateRange(null);
+                                },
+                                size: "small",
+                                children: "重置筛选"
+                            }, void 0, false, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 218,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                        lineNumber: 190,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                        style: {
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '16px'
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                type: "secondary",
+                                style: {
+                                    fontSize: '14px'
+                                },
+                                children: [
+                                    "共 ",
+                                    filteredServiceRecords.length,
+                                    " 条记录",
+                                    filteredServiceRecords.length !== serviceRecords.length && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("span", {
+                                        style: {
+                                            color: '#1890ff'
+                                        },
+                                        children: [
+                                            "（已筛选，总共 ",
+                                            serviceRecords.length,
+                                            " 条）"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 233,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 230,
+                                columnNumber: 11
+                            }, this),
+                            showAddButton && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                type: "primary",
+                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.PlusOutlined, {}, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 241,
+                                    columnNumber: 21
+                                }, void 0),
+                                onClick: ()=>setNewRecordModalVisible(true),
+                                children: [
+                                    "新增",
+                                    tabTitle
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 239,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                        lineNumber: 229,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/common/ServiceRecordTab.tsx",
+                lineNumber: 180,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Timeline, {
+                style: {
+                    padding: '16px 0'
+                },
+                items: filteredServiceRecords.map((record)=>{
+                    const config = getRecordConfig(record.type);
+                    return {
+                        color: config.color,
+                        dot: config.icon,
+                        children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                            style: {
+                                padding: '16px',
+                                background: '#f8f9fa',
+                                borderRadius: '8px',
+                                border: '1px solid #e8e8e8'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        marginBottom: '8px'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center'
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                    color: config.color,
+                                                    style: {
+                                                        marginRight: '8px'
+                                                    },
+                                                    children: record.type
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                    lineNumber: 267,
+                                                    columnNumber: 21
+                                                }, void 0),
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                    strong: true,
+                                                    style: {
+                                                        fontSize: '14px'
+                                                    },
+                                                    children: record.title
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                    lineNumber: 270,
+                                                    columnNumber: 21
+                                                }, void 0)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                                            lineNumber: 266,
+                                            columnNumber: 19
+                                        }, void 0),
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'space-between'
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                    type: "secondary",
+                                                    style: {
+                                                        fontSize: '12px'
+                                                    },
+                                                    children: record.timestamp
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                    lineNumber: 275,
+                                                    columnNumber: 21
+                                                }, void 0),
+                                                onEditRecord && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                                                    type: "text",
+                                                    size: "small",
+                                                    icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.EditOutlined, {}, void 0, false, {
+                                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                        lineNumber: 282,
+                                                        columnNumber: 31
+                                                    }, void 0),
+                                                    onClick: ()=>handleEditRecord(record),
+                                                    style: {
+                                                        marginLeft: '8px'
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                    lineNumber: 279,
+                                                    columnNumber: 23
+                                                }, void 0)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                                            lineNumber: 274,
+                                            columnNumber: 19
+                                        }, void 0)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 265,
+                                    columnNumber: 17
+                                }, void 0),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        marginBottom: '8px'
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        type: "secondary",
+                                        style: {
+                                            fontSize: '12px'
+                                        },
+                                        children: [
+                                            "操作人：",
+                                            record.operator
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 291,
+                                        columnNumber: 19
+                                    }, void 0)
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 290,
+                                    columnNumber: 17
+                                }, void 0),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        marginBottom: '12px'
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                        children: record.content
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 297,
+                                        columnNumber: 19
+                                    }, void 0)
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 296,
+                                    columnNumber: 17
+                                }, void 0),
+                                record.tags && record.tags.length > 0 && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        marginBottom: '8px'
+                                    },
+                                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Space, {
+                                        size: 4,
+                                        children: record.tags.map((tag, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                style: {
+                                                    fontSize: '11px'
+                                                },
+                                                children: tag
+                                            }, index, false, {
+                                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                lineNumber: 304,
+                                                columnNumber: 25
+                                            }, void 0))
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 302,
+                                        columnNumber: 21
+                                    }, void 0)
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 301,
+                                    columnNumber: 19
+                                }, void 0),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                    style: {
+                                        padding: '8px 12px',
+                                        background: '#e6f7ff',
+                                        borderRadius: '4px',
+                                        border: '1px solid #91d5ff',
+                                        marginTop: '8px'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            type: "secondary",
+                                            style: {
+                                                fontSize: '12px'
+                                            },
+                                            children: "关联/附件："
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                                            lineNumber: 320,
+                                            columnNumber: 19
+                                        }, void 0),
+                                        record.relatedPlaybookId && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                            color: "blue",
+                                            style: {
+                                                marginLeft: '4px',
+                                                fontSize: '11px'
+                                            },
+                                            children: [
+                                                "剧本: ",
+                                                record.relatedPlaybookId
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                                            lineNumber: 324,
+                                            columnNumber: 21
+                                        }, void 0),
+                                        record.relatedRiskEventId && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                            color: "red",
+                                            style: {
+                                                marginLeft: '4px',
+                                                fontSize: '11px'
+                                            },
+                                            children: [
+                                                "风险事件: ",
+                                                record.relatedRiskEventId
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                                            lineNumber: 329,
+                                            columnNumber: 21
+                                        }, void 0),
+                                        record.attachments && record.attachments.map((attachment, index)=>{
+                                            // 检查是否是交接单
+                                            if (attachment.includes('交接单')) return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                color: "green",
+                                                style: {
+                                                    marginLeft: '4px',
+                                                    fontSize: '11px',
+                                                    cursor: 'pointer'
+                                                },
+                                                icon: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_icons.FileTextOutlined, {}, void 0, false, {
+                                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                    lineNumber: 341,
+                                                    columnNumber: 33
+                                                }, void 0),
+                                                onClick: ()=>setHandoverDetailVisible(true),
+                                                children: attachment
+                                            }, index, false, {
+                                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                lineNumber: 337,
+                                                columnNumber: 25
+                                            }, void 0);
+                                            return /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                color: "green",
+                                                style: {
+                                                    marginLeft: '4px',
+                                                    fontSize: '11px'
+                                                },
+                                                children: attachment
+                                            }, index, false, {
+                                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                lineNumber: 349,
+                                                columnNumber: 23
+                                            }, void 0);
+                                        }),
+                                        !record.relatedPlaybookId && !record.relatedRiskEventId && (!record.attachments || record.attachments.length === 0) && /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                            type: "secondary",
+                                            style: {
+                                                fontSize: '11px',
+                                                marginLeft: '4px'
+                                            },
+                                            children: "暂无"
+                                        }, void 0, false, {
+                                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                                            lineNumber: 355,
+                                            columnNumber: 21
+                                        }, void 0)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 313,
+                                    columnNumber: 17
+                                }, void 0)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 259,
+                            columnNumber: 15
+                        }, void 0)
+                    };
+                })
+            }, void 0, false, {
+                fileName: "src/components/common/ServiceRecordTab.tsx",
+                lineNumber: 250,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                title: `新建${tabTitle}`,
+                open: newRecordModalVisible,
+                onCancel: ()=>{
+                    setNewRecordModalVisible(false);
+                    form.resetFields();
+                },
+                onOk: handleAddRecord,
+                width: 600,
+                destroyOnClose: true,
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                    form: form,
+                    layout: "vertical",
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "type",
+                            label: "记录类型",
+                            rules: [
+                                {
+                                    required: true
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                placeholder: "请选择记录类型",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "QBR",
+                                        children: "QBR"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 380,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "电话回访",
+                                        children: "电话回访"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 381,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "培训",
+                                        children: "培训"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 382,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "工单解决",
+                                        children: "工单解决"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 383,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "风险处理",
+                                        children: "风险处理"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 384,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "产品演示",
+                                        children: "产品演示"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 385,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "技术支持",
+                                        children: "技术支持"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 386,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "商务沟通",
+                                        children: "商务沟通"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 387,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "其他",
+                                        children: "其他"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 388,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 379,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 378,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "title",
+                            label: "记录标题",
+                            rules: [
+                                {
+                                    required: true
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                placeholder: "请输入记录标题"
+                            }, void 0, false, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 392,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 391,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "content",
+                            label: "详细内容",
+                            rules: [
+                                {
+                                    required: true
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TextArea, {
+                                rows: 4,
+                                placeholder: "请输入详细内容"
+                            }, void 0, false, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 395,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 394,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "tags",
+                            label: "标签",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                mode: "tags",
+                                placeholder: "请输入标签（可多选）",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "定期回访",
+                                        children: "定期回访"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 399,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "问题解决",
+                                        children: "问题解决"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 400,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "产品培训",
+                                        children: "产品培训"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 401,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "续约沟通",
+                                        children: "续约沟通"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 402,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "客户满意",
+                                        children: "客户满意"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 403,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "技术支持",
+                                        children: "技术支持"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 404,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "商务谈判",
+                                        children: "商务谈判"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 405,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 398,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 397,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "attachments",
+                            label: "关联/附件",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                mode: "tags",
+                                placeholder: "请输入关联信息或附件（可多选）",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "合同文档",
+                                        children: "合同文档"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 410,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "技术方案",
+                                        children: "技术方案"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 411,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "培训材料",
+                                        children: "培训材料"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 412,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "问题记录",
+                                        children: "问题记录"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 413,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 409,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 408,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 377,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/components/common/ServiceRecordTab.tsx",
+                lineNumber: 366,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                title: "编辑服务记录",
+                open: editRecordModalVisible,
+                onCancel: ()=>{
+                    setEditRecordModalVisible(false);
+                    setEditingRecord(null);
+                    editForm.resetFields();
+                },
+                onOk: handleSaveEdit,
+                width: 600,
+                destroyOnClose: true,
+                children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form, {
+                    form: editForm,
+                    layout: "vertical",
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "type",
+                            label: "记录类型",
+                            rules: [
+                                {
+                                    required: true
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                placeholder: "请选择记录类型",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "QBR",
+                                        children: "QBR"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 434,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "电话回访",
+                                        children: "电话回访"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 435,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "培训",
+                                        children: "培训"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 436,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "工单解决",
+                                        children: "工单解决"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 437,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "风险处理",
+                                        children: "风险处理"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 438,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "产品演示",
+                                        children: "产品演示"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 439,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "技术支持",
+                                        children: "技术支持"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 440,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "商务沟通",
+                                        children: "商务沟通"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 441,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "其他",
+                                        children: "其他"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 442,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 433,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 432,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "title",
+                            label: "记录标题",
+                            rules: [
+                                {
+                                    required: true
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Input, {
+                                placeholder: "请输入记录标题"
+                            }, void 0, false, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 446,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 445,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "content",
+                            label: "详细内容",
+                            rules: [
+                                {
+                                    required: true
+                                }
+                            ],
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(TextArea, {
+                                rows: 4,
+                                placeholder: "请输入详细内容"
+                            }, void 0, false, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 449,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 448,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "tags",
+                            label: "标签",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                mode: "tags",
+                                placeholder: "请输入标签（可多选）",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "定期回访",
+                                        children: "定期回访"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 453,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "问题解决",
+                                        children: "问题解决"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 454,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "产品培训",
+                                        children: "产品培训"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 455,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "续约沟通",
+                                        children: "续约沟通"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 456,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "客户满意",
+                                        children: "客户满意"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 457,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "技术支持",
+                                        children: "技术支持"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 458,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "商务谈判",
+                                        children: "商务谈判"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 459,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 452,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 451,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Form.Item, {
+                            name: "attachments",
+                            label: "关联/附件",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Select, {
+                                mode: "tags",
+                                placeholder: "请输入关联信息或附件（可多选）",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "合同文档",
+                                        children: "合同文档"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 464,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "技术方案",
+                                        children: "技术方案"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 465,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "培训材料",
+                                        children: "培训材料"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 466,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Option, {
+                                        value: "问题记录",
+                                        children: "问题记录"
+                                    }, void 0, false, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 467,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 463,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 462,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 431,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/components/common/ServiceRecordTab.tsx",
+                lineNumber: 419,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Modal, {
+                title: "交接单详情",
+                open: handoverDetailVisible,
+                onCancel: ()=>setHandoverDetailVisible(false),
+                footer: [
+                    /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Button, {
+                        onClick: ()=>setHandoverDetailVisible(false),
+                        children: "关闭"
+                    }, "close", false, {
+                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                        lineNumber: 479,
+                        columnNumber: 11
+                    }, void 0)
+                ],
+                width: 800,
+                children: handoverData ? /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    children: [
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                            title: "基本信息",
+                            bordered: true,
+                            column: 2,
+                            size: "small",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "交接单号",
+                                    children: handoverData.id
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 488,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "客户名称",
+                                    children: handoverData.customerName
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 489,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "项目名称",
+                                    children: handoverData.projectName
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 490,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "交接状态",
+                                    children: handoverData.status
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 491,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "交接时间",
+                                    children: handoverData.deliveredAt
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 492,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "负责人",
+                                    children: handoverData.handoverPerson
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 493,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 487,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {}, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 496,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                            title: "CRM信息",
+                            bordered: true,
+                            column: 2,
+                            size: "small",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "客户经理",
+                                    children: (_handoverData_crmInfo = handoverData.crmInfo) === null || _handoverData_crmInfo === void 0 ? void 0 : _handoverData_crmInfo.accountManager
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 499,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "销售阶段",
+                                    children: (_handoverData_crmInfo1 = handoverData.crmInfo) === null || _handoverData_crmInfo1 === void 0 ? void 0 : _handoverData_crmInfo1.salesStage
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 500,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "合同金额",
+                                    children: (_handoverData_crmInfo2 = handoverData.crmInfo) === null || _handoverData_crmInfo2 === void 0 ? void 0 : _handoverData_crmInfo2.contractAmount
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 501,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "预计收入",
+                                    children: (_handoverData_crmInfo3 = handoverData.crmInfo) === null || _handoverData_crmInfo3 === void 0 ? void 0 : _handoverData_crmInfo3.expectedRevenue
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 502,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 498,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {}, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 505,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                            title: "风险与商机",
+                            bordered: true,
+                            column: 1,
+                            size: "small",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "风险点",
+                                    children: (_handoverData_risks = handoverData.risks) === null || _handoverData_risks === void 0 ? void 0 : _handoverData_risks.map((risk, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: '8px'
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                    color: "red",
+                                                    children: risk.level
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                    lineNumber: 511,
+                                                    columnNumber: 21
+                                                }, this),
+                                                risk.description
+                                            ]
+                                        }, index, true, {
+                                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                                            lineNumber: 510,
+                                            columnNumber: 19
+                                        }, this))
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 508,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                    label: "商机点",
+                                    children: (_handoverData_opportunities = handoverData.opportunities) === null || _handoverData_opportunities === void 0 ? void 0 : _handoverData_opportunities.map((opportunity, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                            style: {
+                                                marginBottom: '8px'
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Tag, {
+                                                    color: "green",
+                                                    children: opportunity.type
+                                                }, void 0, false, {
+                                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                    lineNumber: 519,
+                                                    columnNumber: 21
+                                                }, this),
+                                                opportunity.description
+                                            ]
+                                        }, index, true, {
+                                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                                            lineNumber: 518,
+                                            columnNumber: 19
+                                        }, this))
+                                }, void 0, false, {
+                                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                                    lineNumber: 516,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 507,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Divider, {}, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 526,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions, {
+                            title: "干系人信息",
+                            bordered: true,
+                            column: 1,
+                            size: "small",
+                            children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_antd.Descriptions.Item, {
+                                label: "关键联系人",
+                                children: (_handoverData_stakeholders = handoverData.stakeholders) === null || _handoverData_stakeholders === void 0 ? void 0 : _handoverData_stakeholders.map((stakeholder, index)=>/*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                                        style: {
+                                            marginBottom: '8px'
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("strong", {
+                                                children: stakeholder.name
+                                            }, void 0, false, {
+                                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                lineNumber: 532,
+                                                columnNumber: 21
+                                            }, this),
+                                            " - ",
+                                            stakeholder.role,
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("br", {}, void 0, false, {
+                                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                lineNumber: 533,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                                                type: "secondary",
+                                                children: [
+                                                    "电话: ",
+                                                    stakeholder.phone,
+                                                    " | 邮箱: ",
+                                                    stakeholder.email
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                                lineNumber: 534,
+                                                columnNumber: 21
+                                            }, this)
+                                        ]
+                                    }, index, true, {
+                                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                                        lineNumber: 531,
+                                        columnNumber: 19
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "src/components/common/ServiceRecordTab.tsx",
+                                lineNumber: 529,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/components/common/ServiceRecordTab.tsx",
+                            lineNumber: 528,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 486,
+                    columnNumber: 11
+                }, this) : /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+                    style: {
+                        textAlign: 'center',
+                        padding: '40px'
+                    },
+                    children: /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(Text, {
+                        type: "secondary",
+                        children: "暂无交接单详情数据"
+                    }, void 0, false, {
+                        fileName: "src/components/common/ServiceRecordTab.tsx",
+                        lineNumber: 544,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "src/components/common/ServiceRecordTab.tsx",
+                    lineNumber: 543,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "src/components/common/ServiceRecordTab.tsx",
+                lineNumber: 474,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/common/ServiceRecordTab.tsx",
+        lineNumber: 178,
+        columnNumber: 5
+    }, this);
+};
+_s(ServiceRecordTab, "hmHvGvxiA/8y3v8CVdWgLXjrLYE=", false, function() {
+    return [
+        _antd.Form.useForm,
+        _antd.Form.useForm
+    ];
+});
+_c = ServiceRecordTab;
+var _default = ServiceRecordTab;
+var _c;
+$RefreshReg$(_c, "ServiceRecordTab");
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/data/customerJourneyByScale.ts": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    continuousServiceActionsByScale: function() {
+        return continuousServiceActionsByScale;
+    },
+    getCustomerJourneyByScale: function() {
+        return getCustomerJourneyByScale;
+    },
+    getScaleDisplayConfig: function() {
+        return getScaleDisplayConfig;
+    },
+    renewalActionsByScale: function() {
+        return renewalActionsByScale;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+const continuousServiceActionsByScale = {
+    // 重点客户 (Key Account) 的持续服务旅程
+    key_account: [
+        {
+            id: 'action-2-ka-1',
+            stageId: 'stage-2',
+            title: '首个项目稳定运营期',
+            description: '密切监控客户首批核心培训项目的学员学习数据，与管理员共同复盘项目运营情况，确保平台稳定运行。',
+            type: 'check-in',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '项目上线后第1个月',
+            assignee: '客户成功经理',
+            estimatedDuration: '4小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-ka-2',
+            stageId: 'stage-2',
+            title: '首次季度业务回顾(QBR)',
+            description: '与客户决策层共同复盘上线后90天的培训成果，展示数据报告与初步ROI，对齐下阶段的合作目标。',
+            type: 'review',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '服务开始第3个月',
+            assignee: '客户成功经理',
+            estimatedDuration: '3小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-ka-3',
+            stageId: 'stage-2',
+            title: '培训体系拓展期',
+            description: '基于客户年度培训计划，主动建议并将平台应用从单个项目扩展至更多培训类型（如合规、产品、领导力等）。',
+            type: 'meeting',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '服务开始第4个月',
+            assignee: '客户成功经理',
+            estimatedDuration: '2小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-ka-4',
+            stageId: 'stage-2',
+            title: '学习效果量化与巩固期',
+            description: '协助客户设计训后评估问卷或模型，将培训效果与业务表现进行初步关联，用以巩固平台的核心价值。',
+            type: 'training',
+            priority: 'medium',
+            status: 'pending',
+            triggerCondition: '服务开始第5个月',
+            assignee: '客户成功经理',
+            estimatedDuration: '3小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-ka-5',
+            stageId: 'stage-2',
+            title: '年度培训规划参与期',
+            description: '主动参与到客户下一年度的培训规划讨论中，将平台定位为其实现年度培训目标的战略工具，为续约奠定基础。',
+            type: 'meeting',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '服务开始第6个月',
+            assignee: '客户成功经理',
+            estimatedDuration: '4小时',
+            isRequired: true
+        }
+    ],
+    // 中端客户 (Mid-Market Customer) 的持续服务旅程
+    mid_market: [
+        {
+            id: 'action-2-mm-1',
+            stageId: 'stage-2',
+            title: '3个月健康巡检',
+            description: '与客户管理员进行线上会议，检查平台健康度（活跃度、功能使用率），解答疑问并分享同行业最佳实践。',
+            type: 'check-in',
+            priority: 'medium',
+            status: 'pending',
+            triggerCondition: '服务开始第3个月',
+            assignee: '客户成功经理',
+            estimatedDuration: '1.5小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-mm-2',
+            stageId: 'stage-2',
+            title: '半年度线上复盘会',
+            description: '邀请客户参加线上复盘会议，分享其使用数据的亮点，并介绍能进一步提升其培训效率的产品功能。',
+            type: 'review',
+            priority: 'medium',
+            status: 'pending',
+            triggerCondition: '服务开始第6个月',
+            assignee: '客户成功经理',
+            estimatedDuration: '2小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-mm-3',
+            stageId: 'stage-2',
+            title: '功能深化应用',
+            description: '邀请客户参加"高阶功能"主题的线上公开课或提供教学视频，鼓励客户使用能显著提升价值的进阶功能。',
+            type: 'training',
+            priority: 'medium',
+            status: 'pending',
+            triggerCondition: '服务开始第4个月',
+            assignee: '客户成功经理',
+            estimatedDuration: '1小时',
+            isRequired: false
+        },
+        {
+            id: 'action-2-mm-4',
+            stageId: 'stage-2',
+            title: '年度满意度调研',
+            description: '在进入续约期前，主动与客户接口人电话沟通，或发放NPS问卷，评估客户的整体满意度和续约意向。',
+            type: 'review',
+            priority: 'medium',
+            status: 'pending',
+            triggerCondition: '合同到期前60天',
+            assignee: '客户成功经理',
+            estimatedDuration: '1小时',
+            isRequired: true
+        }
+    ],
+    // 小微客户 (SMB Customer) 的持续服务旅程
+    smb: [
+        {
+            id: 'action-2-smb-1',
+            stageId: 'stage-2',
+            title: '自动化健康分预警',
+            description: '系统基于客户活跃度、登录频率等数据自动计算健康分，当分数过低时，自动创建任务提醒CSM进行人工干预。',
+            type: 'other',
+            priority: 'low',
+            status: 'pending',
+            triggerCondition: '健康分低于70分时',
+            assignee: '系统自动',
+            estimatedDuration: '自动化',
+            isRequired: true
+        },
+        {
+            id: 'action-2-smb-2',
+            stageId: 'stage-2',
+            title: '线上公开课邀请',
+            description: '通过邮件或产品内消息，定期邀请客户参加介绍产品通用功能或行业趋势的线上公开课，实现规模化赋能。',
+            type: 'training',
+            priority: 'low',
+            status: 'pending',
+            triggerCondition: '每月第二周',
+            assignee: '市场部',
+            estimatedDuration: '1小时',
+            isRequired: false
+        },
+        {
+            id: 'action-2-smb-3',
+            stageId: 'stage-2',
+            title: '新功能价值推送',
+            description: '当产品发布新功能时，系统根据客户标签，自动向其推送相关的应用介绍和简短教程，确保客户知晓产品价值更新。',
+            type: 'other',
+            priority: 'low',
+            status: 'pending',
+            triggerCondition: '新功能发布时',
+            assignee: '产品团队',
+            estimatedDuration: '自动化',
+            isRequired: false
+        },
+        {
+            id: 'action-2-smb-4',
+            stageId: 'stage-2',
+            title: '年度NPS调研',
+            description: '通过系统在签约后第10个月自动向客户管理员发送NPS调研问卷，规模化收集客户满意度数据。',
+            type: 'review',
+            priority: 'low',
+            status: 'pending',
+            triggerCondition: '签约后第10个月',
+            assignee: '系统自动',
+            estimatedDuration: '自动化',
+            isRequired: true
+        }
+    ]
+};
+const renewalActionsByScale = {
+    // 重点客户续约管理旅程
+    key_account: [
+        {
+            id: 'action-3-ka-1',
+            stageId: 'stage-3',
+            title: '续约策略沟通会',
+            description: '提前90-120天，由客户成功经理与销售总监共同与客户决策层开会，回顾年度价值，并探讨下一周期的合作模式与目标。',
+            type: 'meeting',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '合同到期前90-120天',
+            assignee: '客户成功经理+销售总监',
+            estimatedDuration: '3小时',
+            isRequired: true
+        },
+        {
+            id: 'action-3-ka-2',
+            stageId: 'stage-3',
+            title: '商业价值方案提报',
+            description: '基于年度合作成果，为客户量身定制一份商业价值方案（包含ROI分析、新周期服务计划、报价方案），并正式提报。',
+            type: 'review',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '合同到期前60天',
+            assignee: '客户成功经理',
+            estimatedDuration: '4小时',
+            isRequired: true
+        },
+        {
+            id: 'action-3-ka-3',
+            stageId: 'stage-3',
+            title: '商务谈判与合同敲定',
+            description: '由销售主导，客户成功经理辅助，就合同价格、服务条款、SLA等细节进行谈判，扫清续约的所有商务障碍。',
+            type: 'meeting',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '合同到期前30天',
+            assignee: '销售+客户成功经理',
+            estimatedDuration: '2小时',
+            isRequired: true
+        },
+        {
+            id: 'action-3-ka-4',
+            stageId: 'stage-3',
+            title: '续约成功与新周期启动',
+            description: '在合同签署后，立即发送感谢函，并预约"新周期战略合作启动会"，无缝衔接下一年度的持续服务旅程。',
+            type: 'other',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '合同签署后',
+            assignee: '客户成功经理',
+            estimatedDuration: '1小时',
+            isRequired: true
+        }
+    ],
+    // 中端客户续约管理旅程
+    mid_market: [
+        {
+            id: 'action-3-mm-1',
+            stageId: 'stage-3',
+            title: '续约意向确认与报价',
+            description: '提前90天，客户成功经理主动与客户联系人沟通续约意向，并发送标准化的续约报价单与服务说明。',
+            type: 'meeting',
+            priority: 'medium',
+            status: 'pending',
+            triggerCondition: '合同到期前90天',
+            assignee: '客户成功经理',
+            estimatedDuration: '1.5小时',
+            isRequired: true
+        },
+        {
+            id: 'action-3-mm-2',
+            stageId: 'stage-3',
+            title: '续约价值回顾',
+            description: '为客户提供一份年度使用报告和价值摘要，通过线上会议或邮件方式，重申产品在过去一年中为其带来的核心价值。',
+            type: 'review',
+            priority: 'medium',
+            status: 'pending',
+            triggerCondition: '合同到期前60天',
+            assignee: '客户成功经理',
+            estimatedDuration: '2小时',
+            isRequired: true
+        },
+        {
+            id: 'action-3-mm-3',
+            stageId: 'stage-3',
+            title: '合同签署与付款跟进',
+            description: '协助客户完成内部审批流程，提供必要的合同文件，并跟进财务付款进度，确保续约流程顺利完成。',
+            type: 'other',
+            priority: 'medium',
+            status: 'pending',
+            triggerCondition: '合同到期前30天',
+            assignee: '客户成功经理',
+            estimatedDuration: '1小时',
+            isRequired: true
+        }
+    ],
+    // 小微客户续约管理旅程
+    smb: [
+        {
+            id: 'action-3-smb-1',
+            stageId: 'stage-3',
+            title: '自动化续约提醒',
+            description: '系统在合同到期前90/60/30天，自动通过邮件和产品内消息向客户发送续约提醒和在线续约链接。',
+            type: 'other',
+            priority: 'low',
+            status: 'pending',
+            triggerCondition: '合同到期前90/60/30天',
+            assignee: '系统自动',
+            estimatedDuration: '自动化',
+            isRequired: true
+        },
+        {
+            id: 'action-3-smb-2',
+            stageId: 'stage-3',
+            title: '在线续约与支付',
+            description: '引导客户通过在线支付平台自助完成续约操作，系统自动处理订单、生成新合同并开具发票。',
+            type: 'other',
+            priority: 'low',
+            status: 'pending',
+            triggerCondition: '客户点击续约链接时',
+            assignee: '系统自动',
+            estimatedDuration: '自助服务',
+            isRequired: true
+        },
+        {
+            id: 'action-3-smb-3',
+            stageId: 'stage-3',
+            title: '续约成功通知',
+            description: '客户完成支付后，系统自动发送续约成功的确认邮件，并更新其账户的服务有效期。',
+            type: 'other',
+            priority: 'low',
+            status: 'pending',
+            triggerCondition: '支付完成后',
+            assignee: '系统自动',
+            estimatedDuration: '自动化',
+            isRequired: true
+        }
+    ]
+};
+const getCustomerJourneyByScale = (customerId, customerName, customerScale, lifecycle)=>{
+    // 基础旅程模板
+    const baseJourney = {
+        customerId,
+        customerName,
+        currentStage: lifecycle === 'continuous' ? 'stage-2' : 'stage-3',
+        lifecycle,
+        startDate: new Date().toISOString().split('T')[0],
+        stages: [
+            {
+                id: 'stage-1',
+                name: '交接实施',
+                description: '客户服务交接和实施阶段，建立基础服务框架',
+                phase: 'onboarding',
+                order: 1,
+                duration: '1个月',
+                isCompleted: true,
+                isActive: false,
+                startDate: '2024-01-01',
+                completedDate: '2024-01-31'
+            },
+            {
+                id: 'stage-2',
+                name: '持续服务',
+                description: '服务进入稳定运行期，定期跟进和优化',
+                phase: 'continuous',
+                order: 2,
+                duration: '5个月',
+                isCompleted: lifecycle === 'renewal',
+                isActive: lifecycle === 'continuous',
+                startDate: '2024-02-01',
+                ...lifecycle === 'renewal' && {
+                    completedDate: '2024-06-30'
+                }
+            },
+            {
+                id: 'stage-3',
+                name: '续约管理',
+                description: '对服务效果进行全面评估，准备续约或调整',
+                phase: 'renewal',
+                order: 3,
+                duration: '1个月',
+                isCompleted: false,
+                isActive: lifecycle === 'renewal',
+                ...lifecycle === 'renewal' && {
+                    startDate: '2024-07-01'
+                }
+            },
+            {
+                id: 'stage-4',
+                name: '召回孵化',
+                description: '客户召回和重新孵化阶段，重新激活客户价值',
+                phase: 'churn',
+                order: 4,
+                duration: '2个月',
+                isCompleted: false,
+                isActive: false
+            }
+        ],
+        actions: [],
+        milestones: []
+    };
+    // 根据生命周期和客户规模选择对应的行动计划
+    if (lifecycle === 'continuous') baseJourney.actions = continuousServiceActionsByScale[customerScale];
+    else if (lifecycle === 'renewal') baseJourney.actions = renewalActionsByScale[customerScale];
+    // 添加里程碑（可以根据需要进一步定制）
+    baseJourney.milestones = [
+        {
+            id: 'milestone-1',
+            title: '服务启动',
+            description: '客户服务正式启动',
+            date: baseJourney.startDate,
+            type: 'onboarding_completed',
+            isAchieved: true,
+            stageId: 'stage-1'
+        }
+    ];
+    return baseJourney;
+};
+const getScaleDisplayConfig = (scale)=>{
+    const configs = {
+        key_account: {
+            name: '重点客户',
+            color: '#722ed1',
+            description: '战略级合作伙伴，需要高度定制化服务'
+        },
+        mid_market: {
+            name: '中端客户',
+            color: '#1890ff',
+            description: '标准化服务为主，适度个性化'
+        },
+        smb: {
+            name: '小微客户',
+            color: '#52c41a',
+            description: '自动化和规模化服务'
+        }
+    };
+    return configs[scale];
+};
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/data/mockCustomerJourney.ts": function (module, exports, __mako_require__){
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    continuousServiceJourneyTemplate: function() {
+        return continuousServiceJourneyTemplate;
+    },
+    getCustomerJourney: function() {
+        return getCustomerJourney;
+    },
+    getJourneyStats: function() {
+        return getJourneyStats;
+    },
+    renewalJourneyTemplate: function() {
+        return renewalJourneyTemplate;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+const continuousServiceJourneyTemplate = {
+    customerId: '',
+    customerName: '',
+    currentStage: 'stage-2',
+    lifecycle: 'continuous',
+    startDate: '2024-01-01',
+    stages: [
+        {
+            id: 'stage-1',
+            name: '交接实施',
+            description: '客户服务交接和实施阶段，建立基础服务框架',
+            phase: 'onboarding',
+            order: 1,
+            duration: '1个月',
+            isCompleted: true,
+            isActive: false,
+            startDate: '2024-01-01',
+            completedDate: '2024-01-31'
+        },
+        {
+            id: 'stage-2',
+            name: '持续服务',
+            description: '服务进入稳定运行期，定期跟进和优化',
+            phase: 'continuous',
+            order: 2,
+            duration: '5个月',
+            isCompleted: false,
+            isActive: true,
+            startDate: '2024-02-01'
+        },
+        {
+            id: 'stage-3',
+            name: '续约管理',
+            description: '对服务效果进行全面评估，准备续约或调整',
+            phase: 'renewal',
+            order: 3,
+            duration: '1个月',
+            isCompleted: false,
+            isActive: false
+        },
+        {
+            id: 'stage-4',
+            name: '召回孵化',
+            description: '客户召回和重新孵化阶段，重新激活客户价值',
+            phase: 'churn',
+            order: 4,
+            duration: '2个月',
+            isCompleted: false,
+            isActive: false
+        }
+    ],
+    actions: [
+        {
+            id: 'action-1-1',
+            stageId: 'stage-1',
+            title: '服务启动会议',
+            description: '与客户召开服务启动会议，明确服务目标',
+            type: 'meeting',
+            priority: 'high',
+            status: 'completed',
+            triggerCondition: '服务合同签署后3个工作日内',
+            dueDate: '2024-01-05',
+            completedDate: '2024-01-05',
+            assignee: '客户成功经理',
+            estimatedDuration: '2小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-1',
+            stageId: 'stage-2',
+            title: '第6个月汇报会',
+            description: '服务第6个月全面汇报和下阶段规划',
+            type: 'meeting',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '服务开始第6个月',
+            dueDate: '2024-07-15',
+            assignee: '客户成功经理',
+            estimatedDuration: '3小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-2',
+            stageId: 'stage-2',
+            title: '客户满意度调研',
+            description: '进行客户满意度调研和反馈收集',
+            type: 'review',
+            priority: 'medium',
+            status: 'overdue',
+            triggerCondition: '服务第5个月末',
+            dueDate: '2024-06-30',
+            assignee: '客户成功经理',
+            estimatedDuration: '2小时',
+            isRequired: false
+        }
+    ],
+    milestones: [
+        {
+            id: 'milestone-1-1',
+            title: '服务启动会议',
+            description: '与客户召开服务启动会议，明确服务目标和期望',
+            date: '2024-01-05',
+            type: 'onboarding_completed',
+            isAchieved: true,
+            stageId: 'stage-1'
+        },
+        {
+            id: 'milestone-2-1',
+            title: '第6个月汇报会',
+            description: '服务第6个月全面汇报和下阶段规划',
+            date: '2024-07-15',
+            type: 'other',
+            isAchieved: false,
+            stageId: 'stage-2'
+        }
+    ]
+};
+const renewalJourneyTemplate = {
+    customerId: '',
+    customerName: '',
+    currentStage: 'stage-2',
+    lifecycle: 'renewal',
+    startDate: '2024-06-01',
+    stages: [
+        {
+            id: 'stage-1',
+            name: '交接实施',
+            description: '客户服务交接和实施阶段，建立基础服务框架',
+            phase: 'onboarding',
+            order: 1,
+            duration: '1个月',
+            isCompleted: true,
+            isActive: false,
+            startDate: '2024-06-01',
+            completedDate: '2024-06-30'
+        },
+        {
+            id: 'stage-2',
+            name: '持续服务',
+            description: '服务进入稳定运行期，定期跟进和优化',
+            phase: 'continuous',
+            order: 2,
+            duration: '5个月',
+            isCompleted: true,
+            isActive: false,
+            startDate: '2024-07-01',
+            completedDate: '2024-11-30'
+        },
+        {
+            id: 'stage-3',
+            name: '续约管理',
+            description: '与客户进行续约条件谈判和确认',
+            phase: 'renewal',
+            order: 3,
+            duration: '2个月',
+            isCompleted: false,
+            isActive: true,
+            startDate: '2024-12-01'
+        },
+        {
+            id: 'stage-4',
+            name: '召回孵化',
+            description: '客户召回和重新孵化阶段，重新激活客户价值',
+            phase: 'churn',
+            order: 4,
+            duration: '2个月',
+            isCompleted: false,
+            isActive: false
+        }
+    ],
+    actions: [
+        {
+            id: 'action-1-1',
+            stageId: 'stage-1',
+            title: '客户续约意向确认',
+            description: '与客户确认续约意向和基本需求',
+            type: 'meeting',
+            priority: 'high',
+            status: 'completed',
+            triggerCondition: '合同到期前90天',
+            dueDate: '2024-06-05',
+            completedDate: '2024-06-03',
+            assignee: '客户成功经理',
+            estimatedDuration: '2小时',
+            isRequired: true
+        },
+        {
+            id: 'action-2-1',
+            stageId: 'stage-2',
+            title: '价格谈判',
+            description: '与客户进行续约价格和条件谈判',
+            type: 'meeting',
+            priority: 'high',
+            status: 'in_progress',
+            triggerCondition: '方案展示后',
+            dueDate: '2024-07-05',
+            assignee: '商务经理',
+            estimatedDuration: '2小时',
+            isRequired: true
+        },
+        {
+            id: 'action-3-1',
+            stageId: 'stage-3',
+            title: '合同签署仪式',
+            description: '举行正式的合同签署仪式',
+            type: 'meeting',
+            priority: 'high',
+            status: 'pending',
+            triggerCondition: '合同文件准备完成后',
+            dueDate: '2024-07-15',
+            assignee: '商务经理',
+            estimatedDuration: '2小时',
+            isRequired: true
+        }
+    ],
+    milestones: [
+        {
+            id: 'milestone-1-1',
+            title: '续约需求调研',
+            description: '了解客户续约需求和期望',
+            date: '2024-06-07',
+            type: 'renewal_started',
+            isAchieved: true,
+            stageId: 'stage-1'
+        },
+        {
+            id: 'milestone-3-1',
+            title: '合同签署',
+            description: '完成续约合同正式签署',
+            date: '2024-07-15',
+            type: 'contract_signed',
+            isAchieved: false,
+            stageId: 'stage-3'
+        }
+    ]
+};
+const getCustomerJourney = (customerId, customerName, lifecycle)=>{
+    const template = lifecycle === 'continuous' ? continuousServiceJourneyTemplate : renewalJourneyTemplate;
+    return {
+        ...template,
+        customerId: customerId,
+        customerName: customerName
+    };
+};
+const getJourneyStats = (journey)=>{
+    const totalStages = journey.stages.length;
+    const completedStages = journey.stages.filter((stage)=>stage.isCompleted).length;
+    const totalActions = journey.actions.length;
+    const completedActions = journey.actions.filter((action)=>action.status === 'completed').length;
+    const overdueActions = journey.actions.filter((action)=>action.status === 'overdue').length;
+    const pendingActions = journey.actions.filter((action)=>action.status === 'pending').length;
+    return {
+        stageProgress: Math.round(completedStages / totalStages * 100),
+        actionProgress: Math.round(completedActions / totalActions * 100),
+        totalStages,
+        completedStages,
+        totalActions,
+        completedActions,
+        overdueActions,
+        pendingActions
+    };
+};
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
 function registerClassComponent(filename, moduleExports) {
@@ -2142,7 +5735,7 @@ self.$RefreshReg$ = (type, id)=>{
 };
 self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
 const mockContracts = [
-    // 北京科技有限公司的合同历史
+    // 北京科技创新有限公司的合同历史
     {
         id: 'contract_001',
         contractNumber: 'CONT-2023-001',
@@ -2174,7 +5767,7 @@ const mockContracts = [
         attachments: [
             {
                 id: 'att_001_001',
-                name: '北京科技有限公司-服务合同.pdf',
+                name: '北京科技创新有限公司-服务合同.pdf',
                 type: 'contract',
                 url: '/attachments/contracts/CONT-2023-001.pdf',
                 size: 2048576,
@@ -2192,7 +5785,7 @@ const mockContracts = [
         createdAt: '2023-05-15',
         updatedAt: '2023-06-01'
     },
-    // 上海智能科技有限公司的合同历史
+    // 上海智能制造集团的合同历史
     {
         id: 'contract_002',
         contractNumber: 'CONT-2022-015',
@@ -2222,7 +5815,7 @@ const mockContracts = [
         attachments: [
             {
                 id: 'att_002_001',
-                name: '上海智能科技-服务合同.pdf',
+                name: '上海智能制造集团-服务合同.pdf',
                 type: 'contract',
                 url: '/attachments/contracts/CONT-2022-015.pdf',
                 size: 1856432,
@@ -2262,7 +5855,7 @@ const mockContracts = [
         attachments: [
             {
                 id: 'att_003_001',
-                name: '上海智能科技-续约合同.pdf',
+                name: '上海智能制造集团-续约合同.pdf',
                 type: 'contract',
                 url: '/attachments/contracts/CONT-2023-045.pdf',
                 size: 2234567,
@@ -2280,7 +5873,7 @@ const mockContracts = [
         createdAt: '2023-08-10',
         updatedAt: '2023-09-01'
     },
-    // 深圳创新科技有限公司的合同历史
+    // 深圳金融科技有限公司的合同历史
     {
         id: 'contract_004',
         contractNumber: 'CONT-2022-008',
@@ -2494,7 +6087,7 @@ const mockHandoverRecords = [
 const mockTodoTasks = [
     {
         id: 'todo_001',
-        title: '客户回访 - 北京科技有限公司',
+        title: '客户回访 - 北京科技创新有限公司',
         description: '定期回访，了解系统使用情况和满意度',
         type: 'business-review',
         status: 'pending',
@@ -2502,13 +6095,13 @@ const mockTodoTasks = [
         dueDate: '2024-01-20',
         assignedTo: '张伟',
         customerId: 'CUST-0001',
-        customerName: '北京科技有限公司',
+        customerName: '北京科技创新有限公司',
         createdAt: '2024-01-15',
         updatedAt: '2024-01-15'
     },
     {
         id: 'todo_002',
-        title: '续约谈判准备 - 上海智能科技',
+        title: '续约谈判准备 - 上海智能制造集团',
         description: '准备续约材料，安排续约谈判会议',
         type: 'renewal',
         status: 'in_progress',
@@ -2516,7 +6109,7 @@ const mockTodoTasks = [
         dueDate: '2024-01-25',
         assignedTo: '李明',
         customerId: 'CUST-0002',
-        customerName: '上海智能科技有限公司',
+        customerName: '上海智能制造集团',
         createdAt: '2024-01-10',
         updatedAt: '2024-01-18'
     },
@@ -2530,7 +6123,7 @@ const mockTodoTasks = [
         dueDate: '2024-01-22',
         assignedTo: '王芳',
         customerId: 'CUST-0003',
-        customerName: '深圳创新科技有限公司',
+        customerName: '深圳金融科技有限公司',
         createdAt: '2024-01-12',
         updatedAt: '2024-01-12'
     },
@@ -2675,7 +6268,7 @@ const mockContacts = {
             id: 'contact_001_001',
             name: '张总',
             title: 'CEO',
-            phone: '138****1001',
+            phone: '13812341001',
             email: 'zhang@bjtech.com',
             isPrimary: true,
             stakeholderType: 'decision_maker',
@@ -2688,7 +6281,7 @@ const mockContacts = {
             id: 'contact_001_002',
             name: '李经理',
             title: '技术总监',
-            phone: '139****1002',
+            phone: '13912341002',
             email: 'li@bjtech.com',
             isPrimary: false,
             stakeholderType: 'influencer',
@@ -2939,7 +6532,7 @@ const getPurchasedProducts = (customerId)=>{
 const mockCustomers = [
     {
         id: 'CUST-0001',
-        name: '北京科技有限公司',
+        name: '北京科技创新有限公司',
         industry: '信息技术',
         scale: '中型企业',
         csm: '张伟',
@@ -3003,8 +6596,8 @@ const mockCustomers = [
     },
     {
         id: 'CUST-0002',
-        name: '上海智能科技有限公司',
-        industry: '人工智能',
+        name: '上海智能制造集团',
+        industry: '制造业',
         scale: '大型企业',
         csm: '李明',
         arr: 800000,
@@ -3067,7 +6660,7 @@ const mockCustomers = [
     },
     {
         id: 'CUST-0003',
-        name: '深圳创新科技有限公司',
+        name: '深圳金融科技有限公司',
         industry: '软件开发',
         scale: '小型企业',
         csm: '王芳',
@@ -3326,7 +6919,7 @@ const mockValueBoards = [
     {
         id: 'vb001',
         customerId: 'CUST-0001',
-        customerName: '北京科技有限公司',
+        customerName: '北京科技创新有限公司',
         title: 'Q4业务数字化转型价值报告',
         description: '展示客户在数字化转型过程中取得的关键业务成果',
         status: '进行中',
@@ -3381,7 +6974,7 @@ const mockQBRMeetings = [
     {
         id: 'qbr001',
         customerId: 'CUST-0001',
-        customerName: '北京科技有限公司',
+        customerName: '北京科技创新有限公司',
         title: '2024 Q1 业务回顾会议',
         scheduledDate: '2024-01-25 14:00',
         status: '待召开',
@@ -3403,7 +6996,7 @@ const mockQBRMeetings = [
     {
         id: 'qbr002',
         customerId: 'CUST-0002',
-        customerName: '上海智能科技有限公司',
+        customerName: '上海智能制造集团',
         title: '2023 Q4 业务回顾会议',
         scheduledDate: '2023-12-28 10:00',
         status: '已完成',
@@ -3436,7 +7029,7 @@ const mockRiskEvents = [
     {
         id: 're001',
         customerId: 'CUST-0003',
-        customerName: '深圳创新科技有限公司',
+        customerName: '深圳金融科技有限公司',
         riskType: '续费风险',
         description: '客户对当前服务满意度下降，预算可能削减',
         severity: 'high',
@@ -3462,7 +7055,7 @@ const mockRiskEvents = [
     {
         id: 're003',
         customerId: 'CUST-0002',
-        customerName: '上海智能科技有限公司',
+        customerName: '上海智能制造集团',
         riskType: '技术问题',
         description: '系统集成出现兼容性问题，影响业务流程',
         severity: 'medium',
@@ -4145,34 +7738,52 @@ const mockStakeholders = [
 const mockOnboardingTasks = [
     {
         id: '1',
-        title: '安排启动会',
+        title: '安排启动会议',
         completed: true,
         dueDate: '2024-01-15'
     },
     {
         id: '2',
-        title: '完成账号开通',
+        title: '完成账号开通和权限配置',
         completed: true,
         dueDate: '2024-01-16'
     },
     {
         id: '3',
-        title: '配置数据权限',
-        completed: false,
-        dueDate: '2024-01-20'
+        title: '系统环境配置和数据迁移',
+        completed: true,
+        dueDate: '2024-01-18'
     },
     {
         id: '4',
-        title: '培训用户使用',
+        title: '用户培训和操作指导',
         completed: false,
         dueDate: '2024-01-25'
+    },
+    {
+        id: '5',
+        title: '业务流程梳理和优化',
+        completed: false,
+        dueDate: '2024-01-28'
+    },
+    {
+        id: '6',
+        title: '系统集成测试和验收',
+        completed: false,
+        dueDate: '2024-02-01'
+    },
+    {
+        id: '7',
+        title: '正式上线和运行监控',
+        completed: false,
+        dueDate: '2024-02-05'
     }
 ];
 const mockInternalComments = [
     {
         id: '1',
         content: '客户对数据安全要求很高，建议安排安全专家参与启动会 @security_team',
-        author: 'CSM-小王',
+        author: 'CSM-张明',
         createdAt: '2024-01-10 14:30:00',
         mentions: [
             'security_team'
@@ -4180,9 +7791,33 @@ const mockInternalComments = [
     },
     {
         id: '2',
-        content: '已联系技术团队，确认可以满足客户的合规要求',
-        author: 'CSM-小李',
+        content: '已联系技术团队，确认可以满足客户的合规要求，预计下周完成环境配置',
+        author: 'CSM-李华',
         createdAt: '2024-01-11 09:15:00'
+    },
+    {
+        id: '3',
+        content: '启动会议进行顺利，客户技术团队配合度很高，已确定培训计划',
+        author: 'CSM-张明',
+        createdAt: '2024-01-15 16:20:00'
+    },
+    {
+        id: '4',
+        content: '账号开通完成，权限配置已按客户需求调整，等待客户确认',
+        author: '技术支持-王工',
+        createdAt: '2024-01-16 11:45:00'
+    },
+    {
+        id: '5',
+        content: '数据迁移测试通过，客户对系统响应速度表示满意',
+        author: '实施顾问-刘强',
+        createdAt: '2024-01-18 14:30:00'
+    },
+    {
+        id: '6',
+        content: '下周安排用户培训，已准备培训材料和演示环境',
+        author: 'CSM-张明',
+        createdAt: '2024-01-20 10:00:00'
     }
 ];
 const mockCustomers = [
@@ -4263,8 +7898,8 @@ const mockCustomers = [
     },
     {
         id: 'CUST-0003',
-        name: '天津教育科技集团',
-        industry: '教育',
+        name: '深圳金融科技有限公司',
+        industry: '金融',
         size: 'large',
         csm: '王芳',
         region: '华北',
@@ -4275,9 +7910,9 @@ const mockCustomers = [
         tier: 'A',
         signDate: '2024-01-08',
         tags: [
-            '教育行业',
-            '集团客户',
-            '多校区'
+            '金融科技',
+            '重点客户',
+            '数字化转型'
         ],
         collaborationEvents: 4,
         channelType: 'partner',
@@ -4288,13 +7923,13 @@ const mockCustomers = [
         insights: [
             {
                 id: 'insight_h003_001',
-                content: '多校区部署需要统一的管理平台',
+                content: '金融行业对数据安全和合规性要求极高',
                 date: '2024-01-09',
                 type: 'requirement'
             }
         ],
         nextAction: {
-            content: '制定多校区部署方案',
+            content: '制定金融合规和安全方案',
             dueDate: '2024-01-30',
             overdue: false
         }
@@ -4345,7 +7980,7 @@ const mockCustomerHandovers = [
         customerId: 'CUST-0001',
         contractId: 'contract_001',
         contractNumber: 'CONT-2024-001',
-        customerName: '北京科技有限公司',
+        customerName: '北京科技创新有限公司',
         handoverStatus: 'implementation_in_progress',
         riskLevel: 'low',
         hasHandoverDocument: true,
@@ -4368,7 +8003,31 @@ const mockCustomerHandovers = [
         shortTermExpectation: '1. 员工平台使用率达到80%以上；2. 完成新员工入职培训全覆盖；3. 解决线下培训数据统计难题',
         longTermExpectation: '1. 通过平台赋能30%培训成本；2. 员工技能达标率提升20%；3. 形成企业内部知识库，支持知识沉淀',
         unacceptableSituations: '1. 系统频繁宕机影响业务；2. 数据安全出现重大漏洞；3. 培训效果无法量化评估',
-        customerSuccessCriteria: '1. 系统稳定性达到99.9%；2. 用户满意度评分4.5分以上；3. 培训完成率达到95%以上'
+        customerSuccessCriteria: '1. 系统稳定性达到99.9%；2. 用户满意度评分4.5分以上；3. 培训完成率达到95%以上',
+        risks: [
+            {
+                type: 'leadership',
+                description: '技术总监张三即将离职，可能影响项目推进'
+            },
+            {
+                type: 'unclear_needs',
+                description: '客户对数据分析模块的具体需求还不够明确'
+            }
+        ],
+        opportunities: [
+            {
+                type: 'account_expansion',
+                description: '客户表示有意向增购50个账号'
+            },
+            {
+                type: 'version_upgrade',
+                description: '客户对企业版功能很感兴趣，有升级意向'
+            },
+            {
+                type: 'referrals',
+                description: '客户愿意推荐给同行业的合作伙伴'
+            }
+        ]
     },
     {
         id: '2',
@@ -4376,7 +8035,7 @@ const mockCustomerHandovers = [
         customerId: 'CUST-0002',
         contractId: 'contract_003',
         contractNumber: 'CONT-2023-045',
-        customerName: '上海智能科技有限公司',
+        customerName: '上海智能制造集团',
         handoverStatus: 'pending_handover',
         riskLevel: 'medium',
         hasHandoverDocument: false,
@@ -4433,12 +8092,12 @@ const mockCustomerHandovers = [
         customerSuccessCriteria: '1. 系统正常运行率99%以上；2. 用户培训通过率90%以上；3. 业务指标提升可量化'
     },
     {
-        id: '3',
+        id: '0003',
         handoverNumber: 'HO-2024-003',
         customerId: 'CUST-0003',
         contractId: 'contract_004',
         contractNumber: 'CONT-2022-008',
-        customerName: '深圳创新科技有限公司',
+        customerName: '深圳金融科技有限公司',
         handoverStatus: 'handover_in_progress',
         riskLevel: 'high',
         hasHandoverDocument: true,
@@ -4508,7 +8167,27 @@ const mockCustomerHandovers = [
         shortTermExpectation: '1. 解决当前业务痛点；2. 提升团队协作效率；3. 建立规范化管理流程',
         longTermExpectation: '1. 成为行业数字化标杆；2. 实现智能化运营管理；3. 支撑业务快速扩张',
         unacceptableSituations: '1. 影响现有业务正常运行；2. 增加员工工作负担；3. 投资回报率低于预期',
-        customerSuccessCriteria: '1. 关键业务指标提升15%以上；2. 员工工作效率提升25%；3. 客户满意度保持在4.0以上'
+        customerSuccessCriteria: '1. 关键业务指标提升15%以上；2. 员工工作效率提升25%；3. 客户满意度保持在4.0以上',
+        risks: [
+            {
+                type: 'high_expectations',
+                description: '客户对产品功能期待值过高，可能导致满意度下降'
+            },
+            {
+                type: 'tight_schedule',
+                description: '客户要求快速上线，时间压力较大'
+            }
+        ],
+        opportunities: [
+            {
+                type: 'version_upgrade',
+                description: '客户对高级功能感兴趣，有升级潜力'
+            },
+            {
+                type: 'new_modules',
+                description: '客户提到可能需要采购额外的数据分析模块'
+            }
+        ]
     },
     {
         id: '4',
@@ -4559,7 +8238,27 @@ const mockCustomerHandovers = [
         shortTermExpectation: '1. 系统稳定上线运行；2. 核心用户快速上手；3. 基础数据完整迁移',
         longTermExpectation: '1. 全面提升客户服务质量；2. 实现精细化运营管理；3. 支持业务创新发展',
         unacceptableSituations: '1. 系统不稳定影响业务；2. 学习成本过高；3. 无法满足个性化需求',
-        customerSuccessCriteria: '1. 系统可用性达到99.5%；2. 用户活跃度达到85%；3. 客户服务效率提升20%'
+        customerSuccessCriteria: '1. 系统可用性达到99.5%；2. 用户活跃度达到85%；3. 客户服务效率提升20%',
+        risks: [
+            {
+                type: 'high_expectations',
+                description: '系统集成复杂度较高，可能影响上线时间'
+            },
+            {
+                type: 'unclear_needs',
+                description: '用户对新系统接受度需要时间培养'
+            }
+        ],
+        opportunities: [
+            {
+                type: 'version_upgrade',
+                description: '客户服务流程优化有很大提升空间'
+            },
+            {
+                type: 'new_modules',
+                description: '数据分析能力提升可以带来更多商业价值'
+            }
+        ]
     },
     {
         id: '5',
@@ -4610,7 +8309,27 @@ const mockCustomerHandovers = [
         shortTermExpectation: '1. 完成团队培训；2. 建立使用规范；3. 实现基本功能应用',
         longTermExpectation: '1. 打造学习型组织；2. 实现知识管理体系化；3. 提升企业竞争力',
         unacceptableSituations: '1. 培训效果不达标；2. 系统操作复杂；3. 技术支持响应慢',
-        customerSuccessCriteria: '1. 培训覆盖率100%；2. 系统使用满意度4.5分以上；3. 业务流程优化效果明显'
+        customerSuccessCriteria: '1. 培训覆盖率100%；2. 系统使用满意度4.5分以上；3. 业务流程优化效果明显',
+        risks: [
+            {
+                type: 'tight_schedule',
+                description: '团队技术能力参差不齐，培训周期可能延长'
+            },
+            {
+                type: 'unclear_needs',
+                description: '学习积极性不高，需要建立有效激励机制'
+            }
+        ],
+        opportunities: [
+            {
+                type: 'account_expansion',
+                description: '培训效果好可以推广到更多部门'
+            },
+            {
+                type: 'long_term',
+                description: '建立学习型组织有助于长期合作'
+            }
+        ]
     },
     {
         id: '6',
@@ -4670,7 +8389,27 @@ const mockCustomerHandovers = [
         shortTermExpectation: '1. 系统稳定上线运行；2. 满足行业合规要求；3. 核心团队熟练掌握系统操作',
         longTermExpectation: '1. 提升研发效率和质量；2. 建立标准化的项目管理流程；3. 支撑企业数字化转型',
         unacceptableSituations: '1. 系统安全漏洞；2. 影响关键项目进度；3. 不符合行业标准要求',
-        customerSuccessCriteria: '1. 系统安全性达到军工级标准；2. 项目管理效率提升25%；3. 用户满意度达到4.5分以上'
+        customerSuccessCriteria: '1. 系统安全性达到军工级标准；2. 项目管理效率提升25%；3. 用户满意度达到4.5分以上',
+        risks: [
+            {
+                type: 'high_expectations',
+                description: '航空航天行业对系统稳定性要求极高'
+            },
+            {
+                type: 'tight_schedule',
+                description: '严格的安全合规要求可能影响实施进度'
+            }
+        ],
+        opportunities: [
+            {
+                type: 'referrals',
+                description: '航空航天行业标杆客户，有转介绍潜力'
+            },
+            {
+                type: 'version_upgrade',
+                description: '定制化需求可能带来高级版本升级机会'
+            }
+        ]
     },
     {
         id: '7',
@@ -4729,7 +8468,27 @@ const mockCustomerHandovers = [
         shortTermExpectation: '1. 快速实现投资回报；2. 团队高效协作；3. 客户满意度提升',
         longTermExpectation: '1. 成为数字化转型典范；2. 实现可持续发展；3. 建立行业领先优势',
         unacceptableSituations: '1. 投资回报周期过长；2. 员工适应困难；3. 服务质量下降',
-        customerSuccessCriteria: '1. ROI在12个月内实现；2. 员工满意度保持4.8分以上；3. 客户续约率达到95%以上'
+        customerSuccessCriteria: '1. ROI在12个月内实现；2. 员工满意度保持4.8分以上；3. 客户续约率达到95%以上',
+        risks: [
+            {
+                type: 'leadership',
+                description: '数字化转型需要高层持续支持和推动'
+            },
+            {
+                type: 'other_risks',
+                description: '各部门协作效率提升需要时间磨合'
+            }
+        ],
+        opportunities: [
+            {
+                type: 'account_expansion',
+                description: '数字化转型成功可推广到集团其他公司'
+            },
+            {
+                type: 'long_term',
+                description: '客户满意度高，续约意愿强烈'
+            }
+        ]
     }
 ];
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
@@ -4855,30 +8614,31 @@ const renewalCustomers = [
     },
     {
         id: 'CUST-0002',
-        name: '广州智能制造集团',
+        name: '上海智能制造集团',
         industry: '制造业',
         size: 'xlarge',
         csm: '李明',
-        region: '华南',
-        arr: 1200000,
-        healthScore: 85,
-        healthLevel: '健康',
+        region: '华东',
+        arr: 800000,
+        healthScore: 72,
+        healthLevel: '一般',
         lifecycleStage: '成熟期',
         tier: 'S',
-        contractEndDate: '2024-04-15',
-        daysToExpiry: 60,
-        renewalProbability: 90,
+        contractEndDate: '2024-03-15',
+        daysToExpiry: 30,
+        renewalProbability: 75,
         renewalStage: '方案制定',
         lastContactDate: '2024-01-18',
         nextActionDate: '2024-01-28',
-        riskFactors: [],
+        riskFactors: [
+            '预算压缩'
+        ],
         opportunities: [
             '多工厂部署',
-            '高级功能模块',
-            '定制开发'
+            '高级功能模块'
         ],
-        currentContractValue: 1200000,
-        proposedRenewalValue: 1500000,
+        currentContractValue: 800000,
+        proposedRenewalValue: 900000,
         renewalType: '扩容续约',
         keyStakeholders: [
             {
@@ -4901,11 +8661,11 @@ const renewalCustomers = [
             }
         ],
         competitorThreat: 'low',
-        renewalNotes: '标杆客户，满意度很高，有明确的扩容需求',
+        renewalNotes: '制造业标杆客户，满意度较高，有扩容需求但对价格敏感',
         tags: [
-            '标杆客户',
-            '扩容确定',
-            '战略合作'
+            '制造业',
+            '扩容机会',
+            '价格敏感'
         ]
     },
     {
@@ -5253,6 +9013,140 @@ var _default = {
     renewalContracts,
     renewalStats,
     renewalRiskAnalysis
+};
+if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
+if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;
+function registerClassComponent(filename, moduleExports) {
+    for(const key in moduleExports)try {
+        if (key === "__esModule") continue;
+        const exportValue = moduleExports[key];
+        if (_reactrefresh.isLikelyComponentType(exportValue) && exportValue.prototype && exportValue.prototype.isReactComponent) _reactrefresh.register(exportValue, filename + " " + key);
+    } catch (e) {}
+}
+function $RefreshIsReactComponentLike$(moduleExports) {
+    if (_reactrefresh.isLikelyComponentType(moduleExports || moduleExports.default)) return true;
+    for(var key in moduleExports)try {
+        if (_reactrefresh.isLikelyComponentType(moduleExports[key])) return true;
+    } catch (e) {}
+    return false;
+}
+registerClassComponent(module.id, module.exports);
+if ($RefreshIsReactComponentLike$(module.exports)) {
+    module.meta.hot.accept();
+    _reactrefresh.performReactRefresh();
+}
+
+},
+"src/types/customerProfile.ts": function (module, exports, __mako_require__){
+// 生命周期阶段
+"use strict";
+__mako_require__.d(exports, "__esModule", {
+    value: true
+});
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+__mako_require__.e(exports, {
+    CUSTOMER_SCALE_CONFIG: function() {
+        return CUSTOMER_SCALE_CONFIG;
+    },
+    CUSTOMER_TIER_CONFIG: function() {
+        return CUSTOMER_TIER_CONFIG;
+    },
+    HEALTH_LEVEL_CONFIG: function() {
+        return HEALTH_LEVEL_CONFIG;
+    },
+    LIFECYCLE_STAGE_CONFIG: function() {
+        return LIFECYCLE_STAGE_CONFIG;
+    },
+    getCustomerScaleByARR: function() {
+        return getCustomerScaleByARR;
+    }
+});
+var _interop_require_wildcard = __mako_require__("@swc/helpers/_/_interop_require_wildcard");
+var _reactrefresh = /*#__PURE__*/ _interop_require_wildcard._(__mako_require__("node_modules/react-refresh/runtime.js"));
+var prevRefreshReg;
+var prevRefreshSig;
+prevRefreshReg = self.$RefreshReg$;
+prevRefreshSig = self.$RefreshSig$;
+self.$RefreshReg$ = (type, id)=>{
+    _reactrefresh.register(type, module.id + id);
+};
+self.$RefreshSig$ = _reactrefresh.createSignatureFunctionForTransform;
+const LIFECYCLE_STAGE_CONFIG = {
+    handover_implementation: {
+        text: '交接实施',
+        color: 'blue'
+    },
+    continuous_service: {
+        text: '持续服务',
+        color: 'green'
+    },
+    renewal_management: {
+        text: '续约管理',
+        color: 'orange'
+    },
+    recall_incubation: {
+        text: '召回孵化',
+        color: 'purple'
+    }
+};
+const HEALTH_LEVEL_CONFIG = {
+    healthy: {
+        text: '健康',
+        color: 'green'
+    },
+    warning: {
+        text: '一般',
+        color: 'orange'
+    },
+    risk: {
+        text: '风险',
+        color: 'red'
+    }
+};
+const CUSTOMER_TIER_CONFIG = {
+    S: {
+        text: 'S级',
+        color: 'gold'
+    },
+    A: {
+        text: 'A级',
+        color: 'blue'
+    },
+    B: {
+        text: 'B级',
+        color: 'green'
+    },
+    C: {
+        text: 'C级',
+        color: 'default'
+    }
+};
+const CUSTOMER_SCALE_CONFIG = {
+    key_account: {
+        text: '重点客户',
+        color: 'gold',
+        description: '高价值客户'
+    },
+    mid_market: {
+        text: '中端客户',
+        color: 'blue',
+        description: '中等价值客户'
+    },
+    smb: {
+        text: '小微客户',
+        color: 'green',
+        description: '小微企业客户'
+    }
+};
+const getCustomerScaleByARR = (arr)=>{
+    if (arr >= 500000) return 'key_account';
+    else if (arr >= 100000) return 'mid_market';
+    else return 'smb';
 };
 if (prevRefreshReg) self.$RefreshReg$ = prevRefreshReg;
 if (prevRefreshSig) self.$RefreshSig$ = prevRefreshSig;

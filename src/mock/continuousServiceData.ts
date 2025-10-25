@@ -24,7 +24,7 @@ import {
 
 // 模拟合同数据
 export const mockContracts: Contract[] = [
-  // 北京科技有限公司的合同历史
+  // 北京科技创新有限公司的合同历史
   {
     id: 'contract_001',
     contractNumber: 'CONT-2023-001',
@@ -49,7 +49,7 @@ export const mockContracts: Contract[] = [
     attachments: [
       {
         id: 'att_001_001',
-        name: '北京科技有限公司-服务合同.pdf',
+        name: '北京科技创新有限公司-服务合同.pdf',
         type: 'contract',
         url: '/attachments/contracts/CONT-2023-001.pdf',
         size: 2048576,
@@ -67,7 +67,7 @@ export const mockContracts: Contract[] = [
     createdAt: '2023-05-15',
     updatedAt: '2023-06-01'
   },
-  // 上海智能科技有限公司的合同历史
+  // 上海智能制造集团的合同历史
   {
     id: 'contract_002',
     contractNumber: 'CONT-2022-015',
@@ -92,7 +92,7 @@ export const mockContracts: Contract[] = [
     attachments: [
       {
         id: 'att_002_001',
-        name: '上海智能科技-服务合同.pdf',
+        name: '上海智能制造集团-服务合同.pdf',
         type: 'contract',
         url: '/attachments/contracts/CONT-2022-015.pdf',
         size: 1856432,
@@ -126,7 +126,7 @@ export const mockContracts: Contract[] = [
     attachments: [
       {
         id: 'att_003_001',
-        name: '上海智能科技-续约合同.pdf',
+        name: '上海智能制造集团-续约合同.pdf',
         type: 'contract',
         url: '/attachments/contracts/CONT-2023-045.pdf',
         size: 2234567,
@@ -144,7 +144,7 @@ export const mockContracts: Contract[] = [
     createdAt: '2023-08-10',
     updatedAt: '2023-09-01'
   },
-  // 深圳创新科技有限公司的合同历史
+  // 深圳金融科技有限公司的合同历史
   {
     id: 'contract_004',
     contractNumber: 'CONT-2022-008',
@@ -350,7 +350,7 @@ export const mockHandoverRecords: HandoverRecord[] = [
 export const mockTodoTasks: TodoTask[] = [
   {
     id: 'todo_001',
-    title: '客户回访 - 北京科技有限公司',
+    title: '客户回访 - 北京科技创新有限公司',
     description: '定期回访，了解系统使用情况和满意度',
     type: 'business-review',
     status: 'pending',
@@ -358,13 +358,13 @@ export const mockTodoTasks: TodoTask[] = [
     dueDate: '2024-01-20',
     assignedTo: '张伟',
     customerId: 'CUST-0001',
-    customerName: '北京科技有限公司',
+    customerName: '北京科技创新有限公司',
     createdAt: '2024-01-15',
     updatedAt: '2024-01-15'
   },
   {
     id: 'todo_002',
-    title: '续约谈判准备 - 上海智能科技',
+    title: '续约谈判准备 - 上海智能制造集团',
     description: '准备续约材料，安排续约谈判会议',
     type: 'renewal',
     status: 'in_progress',
@@ -372,7 +372,7 @@ export const mockTodoTasks: TodoTask[] = [
     dueDate: '2024-01-25',
     assignedTo: '李明',
     customerId: 'CUST-0002',
-    customerName: '上海智能科技有限公司',
+    customerName: '上海智能制造集团',
     createdAt: '2024-01-10',
     updatedAt: '2024-01-18'
   },
@@ -386,7 +386,7 @@ export const mockTodoTasks: TodoTask[] = [
     dueDate: '2024-01-22',
     assignedTo: '王芳',
     customerId: 'CUST-0003',
-    customerName: '深圳创新科技有限公司',
+    customerName: '深圳金融科技有限公司',
     createdAt: '2024-01-12',
     updatedAt: '2024-01-12'
   },
@@ -545,7 +545,7 @@ export const mockContacts: Record<string, ContactInfo[]> = {
       id: 'contact_001_001',
       name: '张总',
       title: 'CEO',
-      phone: '138****1001',
+      phone: '13812341001',
       email: 'zhang@bjtech.com',
       isPrimary: true,
       stakeholderType: 'decision_maker',
@@ -558,7 +558,7 @@ export const mockContacts: Record<string, ContactInfo[]> = {
       id: 'contact_001_002',
       name: '李经理',
       title: '技术总监',
-      phone: '139****1002',
+      phone: '13912341002',
       email: 'li@bjtech.com',
       isPrimary: false,
       stakeholderType: 'influencer',
@@ -714,9 +714,9 @@ export const mockContacts: Record<string, ContactInfo[]> = {
 export const getPlatformType = (customerId: string) => {
   // 固定映射关系，确保每个平台类型都有对应的公司
   const platformMapping: Record<string, string> = {
-    'CUST-0001': 'dingtalk',      // 北京科技有限公司
-    'CUST-0002': 'wechat_work',   // 上海智能科技有限公司
-    'CUST-0003': 'feishu',        // 深圳创新科技有限公司
+    'CUST-0001': 'dingtalk',      // 北京科技创新有限公司
+  'CUST-0002': 'wechat_work',   // 上海智能制造集团
+    'CUST-0003': 'feishu',        // 深圳金融科技有限公司
     'CUST-0004': 'lark',          // 广州数字化企业
     'CUST-0005': 'dingtalk_global', // 杭州互联网公司
     'CUST-0006': 'standalone',    // 成都软件开发公司
@@ -779,7 +779,7 @@ export const getPurchasedProducts = (customerId: string) => {
 export const mockCustomers: Customer[] = [
   {
     id: 'CUST-0001',
-    name: '北京科技有限公司',
+    name: '北京科技创新有限公司',
     industry: '信息技术',
     scale: '中型企业',
     csm: '张伟',
@@ -835,8 +835,8 @@ export const mockCustomers: Customer[] = [
   },
   {
     id: 'CUST-0002',
-    name: '上海智能科技有限公司',
-    industry: '人工智能',
+    name: '上海智能制造集团',
+    industry: '制造业',
     scale: '大型企业',
     csm: '李明',
     arr: 800000,
@@ -891,7 +891,7 @@ export const mockCustomers: Customer[] = [
   },
   {
     id: 'CUST-0003',
-    name: '深圳创新科技有限公司',
+    name: '深圳金融科技有限公司',
     industry: '软件开发',
     scale: '小型企业',
     csm: '王芳',
@@ -1120,7 +1120,7 @@ export const mockValueBoards: ValueBoard[] = [
   {
     id: 'vb001',
     customerId: 'CUST-0001',
-    customerName: '北京科技有限公司',
+    customerName: '北京科技创新有限公司',
     title: 'Q4业务数字化转型价值报告',
     description: '展示客户在数字化转型过程中取得的关键业务成果',
     status: '进行中',
@@ -1155,7 +1155,7 @@ export const mockQBRMeetings: QBRMeeting[] = [
   {
     id: 'qbr001',
     customerId: 'CUST-0001',
-    customerName: '北京科技有限公司',
+    customerName: '北京科技创新有限公司',
     title: '2024 Q1 业务回顾会议',
     scheduledDate: '2024-01-25 14:00',
     status: '待召开',
@@ -1168,7 +1168,7 @@ export const mockQBRMeetings: QBRMeeting[] = [
   {
     id: 'qbr002',
     customerId: 'CUST-0002',
-    customerName: '上海智能科技有限公司',
+    customerName: '上海智能制造集团',
     title: '2023 Q4 业务回顾会议',
     scheduledDate: '2023-12-28 10:00',
     status: '已完成',
@@ -1186,7 +1186,7 @@ export const mockRiskEvents: RiskEvent[] = [
   {
     id: 're001',
     customerId: 'CUST-0003',
-    customerName: '深圳创新科技有限公司',
+    customerName: '深圳金融科技有限公司',
     riskType: '续费风险',
     description: '客户对当前服务满意度下降，预算可能削减',
     severity: 'high',
@@ -1212,7 +1212,7 @@ export const mockRiskEvents: RiskEvent[] = [
   {
     id: 're003',
     customerId: 'CUST-0002',
-    customerName: '上海智能科技有限公司',
+    customerName: '上海智能制造集团',
     riskType: '技术问题',
     description: '系统集成出现兼容性问题，影响业务流程',
     severity: 'medium',

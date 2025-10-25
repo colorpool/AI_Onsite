@@ -43,7 +43,6 @@ const cardStyle = {
 const HistoryHandover: React.FC = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string | undefined>();
   const [dateRange, setDateRange] = useState<[string, string] | undefined>();
   const [selectedRecord, setSelectedRecord] = useState<CustomerHandover | null>(null);
   const [detailVisible, setDetailVisible] = useState(false);
@@ -78,11 +77,6 @@ const HistoryHandover: React.FC = () => {
       );
     }
 
-    // 状态筛选
-    if (statusFilter) {
-      result = result.filter(item => (item.handoverStatus as any) === statusFilter);
-    }
-
     // 日期范围筛选（按交付时间或更新时间）
     if (dateRange) {
       const [startDate, endDate] = dateRange;
@@ -93,7 +87,7 @@ const HistoryHandover: React.FC = () => {
     }
 
     return result;
-  }, [historyData, searchText, statusFilter, dateRange]);
+  }, [historyData, searchText, dateRange]);
 
   // 查看详情
   const handleViewDetail = (record: CustomerHandover) => {
@@ -126,7 +120,7 @@ const HistoryHandover: React.FC = () => {
       key: 'handoverNumber',
       width: 140,
       render: (number: string) => (
-        <Text code style={{ fontSize: '12px' }}>{number}</Text>
+        <span style={{ fontFamily: 'monospace', fontSize: '14px' }}>{number}</span>
       ),
     },
     {
@@ -163,20 +157,25 @@ const HistoryHandover: React.FC = () => {
       render: (date: string) => date ? new Date(date).toLocaleDateString() : '-',
     },
     {
-      title: '交接状态',
-      dataIndex: 'handoverStatus',
-      key: 'handoverStatus',
+      title: '交付用时',
+      key: 'deliveryDuration',
       width: 100,
-      render: (status: string) => {
-        const statusMap = {
-          completed: { text: '已完成', color: 'green' },
-          transferred: { text: '已转移', color: 'blue' },
-          normal: { text: '正常', color: 'default' }
+      sorter: (a: CustomerHandover, b: CustomerHandover) => {
+        const getDuration = (record: CustomerHandover) => {
+          if (!record.deliveredAt) return 0;
+          return new Date(record.deliveredAt).getTime() - new Date(record.createdAt).getTime();
         };
-        const config = statusMap[status as keyof typeof statusMap] || { text: status, color: 'default' };
-        return <Tag color={config.color}>{config.text}</Tag>;
+        return getDuration(a) - getDuration(b);
+      },
+      render: (_: unknown, record: CustomerHandover) => {
+        if (!record.deliveredAt) return '-';
+        const createdTime = new Date(record.createdAt).getTime();
+        const deliveredTime = new Date(record.deliveredAt).getTime();
+        const diffDays = Math.ceil((deliveredTime - createdTime) / (1000 * 60 * 60 * 24));
+        return `${diffDays}天`;
       },
     },
+
     {
       title: '客户满意度',
       dataIndex: 'handoverRating',
@@ -246,19 +245,6 @@ const HistoryHandover: React.FC = () => {
               allowClear
             />
           </Col>
-          <Col xs={24} sm={8} md={4}>
-            <Select
-              placeholder="交接状态"
-              value={statusFilter}
-              onChange={setStatusFilter}
-              allowClear
-              style={{ width: '100%' }}
-            >
-              <Select.Option value="completed">已完成</Select.Option>
-              <Select.Option value="transferred">已转移</Select.Option>
-              <Select.Option value="normal">正常</Select.Option>
-            </Select>
-          </Col>
           <Col xs={24} sm={8} md={6}>
             <RangePicker
               placeholder={['交付开始时间', '交付结束时间']}
@@ -266,13 +252,12 @@ const HistoryHandover: React.FC = () => {
               style={{ width: '100%' }}
             />
           </Col>
-          <Col xs={24} sm={24} md={8}>
+          <Col xs={24} sm={24} md={10}>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
               <Button 
                 icon={<ReloadOutlined />} 
                 onClick={() => {
                   setSearchText('');
-                  setStatusFilter(undefined);
                   setDateRange(undefined);
                 }}
               >
@@ -330,12 +315,14 @@ const HistoryHandover: React.FC = () => {
         ]}
         width={800}
       >
+        <Divider />
         {selectedRecord && (
           <div>
             {/* 基本信息 */}
             <Descriptions title="基本信息" bordered size="small" column={2}>
               <Descriptions.Item label="客户名称">{selectedRecord.customerName}</Descriptions.Item>
               <Descriptions.Item label="交接单编号">{selectedRecord.handoverNumber}</Descriptions.Item>
+              <Descriptions.Item label="合同编号">{selectedRecord.contractNumber}</Descriptions.Item>
               <Descriptions.Item label="创建时间">{new Date(selectedRecord.createdAt).toLocaleString()}</Descriptions.Item>
               <Descriptions.Item label="交付时间">
                 {selectedRecord.deliveredAt ? new Date(selectedRecord.deliveredAt).toLocaleString() : '-'}
@@ -355,14 +342,14 @@ const HistoryHandover: React.FC = () => {
 
             <Divider />
 
-            {/* 公司基本情况 */}
+            {/* CRM信息 */}
             {selectedRecord.crmData && (
               <div>
-                <Title level={5}>公司基本情况</Title>
+                <Title level={5}>CRM信息</Title>
                 <Descriptions bordered size="small" column={2}>
                   <Descriptions.Item label="合同金额">¥{selectedRecord.crmData.contractAmount.toLocaleString()}</Descriptions.Item>
                   <Descriptions.Item label="服务周期">{selectedRecord.crmData.servicePeriod}</Descriptions.Item>
-                  <Descriptions.Item label="账号数量">{selectedRecord.crmData.accountCount}</Descriptions.Item>
+                  <Descriptions.Item label="购买账号数">{selectedRecord.crmData.accountCount} 个</Descriptions.Item>
                   <Descriptions.Item label="销售来源">
                     {selectedRecord.crmData.salesSource === 'direct' ? '直营' : '渠道'}
                   </Descriptions.Item>
@@ -372,11 +359,102 @@ const HistoryHandover: React.FC = () => {
                   {selectedRecord.crmData.channelPartner && (
                     <Descriptions.Item label="渠道合作伙伴">{selectedRecord.crmData.channelPartner}</Descriptions.Item>
                   )}
+                  <Descriptions.Item label="已购产品" span={2}>
+                    {selectedRecord.crmData.purchasedProducts?.map((product, index) => (
+                      <Tag key={index} color="blue" style={{ marginBottom: 4 }}>{product}</Tag>
+                    ))}
+                  </Descriptions.Item>
                 </Descriptions>
+                
+                {selectedRecord.crmData.salesNotes && (
+                  <div style={{ marginTop: '16px' }}>
+                    <Text strong style={{ display: 'block', marginBottom: '8px' }}>销售备注</Text>
+                    <div style={{ padding: '12px', background: '#f8f9fa', borderRadius: '6px', border: '1px solid #e8e8e8' }}>
+                      <Text>{selectedRecord.crmData.salesNotes}</Text>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
             <Divider />
+
+            {/* 风险与商机 */}
+            {((selectedRecord.risks && selectedRecord.risks.length > 0) || (selectedRecord.opportunities && selectedRecord.opportunities.length > 0)) && (
+              <div>
+                <Title level={5}>风险与商机</Title>
+                
+                {/* 风险部分 */}
+                {selectedRecord.risks && selectedRecord.risks.length > 0 && (
+                  <div style={{ marginBottom: '16px' }}>
+                    <Text strong style={{ display: 'block', marginBottom: '8px' }}>风险识别</Text>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {selectedRecord.risks.map((risk, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                          <Tag color="red">
+                            {risk.type === 'leadership' ? '关键领导力缺失对接' :
+                             risk.type === 'unclear_needs' ? '客户需求场景不明确' :
+                             risk.type === 'high_expectations' ? '客户对产品功能期待值过高' :
+                             risk.type === 'tight_schedule' ? '客户实施需求多/周期紧' :
+                             risk.type === 'difficult_contact' ? '对接人性格难接触' : '其他风险'}
+                          </Tag>
+                          {risk.description && <Text>{risk.description}</Text>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 商机部分 */}
+                {selectedRecord.opportunities && selectedRecord.opportunities.length > 0 && (
+                  <div>
+                    <Text strong style={{ display: 'block', marginBottom: '8px' }}>潜在商机</Text>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {selectedRecord.opportunities.map((opportunity, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                          <Tag color="green">
+                            {opportunity.type === 'account_expansion' ? '账号增购可能' :
+                             opportunity.type === 'version_upgrade' ? '版本升级需求' :
+                             opportunity.type === 'new_modules' ? '新增模块采购需求' :
+                             opportunity.type === 'referrals' ? '转介绍可能性' :
+                             opportunity.type === 'long_term' ? '长期合作（续费）意向' : '其他商机'}
+                          </Tag>
+                          {opportunity.description && <Text>{opportunity.description}</Text>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {(selectedRecord.risks || selectedRecord.opportunities) && <Divider />}
+
+            {/* 干系人信息 */}
+            {selectedRecord.stakeholders && selectedRecord.stakeholders.length > 0 && (
+              <div>
+                <Title level={5}>干系人信息</Title>
+                <Descriptions bordered size="small" column={1}>
+                  {selectedRecord.stakeholders.map((stakeholder, index) => (
+                    <Descriptions.Item key={index} label={`${stakeholder.name} (${stakeholder.position})`}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Tag color={stakeholder.role === 'decision_maker' ? 'red' : stakeholder.role === 'influencer' ? 'orange' : 'blue'}>
+                          {stakeholder.role === 'decision_maker' ? '决策者' : 
+                           stakeholder.role === 'influencer' ? '影响者' : 
+                           stakeholder.role === 'user' ? '使用者' : '技术联系人'}
+                        </Tag>
+                        <span>{stakeholder.contact}</span>
+                        <Tag color={stakeholder.status === 'active' ? 'green' : 'red'}>
+                          {stakeholder.status === 'active' ? '在职' : '已离职'}
+                        </Tag>
+                      </div>
+                    </Descriptions.Item>
+                  ))}
+                </Descriptions>
+              </div>
+            )}
+
+            {selectedRecord.stakeholders && selectedRecord.stakeholders.length > 0 && <Divider />}
 
             {/* 交接评价 */}
             <div>
